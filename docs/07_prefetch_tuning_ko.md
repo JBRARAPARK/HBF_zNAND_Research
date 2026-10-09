@@ -596,6 +596,8 @@ MQSim은 pinned revision의 preconditioning 매핑 할당 결과를 실제 추�
 
 기존 snapshot 기능으로 각 논리 주소 영역이 모든 channel을 사용하면서 각 channel 안의 별도 Plane 그룹에 놓이도록 재배치했다. 요청별 channel·offset과 물리 페이지 1:1 대응은 보존했다. PF OFF·실제 지연·in-order에서 A1/A2 전체 처리량은 32Plane 177.115/174.788GB/s, 64Plane 236.361/234.988GB/s다. 64Plane 중간 완료 구간은 약 255GB/s였지만 장시간 지속값은 아직 확정하지 않는다.
 
+후속 알고리즘·배치 튜닝의 기준 tR는 **First 20.69 / Short 2.00 / Mid 2.08 / Long 12.16 / Group 20.69μs**다. 이번 네 배치 비교는 같은 geometry 내에서 `snapshot`만 변경했으며, 평균 tR 감소는 고정된 종류별 시간에 대한 발생 빈도 변화다. 성능 표에는 tR 입력값과 함께 종류별 횟수·가중 평균을 기록한다. tR 또는 가용률을 바꾸는 사양 민감도 실험은 별도 대조군으로 분리하고, 기존 조건의 알고리즘 향상률에 섞지 않는다. [최종 대조 검증](../results/znand/host_ceiling/timing_validation.json)에 네 쌍의 설정 차이와 12개 실행의 입력 일치를 저장했다.
+
 이번 배치는 네 주소 영역의 균형 부하에 맞춘 정적 실험이다. Port와 channel의 고정 1:1 연결이나 runtime 미래 예측을 추가하지 않았다. 한 영역에 부하가 몰리거나 실제 L2P가 변경되는 조건에서의 성능은 남아 있다. 기존 A2 trace의 경계를 공유하는 요청 3개도 그대로 보존했다. 합성 snapshot을 MQSim 또는 실제 SSD 배치로 취급하지 않는다.
 
 다음 평가 순서는 (1) 32/64Plane별 물리 목표 결정, (2) 주소 영역 배치 효과의 장시간·다른 seed·부하 편향·L2P 민감도, (3) 동일 geometry·배치에서 예약/admission 조정으로 남은 손실 분리다. 64Plane에서는 Data turnaround 포함 상한 257.496GB/s가 Host 256GB/s에 매우 가까우므로 channel별 전송 공백도 함께 계측한다. 현재 8,192요청/port의 cold 전체 평균은 최초 준비 지연만 반영해도 Host 경로 상한이 약 245.805GB/s임을 함께 표시한다.

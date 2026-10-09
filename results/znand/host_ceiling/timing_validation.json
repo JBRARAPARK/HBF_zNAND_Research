@@ -1,0 +1,288 @@
+{
+  "status": "passed",
+  "layout_pairs": [
+    {
+      "baseline": "A1_32Plane_baseline",
+      "layout": "A1_32Plane_region_layout",
+      "config_diff": {
+        "snapshot": {
+          "before": "",
+          "after": "results/znand/host_ceiling/snapshots/A1_32Plane.json"
+        }
+      },
+      "fixed_tr_us": {
+        "first": 20.69,
+        "short": 2.0,
+        "mid": 2.08,
+        "long": 12.16,
+        "group": 20.69
+      },
+      "all_other_config_fields_identical": true,
+      "profile_matches_recorded_case": true,
+      "measured": [
+        {
+          "case": "A1_32Plane_baseline",
+          "sensing_reads": 8192,
+          "tr_counts": {
+            "first": 32,
+            "short": 3891,
+            "mid": 3753,
+            "long": 516,
+            "group": 0
+          },
+          "weighted_mean_tr_us": 2.749619140625
+        },
+        {
+          "case": "A1_32Plane_region_layout",
+          "sensing_reads": 8192,
+          "tr_counts": {
+            "first": 32,
+            "short": 4096,
+            "mid": 4064,
+            "long": 0,
+            "group": 0
+          },
+          "weighted_mean_tr_us": 2.1126953125
+        }
+      ]
+    },
+    {
+      "baseline": "A1_64Plane_baseline",
+      "layout": "A1_64Plane_region_layout",
+      "config_diff": {
+        "snapshot": {
+          "before": "",
+          "after": "results/znand/host_ceiling/snapshots/A1_64Plane.json"
+        }
+      },
+      "fixed_tr_us": {
+        "first": 20.69,
+        "short": 2.0,
+        "mid": 2.08,
+        "long": 12.16,
+        "group": 20.69
+      },
+      "all_other_config_fields_identical": true,
+      "profile_matches_recorded_case": true,
+      "measured": [
+        {
+          "case": "A1_64Plane_baseline",
+          "sensing_reads": 8192,
+          "tr_counts": {
+            "first": 64,
+            "short": 3575,
+            "mid": 3406,
+            "long": 1147,
+            "group": 0
+          },
+          "weighted_mean_tr_us": 3.601826171875
+        },
+        {
+          "case": "A1_64Plane_region_layout",
+          "sensing_reads": 8192,
+          "tr_counts": {
+            "first": 64,
+            "short": 4096,
+            "mid": 4032,
+            "long": 0,
+            "group": 0
+          },
+          "weighted_mean_tr_us": 2.185390625
+        }
+      ]
+    },
+    {
+      "baseline": "A2_32Plane_baseline",
+      "layout": "A2_32Plane_region_layout",
+      "config_diff": {
+        "snapshot": {
+          "before": "",
+          "after": "results/znand/host_ceiling/snapshots/A2_32Plane.json"
+        }
+      },
+      "fixed_tr_us": {
+        "first": 20.69,
+        "short": 2.0,
+        "mid": 2.08,
+        "long": 12.16,
+        "group": 20.69
+      },
+      "all_other_config_fields_identical": true,
+      "profile_matches_recorded_case": true,
+      "measured": [
+        {
+          "case": "A2_32Plane_baseline",
+          "sensing_reads": 8196,
+          "tr_counts": {
+            "first": 32,
+            "short": 3935,
+            "mid": 3760,
+            "long": 469,
+            "group": 0
+          },
+          "weighted_mean_tr_us": 2.6910590531966814
+        },
+        {
+          "case": "A2_32Plane_region_layout",
+          "sensing_reads": 8196,
+          "tr_counts": {
+            "first": 32,
+            "short": 4096,
+            "mid": 4065,
+            "long": 3,
+            "group": 0
+          },
+          "weighted_mean_tr_us": 2.1163689604685216
+        }
+      ]
+    },
+    {
+      "baseline": "A2_64Plane_baseline",
+      "layout": "A2_64Plane_region_layout",
+      "config_diff": {
+        "snapshot": {
+          "before": "",
+          "after": "results/znand/host_ceiling/snapshots/A2_64Plane.json"
+        }
+      },
+      "fixed_tr_us": {
+        "first": 20.69,
+        "short": 2.0,
+        "mid": 2.08,
+        "long": 12.16,
+        "group": 20.69
+      },
+      "all_other_config_fields_identical": true,
+      "profile_matches_recorded_case": true,
+      "measured": [
+        {
+          "case": "A2_64Plane_baseline",
+          "sensing_reads": 8196,
+          "tr_counts": {
+            "first": 64,
+            "short": 3605,
+            "mid": 3385,
+            "long": 1142,
+            "group": 0
+          },
+          "weighted_mean_tr_us": 3.5946412884333823
+        },
+        {
+          "case": "A2_64Plane_region_layout",
+          "sensing_reads": 8196,
+          "tr_counts": {
+            "first": 64,
+            "short": 4096,
+            "mid": 4033,
+            "long": 3,
+            "group": 0
+          },
+          "weighted_mean_tr_us": 2.1890287945339186
+        }
+      ]
+    }
+  ],
+  "counterfactual_cases": [
+    {
+      "case": "A2_32Plane_all_tr_2us",
+      "config_diff": {
+        "first_us": {
+          "before": 20.69,
+          "after": 2.0
+        },
+        "group_us": {
+          "before": 20.69,
+          "after": 2.0
+        },
+        "long_us": {
+          "before": 12.16,
+          "after": 2.0
+        },
+        "mid_us": {
+          "before": 2.08,
+          "after": 2.0
+        }
+      },
+      "classification": "counterfactual physical assumptions; not a fixed-tR layout gain"
+    },
+    {
+      "case": "A2_32Plane_all_tr_2us_no_maintenance",
+      "config_diff": {
+        "availability": {
+          "before": 0.85,
+          "after": 1.0
+        },
+        "first_us": {
+          "before": 20.69,
+          "after": 2.0
+        },
+        "group_us": {
+          "before": 20.69,
+          "after": 2.0
+        },
+        "long_us": {
+          "before": 12.16,
+          "after": 2.0
+        },
+        "mid_us": {
+          "before": 2.08,
+          "after": 2.0
+        }
+      },
+      "classification": "counterfactual physical assumptions; not a fixed-tR layout gain"
+    },
+    {
+      "case": "A2_64Plane_all_tr_2us",
+      "config_diff": {
+        "first_us": {
+          "before": 20.69,
+          "after": 2.0
+        },
+        "group_us": {
+          "before": 20.69,
+          "after": 2.0
+        },
+        "long_us": {
+          "before": 12.16,
+          "after": 2.0
+        },
+        "mid_us": {
+          "before": 2.08,
+          "after": 2.0
+        }
+      },
+      "classification": "counterfactual physical assumptions; not a fixed-tR layout gain"
+    },
+    {
+      "case": "A2_64Plane_all_tr_2us_no_maintenance",
+      "config_diff": {
+        "availability": {
+          "before": 0.85,
+          "after": 1.0
+        },
+        "first_us": {
+          "before": 20.69,
+          "after": 2.0
+        },
+        "group_us": {
+          "before": 20.69,
+          "after": 2.0
+        },
+        "long_us": {
+          "before": 12.16,
+          "after": 2.0
+        },
+        "mid_us": {
+          "before": 2.08,
+          "after": 2.0
+        }
+      },
+      "classification": "counterfactual physical assumptions; not a fixed-tR layout gain"
+    }
+  ],
+  "recorded_config_matches_all_12_result_rows": true,
+  "sensing_counts_reconciled_in_all_12_rows": true,
+  "model_sha256": "755f822a6b7c1f44f65117b4892078419a766d4963ad4d49931e8aa1db679baf",
+  "cases_sha256": "a49e0ea9d428a6d2c9ce4e43d3be1cc058d5a7d16e3a936ddc6c96858d8faee8",
+  "rows_sha256": "05727c84c7d835444300014e411893d4db7a9d1ca15c1e29bae6f33d160ce19f"
+}

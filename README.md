@@ -88,6 +88,7 @@ bash scripts/macos.sh diagnostics
 | 2026-10-10 | 버퍼×QD·제한적 연속 PF·NAND Data 선두 우선 92개 신규 실험, 상태별 버퍼 계측, 추가 조건 검증과 테스트 63개. 기존 실행용 프로파일 유지 |
 | 2026-10-10 | PF 자체 ON/OFF의 QD별 비교 28개 조건(신규 18개·대조군 재사용 10개), Host-only 성능 기준선과 프로파일 분리 |
 | 2026-10-10 | Host IF 물리 상한 검토, 정적 주소 영역별 Plane 배치와 물리 가정 진단 12개 조건(신규 8개·대조군 4개). 실제 지연의 64Plane에서 전체 235~236GB/s와 중간 구간 약 255GB/s 관측 |
+| 2026-10-10 | 최종 tR 확인: 네 배치 비교 쌍에서 snapshot만 변경됨을 전수 대조. 종류별 tR 고정값·발생 횟수·별도 2μs 진단 구분을 상세 보고서와 검증 JSON에 추가 |
 
 ## 실행 가능한 모델과 결과
 
@@ -183,6 +184,8 @@ python3 -m znand.run --config results/znand/pf_qd/profiles/A1_host_only.json --p
 현재 모델은 Plane을 CA부터 NAND Data 전송 완료까지 점유한다. 모든 tR가 최단 2μs여도 32Plane의 공급량은 내부 점유가 없을 때 222.674GB/s, 가용률 85% 근사는 189.273GB/s다. Short/Mid 교대를 반영하면 약 186.111GB/s다. 따라서 32Plane에서 256GB/s는 스케줄러 개선만으로 달성할 수 없다.
 
 실제 지연값·85% 가용률·PF OFF·in-order를 유지하고, 각 주소 영역을 모든 channel에 걸친 별도 Plane 그룹에 배치했다. A1/A2 전체 처리량은 32Plane에서 **177.115/174.788GB/s**, 64Plane에서 **236.361/234.988GB/s**였다. 64Plane의 중간 완료 구간은 255.475/255.041GB/s다. 같은 배치의 발행 정책만 바꾼 실험이 아니라 정적 L2P/배치 비교이며, 네 영역의 균형 부하라는 조건을 가진다.
+
+**이 배치 비교의 tR 입력값은 First 20.69 / Short 2.00 / Mid 2.08 / Long 12.16 / Group 20.69μs로 모두 동일하다.** 같은 geometry의 네 쌍에서 설정 차이는 `snapshot`뿐이다. A2·64Plane의 평균 tR가 3.595→2.189μs로 낮아진 이유는 Long의 시간이 아니라 횟수가 1,142→3회로 줄었기 때문이다. 별도 `all_tr_2us` 진단은 물리 가정을 바꾼 대조군이며 배치 개선 실적에 포함하지 않는다. [상세 설명](results/znand/host_ceiling/RESULTS_KO.md)과 [설정 대조 검증](results/znand/host_ceiling/timing_validation.json)에 근거를 남겼다.
 
 이번 요청 길이에서는 최초 데이터 준비 21.7445μs를 포함해도 전체 평균의 Host 경로 상한이 약 245.805GB/s다. Cold 전체 평균과 장시간 지속 256GB/s를 구분한다. NAND Data 경로 상한도 turnaround 포함 257.496GB/s여서 지속 256에는 약 99.42% 활용이 필요하다.
 

@@ -1,0 +1,16 @@
+{
+  "elapsed_seconds": 736.8676310419978,
+  "cases": 1248,
+  "python": "3.14.7 (main, Aug  5 2026, 10:29:49) [Clang 21.0.0 (clang-2100.3.34.2)]",
+  "per_port": 2048,
+  "scope": "finite trace synthetic zNAND sensitivity; MQSim placement only when phase=mqsim_repacked",
+  "files": {
+    "znand/run.py": "613e3dcb4581cbcbd3c6d9d17c4f4fbe1128ade8c22855f776cc2215fa1a4d44",
+    "znand/extend.py": "d7081af154c889aae6bfbca84eefbda474151a02097549079c479fd8d6ffec84",
+    "znand/__init__.py": "4f33698d24debe1d8ebbabc37071f011a795b588920714a0a9709d94fa8fbe68",
+    "znand/microbench.py": "9259d5d41e894dd5770311bdd1575852247e4d501e0477174bc9f80d59c16660",
+    "znand/model.py": "93f9e24b7d1deef5e3aba379c83c0296d55e59ed0d67644d5c4aaf15a45e66ae",
+    "znand/sweep.py": "4ee9b8c5b480b413fde3419cb3fe499bf6fb59b015064bcf66b7cd469e71ea94",
+    "znand/report.py": "76742b2fa49c424a10efca73dcaf6df31fb31d5d855d6486f9711864e024ccc4"
+  }
+}

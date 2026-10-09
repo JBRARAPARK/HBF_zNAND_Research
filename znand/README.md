@@ -1,0 +1,104 @@
+# 주소 기반 zNAND Read와 Prefetch 실험
+
+기존 `axi_burst_sim.py`, `multiport_sim.py`, `deep_prefetch_sim.py`는 그대로 보존하고, 합의한 주소 배치와 부분 Read·재방문·page buffer를 표현하는 이벤트 모델을 추가했다. 시간 단위는 μs, 대역폭은 decimal GB/s, 저장 단위는 KiB/MiB다. 제품 RTL 또는 실제 NAND 사양의 검증을 대체하지 않는다.
+
+## 실행
+
+이 저장소의 루트에서 실행한다. 최초 실행 위치는 `/Users/bagjunbeom/Downloads/NAND_Prefetch_Model`이었다. 모델과 sweep은 Python 표준 라이브러리만 사용한다. 보고서 그림 생성에는 기존 가상환경의 matplotlib을 사용한다.
+
+```sh
+python3 -m unittest test_znand -q
+python3 -m znand.run --config znand/baseline.json --pattern B3 --per-port 2048 --out results/znand/single --trace
+python3 -m znand.sweep --workers 4 --snapshot znand/mqsim/snapshot.json
+python3 -m znand.report
+```
+
+`results/znand/full/RESULTS_KO.md`가 결과 보고서다. `sweep.csv`는 모든 설정별 결과, `cases.json`은 실행 입력, `saturation.csv`는 포화 탐색 요약이다. `single/requests.csv`와 `single/events.json`으로 개별 요청과 자원 이벤트를 추적할 수 있다.
+
+## 구현한 기준
+
+| 항목 | 구현 |
+|---|---|
+| Host | 활성 1~4port, 각각 512bit·1GHz, port 내부 strict in-order |
+| 요청 | 64B 또는 4KiB, 요청당 lookup 1회·Outstanding 1개, 마지막 반환 시 해제 |
+| Lookup | Port별 500ns, 500MHz·2파이프라인, 동시 slot 500개 |
+| NAND | 4channel × 8plane, Plane별 page buffer 1개 |
+| 주소 | 4KiB 논리 영역, 16KiB 물리 페이지; 4KiB/16KiB channel 분산; Plane 순환 |
+| Plane 내부 | E/O→SSL→Block→WL(420→0)→Group |
+| tR | 최초·Group 20.69μs, Short 2μs, Mid 2.08μs, Long 12.16μs. Plane별 이력 |
+| CA | Channel별 독립, Read 및 page-buffer 재출력에 각각 초기 가정 100ns |
+| Data | Channel당 80.1125GB/s, 페이지 전체 16KiB 전송, turnaround 50ns |
+| ECC | 기존 기본값 200ns 유지. 별도 처리량 제약 없는 고정 지연 |
+| 중재 | 발행 가능한 Demand 우선, CA는 대기 순서, Data는 준비 순서 |
+| Plane 점유 | CA부터 NAND 데이터 전송 완료까지. 같은 Plane의 다음 sensing은 이후 시작 |
+| 내부 작업 | 평균 목표 15% 점유. 기본 100μs 주기·15μs, Plane별 seed 시차 |
+| Buffer | 전체 공유 8MiB. 진행 중 Read 병합, 연결 응답 완료 시 해제. LRU 미도입 |
+| Prefetch | 미래 요청을 아는 합성 후보. 정확도와 선행 시간, 미사용 후보 상한을 별도 설정 |
+| 미사용 Prefetch | 공간 부족 시 ready 시각이 오래된 미사용 항목 폐기. 진행 중·연결 요청 보호 |
+
+동일 page buffer에 유효 데이터가 있으면 추가 sensing 없이 재출력한다. 기존 controller buffer가 남아 있으면 그 데이터로 응답한다. 서로 다른 port 요청도 같은 물리 페이지면 Read를 병합하지만 각 Host 전송과 credit은 유지한다.
+
+## 이번에 정한 추가 가정
+
+1. **Die/LUN:** 초기 실행에서는 32개 Plane을 독립 array 자원으로 모델링한다. Die 전원·명령 수·multi-plane 동기 제약은 없다. MQSim 입력 geometry는 추출 목적이며 그 Die 제약을 본 모델에 가져오지 않는다.
+2. **내부 작업:** 주기 점유가 기존 Read와 겹치면 해당 Read의 NAND 전송까지 완료한 후 내부 점유를 시작한다. 점유 동안 NAND page buffer 접근은 불가하지만 내용은 유지한다. CA/Data를 별도로 소비하는 GC 복사나 L2P 갱신은 포함하지 않는다. 실제 점유 비율을 결과에 기록한다.
+3. **출력 비용:** Page buffer 재출력은 CA 100ns + 16KiB 전송 + turnaround + ECC다. 신규 Read의 별도 출력 CA는 Read CA에 흡수한 추상화다.
+4. **Trace:** A2/B2는 1→3→2의 지역 순열, B3는 1→3→1의 다음 64B→2로 읽고 다음 세 페이지 묶음으로 이동한다. 최초 offset은 0, B3 재방문은 64다. 무한 반복으로 작은 작업 영역만 적중시키지 않는다.
+5. **Prefetch:** 각 물리 페이지의 첫 요청 제시 시각보다 lead만큼 먼저 후보 생성. 정확도 1/.75/.5/.25, lead 1/5/10/25μs, 기본 미사용 예산 128개. 잘못 예측한 주소는 다른 Group의 실제 물리 주소로 구성한다. 정답 여부로 즉시 폐기하지 않는다. 같은 채널·Plane에서 오예측이 발생하는 보수적 경쟁 조건이다.
+6. **부하:** 기본은 port당 요청량 고정이며 총 요청량 고정 실험을 추가했다. 요청은 반환 경로의 명목 속도로 제시되고, Outstanding·AR·버퍼 제한에 의해 수락이 지연될 수 있다. Offered와 accepted 시간을 모두 남긴다.
+7. **Cold 상태:** 각 실행은 빈 controller buffer와 초기 NAND 이력으로 시작한다. Prefetch ON은 첫 요청 이전에 데이터를 준비할 수 있다. Host 측정 구간과 사전 NAND 작업을 포함한 구간의 처리량을 함께 출력한다.
+
+## 버퍼 진행성 보호 구현
+
+선두 요청용 여유 공간만 동적으로 남겨 두면, 이전 선두의 페이지를 후속 요청이 계속 고정하는 경우 순환 대기가 발생할 수 있다. 이번 구현은 **Host 수락 시 물리 페이지 공간을 공유 예약**하는 보수적인 admission 제어를 사용한다. 동일 페이지 요청은 예약을 공유하고, 새로운 페이지를 위한 공간이 없으면 AR 수락을 늦춘다. 새 선두 요청이 없는 port에도 한 페이지분을 보호한다.
+
+이는 기존 'NAND 발행 직전 공간 예약'보다 이른 용량 예약이다. 결과의 buffer_peak_pages는 도착한 payload만이 아니라 예약 공간도 포함한다. 모델은 주소 변환 결과를 admission bookkeeping에 사용할 수 있다고 가정하며, 실제 장치에서 이 정보가 그 시점에 가능한지 확인이 필요하다. Lookup 500ns는 여전히 적용한다. 모든 수락 요청의 공간이 확보되므로 후속 요청이 선두에 필요한 공간을 빼앗는 교착을 피한다. 요청 수락 지연과 in-flight 수를 함께 평가한다.
+
+## MQSim 배치 사용
+
+`mqsim/precondition_raw.csv`는 업스트림 revision `51f0f2d3fed92d88ef4a0fa61a38024b07bf9d16`의 사전 조건화 매핑을 추출한 파일이다. 원본 주소값을 새로 만들어 MQSim 출력이라고 표시하지 않았다. 추출 전용 모드는 매핑 할당 이후 파일을 닫고 종료하며, 본 workload 성능을 MQSim에서 측정하는 단계가 아니다.
+
+- Geometry: 4channel, channel당 1chip, chip당 4die, die당 2plane, plane당 32block, block당 64page, page 16KiB.
+- 초기 점유율 75%, streaming 합성 workload. 단일 seed 예시이며 실제 SSD의 aging 상태를 보장하지 않는다.
+- 전체 페이지가 유효한 행만 사용한다. 45,711개 중 45,708개를 변환하고 나머지 3개는 제외했다.
+- 유효 LPA를 정렬하여 dense packed-slot index에 대응한다. channel과 plane은 보존하고, block/page를 plane-local 선형 인덱스로 변환해 zNAND decoder로 재해석한다.
+- 따라서 snapshot은 **MQSim 유래 재패킹 배치**이며 원본 LPA 공간·물리 구조와 동일하지 않다. 물리 점유·배치 민감도 비교에 사용한다. 본 모델은 유효/무효 블록의 GC 동작을 재생하지 않는다.
+- `export.patch`, XML, raw CSV, export log, `snapshot.json`의 revision과 SHA256을 보존했다.
+
+재추출은 새 폴더를 지정한다. 기존 checkout을 덮어쓰지 않는다.
+
+```sh
+sh znand/mqsim/reproduce.sh /tmp/mqsim-znand-reproduction
+```
+
+## 후속 튜닝 우선순위
+
+1. 합성 정확도 외에 **coverage·후보 발행량·선행 시간**을 독립적으로 조절하고 실제 예측기로 대체한다. Offered 기준 lead와 accepted 기준 lead 차이를 비교한다.
+2. CA·Data 우선순위에 따른 Prefetch starvation을 보고 필요하면 aging을 추가한다.
+3. 16KiB 전체 전송과 부분 출력, ECC 처리 단위·처리율, command packet 상세 비용을 비교한다.
+4. Die/LUN 공유 제약, WL Jumping, page buffer 무효화 조건을 실제 정보로 보정한다.
+5. 내부 점유 주기·동시성, 실제 GC 이벤트와 buffer 상태 영향을 확장한다. 85%를 추가 대역폭 감산으로 중복 적용하지 않는다.
+6. L2P 사전 상태를 점유율·주소 편향·seed별로 확장하고, 실제 layout 정책을 보존하는 재배치를 비교한다.
+7. Buffer admission 예약과 실제 L2P 가용 시점을 정교화한다. 작은 버퍼·공유 요청·in-order 조건의 진행성 테스트를 유지한다.
+8. 동시에 발생한 Host 수락 경쟁은 고정 port 순서로 처리한다. 포화 시 port별 지연 편향과 물리 주소 순서에 영향을 줄 수 있으므로 round-robin admission과 비교한다.
+9. Controller cache ON/OFF·LRU는 추후 검토한다. 64B channel 분산은 사용자 결정에 따라 계속 제외한다.
+
+## 결과의 한계
+
+기존 multiport 기본값은 128channel·128chip·chip당 6plane이며 전체 페이지 소비 흐름이었다. 이번 4channel·32plane·부분 Read 수치와 이전 공급 모델의 처리량을 직접 개선율로 비교하지 않는다.
+
+최대 처리량은 지정한 유한 trace와 모델 가정에서 관측한 값이다. QD를 늘려도 개선되지 않는 구간과 더 긴 trace의 비교를 함께 보고하며, 실제 제품 최대 대역폭이라고 주장하지 않는다. Host/NAND bytes 비율은 중복 Host 요청을 포함하므로 유일 데이터 효율과 다르다. `mean_return_wait_us`는 Head-of-Line 대기뿐 아니라 정상적인 반환 직렬화도 포함한다.
+
+## 독립 계산 검증
+
+`python3 -m znand.validate_results`로 저장된 CSV의 처리량 상한·요청량·지연 분해·자원 점유를 다시 검사할 수 있다. `python3 -m znand.microbench`는 page buffer 재사용과 E/O·SSL·Block·WL·Group 전환 8개 조건을 분석식과 비교한다. 상위 Outstanding 추가 실험은 `python3 -m znand.extend`로 재실행한다.
+
+## 관측 최고 조건 재실행
+
+`observed_best/A1.json`부터 `B3.json`까지는 긴 trace의 4port 비교에서 관측한 최고 처리량 설정이다. 해당 유한 workload에서 고른 설정이며 다른 workload의 최적값을 보장하지 않는다.
+
+```sh
+python3 -m znand.run --config znand/observed_best/B3.json --pattern B3 --per-port 8192 --out results/znand/replay_B3
+```
+
+전체 실험은 기본·민감도 1,248개와 상위 Outstanding 240개, 총 1,488개다. 압축 배포본은 압축을 푼 루트에서 실행한다. 배포본의 신규 모델 테스트는 `python3 -m unittest test_znand -q`로 실행하며, 84개 통과 기록은 기존 저장소 테스트를 포함한 결과다. 그림을 다시 생성하려면 matplotlib이 설치된 Python으로 `python3 -m znand.report`를 실행한다.

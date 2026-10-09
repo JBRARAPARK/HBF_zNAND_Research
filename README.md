@@ -2,10 +2,10 @@
 
 첨부 이미지의 영문 질의 1~4번, 질문별 의도, HBF 공개 사양 조사, `NAND_Prefetch_Model`과의 비교를 정리한 연구 기록입니다.
 
-- 정리일: **2026-10-08, Asia/Seoul**
+- 최종 반영일: **2026-10-09, Asia/Seoul**
 - 공개 사양 조사 기준: **OCP HBF Base Die Specification v0.7.0, 2026-08-03**
 - 모델 검토 기준: [`NAND_Prefetch_Model` / `6456496`](https://github.com/JBRARAPARK/NAND_Prefetch_Model/tree/645649621a94c96de5a4d614267ab80387f06c0c)
-- 저장소 성격: 질의 분석과 설계 검토 문서. 삼성 제품의 공식 답변이나 실측 성능 자료가 아닙니다.
+- 저장소 성격: 질의 분석, 설계 검토, 실행 가능한 모델과 평가 데이터. 삼성 제품의 공식 답변이나 실측 성능 자료가 아닙니다.
 
 ## 먼저 읽을 내용
 
@@ -15,7 +15,8 @@
 4. [현재 Prefetch 모델과의 비교](docs/04_model_alignment_ko.md): 실제 구현, 지표, 4개 port와 AXI ID, 확장 순서.
 5. [추가 확인 질문](docs/05_followup_questions_ko.md): 제품 담당자 및 내부 설계에서 확인할 사항.
 6. [이미지의 한국어 메모 전사](docs/06_image_notes_ko.md): 원본에 포함된 별도 분석 메모. 검증된 조사 결과와 구분합니다.
-7. [출처 및 검토 범위](sources/README.md): 공개 문서, 모델 소스, 이미지 출처, 증거 수준.
+7. [Prefetch 배치와 L2P 튜닝 기준](docs/07_prefetch_tuning_ko.md): 2026-10-09 합의한 초기 배치, 제외 사항, 튜닝 변수와 실험 설계.
+8. [출처 및 검토 범위](sources/README.md): 공개 문서, 모델 소스, 이미지 출처, 증거 수준.
 
 ## 현재 논의의 핵심
 
@@ -26,15 +27,16 @@
 | 3. Interleaving / mapping | 어떤 주소들이 내부 자원을 병렬로 사용하는지 | Port·주소·channel·die·bank 연결 |
 | 4. Host responsibilities | 주소와 NAND 관리를 누가 수행하는지 | 주소 공개 시점, 변환, prefetch 발행 위치 |
 
-현재 실험은 미리 준비된 데이터를 제한된 AXI outstanding으로 공급하는 효과를 보여줍니다. 실제 페이지별 부분 읽기·재방문, 주소 배치, ID별 순서 조건을 맞춰야 질문에 직접 대응하는 실험이 됩니다.
+신규 `znand/` 모델은 A-1~B-3의 부분 읽기·재방문, 논리/물리 주소 배치, Plane별 page buffer, port 내부 in-order를 반영합니다. 기존 공급 모델에 대한 검토 문서는 당시 기준을 보존하며, 신규 구현과 결과는 아래 실행 안내를 따릅니다.
 
 ## 확정된 사용자 설계 조건: 4개 독립 port
 
 - Port 0~3은 **독립 요청·응답 주체**입니다.
 - AXI ID는 **`(port, AXI ID)`**로 구분합니다. 다른 port의 같은 숫자 ID를 하나의 순서 그룹으로 묶지 않습니다.
 - 기존 코드는 port 간 전역 반환 순서를 강제하지 않습니다.
-- 기존 코드는 각 port 내부에서 FIFO 반환을 수행합니다. 내부 ID를 하나의 순서 그룹으로 사용할지, 여러 ID를 독립 처리할지는 설계 조건에 맞춰 정합니다.
-- Port의 독립성과 내부 NAND·버퍼 자원 공유 여부는 서로 다른 항목입니다.
+- Port 내부는 사용자 필수 조건에 따라 ID와 무관하게 요청 수락 순서대로 반환합니다. 앞선 요청의 마지막 데이터 반환 뒤 다음 요청을 반환하며, port 간 전역 순서는 강제하지 않습니다. 기존 코드는 port별 FIFO 반환을 수행합니다.
+- 4개 port는 4개 NAND channel을 공유하며, Read 주소의 저장 위치로 channel을 선택합니다. 고정 1:1 연결이 아니므로 한 port도 4개 channel을 활용할 수 있습니다.
+- 2026-10-09 확정된 초기 배치와 후속 실험 범위는 [튜닝 기준](docs/07_prefetch_tuning_ko.md)을 따릅니다.
 
 따라서 기존 모델에 대한 비교는 **각 port 내부의 ordering 정책**에 한정합니다. 4개 port 전체가 하나의 FIFO로 묶여 있다는 해석은 사용하지 않습니다.
 
@@ -43,16 +45,12 @@
 - **질문 원문:** 이미지에 실제로 보이는 내용만 보존합니다. 질문의 지시문은 분석 대상입니다.
 - **질문 의도:** 원문을 바탕으로 한 해석이며, 질문자의 의도를 확정한 진술은 아닙니다.
 - **HBF 확인:** [조사 결과](docs/03_hbf_findings_ko.md)에 근거를 모았습니다. zNAND가 동일하게 구현됐다는 뜻은 아닙니다.
-- **모델 확인:** 고정한 모델 소스와 기존 결과 문서를 검토했습니다. 이번 정리에서 시뮬레이션을 새로 실행하지 않았습니다.
+- **모델 확인:** 2026-10-08에는 고정한 기존 소스를 검토했고, 2026-10-09에는 별도 주소 기반 모델을 구현해 1,488개 조건을 실행했습니다.
 - **제안:** 신규 실험과 미완료 구현은 완료된 결과로 취급하지 않습니다.
 
-## 다음 작업 순서
+## 후속 작업
 
-1. 질문의 page·주소·요청 시점을 명시한 A-1~B-3 trace를 정의합니다.
-2. Port별 ID 계약과 내부 자원 공유 관계를 고정합니다.
-3. 현재 baseline을 보존하고 별도 HBF 비교 구성을 설계합니다.
-4. Cache 재사용과 prefetch 기여도를 분리한 기준선을 만듭니다.
-5. 제품별 지연·capability를 확인한 뒤 실험하고, 지연과 처리량을 함께 비교합니다.
+실제 예측기와 coverage, 부분 NAND 출력, Die/LUN 공유 자원, 실제 GC와 동적 L2P, controller cache 여부를 후속 튜닝 대상으로 남겼습니다. 초기값·실행 범위·한계는 [튜닝 문서](docs/07_prefetch_tuning_ko.md)를 따릅니다.
 
 관련 모델: [JBRARAPARK/NAND_Prefetch_Model](https://github.com/JBRARAPARK/NAND_Prefetch_Model)
 
@@ -61,3 +59,29 @@
 | 날짜 | 내용 |
 |---|---|
 | 2026-10-08 | 질문 전사, 1~4번 분석, HBF 조사 근거, 모델 검토와 독립 port 조건을 최초 정리 |
+| 2026-10-09 | 4port·4channel 공유 관계, 4KiB 논리 영역과 초기 패킹, 64B 분산 제외 및 튜닝 계획 추가 |
+
+## 실행 가능한 모델과 결과
+
+**1,488개 실험을 완료**했습니다. 기존 모델 저장소에서 회귀 테스트 포함 84개가 통과했으며, 이 저장소에는 신규 모델 테스트 28개를 포함합니다. 8개 물리 주소 전환 분석값 비교와 결과 CSV의 독립 검증도 통과했습니다. 모든 수치는 현재 모델 가정에 따른 시뮬레이션 결과입니다.
+
+- [결과 보고서와 그래프](results/znand/full/RESULTS_KO.md)
+- [전체 결과 CSV — 1,488개 조건](results/znand/all_results.csv)
+- [상위 Outstanding 결과](results/znand/extended/sweep.csv)
+- [모델 실행 안내와 가정](znand/README.md)
+- [초기 설정](znand/baseline.json) / [패턴별 관측 최고 설정](znand/observed_best/)
+- [요청별 예제 trace](results/znand/example/requests.csv)
+- [MQSim 배치 추출과 변환](znand/mqsim/README.md)
+- [후속 튜닝 문서](docs/07_prefetch_tuning_ko.md)
+
+저장소 루트에서 실행합니다. 모델 실행에는 Python 표준 라이브러리만 필요합니다. 그래프 재생성에는 matplotlib이 필요합니다.
+
+```sh
+python3 -m unittest test_znand -q
+python3 -m znand.validate_results
+python3 -m znand.run --config znand/observed_best/B3.json --pattern B3 --per-port 8192 --out results/znand/replay_B3
+```
+
+긴 trace의 80개 비교 그룹 모두 QD4,096→8,192 처리량 변화가 3% 미만이었습니다. 이는 해당 부하·버퍼·모델 조건의 포화 확인이며 실제 제품의 전역 최대 성능을 보장하지 않습니다. B2는 4KiB 분산, B3는 16KiB 분산이 유리한 조건이 관측되어 배치를 workload별로 비교해야 합니다.
+
+원래 `NAND_Prefetch_Model`의 simulator 파일은 보존했습니다. 이 비공개 저장소에는 별도 `znand/` 모듈과 실행 설정·결과를 함께 보관합니다.

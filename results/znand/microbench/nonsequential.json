@@ -1,0 +1,128 @@
+[
+  {
+    "time_us": 30,
+    "event": "accept",
+    "request": 0,
+    "port": 0,
+    "key": [
+      0,
+      0,
+      0
+    ]
+  },
+  {
+    "time_us": 30.5,
+    "event": "ca_start",
+    "key": [
+      0,
+      0,
+      0
+    ],
+    "page_buffer_hit": false,
+    "duration": 0.1
+  },
+  {
+    "time_us": 30.6,
+    "event": "sense_start",
+    "key": [
+      0,
+      0,
+      0
+    ],
+    "tr_kind": "first",
+    "duration": 20.69
+  },
+  {
+    "time_us": 51.290000000000006,
+    "event": "data_start",
+    "key": [
+      0,
+      0,
+      0
+    ],
+    "duration": 0.25451240443126855
+  },
+  {
+    "time_us": 51.744512404431276,
+    "event": "ready",
+    "key": [
+      0,
+      0,
+      0
+    ]
+  },
+  {
+    "time_us": 51.745512404431274,
+    "event": "returned",
+    "request": 0,
+    "port": 0,
+    "key": [
+      0,
+      0,
+      0
+    ]
+  },
+  {
+    "time_us": 100,
+    "event": "accept",
+    "request": 1,
+    "port": 0,
+    "key": [
+      0,
+      0,
+      7
+    ]
+  },
+  {
+    "time_us": 100.5,
+    "event": "ca_start",
+    "key": [
+      0,
+      0,
+      7
+    ],
+    "page_buffer_hit": false,
+    "duration": 0.1
+  },
+  {
+    "time_us": 100.6,
+    "event": "sense_start",
+    "key": [
+      0,
+      0,
+      7
+    ],
+    "tr_kind": "long",
+    "duration": 12.16
+  },
+  {
+    "time_us": 112.75999999999999,
+    "event": "data_start",
+    "key": [
+      0,
+      0,
+      7
+    ],
+    "duration": 0.25451240443126855
+  },
+  {
+    "time_us": 113.21451240443126,
+    "event": "ready",
+    "key": [
+      0,
+      0,
+      7
+    ]
+  },
+  {
+    "time_us": 113.21551240443127,
+    "event": "returned",
+    "request": 1,
+    "port": 0,
+    "key": [
+      0,
+      0,
+      7
+    ]
+  }
+]

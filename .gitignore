@@ -10,3 +10,6 @@ scratch/
 *.png
 *.jpg
 *.jpeg
+
+# Version generated evaluation figures.
+!results/znand/full/*.png

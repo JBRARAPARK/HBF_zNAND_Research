@@ -1,0 +1,32 @@
+diff --git a/src/ssd/Address_Mapping_Unit_Page_Level.cpp b/src/ssd/Address_Mapping_Unit_Page_Level.cpp
+index 1db2d45..69cbdaf 100644
+--- a/src/ssd/Address_Mapping_Unit_Page_Level.cpp
++++ b/src/ssd/Address_Mapping_Unit_Page_Level.cpp
+@@ -1,3 +1,5 @@
++#include <fstream>
++#include <cstdlib>
+ #include <cmath>
+ #include <assert.h>
+ #include <stdexcept>
+@@ -752,6 +754,21 @@ namespace SSD_Components
+ 			delete[] assigned_lpas[channel_cntr];
+ 		}
+ 		delete[] assigned_lpas;
++        // Local instrumentation: dump actual preconditioned L2P, no simulation changes.
++        if (const char* path = std::getenv("MQSIM_L2P_EXPORT")) {
++            std::ofstream out(path);
++            out << "stream,lpa,channel,chip,die,plane,block,page,valid_bitmap\n";
++            for (const auto& item : lpa_list) {
++                auto entry = domains[stream_id]->GlobalMappingTable[item.first];
++                if (entry.PPA == NO_PPA) continue;
++                auto a = Convert_ppa_to_address(entry.PPA);
++                out << stream_id << "," << item.first << "," << a.ChannelID << "," << a.ChipID
++                    << "," << a.DieID << "," << a.PlaneID << "," << a.BlockID << "," << a.PageID
++                    << "," << entry.WrittenStateBitmap << "\n";
++            }
++            out.close();
++            if (std::getenv("MQSIM_SNAPSHOT_ONLY")) std::exit(0);
++        }
+ 	}
+ 
+ 	void Address_Mapping_Unit_Page_Level::Allocate_new_page_for_gc(NVM_Transaction_Flash_WR* transaction, bool is_translation_page)

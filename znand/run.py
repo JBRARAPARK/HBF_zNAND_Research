@@ -1,0 +1,19 @@
+"""Reproducible CLI: python3 -m znand.run --config ... --out ..."""
+import argparse,json,csv,hashlib
+from pathlib import Path
+from .model import Config,Simulator,workload
+
+def main():
+    p=argparse.ArgumentParser();p.add_argument('--config');p.add_argument('--out',default='results/znand/single')
+    p.add_argument('--pattern',default='B3');p.add_argument('--per-port',type=int,default=2048)
+    p.add_argument('--overlap',type=float,default=0.);p.add_argument('--trace',action='store_true')
+    a=p.parse_args();cfg=json.loads(Path(a.config).read_text()) if a.config else {}
+    cfg['trace']=a.trace;c=Config(**cfg);inputs=workload(a.pattern,c.ports,a.per_port,a.overlap,c.host_mhz,c.seed)
+    s=Simulator(c,inputs);r=s.run();out=Path(a.out);out.mkdir(parents=True,exist_ok=True)
+    (out/'result.json').write_text(json.dumps(r,indent=2))
+    fields=['port','addr','size','offer','accepted','lookup_start','lookup_end','ready','r_start','end']
+    with (out/'requests.csv').open('w',newline='') as f:
+        w=csv.DictWriter(f,fields,extrasaction='ignore');w.writeheader();w.writerows(s.req)
+    if a.trace:(out/'events.json').write_text(json.dumps(s.log,indent=2))
+    print(json.dumps({k:r[k] for k in ('requests','bandwidth_gbps','mean_latency_us','p99_latency_us')},indent=2))
+if __name__=='__main__':main()

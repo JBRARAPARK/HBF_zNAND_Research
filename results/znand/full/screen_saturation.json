@@ -1,0 +1,802 @@
+[
+  {
+    "pattern": "A1",
+    "ports": 1,
+    "stripe": 4096,
+    "prefetch": false,
+    "observed_max_gbps": 50.58801298946201,
+    "best_qd": 512,
+    "qd95": 256,
+    "screen_plateau": true
+  },
+  {
+    "pattern": "A1",
+    "ports": 1,
+    "stripe": 4096,
+    "prefetch": true,
+    "observed_max_gbps": 53.87499864116943,
+    "best_qd": 64,
+    "qd95": 64,
+    "screen_plateau": true
+  },
+  {
+    "pattern": "A1",
+    "ports": 1,
+    "stripe": 16384,
+    "prefetch": false,
+    "observed_max_gbps": 50.58801298946201,
+    "best_qd": 512,
+    "qd95": 256,
+    "screen_plateau": true
+  },
+  {
+    "pattern": "A1",
+    "ports": 1,
+    "stripe": 16384,
+    "prefetch": true,
+    "observed_max_gbps": 53.38401539300499,
+    "best_qd": 64,
+    "qd95": 64,
+    "screen_plateau": true
+  },
+  {
+    "pattern": "A1",
+    "ports": 2,
+    "stripe": 4096,
+    "prefetch": false,
+    "observed_max_gbps": 41.313946369577934,
+    "best_qd": 2048,
+    "qd95": 2048,
+    "screen_plateau": false
+  },
+  {
+    "pattern": "A1",
+    "ports": 2,
+    "stripe": 4096,
+    "prefetch": true,
+    "observed_max_gbps": 39.49481359958499,
+    "best_qd": 2048,
+    "qd95": 2048,
+    "screen_plateau": false
+  },
+  {
+    "pattern": "A1",
+    "ports": 2,
+    "stripe": 16384,
+    "prefetch": false,
+    "observed_max_gbps": 41.29335389332877,
+    "best_qd": 2048,
+    "qd95": 2048,
+    "screen_plateau": false
+  },
+  {
+    "pattern": "A1",
+    "ports": 2,
+    "stripe": 16384,
+    "prefetch": true,
+    "observed_max_gbps": 39.95988850065846,
+    "best_qd": 2048,
+    "qd95": 512,
+    "screen_plateau": false
+  },
+  {
+    "pattern": "A1",
+    "ports": 3,
+    "stripe": 4096,
+    "prefetch": false,
+    "observed_max_gbps": 54.95799766578444,
+    "best_qd": 2048,
+    "qd95": 2048,
+    "screen_plateau": false
+  },
+  {
+    "pattern": "A1",
+    "ports": 3,
+    "stripe": 4096,
+    "prefetch": true,
+    "observed_max_gbps": 50.4910394431438,
+    "best_qd": 2048,
+    "qd95": 2048,
+    "screen_plateau": false
+  },
+  {
+    "pattern": "A1",
+    "ports": 3,
+    "stripe": 16384,
+    "prefetch": false,
+    "observed_max_gbps": 54.950851040271665,
+    "best_qd": 2048,
+    "qd95": 2048,
+    "screen_plateau": false
+  },
+  {
+    "pattern": "A1",
+    "ports": 3,
+    "stripe": 16384,
+    "prefetch": true,
+    "observed_max_gbps": 53.82015664907419,
+    "best_qd": 2048,
+    "qd95": 2048,
+    "screen_plateau": false
+  },
+  {
+    "pattern": "A1",
+    "ports": 4,
+    "stripe": 4096,
+    "prefetch": false,
+    "observed_max_gbps": 58.31111102627597,
+    "best_qd": 2048,
+    "qd95": 2048,
+    "screen_plateau": false
+  },
+  {
+    "pattern": "A1",
+    "ports": 4,
+    "stripe": 4096,
+    "prefetch": true,
+    "observed_max_gbps": 60.098087330290106,
+    "best_qd": 2048,
+    "qd95": 2048,
+    "screen_plateau": false
+  },
+  {
+    "pattern": "A1",
+    "ports": 4,
+    "stripe": 16384,
+    "prefetch": false,
+    "observed_max_gbps": 58.354837617786515,
+    "best_qd": 2048,
+    "qd95": 2048,
+    "screen_plateau": false
+  },
+  {
+    "pattern": "A1",
+    "ports": 4,
+    "stripe": 16384,
+    "prefetch": true,
+    "observed_max_gbps": 61.2989273350781,
+    "best_qd": 2048,
+    "qd95": 2048,
+    "screen_plateau": false
+  },
+  {
+    "pattern": "A2",
+    "ports": 1,
+    "stripe": 4096,
+    "prefetch": false,
+    "observed_max_gbps": 50.6178413517323,
+    "best_qd": 512,
+    "qd95": 256,
+    "screen_plateau": true
+  },
+  {
+    "pattern": "A2",
+    "ports": 1,
+    "stripe": 4096,
+    "prefetch": true,
+    "observed_max_gbps": 53.83126002613224,
+    "best_qd": 64,
+    "qd95": 64,
+    "screen_plateau": true
+  },
+  {
+    "pattern": "A2",
+    "ports": 1,
+    "stripe": 16384,
+    "prefetch": false,
+    "observed_max_gbps": 50.598301123621475,
+    "best_qd": 512,
+    "qd95": 256,
+    "screen_plateau": true
+  },
+  {
+    "pattern": "A2",
+    "ports": 1,
+    "stripe": 16384,
+    "prefetch": true,
+    "observed_max_gbps": 53.38401539300499,
+    "best_qd": 64,
+    "qd95": 64,
+    "screen_plateau": true
+  },
+  {
+    "pattern": "A2",
+    "ports": 2,
+    "stripe": 4096,
+    "prefetch": false,
+    "observed_max_gbps": 41.101400484954624,
+    "best_qd": 2048,
+    "qd95": 2048,
+    "screen_plateau": false
+  },
+  {
+    "pattern": "A2",
+    "ports": 2,
+    "stripe": 4096,
+    "prefetch": true,
+    "observed_max_gbps": 39.55617616946517,
+    "best_qd": 2048,
+    "qd95": 2048,
+    "screen_plateau": false
+  },
+  {
+    "pattern": "A2",
+    "ports": 2,
+    "stripe": 16384,
+    "prefetch": false,
+    "observed_max_gbps": 41.101400484954624,
+    "best_qd": 2048,
+    "qd95": 2048,
+    "screen_plateau": false
+  },
+  {
+    "pattern": "A2",
+    "ports": 2,
+    "stripe": 16384,
+    "prefetch": true,
+    "observed_max_gbps": 38.72276669097289,
+    "best_qd": 2048,
+    "qd95": 2048,
+    "screen_plateau": false
+  },
+  {
+    "pattern": "A2",
+    "ports": 3,
+    "stripe": 4096,
+    "prefetch": false,
+    "observed_max_gbps": 54.37243257939203,
+    "best_qd": 2048,
+    "qd95": 2048,
+    "screen_plateau": false
+  },
+  {
+    "pattern": "A2",
+    "ports": 3,
+    "stripe": 4096,
+    "prefetch": true,
+    "observed_max_gbps": 50.42265213059386,
+    "best_qd": 2048,
+    "qd95": 2048,
+    "screen_plateau": false
+  },
+  {
+    "pattern": "A2",
+    "ports": 3,
+    "stripe": 16384,
+    "prefetch": false,
+    "observed_max_gbps": 54.39888250000271,
+    "best_qd": 2048,
+    "qd95": 2048,
+    "screen_plateau": false
+  },
+  {
+    "pattern": "A2",
+    "ports": 3,
+    "stripe": 16384,
+    "prefetch": true,
+    "observed_max_gbps": 53.87320857835277,
+    "best_qd": 2048,
+    "qd95": 2048,
+    "screen_plateau": false
+  },
+  {
+    "pattern": "A2",
+    "ports": 4,
+    "stripe": 4096,
+    "prefetch": false,
+    "observed_max_gbps": 58.26700490566628,
+    "best_qd": 2048,
+    "qd95": 2048,
+    "screen_plateau": false
+  },
+  {
+    "pattern": "A2",
+    "ports": 4,
+    "stripe": 4096,
+    "prefetch": true,
+    "observed_max_gbps": 58.047273893977746,
+    "best_qd": 2048,
+    "qd95": 2048,
+    "screen_plateau": false
+  },
+  {
+    "pattern": "A2",
+    "ports": 4,
+    "stripe": 16384,
+    "prefetch": false,
+    "observed_max_gbps": 56.437237275715866,
+    "best_qd": 2048,
+    "qd95": 2048,
+    "screen_plateau": false
+  },
+  {
+    "pattern": "A2",
+    "ports": 4,
+    "stripe": 16384,
+    "prefetch": true,
+    "observed_max_gbps": 59.41704556177192,
+    "best_qd": 2048,
+    "qd95": 2048,
+    "screen_plateau": false
+  },
+  {
+    "pattern": "B1",
+    "ports": 1,
+    "stripe": 4096,
+    "prefetch": false,
+    "observed_max_gbps": 1.755249182462059,
+    "best_qd": 1024,
+    "qd95": 1024,
+    "screen_plateau": false
+  },
+  {
+    "pattern": "B1",
+    "ports": 1,
+    "stripe": 4096,
+    "prefetch": true,
+    "observed_max_gbps": 2.042437621986311,
+    "best_qd": 1024,
+    "qd95": 1024,
+    "screen_plateau": false
+  },
+  {
+    "pattern": "B1",
+    "ports": 1,
+    "stripe": 16384,
+    "prefetch": false,
+    "observed_max_gbps": 1.7552491824620597,
+    "best_qd": 1024,
+    "qd95": 1024,
+    "screen_plateau": false
+  },
+  {
+    "pattern": "B1",
+    "ports": 1,
+    "stripe": 16384,
+    "prefetch": true,
+    "observed_max_gbps": 2.0424376219863123,
+    "best_qd": 1024,
+    "qd95": 1024,
+    "screen_plateau": false
+  },
+  {
+    "pattern": "B1",
+    "ports": 2,
+    "stripe": 4096,
+    "prefetch": false,
+    "observed_max_gbps": 0.7952107979080062,
+    "best_qd": 2048,
+    "qd95": 2048,
+    "screen_plateau": false
+  },
+  {
+    "pattern": "B1",
+    "ports": 2,
+    "stripe": 4096,
+    "prefetch": true,
+    "observed_max_gbps": 0.8215975591247752,
+    "best_qd": 2048,
+    "qd95": 2048,
+    "screen_plateau": false
+  },
+  {
+    "pattern": "B1",
+    "ports": 2,
+    "stripe": 16384,
+    "prefetch": false,
+    "observed_max_gbps": 0.795210797908006,
+    "best_qd": 2048,
+    "qd95": 2048,
+    "screen_plateau": false
+  },
+  {
+    "pattern": "B1",
+    "ports": 2,
+    "stripe": 16384,
+    "prefetch": true,
+    "observed_max_gbps": 0.8215975591247752,
+    "best_qd": 2048,
+    "qd95": 2048,
+    "screen_plateau": false
+  },
+  {
+    "pattern": "B1",
+    "ports": 3,
+    "stripe": 4096,
+    "prefetch": false,
+    "observed_max_gbps": 0.9872933975213545,
+    "best_qd": 2048,
+    "qd95": 2048,
+    "screen_plateau": false
+  },
+  {
+    "pattern": "B1",
+    "ports": 3,
+    "stripe": 4096,
+    "prefetch": true,
+    "observed_max_gbps": 1.0140267713692364,
+    "best_qd": 2048,
+    "qd95": 2048,
+    "screen_plateau": false
+  },
+  {
+    "pattern": "B1",
+    "ports": 3,
+    "stripe": 16384,
+    "prefetch": false,
+    "observed_max_gbps": 0.964279385605026,
+    "best_qd": 2048,
+    "qd95": 2048,
+    "screen_plateau": false
+  },
+  {
+    "pattern": "B1",
+    "ports": 3,
+    "stripe": 16384,
+    "prefetch": true,
+    "observed_max_gbps": 0.9900143226489777,
+    "best_qd": 2048,
+    "qd95": 2048,
+    "screen_plateau": false
+  },
+  {
+    "pattern": "B1",
+    "ports": 4,
+    "stripe": 4096,
+    "prefetch": false,
+    "observed_max_gbps": 1.0894987606977662,
+    "best_qd": 2048,
+    "qd95": 2048,
+    "screen_plateau": false
+  },
+  {
+    "pattern": "B1",
+    "ports": 4,
+    "stripe": 4096,
+    "prefetch": true,
+    "observed_max_gbps": 1.1137367692822797,
+    "best_qd": 2048,
+    "qd95": 2048,
+    "screen_plateau": false
+  },
+  {
+    "pattern": "B1",
+    "ports": 4,
+    "stripe": 16384,
+    "prefetch": false,
+    "observed_max_gbps": 1.0905956579507954,
+    "best_qd": 2048,
+    "qd95": 2048,
+    "screen_plateau": false
+  },
+  {
+    "pattern": "B1",
+    "ports": 4,
+    "stripe": 16384,
+    "prefetch": true,
+    "observed_max_gbps": 1.1138565239092642,
+    "best_qd": 2048,
+    "qd95": 2048,
+    "screen_plateau": false
+  },
+  {
+    "pattern": "B2",
+    "ports": 1,
+    "stripe": 4096,
+    "prefetch": false,
+    "observed_max_gbps": 1.7459084573779522,
+    "best_qd": 1024,
+    "qd95": 1024,
+    "screen_plateau": false
+  },
+  {
+    "pattern": "B2",
+    "ports": 1,
+    "stripe": 4096,
+    "prefetch": true,
+    "observed_max_gbps": 2.0262080527621587,
+    "best_qd": 1024,
+    "qd95": 1024,
+    "screen_plateau": false
+  },
+  {
+    "pattern": "B2",
+    "ports": 1,
+    "stripe": 16384,
+    "prefetch": false,
+    "observed_max_gbps": 1.7459084573779522,
+    "best_qd": 1024,
+    "qd95": 1024,
+    "screen_plateau": false
+  },
+  {
+    "pattern": "B2",
+    "ports": 1,
+    "stripe": 16384,
+    "prefetch": true,
+    "observed_max_gbps": 2.0262080527621587,
+    "best_qd": 1024,
+    "qd95": 1024,
+    "screen_plateau": false
+  },
+  {
+    "pattern": "B2",
+    "ports": 2,
+    "stripe": 4096,
+    "prefetch": false,
+    "observed_max_gbps": 0.7017634656251512,
+    "best_qd": 2048,
+    "qd95": 2048,
+    "screen_plateau": false
+  },
+  {
+    "pattern": "B2",
+    "ports": 2,
+    "stripe": 4096,
+    "prefetch": true,
+    "observed_max_gbps": 0.7218321249053283,
+    "best_qd": 2048,
+    "qd95": 2048,
+    "screen_plateau": false
+  },
+  {
+    "pattern": "B2",
+    "ports": 2,
+    "stripe": 16384,
+    "prefetch": false,
+    "observed_max_gbps": 0.6111659460425537,
+    "best_qd": 2048,
+    "qd95": 2048,
+    "screen_plateau": false
+  },
+  {
+    "pattern": "B2",
+    "ports": 2,
+    "stripe": 16384,
+    "prefetch": true,
+    "observed_max_gbps": 0.6498748740335943,
+    "best_qd": 2048,
+    "qd95": 2048,
+    "screen_plateau": false
+  },
+  {
+    "pattern": "B2",
+    "ports": 3,
+    "stripe": 4096,
+    "prefetch": false,
+    "observed_max_gbps": 0.7861949322350023,
+    "best_qd": 2048,
+    "qd95": 2048,
+    "screen_plateau": false
+  },
+  {
+    "pattern": "B2",
+    "ports": 3,
+    "stripe": 4096,
+    "prefetch": true,
+    "observed_max_gbps": 0.803168632723988,
+    "best_qd": 2048,
+    "qd95": 2048,
+    "screen_plateau": false
+  },
+  {
+    "pattern": "B2",
+    "ports": 3,
+    "stripe": 16384,
+    "prefetch": false,
+    "observed_max_gbps": 0.6601669698936056,
+    "best_qd": 2048,
+    "qd95": 1024,
+    "screen_plateau": false
+  },
+  {
+    "pattern": "B2",
+    "ports": 3,
+    "stripe": 16384,
+    "prefetch": true,
+    "observed_max_gbps": 0.6957570173703295,
+    "best_qd": 2048,
+    "qd95": 2048,
+    "screen_plateau": false
+  },
+  {
+    "pattern": "B2",
+    "ports": 4,
+    "stripe": 4096,
+    "prefetch": false,
+    "observed_max_gbps": 0.9376233548767245,
+    "best_qd": 2048,
+    "qd95": 2048,
+    "screen_plateau": false
+  },
+  {
+    "pattern": "B2",
+    "ports": 4,
+    "stripe": 4096,
+    "prefetch": true,
+    "observed_max_gbps": 0.9568243709046796,
+    "best_qd": 2048,
+    "qd95": 2048,
+    "screen_plateau": false
+  },
+  {
+    "pattern": "B2",
+    "ports": 4,
+    "stripe": 16384,
+    "prefetch": false,
+    "observed_max_gbps": 0.6917953577495524,
+    "best_qd": 2048,
+    "qd95": 2048,
+    "screen_plateau": false
+  },
+  {
+    "pattern": "B2",
+    "ports": 4,
+    "stripe": 16384,
+    "prefetch": true,
+    "observed_max_gbps": 0.6921407181898374,
+    "best_qd": 2048,
+    "qd95": 2048,
+    "screen_plateau": false
+  },
+  {
+    "pattern": "B3",
+    "ports": 1,
+    "stripe": 4096,
+    "prefetch": false,
+    "observed_max_gbps": 2.013418032441174,
+    "best_qd": 2048,
+    "qd95": 2048,
+    "screen_plateau": false
+  },
+  {
+    "pattern": "B3",
+    "ports": 1,
+    "stripe": 4096,
+    "prefetch": true,
+    "observed_max_gbps": 2.400443281089426,
+    "best_qd": 2048,
+    "qd95": 2048,
+    "screen_plateau": false
+  },
+  {
+    "pattern": "B3",
+    "ports": 1,
+    "stripe": 16384,
+    "prefetch": false,
+    "observed_max_gbps": 2.0133561774662994,
+    "best_qd": 2048,
+    "qd95": 2048,
+    "screen_plateau": false
+  },
+  {
+    "pattern": "B3",
+    "ports": 1,
+    "stripe": 16384,
+    "prefetch": true,
+    "observed_max_gbps": 2.400443281089429,
+    "best_qd": 2048,
+    "qd95": 2048,
+    "screen_plateau": false
+  },
+  {
+    "pattern": "B3",
+    "ports": 2,
+    "stripe": 4096,
+    "prefetch": false,
+    "observed_max_gbps": 0.7071988280232269,
+    "best_qd": 2048,
+    "qd95": 256,
+    "screen_plateau": true
+  },
+  {
+    "pattern": "B3",
+    "ports": 2,
+    "stripe": 4096,
+    "prefetch": true,
+    "observed_max_gbps": 0.7698794477020822,
+    "best_qd": 2048,
+    "qd95": 2048,
+    "screen_plateau": false
+  },
+  {
+    "pattern": "B3",
+    "ports": 2,
+    "stripe": 16384,
+    "prefetch": false,
+    "observed_max_gbps": 0.7959982738452608,
+    "best_qd": 2048,
+    "qd95": 2048,
+    "screen_plateau": false
+  },
+  {
+    "pattern": "B3",
+    "ports": 2,
+    "stripe": 16384,
+    "prefetch": true,
+    "observed_max_gbps": 0.8223627616781624,
+    "best_qd": 2048,
+    "qd95": 2048,
+    "screen_plateau": false
+  },
+  {
+    "pattern": "B3",
+    "ports": 3,
+    "stripe": 4096,
+    "prefetch": false,
+    "observed_max_gbps": 0.7943051787100411,
+    "best_qd": 2048,
+    "qd95": 2048,
+    "screen_plateau": false
+  },
+  {
+    "pattern": "B3",
+    "ports": 3,
+    "stripe": 4096,
+    "prefetch": true,
+    "observed_max_gbps": 0.826957840717032,
+    "best_qd": 2048,
+    "qd95": 2048,
+    "screen_plateau": false
+  },
+  {
+    "pattern": "B3",
+    "ports": 3,
+    "stripe": 16384,
+    "prefetch": false,
+    "observed_max_gbps": 1.0358008016512006,
+    "best_qd": 2048,
+    "qd95": 2048,
+    "screen_plateau": false
+  },
+  {
+    "pattern": "B3",
+    "ports": 3,
+    "stripe": 16384,
+    "prefetch": true,
+    "observed_max_gbps": 1.0657878087046622,
+    "best_qd": 2048,
+    "qd95": 2048,
+    "screen_plateau": false
+  },
+  {
+    "pattern": "B3",
+    "ports": 4,
+    "stripe": 4096,
+    "prefetch": false,
+    "observed_max_gbps": 0.7873898560127042,
+    "best_qd": 2048,
+    "qd95": 1024,
+    "screen_plateau": false
+  },
+  {
+    "pattern": "B3",
+    "ports": 4,
+    "stripe": 4096,
+    "prefetch": true,
+    "observed_max_gbps": 0.800664391346492,
+    "best_qd": 2048,
+    "qd95": 1024,
+    "screen_plateau": false
+  },
+  {
+    "pattern": "B3",
+    "ports": 4,
+    "stripe": 16384,
+    "prefetch": false,
+    "observed_max_gbps": 1.1558965619218866,
+    "best_qd": 2048,
+    "qd95": 2048,
+    "screen_plateau": false
+  },
+  {
+    "pattern": "B3",
+    "ports": 4,
+    "stripe": 16384,
+    "prefetch": true,
+    "observed_max_gbps": 1.1585471945225756,
+    "best_qd": 2048,
+    "qd95": 2048,
+    "screen_plateau": false
+  }
+]

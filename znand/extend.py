@@ -2,23 +2,29 @@
 from pathlib import Path
 from dataclasses import asdict
 from concurrent.futures import ProcessPoolExecutor,as_completed
-import csv,json,time,hashlib
+import argparse,csv,json,time,hashlib
 from .model import Config
 from .sweep import job
 
 def main():
-    out=Path('results/znand/extended');out.mkdir(parents=True,exist_ok=True)
+    parser=argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--out',type=Path,default=Path('results/znand/extended'))
+    parser.add_argument('--workers',type=int,default=4)
+    parser.add_argument('--per-port',type=int,default=8192)
+    args=parser.parse_args()
+    if args.workers<1 or args.per_port<1:parser.error('--workers and --per-port must be positive')
+    out=args.out;out.mkdir(parents=True,exist_ok=True)
     specs=[]
-    # Same-length comparisons at 2K,4K,8K QD; 8192 requests per port.
+    # Same-length comparisons at 2K,4K,8K QD; 8192 requests per port by default.
     for pat in ('A1','A2','B1','B2','B3'):
         for p in range(1,5):
             for stripe in (4096,16384):
                 for pf in (False,True):
                     for q in (2048,4096,8192):
                         c=Config(ports=p,stripe=stripe,prefetch=pf,outstanding=q)
-                        specs.append(dict(case_id=len(specs),phase='extended',pattern=pat,overlap=0.,per_port=8192,config=asdict(c)))
+                        specs.append(dict(case_id=len(specs),phase='extended',pattern=pat,overlap=0.,per_port=args.per_port,config=asdict(c)))
     rows=[];start=time.monotonic()
-    with ProcessPoolExecutor(max_workers=4) as pool:
+    with ProcessPoolExecutor(max_workers=args.workers) as pool:
         fs={pool.submit(job,s):s for s in specs}
         for f in as_completed(fs):
             rows.append(f.result())

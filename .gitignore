@@ -3,7 +3,8 @@ __pycache__/
 *.pyc
 .env
 .env.*
-.venv/
+.venv*/
+results/local/
 work/
 scratch/
 *.pdf

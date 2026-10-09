@@ -4,6 +4,8 @@
 
 ## 실행
 
+Mac에서는 저장소 루트에서 `bash scripts/macos.sh setup`, `bash scripts/macos.sh smoke`, `bash scripts/macos.sh diagnostics`를 순서대로 실행한다. Python 3.10 이상을 사용하며 스크립트가 `.venv`를 직접 선택한다. 새 결과는 `results/local/`에 저장한다. 그래프는 `setup --plots` 후 `report`, 주소 배치는 `layout`으로 연다. 상세 절차는 [Mac 실행 안내](../docs/11_macos_run_ko.md)를 따른다.
+
 이 저장소의 루트에서 실행한다. 최초 실행 위치는 `/Users/bagjunbeom/Downloads/NAND_Prefetch_Model`이었다. 모델과 sweep은 Python 표준 라이브러리만 사용한다. 보고서 그림 생성에는 기존 가상환경의 matplotlib을 사용한다.
 
 ```sh

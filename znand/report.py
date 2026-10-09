@@ -1,5 +1,5 @@
 """Build a readable report and static plots from measured sweep rows."""
-import csv,json,statistics,hashlib
+import argparse,csv,json,statistics,hashlib,os
 from pathlib import Path
 from collections import defaultdict
 
@@ -7,7 +7,14 @@ def num(r,k):return float(r.get(k) or 0)
 def flag(r,k):return str(r[k]).lower()=='true'
 
 def main():
-    out=Path('results/znand/full');rows=list(csv.DictReader((out/'sweep.csv').open()))
+    parser=argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--input',type=Path,default=Path('results/znand/full/sweep.csv'))
+    parser.add_argument('--extended',type=Path,default=Path('results/znand/extended/saturation.csv'))
+    parser.add_argument('--out',type=Path,default=Path('results/znand/full'))
+    args=parser.parse_args()
+    out=args.out;out.mkdir(parents=True,exist_ok=True)
+    rows=list(csv.DictReader(args.input.open()))
+    relative=lambda path: Path(os.path.relpath(path.resolve(),out.resolve())).as_posix()
     core=[r for r in rows if r['phase']=='core'];groups=defaultdict(list)
     for r in core:groups[(r['pattern'],int(r['ports']),int(r['stripe']),flag(r,'prefetch'))].append(r)
     saturation=[]
@@ -101,7 +108,7 @@ def main():
     insertion=['## 먼저 확인할 해석','']+compare+['', '이 비교에서는 읽기 횟수 차이보다 실제 발행 순서에 따른 Long 전환 차이가 크다. Outstanding 증가가 단순히 tR을 가리는 것뿐 아니라 버퍼 수락 순서와 port 간 물리 접근 순서를 바꿀 수 있다. 배치·스케줄링·부하 조건을 함께 평가해야 한다.','',
         '64B 패턴은 논리 4KiB 영역마다 일부만 요청하지만 NAND에서는 16KiB 전체를 가져온다. 따라서 NAND 전송 대역폭과 Host의 유효 대역폭을 혼동하지 않는다. 고정 후보 예산과 offered-time Prefetch 때문에 정확도 100%도 전체 요청을 미리 준비하는 이상적인 공급원이 아니다.','']
     pos=lines.index('## 4port에서 관측한 최고 처리량');lines[pos:pos]=insertion
-    ext=Path('results/znand/extended/saturation.csv')
+    ext=args.extended
     if ext.exists():
         er=list(csv.DictReader(ext.open()))
         n=sum(r['plateau']=='True' for r in er)
@@ -112,7 +119,7 @@ def main():
               '|---|---|---|---:|---:|---:|---:|']
         for r in er:
             if r['ports']=='4':head.append(f"| {r['pattern']} | {int(r['stripe'])//1024}KiB | {'ON' if r['prefetch']=='True' else 'OFF'} | {float(r['best_bandwidth_gbps']):.3f} | {r['best_qd']} | {r['observed_peak_outstanding']} | {float(r['p99_latency_us']):.3f} |")
-        head+=['','긴 trace 표와 아래 기본 trace 표는 요청량이 다르므로 수치 차이를 Outstanding만의 효과로 해석하지 않는다. 추가 원본은 `../extended/sweep.csv`, 요약은 `../extended/saturation.csv`다.','']
+        head+=['',f'긴 trace 표와 아래 기본 trace 표는 요청량이 다르므로 수치 차이를 Outstanding만의 효과로 해석하지 않는다. 추가 원본은 `{relative(ext.parent/"sweep.csv")}`, 요약은 `{relative(ext)}`다.','']
         pos=lines.index('## 4port에서 관측한 최고 처리량');lines[pos:pos]=head
     if ext.exists():
         xr=list(csv.DictReader((ext.parent/'sweep.csv').open()))
@@ -126,7 +133,8 @@ def main():
             ax.set_title(pat+', 4 ports, 8192 requests/port');ax.set_xlabel('Outstanding per port');ax.set_ylabel('Useful GB/s');ax.grid(alpha=.3);ax.legend(fontsize=8)
         fig.tight_layout();fig.savefig(out/'upper_outstanding.png',dpi=160);plt.close(fig)
         pos=lines.index('## 4port에서 관측한 최고 처리량');lines[pos:pos]=['![Upper Outstanding](upper_outstanding.png)','']
-    lines+=['','## 검증','', '기존 회귀 테스트를 포함한 84개 테스트와 물리 주소 전환 8개 분석값 비교를 통과했다. 결과 CSV는 Host 전송 상한, 요청·byte 수, buffer와 Outstanding 한계, 지연 분해 합계, NAND 전송량을 별도 검증했다. 검증 기록은 `../tests_final.log`, `../accounting_validation.json`, `../microbench/transitions.csv`다.']
+    evidence=args.input.parent.parent
+    lines+=['','## 검증','', f'초기 평가 기록의 84개 테스트와 물리 주소 전환 8개 분석값 비교를 통과했다. 결과 CSV는 Host 전송 상한, 요청·byte 수, buffer와 Outstanding 한계, 지연 분해 합계, NAND 전송량을 별도 검증했다. 당시 검증 기록은 `{relative(evidence/"tests_final.log")}`, `{relative(evidence/"accounting_validation.json")}`, `{relative(evidence/"microbench/transitions.csv")}`다. 현재 실행 환경은 별도로 `bash scripts/macos.sh smoke`로 확인한다.']
     (out/'RESULTS_KO.md').write_text('\n'.join(lines)+'\n')
     print('report',len(rows),'cases; plateau',sum(r['plateau_on_long_trace'] for r in saturation),'/80')
 if __name__=='__main__':main()

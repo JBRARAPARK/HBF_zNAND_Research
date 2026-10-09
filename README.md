@@ -7,6 +7,18 @@
 - 모델 검토 기준: [`NAND_Prefetch_Model` / `6456496`](https://github.com/JBRARAPARK/NAND_Prefetch_Model/tree/645649621a94c96de5a4d614267ab80387f06c0c)
 - 저장소 성격: 질의 분석, 설계 검토, 실행 가능한 모델과 평가 데이터. 삼성 제품의 공식 답변이나 실측 성능 자료가 아닙니다.
 
+## Mac에서 빠르게 실행
+
+Python 3.10 이상과 Git이 있는 Mac에서 저장소를 내려받은 뒤 실행합니다. 수치 모델에는 외부 Python 패키지가 필요하지 않습니다.
+
+```sh
+bash scripts/macos.sh setup
+bash scripts/macos.sh smoke
+bash scripts/macos.sh diagnostics
+```
+
+스크립트가 프로젝트 `.venv`를 사용하고 결과는 매번 `results/local/` 아래 새 폴더에 저장합니다. `smoke`는 테스트 35개와 Mac 방식의 spawn 병렬 실행을 확인하며, `diagnostics`가 실제 6개 추가 실험을 재현합니다. 처음 내려받는 절차, Python 선택, A2 재실행과 그래프 생성은 [Mac 실행 안내](docs/11_macos_run_ko.md)를 따릅니다.
+
 ## 먼저 읽을 내용
 
 1. [영문 질문 원문](docs/01_questions_en.md): 중복 제거한 1~4번. 이미지에서 잘린 마지막 문장을 표시했습니다.
@@ -19,7 +31,8 @@
 8. [Host IF 상한 미달 원인](docs/08_host_if_bottleneck_ko.md): Buffer·Long sensing·in-order의 연동과 같은 조건의 추가 진단 6개.
 9. [32→64Plane 확장과 NAND 주소 배치](docs/09_plane_expansion_layout_ko.md): 지원 코드, 주소 비트, 물리 Die 구성의 가정과 한계.
 10. [Google 문의 답변용 모델 자료](docs/10_google_model_answers_ko.md): 기존 1,488개 실험 기준 최대 성능, A2 설명, 질문별 답변 가능 범위와 영문 초안.
-11. [출처 및 검토 범위](sources/README.md): 공개 문서, 모델 소스, 이미지 출처, 증거 수준.
+11. [Mac 실행과 후속 분석](docs/11_macos_run_ko.md): 가상환경, 32/64Plane 재현, spawn 확인, 그래프와 전체 평가 실행.
+12. [출처 및 검토 범위](sources/README.md): 공개 문서, 모델 소스, 이미지 출처, 증거 수준.
 
 ## 현재 논의의 핵심
 
@@ -64,6 +77,7 @@
 | 2026-10-08 | 질문 전사, 1~4번 분석, HBF 조사 근거, 모델 검토와 독립 port 조건을 최초 정리 |
 | 2026-10-09 | 4port·4channel 공유 관계, 4KiB 논리 영역과 초기 패킹, 64B 분산 제외 및 튜닝 계획 추가 |
 | 2026-10-09 | Google 문의용 보고서 본문 정리, Host IF 병목 진단 6개, 채널당 16Plane 지원과 배치 설명, 확장 회귀 테스트 7개 추가 |
+| 2026-10-09 | Mac 가상환경·실행 스크립트, spawn 병렬 확인, 로컬 결과 분리, 보고서와 상위 QD 실행의 출력 경로 옵션 추가 |
 
 ## 실행 가능한 모델과 결과
 

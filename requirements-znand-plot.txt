@@ -1,0 +1,3 @@
+# Optional: only znand.report requires a third-party package.
+# The simulator, diagnostics, tests and explicit-spawn smoke check use stdlib.
+matplotlib>=3.8,<4

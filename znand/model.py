@@ -51,11 +51,13 @@ class Config:
     ca_policy: str = 'fifo'
     locality_max_bypass: int = 8
     locality_age_us: float = 1000.
+    head_wait_us: float = 12.16
 
     def validate(self):
-        assert self.ca_policy in ('fifo', 'locality')
+        assert self.ca_policy in ('fifo', 'locality', 'head_locality')
         assert isinstance(self.locality_max_bypass,int) and self.locality_max_bypass > 0
         assert math.isfinite(self.locality_age_us) and self.locality_age_us >= 0
+        assert math.isfinite(self.head_wait_us) and self.head_wait_us >= 0
         assert 1 <= self.ports <= 4 and self.channels == 4
         assert isinstance(self.planes, int) and self.planes in (8, 16)
         assert self.stripe in (4096, 16384)
@@ -194,7 +196,7 @@ class Simulator:
             assert off+inp.size<=PAGE
             idx=len(self.req)
             self.req.append(dict(port=inp.port,addr=inp.addr,size=inp.size,offer=inp.offer,key=key,
-                                 offset=off,lookup=False,accepted=None,ready=None,end=None))
+                                 offset=off,lookup=False,accepted=None,ready=None,end=None,head_since=None))
             self.sources[inp.port].append(idx)
             self.event(inp.offer,'wake')
         assert self.req
@@ -254,6 +256,7 @@ class Simulator:
             else:
                 self.count['merged_at_accept']+=1
             x['refs'].add(idx)
+            if not self.fifo[p]:r['head_since']=self.now
             self.sources[p].popleft();self.fifo[p].append(idx);self.lookupq[p].append(idx)
             r['accepted']=self.now;r['merged_state']=x['state']
             self.next_ar[p]=self.now+1/self.c.host_mhz
@@ -286,6 +289,25 @@ class Simulator:
     def demand(self,x):
         return any(self.req[i]['lookup'] for i in x['refs'])
 
+    def urgent_heads(self):
+        """Already-looked-up FIFO heads, aged only while actually at the head.
+
+        Busy/in-flight pages are never preempted. A shared page uses the oldest
+        qualifying head's timestamp; no future or unaccepted requests are read.
+        """
+        heads={}
+        for port,queue in enumerate(self.fifo):
+            if not queue or self.rb[port]:continue
+            r=self.req[queue[0]]
+            if not r['lookup']:continue
+            since=max(r['head_since'],r['lookup_end'])
+            if self.now-since+EPS < self.c.head_wait_us:continue
+            key=r['key']
+            if self.items[key]['state']!='waiting':continue
+            rank=(since,port)
+            if key not in heads or rank<heads[key]:heads[key]=rank
+        return heads
+
     def ca_candidates(self,waiting):
         """One issuable candidate per channel; the FIFO default is unchanged.
 
@@ -308,7 +330,8 @@ class Simulator:
             return best,{}
         planes={}
         for x in available:planes.setdefault(x['key'][:2],[]).append(x)
-        best={};decisions={}
+        urgent=self.urgent_heads() if self.c.ca_policy=='head_locality' else {}
+        best={};decisions={};choices={}
         for key,items in planes.items():
             plane=self.plane[key]
             demand=[x for x in items if self.demand(x)]
@@ -319,6 +342,9 @@ class Simulator:
             selected=oldest;reason='oldest'
             if old_enough:reason='age'
             elif exhausted:reason='bypass_limit'
+            elif any(x['key'] in urgent for x in tier):
+                selected=min((x for x in tier if x['key'] in urgent),key=lambda x:(urgent[x['key']],x['seq']))
+                reason='head'
             else:
                 local=[]
                 for x in tier:
@@ -331,9 +357,20 @@ class Simulator:
                     if selected is not oldest:reason='locality'
             rank=(not bool(demand),oldest['seq'])
             ch=key[0]
+            choices.setdefault(ch,[]).append((rank,selected,key,selected is not oldest,reason))
             if ch not in best or rank<best[ch][0]:
                 best[ch]=(rank,selected)
                 decisions[ch]=(key,selected is not oldest,reason)
+        # Promote urgent heads across idle planes too. An aged Demand takes
+        # precedence so head promotion cannot indefinitely suppress old work.
+        # Without an issuable urgent head, original cross-plane ordering holds.
+        for ch,options in choices.items():
+            heads=[o for o in options if not o[0][0] and o[1]['key'] in urgent]
+            if not heads:continue
+            aged=[o for o in options if not o[0][0] and o[4]=='age']
+            chosen=min(aged,key=lambda o:o[0]) if aged else min(heads,key=lambda o:(urgent[o[1]['key']],o[0]))
+            rank,selected,key,bypassed,reason=chosen
+            best[ch]=(rank,selected);decisions[ch]=(key,bypassed,reason)
         return best,decisions
 
     def dispatch(self):
@@ -440,6 +477,7 @@ class Simulator:
                 r=self.req[d];p=r['port'];x=self.items[r['key']]
                 assert self.fifo[p].popleft()==d and d>self.last_r[p]
                 self.last_r[p]=d;r['end']=t;self.rb[p]=False
+                if self.fifo[p]:self.req[self.fifo[p][0]]['head_since']=t
                 x['refs'].remove(d);self.finished+=1
                 self.trace('returned',request=d,port=p,key=r['key'])
                 if not x['refs']:

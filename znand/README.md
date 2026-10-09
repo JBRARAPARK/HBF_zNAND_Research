@@ -142,3 +142,23 @@ python3 -m znand.buffer_growth_report
 4port·32Plane·PF ON·port당 8,192개 요청을 유지하고 공유 버퍼를 32/40/48/56/64MiB로 바꾼다. A1(4KiB stripe)과 A2(16KiB stripe)는 QD2,048/4,096/8,192를 각각 비교한다. B1/B2(4KiB stripe), B3(16KiB stripe)는 QD8,192를 고정한다. 총 45개 조건이며 동일 모델·설정의 기존 32MiB 결과 6개를 재사용한다.
 
 결과는 `results/znand/buffer_growth/`에 저장한다. 중단 후 재실행은 모델 해시와 저장된 조건을 검증하고 남은 조건만 실행한다. 여러 프로세스에서 이 실행기를 동시에 실행하지 않는다. 물리 용량과 reservation 한도는 여전히 결합된 모델이다. 처리량뿐 아니라 실제 예약 peak, 수락 실패 횟수, Long sensing 비율도 [결과 보고서](../results/znand/buffer_growth/RESULTS_KO.md)에서 확인한다.
+
+이 과거 버퍼 비교의 실행기는 `reference_model_17e7d52.py`에 보존한 당시 모델을 사용한다. 이후 CA 정책 추가에 영향을 받지 않고 기존 checkpoint와 결과를 재현한다.
+
+## Port 선두 요청 대기를 고려한 CA 정책
+
+`ca_policy=head_locality`는 `locality`에 선두 요청 우선을 추가한다. 대기는 실제 port FIFO 선두가 된 시각과 lookup 완료 시각 중 늦은 시각부터 센다. `head_wait_us`(기본 12.16μs)를 넘고 아직 CA 대기 중인 페이지가 우선 후보가 된다. 이미 sensing·전송 중인 작업은 선점하지 않는다. 같은 페이지를 여러 port가 기다리면 가장 오래 기다린 선두를 기준으로 선택한다.
+
+Plane 내부에서는 기존 age·연속 우회 한도 보호를 먼저 적용하고, 그다음 오래 기다린 선두, page buffer 재사용/연속 q+1, oldest 순으로 선택한다. 같은 channel의 발행 가능한 Plane 사이에서도 선두 후보를 우선하되, age 한도에 도달한 Demand가 있으면 이를 먼저 처리한다. 발행 가능한 선두 우선 후보가 없으면 기존 순서를 유지한다. 선두 우선에 따른 우회도 기존 우회 한도에 포함한다. Busy·maintenance 등까지 포함한 절대 대기시간 보장은 아니다.
+
+Host 요청열·수락 및 버퍼 예약·lookup·NAND Data 중재·외부 port 내부 in-order는 유지한다. 기본 `fifo` 및 기존 `locality` 설정의 동작도 유지한다. `count_ca_selection_head`는 선두 우선 규칙으로 선택한 횟수이며, 해당 페이지가 기존 정책에서도 선택됐을 가능성을 포함한다.
+
+```sh
+python3 -m unittest test_znand test_znand_expansion test_znand_locality test_znand_head -q
+python3 -m znand.head_sweep --workers 8
+python3 -m znand.head_report
+```
+
+A1/A2·32MiB·QD2,048/port에서 우회 4/8/16/32회 각각에 대해 기존 정책과 선두 대기 0/12.16/48.64μs를 비교한다. A1/A2 처리량 비율의 기하평균으로 선두 우선 후보 하나를 고정한 뒤, B1/B2/B3와 더 긴 A1/A2 요청열에서 확인한다. 처리량 선택이 p99 개선을 보장하지 않으므로 둘 다 보고한다. 중간 결과가 있으면 모델·실행기 해시와 저장 조건을 검증하고 이어서 실행한다. [결과 보고서](../results/znand/head_locality/RESULTS_KO.md)에 기존 우회 8회 대비와 같은 우회 한도 대비를 따로 기록한다.
+
+47개 비교 후 [실행용 프로파일](../results/znand/head_locality/profiles/)을 저장했다. A1은 `head_locality`·우회32·대기48.64μs, A2/B1/B2/B3는 `locality`·우회32다. A2는 긴 요청열에서 선두 우선의 추가 효과가 없었고 B계열은 선두 우선으로 성능이 낮아졌다. 패턴별 설정을 명시하며 모델이 workload를 자동 분류하지 않는다. `znand.run`의 요청별 CSV에는 실제 선두가 된 시각 `head_since`도 기록한다.

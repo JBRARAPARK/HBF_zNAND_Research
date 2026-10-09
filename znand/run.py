@@ -11,7 +11,7 @@ def main():
     cfg['trace']=a.trace;c=Config(**cfg);inputs=workload(a.pattern,c.ports,a.per_port,a.overlap,c.host_mhz,c.seed)
     s=Simulator(c,inputs);r=s.run();out=Path(a.out);out.mkdir(parents=True,exist_ok=True)
     (out/'result.json').write_text(json.dumps(r,indent=2))
-    fields=['port','addr','size','offer','accepted','lookup_start','lookup_end','ready','r_start','end']
+    fields=['port','addr','size','offer','accepted','head_since','lookup_start','lookup_end','ready','r_start','end']
     with (out/'requests.csv').open('w',newline='') as f:
         w=csv.DictWriter(f,fields,extrasaction='ignore');w.writeheader();w.writerows(s.req)
     if a.trace:(out/'events.json').write_text(json.dumps(s.log,indent=2))

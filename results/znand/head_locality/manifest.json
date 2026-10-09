@@ -1,0 +1,10 @@
+{
+  "validated_rows": 47,
+  "model_sha256": "cebec697da50ce9dba53e0681b5e06a44e9bd8096f20862a2dd5c1cac9b0a15a",
+  "runner_sha256": "dcb0250aa87502a5b62da20453a677e5b7dc6854aa4311ae1c1c1461615938c1",
+  "source_commit": "17e7d52",
+  "prior_model_sha256": "7048e367856ec7cc6750edbc26a3aac686a37adda6f8d9fb360049edbc443259",
+  "last_execution_seconds": 639.6903945000013,
+  "reference_controls_match": true,
+  "scope": "4 ports, 32 planes, shared 32MiB, QD2048/port, PF ON, seed7; core A1/A2 8192 requests/port, bypass4/8/16/32, locality and head waits0/12.16/48.64us. Frozen candidate checks B1/B2/B3 and longer A1/A2 traces."
+}

@@ -2,10 +2,25 @@
 from pathlib import Path
 from dataclasses import asdict
 from concurrent.futures import ProcessPoolExecutor,as_completed
-import csv,json,hashlib,time,argparse
-from .model import Config
-from .locality_sweep import run_case
+import csv,json,hashlib,time,argparse,math
+from .reference_model_17e7d52 import Config,Simulator,workload
 from .validate_results import validate
+
+
+def run_case(spec):
+    # Preserve the historical experiment's model and exact serialized metrics.
+    c=Config(**spec['config'])
+    sim=Simulator(c,workload(spec['pattern'],ports=4,per_port=8192,overlap=0.,host_mhz=c.host_mhz,seed=c.seed))
+    result=sim.run()
+    row={k:v for k,v in spec.items() if k!='config'}
+    row.update(asdict(c));row.update({k:v for k,v in result.items() if k not in ('counts','config')})
+    row.update({'count_'+k:v for k,v in result['counts'].items()})
+    row['host_cap_gbps']=256.
+    offer=[r['end']-r['offer'] for r in sim.req]
+    row['p99_offer_latency_us']=sorted(offer)[math.ceil(len(offer)*.99)-1]
+    row['port_completion_us']=[max(r['end'] for r in sim.req if r['port']==p)-30 for p in range(4)]
+    row['port_mean_offer_latency_us']=[sum(r['end']-r['offer'] for r in sim.req if r['port']==p)/8192 for p in range(4)]
+    return row
 
 
 def main():
@@ -14,7 +29,7 @@ def main():
     args=parser.parse_args()
     assert args.workers>0
     out=Path('results/znand/buffer_growth');out.mkdir(parents=True,exist_ok=True)
-    current_hash=hashlib.sha256(Path('znand/model.py').read_bytes()).hexdigest()
+    current_hash=hashlib.sha256(Path('znand/reference_model_17e7d52.py').read_bytes()).hexdigest()
     assert current_hash==json.loads(Path('results/znand/locality/manifest.json').read_text())['model_sha256']
     old=list(csv.DictReader(Path('results/znand/locality/sweep.csv').open()))
     specs=[]

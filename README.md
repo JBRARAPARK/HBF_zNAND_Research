@@ -131,3 +131,17 @@ python3 -m znand.run --config znand/locality_A2_32MiB.json --pattern A2 --per-po
 이번 범위에서는 32MiB·QD2,048/port가 A1/A2 모두 최고였다(118.780/118.257GB/s). 같은 QD에서 40~64MiB는 110.653/111.147GB/s로 같았다. 예약 peak가 약 34MiB이고 buffer 수락 실패가 0회이므로, 이 조건에서 40MiB 초과 공간은 성능에 기여하지 않았다. 높은 QD에서는 버퍼 부족 횟수가 감소했지만 기존 최고 처리량을 넘지 못했다. B계열도 고정 QD 비교에서 32MiB가 유리했다.
 
 [비교 보고서와 그래프](results/znand/buffer_growth/RESULTS_KO.md), [45개 원본 결과](results/znand/buffer_growth/sweep.csv), [용량별 요약](results/znand/buffer_growth/summary.csv), [버퍼 제한 확인](results/znand/buffer_growth/capacity_check.json), [후속 튜닝](docs/07_prefetch_tuning_ko.md)을 참조한다. 물리 buffer 용량과 admission 예약 한도는 결합되어 있으며, 64Plane이나 장시간 정상 상태의 최적 용량을 확정한 결과는 아니다.
+
+## 선두 요청 우선과 연속 우회 한도 평가
+
+`ca_policy=head_locality`를 추가하고, 공유 32MiB·QD2,048/port에서 우회 4/8/16/32회와 선두 대기 0/12.16/48.64μs를 비교했다. 총 47개 조건을 실행·검증했고 51개 모델 테스트가 통과했다. Port 내부 in-order는 유지한다. [결과 보고서](results/znand/head_locality/RESULTS_KO.md)와 [원본 CSV](results/znand/head_locality/sweep.csv)에 우회 한도 조정 효과와 선두 우선 기능 자체의 효과를 분리했다.
+
+실행용 프로파일은 A1에 선두 우선 ON·대기 48.64μs·우회 32회, A2/B1/B2/B3에 기존 locality·우회 32회를 적용한다. Port당 8,192개 요청에서 이전 locality·우회 8회 대비 A1은 118.780→134.339GB/s(+13.10%), A2는 118.257→135.035GB/s(+14.19%)다. B1/B2/B3도 같은 QD2,048 비교에서 각각 +17.91/+17.71/+18.08%다.
+
+선두 우선 기능만의 추가 효과는 A1에서 +4.00%, port당 16,384개 확인에서 +2.09%였다. A2의 추가 효과는 +0.31/−0.01%로 작았고 B계열에서는 성능이 크게 낮아져 선두 우선을 끈 프로파일을 제공한다. 긴 요청열에서 권장 A1/A2 프로파일은 각각 143.352/143.164GB/s다. 서로 다른 길이의 수치를 같은 조건의 개선률로 섞지 않는다.
+
+[A1 설정](results/znand/head_locality/profiles/A1.json), [A2 설정](results/znand/head_locality/profiles/A2.json), [B1](results/znand/head_locality/profiles/B1.json), [B2](results/znand/head_locality/profiles/B2.json), [B3](results/znand/head_locality/profiles/B3.json)를 해당 패턴과 함께 지정한다. 이는 개별 workload의 오프라인 설정이며 혼합 부하에 대한 자동 정책 전환은 아니다.
+
+```sh
+python3 -m znand.run --config results/znand/head_locality/profiles/A1.json --pattern A1 --per-port 8192 --out results/local/head_A1
+```

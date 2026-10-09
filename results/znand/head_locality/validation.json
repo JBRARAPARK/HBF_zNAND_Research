@@ -1,0 +1,16 @@
+{
+  "status": "passed",
+  "model_tests": 51,
+  "full_cases": 47,
+  "phase_counts": {
+    "core": 32,
+    "small_read_check": 9,
+    "long_trace_check": 6
+  },
+  "model_sha256": "cebec697da50ce9dba53e0681b5e06a44e9bd8096f20862a2dd5c1cac9b0a15a",
+  "runner_sha256": "dcb0250aa87502a5b62da20453a677e5b7dc6854aa4311ae1c1c1461615938c1",
+  "config_and_profile_audit": true,
+  "reference_controls_match": true,
+  "cli_head_timestamp_export": true,
+  "historical_45_case_resume": true
+}

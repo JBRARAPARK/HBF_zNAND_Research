@@ -1,0 +1,6 @@
+{
+  "bypass": 32,
+  "head_wait_us": 48.64,
+  "geometric_throughput_ratio": 1.1381903352419271,
+  "worst_p99_ratio": 0.7839483553726132
+}

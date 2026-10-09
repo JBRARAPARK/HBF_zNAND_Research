@@ -24,3 +24,6 @@ results/znand/locality/report_generation.log
 
 !results/znand/buffer_growth/*.png
 results/znand/buffer_growth/report_generation.log
+
+!results/znand/head_locality/*.png
+results/znand/head_locality/report_generation.log

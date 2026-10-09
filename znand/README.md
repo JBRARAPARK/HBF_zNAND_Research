@@ -131,3 +131,14 @@ python3 -m znand.diagnostics --cases 64plane_8MiB 64plane_32MiB --out results/zn
 `locality_max_bypass=8`은 가장 오래된 해당 우선순위 요청을 연속 우회할 수 있는 최대 CA 선택 횟수다. `locality_age_us=1000`을 넘게 기다린 oldest 요청도 우선한다. Busy·maintenance를 포함한 절대 응답시간 보장은 아니다. Prefetch starvation은 기존 Demand 우선 원칙의 별도 튜닝 대상이다.
 
 `python3 -m znand.locality_sweep`와 `python3 -m znand.locality_report`로 평가를 재현한다. 결과는 `results/znand/locality/`에 기록한다. 동일 실험을 중복 실행하지 않도록 진행 중인 프로세스를 먼저 확인한다. 이번 비교는 버퍼·예약 정책과 Host 입력을 그대로 유지하고 CA 선택만 바꾼다.
+
+## Locality 정책의 32~64MiB 버퍼 비교
+
+```sh
+python3 -m znand.buffer_growth --workers 8
+python3 -m znand.buffer_growth_report
+```
+
+4port·32Plane·PF ON·port당 8,192개 요청을 유지하고 공유 버퍼를 32/40/48/56/64MiB로 바꾼다. A1(4KiB stripe)과 A2(16KiB stripe)는 QD2,048/4,096/8,192를 각각 비교한다. B1/B2(4KiB stripe), B3(16KiB stripe)는 QD8,192를 고정한다. 총 45개 조건이며 동일 모델·설정의 기존 32MiB 결과 6개를 재사용한다.
+
+결과는 `results/znand/buffer_growth/`에 저장한다. 중단 후 재실행은 모델 해시와 저장된 조건을 검증하고 남은 조건만 실행한다. 여러 프로세스에서 이 실행기를 동시에 실행하지 않는다. 물리 용량과 reservation 한도는 여전히 결합된 모델이다. 처리량뿐 아니라 실제 예약 peak, 수락 실패 횟수, Long sensing 비율도 [결과 보고서](../results/znand/buffer_growth/RESULTS_KO.md)에서 확인한다.

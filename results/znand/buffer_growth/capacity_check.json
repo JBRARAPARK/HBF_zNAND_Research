@@ -1,0 +1,32 @@
+[
+  {
+    "pattern": "A1",
+    "outstanding": 2048,
+    "compared_mib": [
+      40,
+      48,
+      56,
+      64
+    ],
+    "reserved_peak_mib": 34.234375,
+    "all_have_free_capacity": true,
+    "all_without_buffer_stalls": true,
+    "all_other_saved_fields_equal": true,
+    "differing_fields": []
+  },
+  {
+    "pattern": "A2",
+    "outstanding": 2048,
+    "compared_mib": [
+      40,
+      48,
+      56,
+      64
+    ],
+    "reserved_peak_mib": 34.0625,
+    "all_have_free_capacity": true,
+    "all_without_buffer_stalls": true,
+    "all_other_saved_fields_equal": true,
+    "differing_fields": []
+  }
+]

@@ -110,7 +110,7 @@ python3 -m znand.diagnostics
 
 원래 `NAND_Prefetch_Model`의 simulator 파일은 보존했습니다. 이 비공개 저장소에는 별도 `znand/` 모듈과 실행 설정·결과를 함께 보관합니다.
 
-## Controller buffer 확대 평가 완료
+## FIFO 기준 Controller buffer 확대 평가
 
 4port·32Plane에서 공유 buffer 8/16/24/32MiB, Outstanding 2,048/4,096/8,192를 비교했다. 기존 8MiB 60개와 신규 180개, 총 240개 조건이다. A1/A2는 16MiB에서 비교 범위 내 최고 처리량을 보였고, B1/B2/B3는 8MiB가 유리했다. [비교 보고서](results/znand/buffer_expansion/RESULTS_KO.md), [원본 CSV](results/znand/buffer_expansion/sweep.csv), [후속 튜닝](docs/07_prefetch_tuning_ko.md)을 참조한다.
 
@@ -123,3 +123,11 @@ A2·32MiB의 locality 설정 재실행:
 ```sh
 python3 -m znand.run --config znand/locality_A2_32MiB.json --pattern A2 --per-port 8192 --out results/local/locality_A2_32MiB
 ```
+
+## Locality 적용 후 32~64MiB 확대 결과
+
+공유 버퍼를 8MiB 간격으로 32/40/48/56/64MiB까지 비교했다. 4port·32Plane·PF ON·port당 8,192개 요청을 유지하고, A1/A2는 QD2,048/4,096/8,192, B1/B2/B3는 QD8,192를 평가했다. 신규 39개와 동일 조건 재사용 6개, 총 45개 조건을 검증했다.
+
+이번 범위에서는 32MiB·QD2,048/port가 A1/A2 모두 최고였다(118.780/118.257GB/s). 같은 QD에서 40~64MiB는 110.653/111.147GB/s로 같았다. 예약 peak가 약 34MiB이고 buffer 수락 실패가 0회이므로, 이 조건에서 40MiB 초과 공간은 성능에 기여하지 않았다. 높은 QD에서는 버퍼 부족 횟수가 감소했지만 기존 최고 처리량을 넘지 못했다. B계열도 고정 QD 비교에서 32MiB가 유리했다.
+
+[비교 보고서와 그래프](results/znand/buffer_growth/RESULTS_KO.md), [45개 원본 결과](results/znand/buffer_growth/sweep.csv), [용량별 요약](results/znand/buffer_growth/summary.csv), [버퍼 제한 확인](results/znand/buffer_growth/capacity_check.json), [후속 튜닝](docs/07_prefetch_tuning_ko.md)을 참조한다. 물리 buffer 용량과 admission 예약 한도는 결합되어 있으며, 64Plane이나 장시간 정상 상태의 최적 용량을 확정한 결과는 아니다.

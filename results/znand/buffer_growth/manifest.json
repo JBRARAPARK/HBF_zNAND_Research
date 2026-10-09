@@ -1,0 +1,10 @@
+{
+  "validated_rows": 45,
+  "new_cases": 39,
+  "reused_cases": 6,
+  "last_execution_seconds": 757.4657207919954,
+  "model_sha256": "7048e367856ec7cc6750edbc26a3aac686a37adda6f8d9fb360049edbc443259",
+  "source_commit": "9ad9b0c9f4c9950d375ade09ba1dc0c71c7e3ef5",
+  "baseline_sha256": "5f59c772213c04c9f0ff2849d520e9b0a3409f515ca66cf664b2f99585db46cf",
+  "scope": "4 ports, 32 planes, locality, PF ON, 8192 requests/port; buffer 32/40/48/56/64MiB. A1/A2 QD 2048/4096/8192; B1/B2/B3 QD8192. Stripe A1/B1/B2=4KiB, A2/B3=16KiB."
+}

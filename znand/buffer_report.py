@@ -51,7 +51,7 @@ def main():
     lines+=['','![Buffer comparison](buffer_comparison.png)','','## 최고 조건 상세','','| 패턴 | MiB | GB/s | 분산 KiB | PF | QD/port | 실제 QD peak | p99 μs | offer 기준 평균 μs |','|---|---:|---:|---:|---|---:|---:|---:|---:|']
     for r in summary:
         lines.append(f"| {r['pattern']} | {r['buffer_mib']} | {r['bandwidth_gbps']:.3f} | {int(r['stripe'])//1024} | {r['prefetch']} | {r['outstanding']} | {r['peak_outstanding']} | {float(r['p99_latency_us']):.3f} | {float(r['mean_offer_latency_us']):.3f} |")
-    lines+=['','## 동일 조건에서 버퍼만 변경','','8MiB 최고 성능을 낸 A계열 조건을 고정한 비교다.','']
+    lines+=['','## AXI 설정을 고정한 버퍼 용량과 예약 한도의 동시 변경','','8MiB 최고 성능을 낸 A계열의 AXI·주소 설정을 고정했다. 현재 모델에서는 buffer_pages가 물리 저장 용량과 수락 시 페이지 예약 한도를 함께 결정하므로, 순수 저장 용량만의 효과를 분리한 실험은 아니다.','']
     anchor=best([r for r in select(buffer_mib=8) if r['pattern'].startswith('A')])
     lines +=[f"고정 조건: {anchor['pattern']}, stripe {int(anchor['stripe'])//1024}KiB, PF {anchor['prefetch']}, Outstanding {anchor['outstanding']}/port.",'','| MiB | GB/s | 실제 QD peak | 예약 buffer peak MiB | p99 μs |','|---|---:|---:|---:|---:|']
     for m in (8,16,24,32):
@@ -66,6 +66,11 @@ def main():
         '- 현 모델에서 처리량 중심 A계열 후보는 16MiB·QD4,096이고 B계열은 8MiB 설정을 유지해 비교하는 편이 타당하다. 실제 최적값 확정 전 admission과 Plane-local locality를 유지하는 내부 중재를 함께 평가한다.',
         '- 64MiB 및 64Plane 조합은 이번 범위에 포함하지 않았다. 사용자 요청의 16·24·32MiB 비교를 완료했으며, Word 문서의 64MiB 제안과 원격 64Plane 진단은 별도 후속 항목이다.','']
     pos=lines.index('## 해석 시 주의');lines[pos:pos]=insights
+    lines+=['','## 예약 한도를 분리한 추가 확인','',
+        '동일 A2·16KiB 분산·PF ON·QD2,048/port·8,192요청/port에서 32MiB 저장 용량을 유지하되 예약 한도를 기존 512페이지로 제한했다. 처리량은 69.282GB/s로 기존 8MiB와 일치했고, config를 제외한 모든 결과 지표와 동작 계수가 기존 8MiB CSV와 정확히 일치했다. 단, 32MiB 중 최대 8MiB만 사용하는 대조 실험이며 전체 32MiB 활용 정책을 검증한 결과는 아니다.',
+        '예약 한도도 2,048페이지로 늘린 원래 32MiB 조건은 37.083GB/s다. 8MiB→32MiB에서 sensing 횟수는 8,278→8,196회로 비슷하지만 Long 비율은 11.14%→91.81%, 평균 sensing은 3.239→11.404μs로 증가했다. 현재 CA 중재는 Demand 우선·등록 순서이며 Plane-local 연속성을 고려하지 않는다. 작은 버퍼의 수락 제한이 발행 순서를 간접적으로 제한한 효과다.',
+        '따라서 앞 절의 용량별 최고값을 하드웨어 최적 용량으로 해석하지 않는다. 물리 buffer 크기와 예약 window를 독립 변수로 분리하고 내부 주소 순서·port 공정성을 함께 비교해야 한다. Port 내부 외부 응답 순서는 계속 in-order로 유지한다.',
+        '대조 실험 원본은 [capped_32MiB.json](../buffer_causality/capped_32MiB.json)이며 `python3 -m znand.buffer_causality`로 재현한다.']
     (out/'RESULTS_KO.md').write_text('\n'.join(lines)+'\n')
     print(json.dumps(summary,ensure_ascii=False,indent=2))
 

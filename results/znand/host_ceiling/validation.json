@@ -1,0 +1,11 @@
+{
+  "status": "passed",
+  "conditions": 12,
+  "new_runs": 8,
+  "reused_controls": 4,
+  "identical_host_traces": true,
+  "static_layout_channel_offset_and_injectivity_verified": true,
+  "source_hashes_and_serialized_data_verified": true,
+  "strict_port_order_checked_in_every_run": true,
+  "sweep_sha256": "3ce59c87e7b6b202d831c9481b683860e8a8a6661f1d0a631d436c8b9efee451"
+}

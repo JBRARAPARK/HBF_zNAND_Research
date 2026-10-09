@@ -589,3 +589,13 @@ MQSim은 pinned revision의 preconditioning 매핑 할당 결과를 실제 추�
 기본 A1의 QD2,048에서 PF ON의 Host 측정 구간 이득은 약 0.42%다. PF 사전 NAND 작업 시간을 포함한 ON은 133.008GB/s로 OFF 133.772GB/s보다 낮다. 반면 긴 A1에서는 사전 시간을 포함해도 ON이 빠른 조건이 남는다. 두 측정 구간과 요청 길이를 함께 기록하고, 공통 QD cutoff를 확정하지 않는다.
 
 다음 구현 비교는 Host-only 상태에서 요청 메타데이터와 payload 예약을 분리하고, 실제 수락량과 Plane별 발행 가능한 물리 페이지 수를 관측한다. 많은 4KiB/64B 요청이 같은 16KiB 페이지를 공유할 수 있으므로 설정 QD를 NAND 병렬성으로 직접 환산하지 않는다. 동적 PF OFF/ON을 추가한다면 실제 Demand 가시성·Plane별 준비 작업·버퍼 상태에 따른 기준과 전환 시 이미 진행 중인 PF 처리 방법을 따로 검증한다. 이번 실행은 정적 ON/OFF 비교이며 자동 전환 기능은 추가하지 않았다.
+
+## Host IF 목표의 물리 가능성과 배치 비교
+
+후속 [물리 상한 검토와 12개 진단](../results/znand/host_ceiling/RESULTS_KO.md)으로 튜닝 목표를 geometry별로 구분한다. 현재 Plane 점유 규칙에서 32Plane은 최단 tR·내부 점유 제거 조건에서도 222.674GB/s다. 85% 가용률과 Short/Mid 교대를 반영한 지속 공급량 근사는 약 186.111GB/s다. 256GB/s 달성을 32Plane 스케줄러의 목표로 두지 않는다.
+
+기존 snapshot 기능으로 각 논리 주소 영역이 모든 channel을 사용하면서 각 channel 안의 별도 Plane 그룹에 놓이도록 재배치했다. 요청별 channel·offset과 물리 페이지 1:1 대응은 보존했다. PF OFF·실제 지연·in-order에서 A1/A2 전체 처리량은 32Plane 177.115/174.788GB/s, 64Plane 236.361/234.988GB/s다. 64Plane 중간 완료 구간은 약 255GB/s였지만 장시간 지속값은 아직 확정하지 않는다.
+
+이번 배치는 네 주소 영역의 균형 부하에 맞춘 정적 실험이다. Port와 channel의 고정 1:1 연결이나 runtime 미래 예측을 추가하지 않았다. 한 영역에 부하가 몰리거나 실제 L2P가 변경되는 조건에서의 성능은 남아 있다. 기존 A2 trace의 경계를 공유하는 요청 3개도 그대로 보존했다. 합성 snapshot을 MQSim 또는 실제 SSD 배치로 취급하지 않는다.
+
+다음 평가 순서는 (1) 32/64Plane별 물리 목표 결정, (2) 주소 영역 배치 효과의 장시간·다른 seed·부하 편향·L2P 민감도, (3) 동일 geometry·배치에서 예약/admission 조정으로 남은 손실 분리다. 64Plane에서는 Data turnaround 포함 상한 257.496GB/s가 Host 256GB/s에 매우 가까우므로 channel별 전송 공백도 함께 계측한다. 현재 8,192요청/port의 cold 전체 평균은 최초 준비 지연만 반영해도 Host 경로 상한이 약 245.805GB/s임을 함께 표시한다.

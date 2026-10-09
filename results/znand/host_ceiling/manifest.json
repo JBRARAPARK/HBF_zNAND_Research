@@ -1,0 +1,14 @@
+{
+  "hashes": {
+    "znand/model.py": "755f822a6b7c1f44f65117b4892078419a766d4963ad4d49931e8aa1db679baf",
+    "znand/scheduling_probe.py": "8795d7d75428cf6923aada84df1ee8bbbe29b1440918654791e980b974261cf5",
+    "znand/scheduling_sweep.py": "bbc0fad577d2992a08f9c4bb34b5032e932b2ee1822e15b0c419053e2ad0a8e9",
+    "znand/pf_qd_sweep.py": "1020ba0fb1a7cda40b89da62a2a5930807ec3b2ec1c3415daf487dcd4161cea1",
+    "znand/host_ceiling.py": "b35324cdd7dc24301e59c89d994e96ae316636344938420b4cb641acd54d6e84"
+  },
+  "reference_sha256": "4bdc9410804259e80874edfb1d5338dc2fdae9d443011303e5229578d582ae14",
+  "source_commit": "b4da695ea438c3890421d3f58e6fa8bccd7dc721",
+  "new_runs": 8,
+  "reused_controls": 4,
+  "validated_rows": 12
+}

@@ -1,0 +1,78 @@
+{
+  "host_gbps": 256.0,
+  "data_service_us": 0.25451240443126855,
+  "data_path_gbps": 257.4962903927855,
+  "required_data_busy_fraction": 0.9941890798096428,
+  "array": [
+    {
+      "planes": 32,
+      "assumption": "all_short_optimistic",
+      "tr_us": 2.0,
+      "availability": 0.85,
+      "plane_cycle_us": 2.3545124044312686,
+      "array_gbps": 189.27264904669096
+    },
+    {
+      "planes": 32,
+      "assumption": "all_short_optimistic",
+      "tr_us": 2.0,
+      "availability": 1.0,
+      "plane_cycle_us": 2.3545124044312686,
+      "array_gbps": 222.67370476081288
+    },
+    {
+      "planes": 32,
+      "assumption": "sequential_short_mid",
+      "tr_us": 2.04,
+      "availability": 0.85,
+      "plane_cycle_us": 2.3945124044312687,
+      "array_gbps": 186.110875506551
+    },
+    {
+      "planes": 32,
+      "assumption": "sequential_short_mid",
+      "tr_us": 2.04,
+      "availability": 1.0,
+      "plane_cycle_us": 2.3945124044312687,
+      "array_gbps": 218.95397118417768
+    },
+    {
+      "planes": 64,
+      "assumption": "all_short_optimistic",
+      "tr_us": 2.0,
+      "availability": 0.85,
+      "plane_cycle_us": 2.3545124044312686,
+      "array_gbps": 378.5452980933819
+    },
+    {
+      "planes": 64,
+      "assumption": "all_short_optimistic",
+      "tr_us": 2.0,
+      "availability": 1.0,
+      "plane_cycle_us": 2.3545124044312686,
+      "array_gbps": 445.34740952162576
+    },
+    {
+      "planes": 64,
+      "assumption": "sequential_short_mid",
+      "tr_us": 2.04,
+      "availability": 0.85,
+      "plane_cycle_us": 2.3945124044312687,
+      "array_gbps": 372.221751013102
+    },
+    {
+      "planes": 64,
+      "assumption": "sequential_short_mid",
+      "tr_us": 2.04,
+      "availability": 1.0,
+      "plane_cycle_us": 2.3945124044312687,
+      "array_gbps": 437.90794236835535
+    }
+  ],
+  "minimum_first_ready_us": 21.74451240443127,
+  "cold_host_bound_8192_gbps": 245.80537779513872,
+  "required_planes_short": 43.28147802263362,
+  "required_planes_short_mid": 44.01677214028068,
+  "allowed_mean_tr_64_us": 3.127087595568731,
+  "note": "Array bounds assume fresh data, full 16KiB useful payload, no page re-read, no Data queue wait. 85% is a sustained approximation, not a second discount on measured data."
+}

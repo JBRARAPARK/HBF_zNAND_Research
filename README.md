@@ -9,6 +9,8 @@
 
 높은 QD의 성능 평가는 현재 **PF 자체를 끈 Host-only 기준선**을 사용한다. [PF ON/OFF 비교와 실행 설정](results/znand/pf_qd/RESULTS_KO.md)에 같은 조건의 결과를 제공한다. 과거 PF ON 프로파일은 대조군으로 보존한다.
 
+Host IF 목표는 geometry별로 구분한다. **32Plane은 현재 모델의 신규 데이터 공급량으로 256GB/s 달성이 불가능하고, 64Plane은 배치 변경으로 근접할 여지가 있다.** [물리 상한과 12개 비교 결과](results/znand/host_ceiling/RESULTS_KO.md)에 계산·실행 근거를 정리했다.
+
 ## Mac에서 빠르게 실행
 
 Python 3.10 이상과 Git이 있는 Mac에서 저장소를 내려받은 뒤 실행합니다. 수치 모델에는 외부 Python 패키지가 필요하지 않습니다.
@@ -85,6 +87,7 @@ bash scripts/macos.sh diagnostics
 | 2026-10-10 | 컨트롤러 스케줄링 적용점 통합 문서 추가: FIFO/locality/head_locality, 우회 제한 동작, 프로파일과 기존 실험 근거 정리 |
 | 2026-10-10 | 버퍼×QD·제한적 연속 PF·NAND Data 선두 우선 92개 신규 실험, 상태별 버퍼 계측, 추가 조건 검증과 테스트 63개. 기존 실행용 프로파일 유지 |
 | 2026-10-10 | PF 자체 ON/OFF의 QD별 비교 28개 조건(신규 18개·대조군 재사용 10개), Host-only 성능 기준선과 프로파일 분리 |
+| 2026-10-10 | Host IF 물리 상한 검토, 정적 주소 영역별 Plane 배치와 물리 가정 진단 12개 조건(신규 8개·대조군 4개). 실제 지연의 64Plane에서 전체 235~236GB/s와 중간 구간 약 255GB/s 관측 |
 
 ## 실행 가능한 모델과 결과
 
@@ -174,3 +177,13 @@ python3 -m znand.run --config results/znand/head_locality/profiles/A1.json --pat
 ```sh
 python3 -m znand.run --config results/znand/pf_qd/profiles/A1_host_only.json --pattern A1 --per-port 8192 --out results/local/A1_host_only
 ```
+
+## Host IF 목표와 정적 배치의 효과
+
+현재 모델은 Plane을 CA부터 NAND Data 전송 완료까지 점유한다. 모든 tR가 최단 2μs여도 32Plane의 공급량은 내부 점유가 없을 때 222.674GB/s, 가용률 85% 근사는 189.273GB/s다. Short/Mid 교대를 반영하면 약 186.111GB/s다. 따라서 32Plane에서 256GB/s는 스케줄러 개선만으로 달성할 수 없다.
+
+실제 지연값·85% 가용률·PF OFF·in-order를 유지하고, 각 주소 영역을 모든 channel에 걸친 별도 Plane 그룹에 배치했다. A1/A2 전체 처리량은 32Plane에서 **177.115/174.788GB/s**, 64Plane에서 **236.361/234.988GB/s**였다. 64Plane의 중간 완료 구간은 255.475/255.041GB/s다. 같은 배치의 발행 정책만 바꾼 실험이 아니라 정적 L2P/배치 비교이며, 네 영역의 균형 부하라는 조건을 가진다.
+
+이번 요청 길이에서는 최초 데이터 준비 21.7445μs를 포함해도 전체 평균의 Host 경로 상한이 약 245.805GB/s다. Cold 전체 평균과 장시간 지속 256GB/s를 구분한다. NAND Data 경로 상한도 turnaround 포함 257.496GB/s여서 지속 256에는 약 99.42% 활용이 필요하다.
+
+[상한 계산과 결과 보고서](results/znand/host_ceiling/RESULTS_KO.md), [12개 CSV](results/znand/host_ceiling/sweep.csv), [검증](results/znand/host_ceiling/validation.json), [진단용 배치와 프로파일](results/znand/host_ceiling/profiles/)을 제공한다. 기존 실행용 설정은 유지하며 장시간·다른 seed·주소 편향·실제 L2P 상태 검증 전에는 이 배치를 범용 설정으로 채택하지 않는다.

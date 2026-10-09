@@ -1,0 +1,11 @@
+{
+  "validated_rows": 4,
+  "hashes": {
+    "znand/model.py": "755f822a6b7c1f44f65117b4892078419a766d4963ad4d49931e8aa1db679baf",
+    "znand/scheduling_probe.py": "8795d7d75428cf6923aada84df1ee8bbbe29b1440918654791e980b974261cf5",
+    "znand/scheduling_sweep.py": "bbc0fad577d2992a08f9c4bb34b5032e932b2ee1822e15b0c419053e2ad0a8e9",
+    "znand/scheduling_interaction.py": "078587930a8dabea117233cf1501f57c381f44dd9b51824c20412b2bcade8636"
+  },
+  "reference_controls_match": true,
+  "purpose": "Additional A1 PF-OFF factorial to separate PF/Data interaction. Primary 86-case selection remains frozen."
+}

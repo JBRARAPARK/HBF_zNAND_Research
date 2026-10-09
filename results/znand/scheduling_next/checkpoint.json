@@ -1,0 +1,14 @@
+{
+  "hashes": {
+    "znand/model.py": "755f822a6b7c1f44f65117b4892078419a766d4963ad4d49931e8aa1db679baf",
+    "znand/scheduling_probe.py": "8795d7d75428cf6923aada84df1ee8bbbe29b1440918654791e980b974261cf5",
+    "znand/scheduling_sweep.py": "bbc0fad577d2992a08f9c4bb34b5032e932b2ee1822e15b0c419053e2ad0a8e9"
+  },
+  "rules": {
+    "stage_a": "Max throughput with offer p99 <= 1.05x the original profile; tie: lower p99, buffer, QD.",
+    "stage_b": "Per-pattern PF budget maximizing geometric throughput across accuracy 1/.75/.5; all ratios >= .98 and p99 ratios <= 1.05. Zero budget is included.",
+    "stage_c": "Max throughput among CA head OFF/ON x Data head OFF/ON, p99 <= 1.05x the stage-B baseline. Tie prefers the baseline, then simpler policy.",
+    "checks": "Freeze candidate before long traces, seeds, remap, port counts, B patterns and 64Plane. Report paired regressions; do not retune on checks."
+  },
+  "source_commit": "a7ac8f6d9eeb4270bd9e1266d1058a2a7d785b2c"
+}

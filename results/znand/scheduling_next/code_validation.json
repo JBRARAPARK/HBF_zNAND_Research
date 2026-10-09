@@ -1,0 +1,24 @@
+{
+  "status": "passed",
+  "model_tests": 63,
+  "command": [
+    "/opt/homebrew/opt/python@3.14/bin/python3.14",
+    "-m",
+    "unittest",
+    "test_znand",
+    "test_znand_expansion",
+    "test_znand_locality",
+    "test_znand_head",
+    "test_znand_scheduling",
+    "-q"
+  ],
+  "hashes": {
+    "znand/model.py": "755f822a6b7c1f44f65117b4892078419a766d4963ad4d49931e8aa1db679baf",
+    "znand/scheduling_probe.py": "8795d7d75428cf6923aada84df1ee8bbbe29b1440918654791e980b974261cf5",
+    "test_znand.py": "d1a2f4d7dc7d129de2c5bfaa58141a5e148fad844a02fa7f43d5b24255cb494d",
+    "test_znand_expansion.py": "55b93c0b95ca09ddd23ee22ef052b940db38c9f8735dadd30c47f1dcac295352",
+    "test_znand_locality.py": "6fbce6a64ca3f5b5503d3e81e7ac60772bb1f7e4107ba3b442ce801d03a69216",
+    "test_znand_head.py": "b51d95a59b781946e23f951c6560a26b10942e3ebf5a09b0cd0e6300428d6ea6",
+    "test_znand_scheduling.py": "cb33bc2a1ac1bd1a95f53ab77722fce8610f714abd4a22622e123c5a5bb342a9"
+  }
+}

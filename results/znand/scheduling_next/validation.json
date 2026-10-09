@@ -1,0 +1,20 @@
+{
+  "status": "passed",
+  "new_runs": 92,
+  "reused_data_long_controls": 2,
+  "model_tests": 63,
+  "exact_historical_controls": 4,
+  "frozen_selection_and_profile_audit": true,
+  "csv_json_and_case_audit": true,
+  "buffer_integral_and_long_classification_audit": true,
+  "hashes": {
+    "znand/model.py": "755f822a6b7c1f44f65117b4892078419a766d4963ad4d49931e8aa1db679baf",
+    "znand/scheduling_probe.py": "8795d7d75428cf6923aada84df1ee8bbbe29b1440918654791e980b974261cf5",
+    "znand/scheduling_sweep.py": "bbc0fad577d2992a08f9c4bb34b5032e932b2ee1822e15b0c419053e2ad0a8e9",
+    "znand/scheduling_interaction.py": "078587930a8dabea117233cf1501f57c381f44dd9b51824c20412b2bcade8636",
+    "znand/scheduling_data_long.py": "eaa57f210dee73e951a8b26d00d77fb515fbb78b64bb112e550d24f5df3eb746",
+    "znand/scheduling_report.py": "3ca0785849714ecad9a49bccef115d39baade27dd9d9a468bcd0523996e855f7",
+    "znand/validate_scheduling.py": "cc830e95a82701b187b93f9c981a371aa32f81dbfce52bfb0c06905abf8fa0cd"
+  },
+  "all_results_sha256": "f366f73ffb61e8ac391c520748ee0118380386f0f8158395c73ef8f1da8d9e4a"
+}

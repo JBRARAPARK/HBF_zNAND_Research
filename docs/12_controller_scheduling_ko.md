@@ -4,6 +4,8 @@
 
 현재 실행용 설정은 **A1: `head_locality`·우회 32회·선두 대기 48.64μs**, **A2/B1/B2/B3: `locality`·우회 32회**다. 모델 기본값은 재현성을 위해 `fifo`로 남아 있으므로, 아래 프로파일을 명시해야 이 설정이 적용된다.
 
+이 문서는 `b5c195b` 시점의 기준 정책과 결과를 보존한다. 이후 추가한 PF 제한 우선·NAND Data 선두 우선 및 자원 재평가는 [후속 적용과 튜닝](13_controller_followup_ko.md), [단계별 결과](../results/znand/scheduling_next/RESULTS_KO.md)를 따른다. 아래 후속 후보 중 Data 중재 변경은 이 추가 평가에서 구현했다.
+
 - 정리일: 2026-10-10, Asia/Seoul
 - 구현 기준: [`znand/model.py`](../znand/model.py), 커밋 `b5c195b`
 - 모델 SHA-256: `cebec697da50ce9dba53e0681b5e06a44e9bd8096f20862a2dd5c1cac9b0a15a`

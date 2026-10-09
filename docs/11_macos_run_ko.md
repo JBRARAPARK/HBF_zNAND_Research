@@ -24,8 +24,8 @@ bash scripts/macos.sh diagnostics
 
 | 명령 | 수행 내용 | 결과 |
 |---|---|---|
-| `bash scripts/macos.sh check` | 주소 기반 모델 테스트 51개 | 터미널 통과/실패 |
-| `bash scripts/macos.sh smoke` | 테스트 51개 + 32/64Plane의 명시적 spawn 병렬 실행을 직렬 실행과 비교 | 2개 짧은 검증, 설정·CSV·manifest |
+| `bash scripts/macos.sh check` | 주소 기반 모델 테스트 63개 | 터미널 통과/실패 |
+| `bash scripts/macos.sh smoke` | 테스트 63개 + 32/64Plane의 명시적 spawn 병렬 실행을 직렬 실행과 비교 | 2개 짧은 검증, 설정·CSV·manifest |
 | `bash scripts/macos.sh diagnostics` | 같은 A2 부하의 Buffer·tR·maintenance·32/64Plane 진단 6개 | 상세 JSON, CSV, 설정, 모델 해시와 검증 기록 |
 | `bash scripts/macos.sh replay A2` | 기존 관측 최고 설정, port당 8,192개 요청 | 결과 JSON과 요청별 trace |
 | `bash scripts/macos.sh layout` | 8/16Plane 주소 배치 비교 | Mac 기본 브라우저에서 로컬 그림 열기 |

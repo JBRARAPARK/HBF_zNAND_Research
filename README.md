@@ -17,7 +17,7 @@ bash scripts/macos.sh smoke
 bash scripts/macos.sh diagnostics
 ```
 
-스크립트가 프로젝트 `.venv`를 사용하고 결과는 매번 `results/local/` 아래 새 폴더에 저장합니다. `smoke`는 테스트 51개와 Mac 방식의 spawn 병렬 실행을 확인하며, `diagnostics`가 실제 6개 추가 실험을 재현합니다. 처음 내려받는 절차, Python 선택, A2 재실행과 그래프 생성은 [Mac 실행 안내](docs/11_macos_run_ko.md)를 따릅니다.
+스크립트가 프로젝트 `.venv`를 사용하고 결과는 매번 `results/local/` 아래 새 폴더에 저장합니다. `smoke`는 테스트 63개와 Mac 방식의 spawn 병렬 실행을 확인하며, `diagnostics`가 실제 6개 추가 실험을 재현합니다. 처음 내려받는 절차, Python 선택, A2 재실행과 그래프 생성은 [Mac 실행 안내](docs/11_macos_run_ko.md)를 따릅니다.
 
 ## 먼저 읽을 내용
 
@@ -33,7 +33,8 @@ bash scripts/macos.sh diagnostics
 10. [Google 문의 답변용 모델 자료](docs/10_google_model_answers_ko.md): 기존 1,488개 실험 기준 최대 성능, A2 설명, 질문별 답변 가능 범위와 영문 초안.
 11. [Mac 실행과 후속 분석](docs/11_macos_run_ko.md): 가상환경, 32/64Plane 재현, spawn 확인, 그래프와 전체 평가 실행.
 12. [컨트롤러 스케줄링 적용점](docs/12_controller_scheduling_ko.md): CA 선택 위치, 연속 주소·선두 우선, 우회 계수, 버퍼·순서 제약, 현재 프로파일과 성능 근거.
-13. [출처 및 검토 범위](sources/README.md): 공개 문서, 모델 소스, 이미지 출처, 증거 수준.
+13. [컨트롤러 후속 스케줄링과 튜닝](docs/13_controller_followup_ko.md): 버퍼×QD 재평가, 제한적 연속 PF 우선, NAND Data 선두 우선, 상태별 버퍼 계측.
+14. [출처 및 검토 범위](sources/README.md): 공개 문서, 모델 소스, 이미지 출처, 증거 수준.
 
 ## 현재 논의의 핵심
 
@@ -80,6 +81,7 @@ bash scripts/macos.sh diagnostics
 | 2026-10-09 | Google 문의용 보고서 본문 정리, Host IF 병목 진단 6개, 채널당 16Plane 지원과 배치 설명, 확장 회귀 테스트 7개 추가 |
 | 2026-10-09 | Mac 가상환경·실행 스크립트, spawn 병렬 확인, 로컬 결과 분리, 보고서와 상위 QD 실행의 출력 경로 옵션 추가 |
 | 2026-10-10 | 컨트롤러 스케줄링 적용점 통합 문서 추가: FIFO/locality/head_locality, 우회 제한 동작, 프로파일과 기존 실험 근거 정리 |
+| 2026-10-10 | 버퍼×QD·제한적 연속 PF·NAND Data 선두 우선 92개 신규 실험, 상태별 버퍼 계측, 추가 조건 검증과 테스트 63개. 기존 실행용 프로파일 유지 |
 
 ## 실행 가능한 모델과 결과
 
@@ -149,3 +151,11 @@ python3 -m znand.run --config znand/locality_A2_32MiB.json --pattern A2 --per-po
 ```sh
 python3 -m znand.run --config results/znand/head_locality/profiles/A1.json --pattern A1 --per-port 8192 --out results/local/head_A1
 ```
+
+## 버퍼·QD 재평가와 PF·Data 후속 실험
+
+신규 92개 조건과 모델 테스트 63개를 검증했다. [결과 보고서](results/znand/scheduling_next/RESULTS_KO.md), [통합 CSV](results/znand/scheduling_next/all_results.csv), [검증 기록](results/znand/scheduling_next/validation.json), [구현·튜닝 문서](docs/13_controller_followup_ko.md)를 함께 제공한다.
+
+**기존 실행용 프로파일을 유지한다.** 32Plane의 버퍼 32/40/48MiB × QD1,024/2,048/4,096 비교에서는 32MiB·QD2,048/port가 A1/A2 모두 최고였다(134.339/135.035GB/s). 제한적 PF 우선 후보의 작은 평균 이득은 seed·주소 재배치 조건에서 유지되지 않았다. NAND Data 선두 우선도 A1의 긴 요청열에서 143.352→140.442GB/s로 낮아져 기본 OFF를 유지한다.
+
+상태 계측에서 평균 예약 대기 약 14MiB와 ready 약 13MiB가 버퍼 점유의 대부분이었다. 다음 구현 후보는 요청 정보와 payload 예약을 분리하고 발행 범위를 조절하는 방식이다. 이번에는 그 변경을 구현하지 않았다. A1/A2의 기존 정책을 64Plane에 적용한 결과는 186.803/191.508GB/s였으며, 이는 geometry 확장 효과로 별도 해석한다.

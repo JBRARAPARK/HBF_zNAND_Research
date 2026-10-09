@@ -52,12 +52,23 @@ class Config:
     locality_max_bypass: int = 8
     locality_age_us: float = 1000.
     head_wait_us: float = 12.16
+    # Optional, bounded same-plane sequential PF before an issuable Demand.
+    pf_ahead_limit: int = 0
+    pf_head_wait_us: float = 48.64
+    data_policy: str = 'ready'
+    data_head_wait_us: float = 0.
+    data_age_us: float = 1000.
 
     def validate(self):
         assert self.ca_policy in ('fifo', 'locality', 'head_locality')
         assert isinstance(self.locality_max_bypass,int) and self.locality_max_bypass > 0
         assert math.isfinite(self.locality_age_us) and self.locality_age_us >= 0
         assert math.isfinite(self.head_wait_us) and self.head_wait_us >= 0
+        assert isinstance(self.pf_ahead_limit, int) and self.pf_ahead_limit >= 0
+        assert self.pf_ahead_limit == 0 or self.ca_policy != 'fifo'
+        assert self.data_policy in ('ready', 'head')
+        assert all(math.isfinite(v) and v >= 0 for v in
+                   (self.pf_head_wait_us, self.data_head_wait_us, self.data_age_us))
         assert 1 <= self.ports <= 4 and self.channels == 4
         assert isinstance(self.planes, int) and self.planes in (8, 16)
         assert self.stripe in (4096, 16384)
@@ -181,6 +192,7 @@ class Simulator:
         self.next_ar=[0.]*c.ports;self.rb=[False]*c.ports;self.peak=[0]*c.ports
         self.ca=[False]*c.channels;self.data=[False]*c.channels
         self.locality_bypasses=Counter()
+        self.pf_ahead_bypasses=Counter()
         self.plane={ (ch,pl):dict(busy=False,last=None,pb=None,off=False,pending=0) for ch in range(c.channels) for pl in range(c.planes)}
         self.cb=[0.]*c.channels;self.db=[0.]*c.channels
         self.channel_data=[0]*c.channels;self.first_nand=None
@@ -295,15 +307,19 @@ class Simulator:
         Busy/in-flight pages are never preempted. A shared page uses the oldest
         qualifying head's timestamp; no future or unaccepted requests are read.
         """
+        return self.head_pages({'waiting'}, self.c.head_wait_us)
+
+    def head_pages(self, states, wait_us):
+        """Looked-up, currently unserved port heads in the requested page states."""
         heads={}
         for port,queue in enumerate(self.fifo):
             if not queue or self.rb[port]:continue
             r=self.req[queue[0]]
             if not r['lookup']:continue
             since=max(r['head_since'],r['lookup_end'])
-            if self.now-since+EPS < self.c.head_wait_us:continue
+            if self.now-since+EPS < wait_us:continue
             key=r['key']
-            if self.items[key]['state']!='waiting':continue
+            if self.items[key]['state'] not in states:continue
             rank=(since,port)
             if key not in heads or rank<heads[key]:heads[key]=rank
         return heads
@@ -331,6 +347,7 @@ class Simulator:
         planes={}
         for x in available:planes.setdefault(x['key'][:2],[]).append(x)
         urgent=self.urgent_heads() if self.c.ca_policy=='head_locality' else {}
+        pf_protected=self.head_pages({'waiting'}, self.c.pf_head_wait_us) if self.c.pf_ahead_limit else {}
         best={};decisions={};choices={}
         for key,items in planes.items():
             plane=self.plane[key]
@@ -355,6 +372,17 @@ class Simulator:
                 if local:
                     selected=min(local,key=lambda item:item[:2])[2]
                     if selected is not oldest:reason='locality'
+                # Only an already-eligible q+1 PF may cross the Demand tier.
+                # Local Demand, age/count guards and urgent heads stay ahead.
+                if (not local and demand and self.c.pf_ahead_limit
+                        and self.pf_ahead_bypasses[key] < self.c.pf_ahead_limit
+                        and not any(x['key'] in pf_protected for x in demand)
+                        and plane['last'] is not None):
+                    adjacent_pf=[x for x in items if x.get('pf', False) and not self.demand(x)
+                                 and x['key'][2] == plane['last']+1
+                                 and address(x['key'][2])[0] == address(plane['last'])[0]]
+                    if adjacent_pf:
+                        selected=min(adjacent_pf, key=lambda x:x['seq']);reason='pf_ahead'
             rank=(not bool(demand),oldest['seq'])
             ch=key[0]
             choices.setdefault(ch,[]).append((rank,selected,key,selected is not oldest,reason))
@@ -382,6 +410,9 @@ class Simulator:
                 plane_key,bypassed,reason=decisions[ch]
                 if bypassed:self.locality_bypasses[plane_key]+=1
                 else:self.locality_bypasses[plane_key]=0
+                if self.c.pf_ahead_limit:
+                    if reason=='pf_ahead':self.pf_ahead_bypasses[plane_key]+=1
+                    else:self.pf_ahead_bypasses[plane_key]=0
                 self.count['ca_selection_'+reason]+=1
             key=x['key'];plane=self.plane[key[:2]]
             hit=plane['pb']==key[2]
@@ -394,19 +425,34 @@ class Simulator:
             self.count['page_buffer_hits' if hit else 'sensing_reads']+=1
             if x['pf']:self.count['prefetch_started']+=1
             self.trace('ca_start',key=key,page_buffer_hit=hit,duration=duration)
-        best={}
+        best,reasons=self.data_candidates()
+        for ch,(_,x) in best.items():
+            if self.c.data_policy=='head':self.count['data_selection_'+reasons[ch]]+=1
+            self.data[ch]=True;x['state']='transfer'
+            dur=PAGE/(c.io_gbps*1000)+c.turnaround_us
+            self.db[ch]+=dur;self.channel_data[ch]+=PAGE
+            self.event(self.now+dur,'transferred',x['key'])
+            self.trace('data_start',key=x['key'],duration=dur)
+
+    def data_candidates(self):
+        best={};reasons={};options={}
         for x in self.items.values():
             if x['state']!='sensed':continue
             ch=x['key'][0]
             if self.data[ch]:continue
             rank=(not self.demand(x),x['transfer_ready'],x['seq'])
             if ch not in best or rank<best[ch][0]:best[ch]=(rank,x)
-        for ch,(_,x) in best.items():
-            self.data[ch]=True;x['state']='transfer'
-            dur=PAGE/(c.io_gbps*1000)+c.turnaround_us
-            self.db[ch]+=dur;self.channel_data[ch]+=PAGE
-            self.event(self.now+dur,'transferred',x['key'])
-            self.trace('data_start',key=x['key'],duration=dur)
+            if self.c.data_policy=='head':options.setdefault(ch,[]).append((rank,x))
+        if self.c.data_policy=='head':
+            heads=self.head_pages({'sensed'},self.c.data_head_wait_us)
+            for ch,candidates in options.items():
+                aged=[o for o in candidates if not o[0][0] and self.now-o[1]['transfer_ready'] >= self.c.data_age_us]
+                urgent=[o for o in candidates if o[1]['key'] in heads]
+                if aged:best[ch]=min(aged,key=lambda o:o[0]);reasons[ch]='age'
+                elif urgent:
+                    best[ch]=min(urgent,key=lambda o:(heads[o[1]['key']],o[0]));reasons[ch]='head'
+                else:reasons[ch]='ready'
+        return best,reasons
 
     def return_data(self):
         c=self.c

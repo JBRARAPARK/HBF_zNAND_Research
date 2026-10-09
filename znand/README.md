@@ -4,6 +4,10 @@
 
 현재 CA 정책의 적용 위치·선택 순서·우회 계수·패턴별 실행 설정은 [컨트롤러 스케줄링 적용점](../docs/12_controller_scheduling_ko.md)을 따른다. 아래 구현 기준 표의 `fifo`·8MiB 등 기본값과 평가 프로파일을 구분한다.
 
+추가 옵션인 제한적 연속 PF 우선과 NAND Data 선두 우선은 [후속 스케줄링과 튜닝](../docs/13_controller_followup_ko.md)에 정리했다. 새 옵션의 기본값은 OFF이며, 단계별 비교는 `python3 -m znand.scheduling_sweep --workers 6`으로 실행한다. 과거 실험의 모델 해시가 다른 checkpoint는 이어 쓰지 않고 별도 `--out` 경로를 지정한다.
+
+[92개 후속 실험 결과](../results/znand/scheduling_next/RESULTS_KO.md)에 따라 기존 패턴별 실행 프로파일을 유지한다. 새 PF/Data 정책은 opt-in 실험 옵션이다. `python3 -m znand.validate_scheduling`으로 결과·설정·선택 규칙·소스 해시를 함께 확인한다. 원본 모델의 기본값과 실험용 프로파일은 구분한다.
+
 ## 실행
 
 Mac에서는 저장소 루트에서 `bash scripts/macos.sh setup`, `bash scripts/macos.sh smoke`, `bash scripts/macos.sh diagnostics`를 순서대로 실행한다. Python 3.10 이상을 사용하며 스크립트가 `.venv`를 직접 선택한다. 새 결과는 `results/local/`에 저장한다. 그래프는 `setup --plots` 후 `report`, 주소 배치는 `layout`으로 연다. 상세 절차는 [Mac 실행 안내](../docs/11_macos_run_ko.md)를 따른다.

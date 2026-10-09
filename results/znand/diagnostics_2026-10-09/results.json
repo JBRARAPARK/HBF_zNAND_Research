@@ -1,0 +1,1938 @@
+[
+  {
+    "requests": 16384,
+    "host_bytes": 67108864,
+    "elapsed_us": 928.6485620220328,
+    "bandwidth_gbps": 72.26508147913096,
+    "inclusive_prefetch_gbps": 71.4951971539107,
+    "middle_bandwidth_gbps": 103.2249223504847,
+    "mean_latency_us": 102.95596692736079,
+    "p95_latency_us": 204.89123906048837,
+    "p99_latency_us": 233.86778530192115,
+    "mean_offer_latency_us": 418.5964086529677,
+    "mean_return_wait_us": 70.04967252557202,
+    "buffer_peak_pages": 512,
+    "peak_outstanding": 2048,
+    "leftover_prefetch_pages": 0,
+    "channel_nand_bytes": [
+      16990208,
+      16973824,
+      16973824,
+      16973824
+    ],
+    "channel_ca_busy_us": [
+      103.69999999999838,
+      103.59999999999839,
+      103.59999999999839,
+      103.59999999999839
+    ],
+    "channel_data_busy_us": [
+      263.9293633952251,
+      263.6748509907938,
+      263.6748509907938,
+      263.6748509907938
+    ],
+    "actual_unavailable_fraction": 0.15063869002818697,
+    "mean_lookup_queue_us": 0.0009578105259052004,
+    "mean_data_wait_us": 32.34133659126288,
+    "mean_admission_wait_us": 315.6404417256069,
+    "max_inflight_host_bytes": 8388608,
+    "counts": {
+      "prefetch_candidates": 4096,
+      "sensing_reads": 4145,
+      "prefetch_started": 457,
+      "tr_first": 32,
+      "prefetch_dropped_budget": 96,
+      "merged_at_accept": 12696,
+      "prefetch_useful_pages": 424,
+      "nand_bytes": 67911680,
+      "tr_long": 747,
+      "released_pages": 4112,
+      "prefetch_dropped_buffer": 3543,
+      "buffer_admission_stalls": 237303,
+      "tr_short": 1722,
+      "tr_mid": 1644,
+      "prefetch_evicted": 33
+    },
+    "config": {
+      "ports": 4,
+      "channels": 4,
+      "planes": 8,
+      "stripe": 16384,
+      "outstanding": 2048,
+      "buffer_pages": 512,
+      "ca_us": 0.1,
+      "output_ca_us": 0.1,
+      "io_gbps": 80.1125,
+      "turnaround_us": 0.05,
+      "ecc_us": 0.2,
+      "lookup_us": 0.5,
+      "lookup_clock_mhz": 500.0,
+      "lookup_pipelines": 2,
+      "lookup_slots": 500,
+      "host_bits": 512,
+      "host_mhz": 1000.0,
+      "first_us": 20.69,
+      "short_us": 2.0,
+      "mid_us": 2.08,
+      "long_us": 12.16,
+      "group_us": 20.69,
+      "availability": 0.85,
+      "maintenance_period_us": 100.0,
+      "maintenance_sync": false,
+      "prefetch": true,
+      "accuracy": 1.0,
+      "lead_us": 10.0,
+      "prefetch_limit": 128,
+      "seed": 7,
+      "remap_fraction": 0.0,
+      "snapshot": "",
+      "trace": false
+    },
+    "diagnostics": {
+      "host_busy_pct": [
+        28.22854745279152,
+        28.228547452777615,
+        28.228547452771952,
+        28.228547452771892
+      ],
+      "host_idle_head_data_pct": [
+        25.891463723533946,
+        41.52448639508274,
+        56.389297231859224,
+        70.74622164712353
+      ],
+      "host_idle_no_accepted_pct": [
+        45.826147142284185,
+        30.031277300594382,
+        14.62668634393559,
+        0.0
+      ],
+      "host_idle_lookup_pct": [
+        0.05384168139035326,
+        0.2156888515452632,
+        0.7554689714332304,
+        1.0252309001045852
+      ],
+      "buffer_full_pct": 83.15128840307936,
+      "buffer_avg_reserved_pages": 470.80753137373034,
+      "buffer_avg_ready_pages": 310.20410247290755
+    },
+    "issue_order": {
+      "counts": {
+        "long_cross_port": 741,
+        "long_within_port": 6
+      },
+      "CH0_PL0_sequence": [
+        {
+          "time_us": 20.1,
+          "previous_q": null,
+          "q": 32,
+          "previous_port": null,
+          "port": 0,
+          "tr_kind": "first"
+        },
+        {
+          "time_us": 56.203383039841285,
+          "previous_q": 32,
+          "q": 64,
+          "previous_port": 0,
+          "port": 1,
+          "tr_kind": "long"
+        },
+        {
+          "time_us": 68.87240784870382,
+          "previous_q": 64,
+          "q": 96,
+          "previous_port": 1,
+          "port": 2,
+          "tr_kind": "long"
+        },
+        {
+          "time_us": 81.38692025313507,
+          "previous_q": 96,
+          "q": 128,
+          "previous_port": 2,
+          "port": 3,
+          "tr_kind": "long"
+        },
+        {
+          "time_us": 93.90143265756633,
+          "previous_q": 128,
+          "q": 34,
+          "previous_port": 3,
+          "port": 0,
+          "tr_kind": "long"
+        },
+        {
+          "time_us": 106.41594506199759,
+          "previous_q": 34,
+          "q": 66,
+          "previous_port": 0,
+          "port": 1,
+          "tr_kind": "long"
+        },
+        {
+          "time_us": 118.93045746642885,
+          "previous_q": 66,
+          "q": 98,
+          "previous_port": 1,
+          "port": 2,
+          "tr_kind": "long"
+        },
+        {
+          "time_us": 131.44496987086012,
+          "previous_q": 98,
+          "q": 130,
+          "previous_port": 2,
+          "port": 3,
+          "tr_kind": "long"
+        },
+        {
+          "time_us": 158.95948227529138,
+          "previous_q": 130,
+          "q": 33,
+          "previous_port": 3,
+          "port": 0,
+          "tr_kind": "long"
+        },
+        {
+          "time_us": 171.47399467972264,
+          "previous_q": 33,
+          "q": 65,
+          "previous_port": 0,
+          "port": 1,
+          "tr_kind": "long"
+        },
+        {
+          "time_us": 183.9885070841539,
+          "previous_q": 65,
+          "q": 97,
+          "previous_port": 1,
+          "port": 2,
+          "tr_kind": "long"
+        },
+        {
+          "time_us": 196.50301948858515,
+          "previous_q": 97,
+          "q": 129,
+          "previous_port": 2,
+          "port": 3,
+          "tr_kind": "long"
+        },
+        {
+          "time_us": 209.0175318930164,
+          "previous_q": 129,
+          "q": 35,
+          "previous_port": 3,
+          "port": 0,
+          "tr_kind": "long"
+        },
+        {
+          "time_us": 221.53204429744767,
+          "previous_q": 35,
+          "q": 67,
+          "previous_port": 0,
+          "port": 1,
+          "tr_kind": "long"
+        },
+        {
+          "time_us": 249.04655670187893,
+          "previous_q": 67,
+          "q": 99,
+          "previous_port": 1,
+          "port": 2,
+          "tr_kind": "long"
+        },
+        {
+          "time_us": 261.5610691063103,
+          "previous_q": 99,
+          "q": 131,
+          "previous_port": 2,
+          "port": 3,
+          "tr_kind": "long"
+        },
+        {
+          "time_us": 274.07558151074164,
+          "previous_q": 131,
+          "q": 36,
+          "previous_port": 3,
+          "port": 0,
+          "tr_kind": "long"
+        },
+        {
+          "time_us": 286.7716807461921,
+          "previous_q": 36,
+          "q": 68,
+          "previous_port": 0,
+          "port": 1,
+          "tr_kind": "long"
+        },
+        {
+          "time_us": 299.28619315062343,
+          "previous_q": 68,
+          "q": 37,
+          "previous_port": 1,
+          "port": 0,
+          "tr_kind": "long"
+        },
+        {
+          "time_us": 311.8007055550548,
+          "previous_q": 37,
+          "q": 38,
+          "previous_port": 0,
+          "port": 0,
+          "tr_kind": "mid"
+        }
+      ],
+      "ports": [
+        {
+          "port": 0,
+          "last_return_us": 533.0847055551098,
+          "mean_admission_us": 81.26739001020294,
+          "mean_return_wait_us": 77.56980249598442,
+          "idle_while_later_ready_us": 229.69619315062297,
+          "idle_while_later_ready_pct": 24.73445849638577
+        },
+        {
+          "port": 1,
+          "last_return_us": 679.7635372132139,
+          "mean_admission_us": 261.8201965791695,
+          "mean_return_wait_us": 68.14730632522483,
+          "idle_while_later_ready_us": 268.75142175065776,
+          "idle_while_later_ready_pct": 28.94005684620674
+        },
+        {
+          "port": 2,
+          "last_return_us": 822.8180496176019,
+          "mean_admission_us": 396.56727798035865,
+          "mean_return_wait_us": 68.35960809037846,
+          "idle_while_later_ready_us": 204.00373568420068,
+          "idle_while_later_ready_pct": 21.967808278301145
+        },
+        {
+          "port": 3,
+          "last_return_us": 958.6485620220328,
+          "mean_admission_us": 522.9069023326965,
+          "mean_return_wait_us": 66.12197319070039,
+          "idle_while_later_ready_us": 205.8841984709066,
+          "idle_while_later_ready_pct": 22.170302834757617
+        }
+      ]
+    },
+    "case": "baseline_8MiB",
+    "runtime_seconds": 14.27095708700108
+  },
+  {
+    "requests": 16384,
+    "host_bytes": 67108864,
+    "elapsed_us": 1808.0631249805078,
+    "bandwidth_gbps": 37.11643862031835,
+    "inclusive_prefetch_gbps": 36.912284880493075,
+    "middle_bandwidth_gbps": 38.70961309270591,
+    "mean_latency_us": 666.027019947516,
+    "p95_latency_us": 931.4122671307592,
+    "p99_latency_us": 942.4513310968973,
+    "mean_offer_latency_us": 831.4902458838434,
+    "mean_return_wait_us": 35.920844524545664,
+    "buffer_peak_pages": 2048,
+    "peak_outstanding": 2048,
+    "leftover_prefetch_pages": 0,
+    "channel_nand_bytes": [
+      16777216,
+      16777216,
+      16777216,
+      16777216
+    ],
+    "channel_ca_busy_us": [
+      102.39999999999846,
+      102.39999999999846,
+      102.39999999999846,
+      102.39999999999846
+    ],
+    "channel_data_busy_us": [
+      260.62070213761825,
+      260.62070213761825,
+      260.62070213761825,
+      260.62070213761825
+    ],
+    "actual_unavailable_fraction": 0.15021039156963373,
+    "mean_lookup_queue_us": 0.0005155187507592009,
+    "mean_data_wait_us": 629.5416599042195,
+    "mean_admission_wait_us": 165.46322593632738,
+    "max_inflight_host_bytes": 8388608,
+    "counts": {
+      "prefetch_candidates": 4096,
+      "sensing_reads": 4096,
+      "prefetch_started": 1788,
+      "tr_first": 32,
+      "prefetch_dropped_budget": 416,
+      "merged_at_accept": 14076,
+      "prefetch_useful_pages": 1788,
+      "nand_bytes": 67108864,
+      "tr_long": 3744,
+      "released_pages": 4096,
+      "prefetch_dropped_buffer": 1892,
+      "buffer_admission_stalls": 67013,
+      "tr_short": 167,
+      "tr_mid": 153
+    },
+    "config": {
+      "ports": 4,
+      "channels": 4,
+      "planes": 8,
+      "stripe": 16384,
+      "outstanding": 2048,
+      "buffer_pages": 2048,
+      "ca_us": 0.1,
+      "output_ca_us": 0.1,
+      "io_gbps": 80.1125,
+      "turnaround_us": 0.05,
+      "ecc_us": 0.2,
+      "lookup_us": 0.5,
+      "lookup_clock_mhz": 500.0,
+      "lookup_pipelines": 2,
+      "lookup_slots": 500,
+      "host_bits": 512,
+      "host_mhz": 1000.0,
+      "first_us": 20.69,
+      "short_us": 2.0,
+      "mid_us": 2.08,
+      "long_us": 12.16,
+      "group_us": 20.69,
+      "availability": 0.85,
+      "maintenance_period_us": 100.0,
+      "maintenance_sync": false,
+      "prefetch": true,
+      "accuracy": 1.0,
+      "lead_us": 10.0,
+      "prefetch_limit": 128,
+      "seed": 7,
+      "remap_fraction": 0.0,
+      "snapshot": "",
+      "trace": false
+    },
+    "diagnostics": {
+      "host_busy_pct": [
+        14.498608836068962,
+        14.498608836068955,
+        14.498608836069124,
+        14.498608836069035
+      ],
+      "host_idle_head_data_pct": [
+        83.39728668396691,
+        84.08943687670792,
+        84.78158706944873,
+        85.47373726218981
+      ],
+      "host_idle_no_accepted_pct": [
+        2.0764505782229685,
+        1.384300385481979,
+        0.6921501927409895,
+        0.0
+      ],
+      "host_idle_lookup_pct": [
+        0.02765390174114581,
+        0.02765390174114581,
+        0.02765390174114581,
+        0.02765390174114581
+      ],
+      "buffer_full_pct": 49.63578307128976,
+      "buffer_avg_reserved_pages": 1521.88898888333,
+      "buffer_avg_ready_pages": 82.66327635803843
+    },
+    "issue_order": {
+      "counts": {
+        "long_cross_port": 3717,
+        "long_within_port": 27
+      },
+      "CH0_PL0_sequence": [
+        {
+          "time_us": 20.1,
+          "previous_q": null,
+          "q": 32,
+          "previous_port": null,
+          "port": 0,
+          "tr_kind": "first"
+        },
+        {
+          "time_us": 56.203383039841285,
+          "previous_q": 32,
+          "q": 64,
+          "previous_port": 0,
+          "port": 1,
+          "tr_kind": "long"
+        },
+        {
+          "time_us": 68.87240784870382,
+          "previous_q": 64,
+          "q": 96,
+          "previous_port": 1,
+          "port": 2,
+          "tr_kind": "long"
+        },
+        {
+          "time_us": 81.38692025313507,
+          "previous_q": 96,
+          "q": 128,
+          "previous_port": 2,
+          "port": 3,
+          "tr_kind": "long"
+        },
+        {
+          "time_us": 93.90143265756633,
+          "previous_q": 128,
+          "q": 34,
+          "previous_port": 3,
+          "port": 0,
+          "tr_kind": "long"
+        },
+        {
+          "time_us": 106.41594506199759,
+          "previous_q": 34,
+          "q": 66,
+          "previous_port": 0,
+          "port": 1,
+          "tr_kind": "long"
+        },
+        {
+          "time_us": 118.93045746642885,
+          "previous_q": 66,
+          "q": 98,
+          "previous_port": 1,
+          "port": 2,
+          "tr_kind": "long"
+        },
+        {
+          "time_us": 131.44496987086012,
+          "previous_q": 98,
+          "q": 130,
+          "previous_port": 2,
+          "port": 3,
+          "tr_kind": "long"
+        },
+        {
+          "time_us": 158.95948227529138,
+          "previous_q": 130,
+          "q": 33,
+          "previous_port": 3,
+          "port": 0,
+          "tr_kind": "long"
+        },
+        {
+          "time_us": 171.47399467972264,
+          "previous_q": 33,
+          "q": 65,
+          "previous_port": 0,
+          "port": 1,
+          "tr_kind": "long"
+        },
+        {
+          "time_us": 183.9885070841539,
+          "previous_q": 65,
+          "q": 97,
+          "previous_port": 1,
+          "port": 2,
+          "tr_kind": "long"
+        },
+        {
+          "time_us": 196.50301948858515,
+          "previous_q": 97,
+          "q": 129,
+          "previous_port": 2,
+          "port": 3,
+          "tr_kind": "long"
+        },
+        {
+          "time_us": 209.0175318930164,
+          "previous_q": 129,
+          "q": 35,
+          "previous_port": 3,
+          "port": 0,
+          "tr_kind": "long"
+        },
+        {
+          "time_us": 221.53204429744767,
+          "previous_q": 35,
+          "q": 67,
+          "previous_port": 0,
+          "port": 1,
+          "tr_kind": "long"
+        },
+        {
+          "time_us": 249.04655670187893,
+          "previous_q": 67,
+          "q": 99,
+          "previous_port": 1,
+          "port": 2,
+          "tr_kind": "long"
+        },
+        {
+          "time_us": 261.5610691063103,
+          "previous_q": 99,
+          "q": 131,
+          "previous_port": 2,
+          "port": 3,
+          "tr_kind": "long"
+        },
+        {
+          "time_us": 274.07558151074164,
+          "previous_q": 131,
+          "q": 36,
+          "previous_port": 3,
+          "port": 0,
+          "tr_kind": "long"
+        },
+        {
+          "time_us": 286.590093915173,
+          "previous_q": 36,
+          "q": 68,
+          "previous_port": 0,
+          "port": 1,
+          "tr_kind": "long"
+        },
+        {
+          "time_us": 299.10460631960433,
+          "previous_q": 68,
+          "q": 100,
+          "previous_port": 1,
+          "port": 2,
+          "tr_kind": "long"
+        },
+        {
+          "time_us": 311.6191187240357,
+          "previous_q": 100,
+          "q": 132,
+          "previous_port": 2,
+          "port": 3,
+          "tr_kind": "long"
+        }
+      ],
+      "ports": [
+        {
+          "port": 0,
+          "last_return_us": 1800.5195877672138,
+          "mean_admission_us": 153.96462151672935,
+          "mean_return_wait_us": 34.9177743528176,
+          "idle_while_later_ready_us": 1438.1498467626122,
+          "idle_while_later_ready_pct": 79.54090910283436
+        },
+        {
+          "port": 1,
+          "last_return_us": 1813.0341001716452,
+          "mean_admission_us": 161.81146790167327,
+          "mean_return_wait_us": 35.991430897031854,
+          "idle_while_later_ready_us": 1459.014976127202,
+          "idle_while_later_ready_pct": 80.69491357736369
+        },
+        {
+          "port": 2,
+          "last_return_us": 1825.5486125760765,
+          "mean_admission_us": 169.13565372528078,
+          "mean_return_wait_us": 36.44573170112029,
+          "idle_while_later_ready_us": 1457.4804637227678,
+          "idle_while_later_ready_pct": 80.61004306685811
+        },
+        {
+          "port": 3,
+          "last_return_us": 1838.0631249805078,
+          "mean_admission_us": 176.94116060162605,
+          "mean_return_wait_us": 36.32844114721291,
+          "idle_while_later_ready_us": 1429.1642100475178,
+          "idle_while_later_ready_pct": 79.04393327323265
+        }
+      ]
+    },
+    "case": "buffer_32MiB",
+    "runtime_seconds": 44.2858535280011
+  },
+  {
+    "requests": 16384,
+    "host_bytes": 67108864,
+    "elapsed_us": 1528.2231249805088,
+    "bandwidth_gbps": 43.913001251604484,
+    "inclusive_prefetch_gbps": 43.62752250318064,
+    "middle_bandwidth_gbps": 45.11291176748061,
+    "mean_latency_us": 557.0590660733919,
+    "p95_latency_us": 792.5447938836015,
+    "p99_latency_us": 797.5123559057602,
+    "mean_offer_latency_us": 681.3648665162964,
+    "mean_return_wait_us": 24.781845127077858,
+    "buffer_peak_pages": 2048,
+    "peak_outstanding": 2048,
+    "leftover_prefetch_pages": 0,
+    "channel_nand_bytes": [
+      16777216,
+      16777216,
+      16777216,
+      16777216
+    ],
+    "channel_ca_busy_us": [
+      102.39999999999846,
+      102.39999999999846,
+      102.39999999999846,
+      102.39999999999846
+    ],
+    "channel_data_busy_us": [
+      260.62070213761825,
+      260.62070213761825,
+      260.62070213761825,
+      260.62070213761825
+    ],
+    "actual_unavailable_fraction": 0.0,
+    "mean_lookup_queue_us": 0.00046005514241881547,
+    "mean_data_wait_us": 531.7127608911716,
+    "mean_admission_wait_us": 124.30580044290446,
+    "max_inflight_host_bytes": 8388608,
+    "counts": {
+      "prefetch_candidates": 4096,
+      "sensing_reads": 4096,
+      "prefetch_started": 1857,
+      "tr_first": 32,
+      "prefetch_dropped_budget": 448,
+      "merged_at_accept": 14145,
+      "prefetch_useful_pages": 1857,
+      "nand_bytes": 67108864,
+      "tr_long": 3728,
+      "released_pages": 4096,
+      "prefetch_dropped_buffer": 1791,
+      "buffer_admission_stalls": 50516,
+      "tr_short": 188,
+      "tr_mid": 148
+    },
+    "config": {
+      "ports": 4,
+      "channels": 4,
+      "planes": 8,
+      "stripe": 16384,
+      "outstanding": 2048,
+      "buffer_pages": 2048,
+      "ca_us": 0.1,
+      "output_ca_us": 0.1,
+      "io_gbps": 80.1125,
+      "turnaround_us": 0.05,
+      "ecc_us": 0.2,
+      "lookup_us": 0.5,
+      "lookup_clock_mhz": 500.0,
+      "lookup_pipelines": 2,
+      "lookup_slots": 500,
+      "host_bits": 512,
+      "host_mhz": 1000.0,
+      "first_us": 20.69,
+      "short_us": 2.0,
+      "mid_us": 2.08,
+      "long_us": 12.16,
+      "group_us": 20.69,
+      "availability": 1.0,
+      "maintenance_period_us": 100.0,
+      "maintenance_sync": false,
+      "prefetch": true,
+      "accuracy": 1.0,
+      "lead_us": 10.0,
+      "prefetch_limit": 128,
+      "seed": 7,
+      "remap_fraction": 0.0,
+      "snapshot": "",
+      "trace": false
+    },
+    "diagnostics": {
+      "host_busy_pct": [
+        17.15351611391349,
+        17.1535161139134,
+        17.153516113913607,
+        17.153516113914264
+      ],
+      "host_idle_head_data_pct": [
+        80.3570871094359,
+        81.17598012315027,
+        81.99487313686434,
+        82.81376615057796
+      ],
+      "host_idle_no_accepted_pct": [
+        2.4566790411428214,
+        1.6377860274285476,
+        0.8188930137142738,
+        0.0
+      ],
+      "host_idle_lookup_pct": [
+        0.032717735507789614,
+        0.032717735507789614,
+        0.032717735507789614,
+        0.032717735507789614
+      ],
+      "buffer_full_pct": 47.34403220348578,
+      "buffer_avg_reserved_pages": 1506.8069265905247,
+      "buffer_avg_ready_pages": 67.73631499222053
+    },
+    "issue_order": {
+      "counts": {
+        "long_cross_port": 3720,
+        "long_within_port": 8
+      },
+      "CH0_PL0_sequence": [
+        {
+          "time_us": 20.1,
+          "previous_q": null,
+          "q": 32,
+          "previous_port": null,
+          "port": 0,
+          "tr_kind": "first"
+        },
+        {
+          "time_us": 41.144512404431275,
+          "previous_q": 32,
+          "q": 64,
+          "previous_port": 0,
+          "port": 1,
+          "tr_kind": "long"
+        },
+        {
+          "time_us": 53.65902480886255,
+          "previous_q": 64,
+          "q": 96,
+          "previous_port": 1,
+          "port": 2,
+          "tr_kind": "long"
+        },
+        {
+          "time_us": 66.17353721329381,
+          "previous_q": 96,
+          "q": 128,
+          "previous_port": 2,
+          "port": 3,
+          "tr_kind": "long"
+        },
+        {
+          "time_us": 78.68804961772507,
+          "previous_q": 128,
+          "q": 34,
+          "previous_port": 3,
+          "port": 0,
+          "tr_kind": "long"
+        },
+        {
+          "time_us": 91.20256202215633,
+          "previous_q": 34,
+          "q": 66,
+          "previous_port": 0,
+          "port": 1,
+          "tr_kind": "long"
+        },
+        {
+          "time_us": 103.71707442658759,
+          "previous_q": 66,
+          "q": 98,
+          "previous_port": 1,
+          "port": 2,
+          "tr_kind": "long"
+        },
+        {
+          "time_us": 116.23158683101884,
+          "previous_q": 98,
+          "q": 130,
+          "previous_port": 2,
+          "port": 3,
+          "tr_kind": "long"
+        },
+        {
+          "time_us": 128.74609923545012,
+          "previous_q": 130,
+          "q": 33,
+          "previous_port": 3,
+          "port": 0,
+          "tr_kind": "long"
+        },
+        {
+          "time_us": 141.26061163988138,
+          "previous_q": 33,
+          "q": 65,
+          "previous_port": 0,
+          "port": 1,
+          "tr_kind": "long"
+        },
+        {
+          "time_us": 153.77512404431263,
+          "previous_q": 65,
+          "q": 97,
+          "previous_port": 1,
+          "port": 2,
+          "tr_kind": "long"
+        },
+        {
+          "time_us": 166.2896364487439,
+          "previous_q": 97,
+          "q": 129,
+          "previous_port": 2,
+          "port": 3,
+          "tr_kind": "long"
+        },
+        {
+          "time_us": 178.80414885317515,
+          "previous_q": 129,
+          "q": 35,
+          "previous_port": 3,
+          "port": 0,
+          "tr_kind": "long"
+        },
+        {
+          "time_us": 191.3186612576064,
+          "previous_q": 35,
+          "q": 67,
+          "previous_port": 0,
+          "port": 1,
+          "tr_kind": "long"
+        },
+        {
+          "time_us": 203.83317366203767,
+          "previous_q": 67,
+          "q": 99,
+          "previous_port": 1,
+          "port": 2,
+          "tr_kind": "long"
+        },
+        {
+          "time_us": 216.34768606646892,
+          "previous_q": 99,
+          "q": 131,
+          "previous_port": 2,
+          "port": 3,
+          "tr_kind": "long"
+        },
+        {
+          "time_us": 228.86219847090018,
+          "previous_q": 131,
+          "q": 36,
+          "previous_port": 3,
+          "port": 0,
+          "tr_kind": "long"
+        },
+        {
+          "time_us": 241.37671087533144,
+          "previous_q": 36,
+          "q": 68,
+          "previous_port": 0,
+          "port": 1,
+          "tr_kind": "long"
+        },
+        {
+          "time_us": 253.8912232797627,
+          "previous_q": 68,
+          "q": 100,
+          "previous_port": 1,
+          "port": 2,
+          "tr_kind": "long"
+        },
+        {
+          "time_us": 266.40573568419404,
+          "previous_q": 100,
+          "q": 132,
+          "previous_port": 2,
+          "port": 3,
+          "tr_kind": "long"
+        }
+      ],
+      "ports": [
+        {
+          "port": 0,
+          "last_return_us": 1520.6795877672148,
+          "mean_admission_us": 115.73365800690598,
+          "mean_return_wait_us": 24.49892840314427,
+          "idle_while_later_ready_us": 1132.5429761273085,
+          "idle_while_later_ready_pct": 74.10848308827633
+        },
+        {
+          "port": 1,
+          "last_return_us": 1533.1941001716461,
+          "mean_admission_us": 121.21194635854496,
+          "mean_return_wait_us": 24.396933277347436,
+          "idle_while_later_ready_us": 1107.0020505539135,
+          "idle_while_later_ready_pct": 72.43720059320738
+        },
+        {
+          "port": 2,
+          "last_return_us": 1545.7086125760775,
+          "mean_admission_us": 126.81641883907002,
+          "mean_return_wait_us": 24.527691542244657,
+          "idle_while_later_ready_us": 1104.6690257450205,
+          "idle_while_later_ready_pct": 72.28453801594642
+        },
+        {
+          "port": 3,
+          "last_return_us": 1558.2231249805088,
+          "mean_admission_us": 133.46117856709682,
+          "mean_return_wait_us": 25.703827285575066,
+          "idle_while_later_ready_us": 1119.165025744991,
+          "idle_while_later_ready_pct": 73.23309060378634
+        }
+      ]
+    },
+    "case": "buffer_32MiB_no_maintenance",
+    "runtime_seconds": 40.04525737700169
+  },
+  {
+    "requests": 16384,
+    "host_bytes": 67108864,
+    "elapsed_us": 368.09434826026694,
+    "bandwidth_gbps": 182.3143015294264,
+    "inclusive_prefetch_gbps": 177.4923754052113,
+    "middle_bandwidth_gbps": 187.03196984674273,
+    "mean_latency_us": 62.58532031653892,
+    "p95_latency_us": 101.8627118115212,
+    "p99_latency_us": 106.01434826026343,
+    "mean_offer_latency_us": 62.58532031653892,
+    "mean_return_wait_us": 15.993837652770631,
+    "buffer_peak_pages": 1383,
+    "peak_outstanding": 1367,
+    "leftover_prefetch_pages": 0,
+    "channel_nand_bytes": [
+      16777216,
+      16777216,
+      16777216,
+      16777216
+    ],
+    "channel_ca_busy_us": [
+      102.39999999999846,
+      102.39999999999846,
+      102.39999999999846,
+      102.39999999999846
+    ],
+    "channel_data_busy_us": [
+      260.62070213761825,
+      260.62070213761825,
+      260.62070213761825,
+      260.62070213761825
+    ],
+    "actual_unavailable_fraction": 0.1520038514642226,
+    "mean_lookup_queue_us": 0.0,
+    "mean_data_wait_us": 46.02748266376828,
+    "mean_admission_wait_us": 0.0,
+    "max_inflight_host_bytes": 5599232,
+    "counts": {
+      "prefetch_candidates": 4096,
+      "sensing_reads": 4096,
+      "prefetch_started": 3296,
+      "tr_first": 32,
+      "nand_bytes": 67108864,
+      "tr_long": 4056,
+      "prefetch_dropped_budget": 800,
+      "merged_at_accept": 15584,
+      "buffer_ready_hits": 876,
+      "prefetch_useful_pages": 3296,
+      "released_pages": 4096,
+      "tr_mid": 4,
+      "tr_short": 4
+    },
+    "config": {
+      "ports": 4,
+      "channels": 4,
+      "planes": 8,
+      "stripe": 16384,
+      "outstanding": 2048,
+      "buffer_pages": 2048,
+      "ca_us": 0.1,
+      "output_ca_us": 0.1,
+      "io_gbps": 80.1125,
+      "turnaround_us": 0.05,
+      "ecc_us": 0.2,
+      "lookup_us": 0.5,
+      "lookup_clock_mhz": 500.0,
+      "lookup_pipelines": 2,
+      "lookup_slots": 500,
+      "host_bits": 512,
+      "host_mhz": 1000.0,
+      "first_us": 2.0,
+      "short_us": 2.0,
+      "mid_us": 2.0,
+      "long_us": 2.0,
+      "group_us": 2.0,
+      "availability": 0.85,
+      "maintenance_period_us": 100.0,
+      "maintenance_sync": false,
+      "prefetch": true,
+      "accuracy": 1.0,
+      "lead_us": 10.0,
+      "prefetch_limit": 128,
+      "seed": 7,
+      "remap_fraction": 0.0,
+      "snapshot": "",
+      "trace": false
+    },
+    "diagnostics": {
+      "host_busy_pct": [
+        71.21652403493745,
+        71.21652403493766,
+        71.21652403493778,
+        71.21652403493793
+      ],
+      "host_idle_head_data_pct": [
+        26.72869374712259,
+        27.36834290651847,
+        28.007992065914443,
+        28.647641225310377
+      ],
+      "host_idle_no_accepted_pct": [
+        1.918947478188274,
+        1.2792983187921827,
+        0.6396491593960913,
+        0.0
+      ],
+      "host_idle_lookup_pct": [
+        0.13583473975168645,
+        0.13583473975168645,
+        0.13583473975168645,
+        0.13583473975168645
+      ],
+      "buffer_full_pct": 0.0,
+      "buffer_avg_reserved_pages": 786.7309445929739,
+      "buffer_avg_ready_pages": 182.52845345956942
+    },
+    "issue_order": {
+      "counts": {
+        "long_cross_port": 4038,
+        "long_within_port": 18
+      },
+      "CH0_PL0_sequence": [
+        {
+          "time_us": 20.1,
+          "previous_q": null,
+          "q": 32,
+          "previous_port": null,
+          "port": 0,
+          "tr_kind": "first"
+        },
+        {
+          "time_us": 22.45451240443127,
+          "previous_q": 32,
+          "q": 64,
+          "previous_port": 0,
+          "port": 1,
+          "tr_kind": "long"
+        },
+        {
+          "time_us": 24.80902480886254,
+          "previous_q": 64,
+          "q": 96,
+          "previous_port": 1,
+          "port": 2,
+          "tr_kind": "long"
+        },
+        {
+          "time_us": 27.163537213293807,
+          "previous_q": 96,
+          "q": 128,
+          "previous_port": 2,
+          "port": 3,
+          "tr_kind": "long"
+        },
+        {
+          "time_us": 47.48327648331624,
+          "previous_q": 128,
+          "q": 34,
+          "previous_port": 3,
+          "port": 0,
+          "tr_kind": "long"
+        },
+        {
+          "time_us": 49.88122327976283,
+          "previous_q": 34,
+          "q": 66,
+          "previous_port": 0,
+          "port": 1,
+          "tr_kind": "long"
+        },
+        {
+          "time_us": 52.2357356841941,
+          "previous_q": 66,
+          "q": 98,
+          "previous_port": 1,
+          "port": 2,
+          "tr_kind": "long"
+        },
+        {
+          "time_us": 54.84476049305663,
+          "previous_q": 98,
+          "q": 130,
+          "previous_port": 2,
+          "port": 3,
+          "tr_kind": "long"
+        },
+        {
+          "time_us": 57.1992728974879,
+          "previous_q": 130,
+          "q": 33,
+          "previous_port": 3,
+          "port": 0,
+          "tr_kind": "long"
+        },
+        {
+          "time_us": 59.55378530191917,
+          "previous_q": 33,
+          "q": 65,
+          "previous_port": 0,
+          "port": 1,
+          "tr_kind": "long"
+        },
+        {
+          "time_us": 61.90829770635044,
+          "previous_q": 65,
+          "q": 97,
+          "previous_port": 1,
+          "port": 2,
+          "tr_kind": "long"
+        },
+        {
+          "time_us": 64.2628101107817,
+          "previous_q": 97,
+          "q": 129,
+          "previous_port": 2,
+          "port": 3,
+          "tr_kind": "long"
+        },
+        {
+          "time_us": 66.61732251521298,
+          "previous_q": 129,
+          "q": 35,
+          "previous_port": 3,
+          "port": 0,
+          "tr_kind": "long"
+        },
+        {
+          "time_us": 68.97183491964424,
+          "previous_q": 35,
+          "q": 67,
+          "previous_port": 0,
+          "port": 1,
+          "tr_kind": "long"
+        },
+        {
+          "time_us": 71.3263473240755,
+          "previous_q": 67,
+          "q": 99,
+          "previous_port": 1,
+          "port": 2,
+          "tr_kind": "long"
+        },
+        {
+          "time_us": 73.68085972850676,
+          "previous_q": 99,
+          "q": 131,
+          "previous_port": 2,
+          "port": 3,
+          "tr_kind": "long"
+        },
+        {
+          "time_us": 76.28988453736929,
+          "previous_q": 131,
+          "q": 36,
+          "previous_port": 3,
+          "port": 0,
+          "tr_kind": "long"
+        },
+        {
+          "time_us": 78.64439694180055,
+          "previous_q": 36,
+          "q": 68,
+          "previous_port": 0,
+          "port": 1,
+          "tr_kind": "long"
+        },
+        {
+          "time_us": 80.99890934623181,
+          "previous_q": 68,
+          "q": 100,
+          "previous_port": 1,
+          "port": 2,
+          "tr_kind": "long"
+        },
+        {
+          "time_us": 83.35342175066307,
+          "previous_q": 100,
+          "q": 132,
+          "previous_port": 2,
+          "port": 3,
+          "tr_kind": "long"
+        }
+      ],
+      "ports": [
+        {
+          "port": 0,
+          "last_return_us": 391.030811046973,
+          "mean_admission_us": 0.0,
+          "mean_return_wait_us": 16.033145707879918,
+          "idle_while_later_ready_us": 98.13081104695362,
+          "idle_while_later_ready_pct": 26.65914636036973
+        },
+        {
+          "port": 1,
+          "last_return_us": 393.3853234514043,
+          "mean_admission_us": 0.0,
+          "mean_return_wait_us": 15.978079781378257,
+          "idle_while_later_ready_us": 100.48532345138418,
+          "idle_while_later_ready_pct": 27.298795519765612
+        },
+        {
+          "port": 2,
+          "last_return_us": 395.7398358558356,
+          "mean_admission_us": 0.0,
+          "mean_return_wait_us": 16.04874544821997,
+          "idle_while_later_ready_us": 102.83983585581504,
+          "idle_while_later_ready_pct": 27.938444679161577
+        },
+        {
+          "port": 3,
+          "last_return_us": 398.09434826026694,
+          "mean_admission_us": 0.0,
+          "mean_return_wait_us": 15.915379673604377,
+          "idle_while_later_ready_us": 105.38634826024578,
+          "idle_while_later_ready_pct": 28.630254378622162
+        }
+      ]
+    },
+    "case": "buffer_32MiB_all_tR_2us",
+    "runtime_seconds": 14.167027785000755
+  },
+  {
+    "requests": 16384,
+    "host_bytes": 67108864,
+    "elapsed_us": 762.8983857572,
+    "bandwidth_gbps": 87.96566522210215,
+    "inclusive_prefetch_gbps": 86.82753805243645,
+    "middle_bandwidth_gbps": 109.83317127899292,
+    "mean_latency_us": 84.21429617139982,
+    "p95_latency_us": 129.78800000004344,
+    "p99_latency_us": 130.41876049305583,
+    "mean_offer_latency_us": 282.8920878957807,
+    "mean_return_wait_us": 58.68805328674477,
+    "buffer_peak_pages": 512,
+    "peak_outstanding": 2032,
+    "leftover_prefetch_pages": 0,
+    "channel_nand_bytes": [
+      16908288,
+      16875520,
+      16875520,
+      16908288
+    ],
+    "channel_ca_busy_us": [
+      103.19999999999841,
+      102.99999999999842,
+      102.99999999999842,
+      103.19999999999841
+    ],
+    "channel_data_busy_us": [
+      262.6568013730686,
+      262.147776564206,
+      262.147776564206,
+      262.6568013730686
+    ],
+    "actual_unavailable_fraction": 0.15042943486064828,
+    "mean_lookup_queue_us": 0.0008947990565949721,
+    "mean_data_wait_us": 24.96134808559847,
+    "mean_admission_wait_us": 198.6777917243809,
+    "max_inflight_host_bytes": 8323072,
+    "counts": {
+      "prefetch_candidates": 4096,
+      "sensing_reads": 4124,
+      "prefetch_started": 457,
+      "tr_first": 64,
+      "prefetch_dropped_budget": 96,
+      "merged_at_accept": 12717,
+      "prefetch_useful_pages": 441,
+      "nand_bytes": 67567616,
+      "tr_long": 1255,
+      "released_pages": 4108,
+      "prefetch_dropped_buffer": 3543,
+      "buffer_admission_stalls": 235257,
+      "tr_short": 1423,
+      "tr_mid": 1382,
+      "prefetch_evicted": 16,
+      "buffer_ready_hits": 1
+    },
+    "config": {
+      "ports": 4,
+      "channels": 4,
+      "planes": 16,
+      "stripe": 16384,
+      "outstanding": 2048,
+      "buffer_pages": 512,
+      "ca_us": 0.1,
+      "output_ca_us": 0.1,
+      "io_gbps": 80.1125,
+      "turnaround_us": 0.05,
+      "ecc_us": 0.2,
+      "lookup_us": 0.5,
+      "lookup_clock_mhz": 500.0,
+      "lookup_pipelines": 2,
+      "lookup_slots": 500,
+      "host_bits": 512,
+      "host_mhz": 1000.0,
+      "first_us": 20.69,
+      "short_us": 2.0,
+      "mid_us": 2.08,
+      "long_us": 12.16,
+      "group_us": 20.69,
+      "availability": 0.85,
+      "maintenance_period_us": 100.0,
+      "maintenance_sync": false,
+      "prefetch": true,
+      "accuracy": 1.0,
+      "lead_us": 10.0,
+      "prefetch_limit": 128,
+      "seed": 7,
+      "remap_fraction": 0.0,
+      "snapshot": "",
+      "trace": false
+    },
+    "diagnostics": {
+      "host_busy_pct": [
+        34.361587977389675,
+        34.36158797738821,
+        34.36158797737281,
+        34.36158797736694
+      ],
+      "host_idle_head_data_pct": [
+        17.021239383561714,
+        32.756574532307354,
+        51.15015704086093,
+        64.65315870013211
+      ],
+      "host_idle_no_accepted_pct": [
+        48.55163311119869,
+        32.57882254972825,
+        13.988861546789796,
+        0.0
+      ],
+      "host_idle_lookup_pct": [
+        0.06553952784992914,
+        0.3030149405761787,
+        0.4993934349764647,
+        0.9852533225009631
+      ],
+      "buffer_full_pct": 81.16600118310164,
+      "buffer_avg_reserved_pages": 462.61774940963795,
+      "buffer_avg_ready_pages": 316.28312885614724
+    },
+    "issue_order": {
+      "counts": {
+        "long_cross_port": 1255
+      },
+      "CH0_PL0_sequence": [
+        {
+          "time_us": 20.1,
+          "previous_q": null,
+          "q": 16,
+          "previous_port": null,
+          "port": 0,
+          "tr_kind": "first"
+        },
+        {
+          "time_us": 56.203383039841285,
+          "previous_q": 16,
+          "q": 32,
+          "previous_port": 0,
+          "port": 1,
+          "tr_kind": "long"
+        },
+        {
+          "time_us": 68.87240784870382,
+          "previous_q": 32,
+          "q": 48,
+          "previous_port": 1,
+          "port": 2,
+          "tr_kind": "long"
+        },
+        {
+          "time_us": 81.38692025313507,
+          "previous_q": 48,
+          "q": 64,
+          "previous_port": 2,
+          "port": 3,
+          "tr_kind": "long"
+        },
+        {
+          "time_us": 93.97056202215633,
+          "previous_q": 64,
+          "q": 17,
+          "previous_port": 3,
+          "port": 0,
+          "tr_kind": "long"
+        },
+        {
+          "time_us": 106.48507442658759,
+          "previous_q": 17,
+          "q": 33,
+          "previous_port": 0,
+          "port": 1,
+          "tr_kind": "long"
+        },
+        {
+          "time_us": 118.99958683101885,
+          "previous_q": 33,
+          "q": 49,
+          "previous_port": 1,
+          "port": 2,
+          "tr_kind": "long"
+        },
+        {
+          "time_us": 131.51409923545012,
+          "previous_q": 49,
+          "q": 65,
+          "previous_port": 2,
+          "port": 3,
+          "tr_kind": "long"
+        },
+        {
+          "time_us": 159.02861163988138,
+          "previous_q": 65,
+          "q": 18,
+          "previous_port": 3,
+          "port": 0,
+          "tr_kind": "long"
+        },
+        {
+          "time_us": 171.54312404431263,
+          "previous_q": 18,
+          "q": 34,
+          "previous_port": 0,
+          "port": 1,
+          "tr_kind": "long"
+        },
+        {
+          "time_us": 184.0576364487439,
+          "previous_q": 34,
+          "q": 50,
+          "previous_port": 1,
+          "port": 2,
+          "tr_kind": "long"
+        },
+        {
+          "time_us": 196.89224808862528,
+          "previous_q": 50,
+          "q": 19,
+          "previous_port": 2,
+          "port": 0,
+          "tr_kind": "long"
+        },
+        {
+          "time_us": 209.40676049305654,
+          "previous_q": 19,
+          "q": 20,
+          "previous_port": 0,
+          "port": 0,
+          "tr_kind": "mid"
+        },
+        {
+          "time_us": 211.8412728974878,
+          "previous_q": 20,
+          "q": 21,
+          "previous_port": 0,
+          "port": 0,
+          "tr_kind": "short"
+        },
+        {
+          "time_us": 214.3026559373291,
+          "previous_q": 21,
+          "q": 35,
+          "previous_port": 0,
+          "port": 1,
+          "tr_kind": "long"
+        },
+        {
+          "time_us": 226.81716834176035,
+          "previous_q": 35,
+          "q": 22,
+          "previous_port": 1,
+          "port": 0,
+          "tr_kind": "long"
+        },
+        {
+          "time_us": 254.33999999999997,
+          "previous_q": 22,
+          "q": 23,
+          "previous_port": 0,
+          "port": 0,
+          "tr_kind": "short"
+        },
+        {
+          "time_us": 257.0035372132939,
+          "previous_q": 23,
+          "q": 24,
+          "previous_port": 0,
+          "port": 0,
+          "tr_kind": "mid"
+        },
+        {
+          "time_us": 259.4380496177252,
+          "previous_q": 24,
+          "q": 25,
+          "previous_port": 0,
+          "port": 0,
+          "tr_kind": "short"
+        },
+        {
+          "time_us": 262.0470744265878,
+          "previous_q": 25,
+          "q": 26,
+          "previous_port": 0,
+          "port": 0,
+          "tr_kind": "mid"
+        }
+      ],
+      "ports": [
+        {
+          "port": 0,
+          "last_return_us": 422.498760493107,
+          "mean_admission_us": 2.5770154437739214,
+          "mean_return_wait_us": 70.158085706241,
+          "idle_while_later_ready_us": 100.2157356841976,
+          "idle_while_later_ready_pct": 13.136183999751214
+        },
+        {
+          "port": 1,
+          "last_return_us": 544.3550744266205,
+          "mean_admission_us": 141.90999896532122,
+          "mean_return_wait_us": 53.14638939579761,
+          "idle_while_later_ready_us": 150.31172535201733,
+          "idle_while_later_ready_pct": 19.70271901975888
+        },
+        {
+          "port": 2,
+          "last_return_us": 686.177586830931,
+          "mean_admission_us": 265.52494200278954,
+          "mean_return_wait_us": 60.635431501390876,
+          "idle_while_later_ready_us": 168.5742480886198,
+          "idle_while_later_ready_pct": 22.096553254769926
+        },
+        {
+          "port": 3,
+          "last_return_us": 792.8983857572,
+          "mean_admission_us": 384.6992104856389,
+          "mean_return_wait_us": 50.8123065435496,
+          "idle_while_later_ready_us": 140.94504226314194,
+          "idle_while_later_ready_pct": 18.474943045429264
+        }
+      ]
+    },
+    "case": "64plane_8MiB",
+    "runtime_seconds": 13.840955830999519
+  },
+  {
+    "requests": 16384,
+    "host_bytes": 67108864,
+    "elapsed_us": 976.5427938835974,
+    "bandwidth_gbps": 68.72086345864663,
+    "inclusive_prefetch_gbps": 68.02428076720432,
+    "middle_bandwidth_gbps": 70.57873383505596,
+    "mean_latency_us": 324.6842669915207,
+    "p95_latency_us": 475.40039694180047,
+    "p99_latency_us": 489.1593969417916,
+    "mean_offer_latency_us": 365.3121997312742,
+    "mean_return_wait_us": 10.16608413285665,
+    "buffer_peak_pages": 2048,
+    "peak_outstanding": 2048,
+    "leftover_prefetch_pages": 0,
+    "channel_nand_bytes": [
+      16777216,
+      16777216,
+      16777216,
+      16777216
+    ],
+    "channel_ca_busy_us": [
+      102.39999999999846,
+      102.39999999999846,
+      102.39999999999846,
+      102.39999999999846
+    ],
+    "channel_data_busy_us": [
+      260.62070213761825,
+      260.62070213761825,
+      260.62070213761825,
+      260.62070213761825
+    ],
+    "actual_unavailable_fraction": 0.15027609577475398,
+    "mean_lookup_queue_us": 0.0003571772386893081,
+    "mean_data_wait_us": 313.95382568142537,
+    "mean_admission_wait_us": 40.6279327397535,
+    "max_inflight_host_bytes": 8388608,
+    "counts": {
+      "prefetch_candidates": 4096,
+      "sensing_reads": 4096,
+      "prefetch_started": 2171,
+      "tr_first": 64,
+      "prefetch_dropped_budget": 512,
+      "merged_at_accept": 14459,
+      "prefetch_useful_pages": 2171,
+      "nand_bytes": 67108864,
+      "tr_long": 4032,
+      "released_pages": 4096,
+      "prefetch_dropped_buffer": 1413,
+      "buffer_admission_stalls": 51937
+    },
+    "config": {
+      "ports": 4,
+      "channels": 4,
+      "planes": 16,
+      "stripe": 16384,
+      "outstanding": 2048,
+      "buffer_pages": 2048,
+      "ca_us": 0.1,
+      "output_ca_us": 0.1,
+      "io_gbps": 80.1125,
+      "turnaround_us": 0.05,
+      "ecc_us": 0.2,
+      "lookup_us": 0.5,
+      "lookup_clock_mhz": 500.0,
+      "lookup_pipelines": 2,
+      "lookup_slots": 500,
+      "host_bits": 512,
+      "host_mhz": 1000.0,
+      "first_us": 20.69,
+      "short_us": 2.0,
+      "mid_us": 2.08,
+      "long_us": 12.16,
+      "group_us": 20.69,
+      "availability": 0.85,
+      "maintenance_period_us": 100.0,
+      "maintenance_sync": false,
+      "prefetch": true,
+      "accuracy": 1.0,
+      "lead_us": 10.0,
+      "prefetch_limit": 128,
+      "seed": 7,
+      "remap_fraction": 0.0,
+      "snapshot": "",
+      "trace": false
+    },
+    "diagnostics": {
+      "host_busy_pct": [
+        26.844087288527984,
+        26.844087288528325,
+        26.844087288528062,
+        26.84408728852784
+      ],
+      "host_idle_head_data_pct": [
+        67.75205776451804,
+        69.48321267003875,
+        70.77690790538307,
+        73.10471167828327
+      ],
+      "host_idle_no_accepted_pct": [
+        5.352653913765095,
+        3.621499008244037,
+        2.3278037728999745,
+        0.0
+      ],
+      "host_idle_lookup_pct": [
+        0.051201033188884436,
+        0.051201033188884436,
+        0.051201033188884436,
+        0.051201033188884436
+      ],
+      "buffer_full_pct": 33.43356381761641,
+      "buffer_avg_reserved_pages": 1385.8511584358644,
+      "buffer_avg_ready_pages": 44.012550672298985
+    },
+    "issue_order": {
+      "counts": {
+        "long_cross_port": 4032
+      },
+      "CH0_PL0_sequence": [
+        {
+          "time_us": 20.1,
+          "previous_q": null,
+          "q": 16,
+          "previous_port": null,
+          "port": 0,
+          "tr_kind": "first"
+        },
+        {
+          "time_us": 56.203383039841285,
+          "previous_q": 16,
+          "q": 32,
+          "previous_port": 0,
+          "port": 1,
+          "tr_kind": "long"
+        },
+        {
+          "time_us": 68.87240784870382,
+          "previous_q": 32,
+          "q": 48,
+          "previous_port": 1,
+          "port": 2,
+          "tr_kind": "long"
+        },
+        {
+          "time_us": 81.38692025313507,
+          "previous_q": 48,
+          "q": 64,
+          "previous_port": 2,
+          "port": 3,
+          "tr_kind": "long"
+        },
+        {
+          "time_us": 93.97056202215633,
+          "previous_q": 64,
+          "q": 17,
+          "previous_port": 3,
+          "port": 0,
+          "tr_kind": "long"
+        },
+        {
+          "time_us": 106.48507442658759,
+          "previous_q": 17,
+          "q": 33,
+          "previous_port": 0,
+          "port": 1,
+          "tr_kind": "long"
+        },
+        {
+          "time_us": 118.99958683101885,
+          "previous_q": 33,
+          "q": 49,
+          "previous_port": 1,
+          "port": 2,
+          "tr_kind": "long"
+        },
+        {
+          "time_us": 131.51409923545012,
+          "previous_q": 49,
+          "q": 65,
+          "previous_port": 2,
+          "port": 3,
+          "tr_kind": "long"
+        },
+        {
+          "time_us": 159.02861163988138,
+          "previous_q": 65,
+          "q": 18,
+          "previous_port": 3,
+          "port": 0,
+          "tr_kind": "long"
+        },
+        {
+          "time_us": 171.54312404431263,
+          "previous_q": 18,
+          "q": 34,
+          "previous_port": 0,
+          "port": 1,
+          "tr_kind": "long"
+        },
+        {
+          "time_us": 184.0576364487439,
+          "previous_q": 34,
+          "q": 50,
+          "previous_port": 1,
+          "port": 2,
+          "tr_kind": "long"
+        },
+        {
+          "time_us": 196.57214885317515,
+          "previous_q": 50,
+          "q": 66,
+          "previous_port": 2,
+          "port": 3,
+          "tr_kind": "long"
+        },
+        {
+          "time_us": 209.0866612576064,
+          "previous_q": 66,
+          "q": 19,
+          "previous_port": 3,
+          "port": 0,
+          "tr_kind": "long"
+        },
+        {
+          "time_us": 221.60117366203767,
+          "previous_q": 19,
+          "q": 35,
+          "previous_port": 0,
+          "port": 1,
+          "tr_kind": "long"
+        },
+        {
+          "time_us": 249.11568606646892,
+          "previous_q": 35,
+          "q": 51,
+          "previous_port": 1,
+          "port": 2,
+          "tr_kind": "long"
+        },
+        {
+          "time_us": 261.63019847090027,
+          "previous_q": 51,
+          "q": 67,
+          "previous_port": 2,
+          "port": 3,
+          "tr_kind": "long"
+        },
+        {
+          "time_us": 274.1447108753316,
+          "previous_q": 67,
+          "q": 20,
+          "previous_port": 3,
+          "port": 0,
+          "tr_kind": "long"
+        },
+        {
+          "time_us": 286.65922327976295,
+          "previous_q": 20,
+          "q": 36,
+          "previous_port": 0,
+          "port": 1,
+          "tr_kind": "long"
+        },
+        {
+          "time_us": 299.1737356841943,
+          "previous_q": 36,
+          "q": 52,
+          "previous_port": 1,
+          "port": 2,
+          "tr_kind": "long"
+        },
+        {
+          "time_us": 311.68824808862564,
+          "previous_q": 52,
+          "q": 68,
+          "previous_port": 2,
+          "port": 3,
+          "tr_kind": "long"
+        }
+      ],
+      "ports": [
+        {
+          "port": 0,
+          "last_return_us": 954.271837807196,
+          "mean_admission_us": 33.088521157793195,
+          "mean_return_wait_us": 9.471823607163044,
+          "idle_while_later_ready_us": 429.25393338090345,
+          "idle_while_later_ready_pct": 43.95648977898965
+        },
+        {
+          "port": 1,
+          "last_return_us": 971.1773062880243,
+          "mean_admission_us": 38.185229983677395,
+          "mean_return_wait_us": 9.712597132428593,
+          "idle_while_later_ready_us": 439.19119807056245,
+          "idle_while_later_ready_pct": 44.97408621735357
+        },
+        {
+          "port": 2,
+          "last_return_us": 983.8107938835922,
+          "mean_admission_us": 42.58250165363828,
+          "mean_return_wait_us": 10.265008235823215,
+          "idle_while_later_ready_us": 448.3158837631884,
+          "idle_while_later_ready_pct": 45.908472887326134
+        },
+        {
+          "port": 3,
+          "last_return_us": 1006.5427938835974,
+          "mean_admission_us": 48.655478163905116,
+          "mean_return_wait_us": 11.214907556011749,
+          "idle_while_later_ready_us": 443.7633217410304,
+          "idle_while_later_ready_pct": 45.442281128944195
+        }
+      ]
+    },
+    "case": "64plane_32MiB",
+    "runtime_seconds": 38.816051374999006
+  }
+]

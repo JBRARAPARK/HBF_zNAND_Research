@@ -16,7 +16,10 @@
 5. [추가 확인 질문](docs/05_followup_questions_ko.md): 제품 담당자 및 내부 설계에서 확인할 사항.
 6. [이미지의 한국어 메모 전사](docs/06_image_notes_ko.md): 원본에 포함된 별도 분석 메모. 검증된 조사 결과와 구분합니다.
 7. [Prefetch 배치와 L2P 튜닝 기준](docs/07_prefetch_tuning_ko.md): 2026-10-09 합의한 초기 배치, 제외 사항, 튜닝 변수와 실험 설계.
-8. [출처 및 검토 범위](sources/README.md): 공개 문서, 모델 소스, 이미지 출처, 증거 수준.
+8. [Host IF 상한 미달 원인](docs/08_host_if_bottleneck_ko.md): Buffer·Long sensing·in-order의 연동과 같은 조건의 추가 진단 6개.
+9. [32→64Plane 확장과 NAND 주소 배치](docs/09_plane_expansion_layout_ko.md): 지원 코드, 주소 비트, 물리 Die 구성의 가정과 한계.
+10. [Google 문의 답변용 모델 자료](docs/10_google_model_answers_ko.md): 기존 1,488개 실험 기준 최대 성능, A2 설명, 질문별 답변 가능 범위와 영문 초안.
+11. [출처 및 검토 범위](sources/README.md): 공개 문서, 모델 소스, 이미지 출처, 증거 수준.
 
 ## 현재 논의의 핵심
 
@@ -60,10 +63,11 @@
 |---|---|
 | 2026-10-08 | 질문 전사, 1~4번 분석, HBF 조사 근거, 모델 검토와 독립 port 조건을 최초 정리 |
 | 2026-10-09 | 4port·4channel 공유 관계, 4KiB 논리 영역과 초기 패킹, 64B 분산 제외 및 튜닝 계획 추가 |
+| 2026-10-09 | Google 문의용 보고서 본문 정리, Host IF 병목 진단 6개, 채널당 16Plane 지원과 배치 설명, 확장 회귀 테스트 7개 추가 |
 
 ## 실행 가능한 모델과 결과
 
-**1,488개 실험을 완료**했습니다. 기존 모델 저장소에서 회귀 테스트 포함 84개가 통과했으며, 이 저장소에는 신규 모델 테스트 28개를 포함합니다. 8개 물리 주소 전환 분석값 비교와 결과 CSV의 독립 검증도 통과했습니다. 모든 수치는 현재 모델 가정에 따른 시뮬레이션 결과입니다.
+**기존 1,488개 실험과 추가 병목 진단 6개를 완료**했습니다. 기존 모델 저장소에서 회귀 테스트 포함 84개가 통과했으며, 이 저장소의 주소 기반 모델 테스트는 기존 28개와 확장 7개를 합쳐 35개가 통과했습니다. 8개 물리 주소 전환 분석값 비교와 결과 CSV의 독립 검증도 통과했습니다. 모든 수치는 현재 모델 가정에 따른 시뮬레이션 결과입니다.
 
 - [결과 보고서와 그래프](results/znand/full/RESULTS_KO.md)
 - [전체 결과 CSV — 1,488개 조건](results/znand/all_results.csv)
@@ -73,15 +77,21 @@
 - [요청별 예제 trace](results/znand/example/requests.csv)
 - [MQSim 배치 추출과 변환](znand/mqsim/README.md)
 - [후속 튜닝 문서](docs/07_prefetch_tuning_ko.md)
+- [추가 A2 진단 6개 요약](results/znand/diagnostics_2026-10-09/summary.csv) / [설정과 상세 계측](results/znand/diagnostics_2026-10-09/)
+- [Google 문의 답변용 보고서 본문](docs/10_google_model_answers_ko.md)
+- [8/16Plane 주소 배치 비교](docs/plane_layout/index.html)
 
 저장소 루트에서 실행합니다. 모델 실행에는 Python 표준 라이브러리만 필요합니다. 그래프 재생성에는 matplotlib이 필요합니다.
 
 ```sh
-python3 -m unittest test_znand -q
+python3 -m unittest test_znand test_znand_expansion -q
 python3 -m znand.validate_results
 python3 -m znand.run --config znand/observed_best/B3.json --pattern B3 --per-port 8192 --out results/znand/replay_B3
+python3 -m znand.diagnostics
 ```
 
 긴 trace의 80개 비교 그룹 모두 QD4,096→8,192 처리량 변화가 3% 미만이었습니다. 이는 해당 부하·버퍼·모델 조건의 포화 확인이며 실제 제품의 전역 최대 성능을 보장하지 않습니다. B2는 4KiB 분산, B3는 16KiB 분산이 유리한 조건이 관측되어 배치를 workload별로 비교해야 합니다.
+
+추가 진단의 같은 A2 조건에서는 32Plane·8MiB가 72.265081GB/s, 64Plane·8MiB가 87.965665GB/s였습니다. 버퍼만 32MiB로 늘리면 32Plane에서 Long sensing이 증가해 37.116439GB/s로 낮아졌습니다. Word 보고서는 추가 진단 전의 1,488개 결과를 기준으로 작성한 자료이며, 최신 병목과 Plane 확장 결과는 문서 08·09와 별도 진단 폴더에 보관합니다.
 
 원래 `NAND_Prefetch_Model`의 simulator 파일은 보존했습니다. 이 비공개 저장소에는 별도 `znand/` 모듈과 실행 설정·결과를 함께 보관합니다.

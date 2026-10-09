@@ -50,7 +50,8 @@ class Config:
     trace: bool = False
 
     def validate(self):
-        assert 1 <= self.ports <= 4 and self.channels == 4 and self.planes == 8
+        assert 1 <= self.ports <= 4 and self.channels == 4
+        assert isinstance(self.planes, int) and self.planes in (8, 16)
         assert self.stripe in (4096, 16384)
         assert self.buffer_pages >= self.ports + 1
         assert min(self.outstanding, self.lookup_slots, self.lookup_pipelines) > 0
@@ -86,6 +87,12 @@ class Mapper:
         if c.snapshot:
             doc = json.loads(Path(c.snapshot).read_text())
             assert doc['page_bytes'] == PAGE
+            # Legacy MQSim snapshots describe the original 4x8 geometry.
+            # A 4x16 experiment must explicitly declare its imported layout.
+            geometry = doc.get('model_geometry')
+            expected = {'channels': c.channels, 'planes_per_channel': c.planes}
+            if (geometry is not None and geometry != expected) or (c.planes == 16 and geometry != expected):
+                raise ValueError('snapshot model_geometry must match channels and planes_per_channel')
             self.external = {int(k): tuple(v) for k,v in doc['mapping'].items()}
             assert len(set(self.external.values())) == len(self.external)
             for ch,pl,q in self.external.values():

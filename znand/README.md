@@ -7,7 +7,7 @@
 이 저장소의 루트에서 실행한다. 최초 실행 위치는 `/Users/bagjunbeom/Downloads/NAND_Prefetch_Model`이었다. 모델과 sweep은 Python 표준 라이브러리만 사용한다. 보고서 그림 생성에는 기존 가상환경의 matplotlib을 사용한다.
 
 ```sh
-python3 -m unittest test_znand -q
+python3 -m unittest test_znand test_znand_expansion -q
 python3 -m znand.run --config znand/baseline.json --pattern B3 --per-port 2048 --out results/znand/single --trace
 python3 -m znand.sweep --workers 4 --snapshot znand/mqsim/snapshot.json
 python3 -m znand.report
@@ -22,7 +22,7 @@ python3 -m znand.report
 | Host | 활성 1~4port, 각각 512bit·1GHz, port 내부 strict in-order |
 | 요청 | 64B 또는 4KiB, 요청당 lookup 1회·Outstanding 1개, 마지막 반환 시 해제 |
 | Lookup | Port별 500ns, 500MHz·2파이프라인, 동시 slot 500개 |
-| NAND | 4channel × 8plane, Plane별 page buffer 1개 |
+| NAND | 기본 4channel × 8plane; 실험 확장 4channel × 16plane. Plane별 page buffer 1개 |
 | 주소 | 4KiB 논리 영역, 16KiB 물리 페이지; 4KiB/16KiB channel 분산; Plane 순환 |
 | Plane 내부 | E/O→SSL→Block→WL(420→0)→Group |
 | tR | 최초·Group 20.69μs, Short 2μs, Mid 2.08μs, Long 12.16μs. Plane별 이력 |
@@ -40,7 +40,7 @@ python3 -m znand.report
 
 ## 이번에 정한 추가 가정
 
-1. **Die/LUN:** 초기 실행에서는 32개 Plane을 독립 array 자원으로 모델링한다. Die 전원·명령 수·multi-plane 동기 제약은 없다. MQSim 입력 geometry는 추출 목적이며 그 Die 제약을 본 모델에 가져오지 않는다.
+1. **Die/LUN:** 기본 실행에서는 32개, 확장에서는 64개 Plane을 독립 array 자원으로 모델링한다. Die 전원·명령 수·multi-plane 동기 제약은 없다. MQSim 입력 geometry는 추출 목적이며 그 Die 제약을 본 모델에 가져오지 않는다.
 2. **내부 작업:** 주기 점유가 기존 Read와 겹치면 해당 Read의 NAND 전송까지 완료한 후 내부 점유를 시작한다. 점유 동안 NAND page buffer 접근은 불가하지만 내용은 유지한다. CA/Data를 별도로 소비하는 GC 복사나 L2P 갱신은 포함하지 않는다. 실제 점유 비율을 결과에 기록한다.
 3. **출력 비용:** Page buffer 재출력은 CA 100ns + 16KiB 전송 + turnaround + ECC다. 신규 Read의 별도 출력 CA는 Read CA에 흡수한 추상화다.
 4. **Trace:** A2/B2는 1→3→2의 지역 순열, B3는 1→3→1의 다음 64B→2로 읽고 다음 세 페이지 묶음으로 이동한다. 최초 offset은 0, B3 재방문은 64다. 무한 반복으로 작은 작업 영역만 적중시키지 않는다.
@@ -101,4 +101,23 @@ sh znand/mqsim/reproduce.sh /tmp/mqsim-znand-reproduction
 python3 -m znand.run --config znand/observed_best/B3.json --pattern B3 --per-port 8192 --out results/znand/replay_B3
 ```
 
-전체 실험은 기본·민감도 1,248개와 상위 Outstanding 240개, 총 1,488개다. 압축 배포본은 압축을 푼 루트에서 실행한다. 배포본의 신규 모델 테스트는 `python3 -m unittest test_znand -q`로 실행하며, 84개 통과 기록은 기존 저장소 테스트를 포함한 결과다. 그림을 다시 생성하려면 matplotlib이 설치된 Python으로 `python3 -m znand.report`를 실행한다.
+기존 실험은 기본·민감도 1,248개와 상위 Outstanding 240개, 총 1,488개다. 압축 배포본은 압축을 푼 루트에서 실행한다. 기존 모델 테스트 28개에 확장 테스트 7개를 추가했으며 `python3 -m unittest test_znand test_znand_expansion -q`로 35개를 실행한다. 84개 통과 기록은 기존 저장소 테스트를 포함한 결과다. 그림을 다시 생성하려면 matplotlib이 설치된 Python으로 `python3 -m znand.report`를 실행한다.
+
+## Host IF 진단과 64Plane 확장
+
+`Config.planes`는 채널당 Plane 수이며 8 또는 16을 지원한다. 기본값과 기존 1,488개 결과는 8을 유지한다. 16에서는 busy·sensing 이력·page buffer·maintenance 자원이 64개가 되지만 CA/Data는 여전히 4개 channel에서 공유한다. Host 반환 순서와 Controller buffer 크기를 자동으로 변경하지 않는다.
+
+같은 A2 요청열에서 버퍼, 내부 점유, tR, Plane 수를 비교하는 추가 진단 6개를 다음과 같이 실행한다. 모델 동작을 바꾸지 않는 별도 계측으로 실제 발행 q, port 전환, 버퍼 점유와 선두 대기 중 후속 ready 구간을 기록한다.
+
+```sh
+python3 -m znand.diagnostics
+python3 -m znand.diagnostics --cases 64plane_8MiB 64plane_32MiB --out results/znand/replay_64plane
+```
+
+기본 진단 조건은 A2, 4port, 16KiB stripe, port당 4,096개 4KiB 요청, QD 2,048, Prefetch ON, port 간 주소 중첩 0%다. 결과 폴더의 `cases.json`은 전체 입력, `results.json`은 상세 계측, `sweep.csv`는 독립 검증용 행, `summary.csv`는 비교표, `manifest.json`은 모델 해시와 검증 기록이다. 실행 시간은 환경에 따라 달라진다.
+
+16Plane/channel에서 외부 snapshot을 사용하려면 `model_geometry: {"channels": 4, "planes_per_channel": 16}` metadata가 일치해야 한다. 기존 32Plane MQSim snapshot에 metadata만 붙여 64Plane 배치로 간주하지 않는다. 기존 8Plane/channel의 metadata 없는 snapshot은 계속 지원한다.
+
+- [Host IF 병목 원인과 6개 진단 해석](../docs/08_host_if_bottleneck_ko.md)
+- [NAND 주소 비트와 물리 Die 구성 예](../docs/09_plane_expansion_layout_ko.md)
+- [추가 결과와 설정](../results/znand/diagnostics_2026-10-09/)

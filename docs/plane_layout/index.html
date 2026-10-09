@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="color-scheme" content="light dark"><title>zNAND 8/16 Plane 주소 배치</title>
+<style>
+:root {color-scheme:light dark; --foreground:light-dark(#18212b,#eef1f6);--background:light-dark(#fff,#181d26);--muted-foreground:light-dark(#526075,#b6c0d0);--border:light-dark(#b8c2d1,#5d6c81);--input:var(--border);--viz-series-1:light-dark(#245fad,#81b1f1);--viz-series-2:light-dark(#9b5520,#edb37d);--destructive:light-dark(#b92338,#ff9daa);}
+*{box-sizing:border-box}body{margin:0;padding:20px;color:var(--foreground);background:var(--background);font-family:system-ui,sans-serif;font-size:14px;line-height:1.5}main{max-width:900px;margin:0 auto}h3{font-size:18px;line-height:1.4;font-weight:500;margin:0}.viz-controls{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr));gap:12px}.form-label{display:grid;gap:5px}.form-select,.form-control{display:block;width:100%;font:inherit;font-size:16px;color:var(--foreground);background:var(--background);border:1px solid var(--input);border-radius:5px;padding:8px}.text-small{font-size:12px}.text-destructive{color:var(--destructive)}.tabular-nums{font-variant-numeric:tabular-nums}[hidden]{display:none!important}@media(max-width:400px){body{padding:12px}}
+</style></head><body><main>
+<div id="plane-layout-expansion">
+  <style>
+    #plane-layout-expansion { display: grid; gap: 12px; }
+    #plane-layout-expansion .layout-figure { width: 100%; display: block; }
+    #plane-layout-expansion .layout-legend { display: flex; gap: 14px; flex-wrap: wrap; align-items: center; }
+    #plane-layout-expansion .layout-swatch { display: inline-block; width: 10px; height: 10px; margin-right: 5px; }
+    #plane-layout-expansion .layout-original { background: var(--viz-series-1); }
+    #plane-layout-expansion .layout-added { background: var(--viz-series-2); }
+    #plane-layout-expansion .address-result { overflow-wrap: anywhere; }
+    #plane-layout-expansion .layout-figure text { fill: var(--foreground); font-size: 12px; }
+  </style>
+  <h3>16KiB stripe 주소 배치</h3>
+  <div class="viz-controls">
+    <label class="form-label" for="plane-layout-count">Plane / channel
+      <select class="form-select" id="plane-layout-count">
+        <option value="8">8 Plane</option>
+        <option value="16" selected>16 Plane</option>
+      </select>
+    </label>
+    <label class="form-label" for="plane-layout-page">4KiB 논리 페이지 번호
+      <input class="form-control" id="plane-layout-page" type="number" min="1" max="1048576" step="1" value="129" inputmode="numeric">
+    </label>
+  </div>
+  <div class="text-small" id="plane-layout-summary"></div>
+  <output class="address-result tabular-nums" id="plane-layout-address" aria-live="polite"></output>
+  <div class="text-destructive text-small" id="plane-layout-error" role="alert" hidden></div>
+  <svg class="layout-figure" id="plane-layout-svg" role="img" aria-labelledby="plane-layout-svg-title plane-layout-svg-desc">
+    <title id="plane-layout-svg-title">채널별 Die와 Plane 구성 예</title>
+    <desc id="plane-layout-svg-desc"></desc>
+  </svg>
+  <div class="layout-legend text-small">
+    <span><span class="layout-swatch layout-original" aria-hidden="true"></span>기존 PL0–7</span>
+    <span id="plane-layout-added-legend"><span class="layout-swatch layout-added" aria-hidden="true"></span>추가 PL8–15</span>
+    <span>D = Die · Die당 2 Plane 가정</span>
+  </div>
+</div>
+<script>
+(() => {
+  const root = document.getElementById('plane-layout-expansion');
+  const countControl = root.querySelector('#plane-layout-count');
+  const pageControl = root.querySelector('#plane-layout-page');
+  const summary = root.querySelector('#plane-layout-summary');
+  const output = root.querySelector('#plane-layout-address');
+  const error = root.querySelector('#plane-layout-error');
+  const svg = root.querySelector('#plane-layout-svg');
+  const desc = root.querySelector('#plane-layout-svg-desc');
+  const addedLegend = root.querySelector('#plane-layout-added-legend');
+  const ns = 'http://www.w3.org/2000/svg';
+  function node(name, attrs, value) {
+    const el = document.createElementNS(ns, name);
+    for (const [key, val] of Object.entries(attrs || {})) el.setAttribute(key, String(val));
+    if (value !== undefined) el.textContent = value;
+    return el;
+  }
+  function draw() {
+    const planes = Number(countControl.value);
+    const page = Number(pageControl.value);
+    if (!Number.isSafeInteger(page) || page < 1 || page > 1048576) {
+      error.hidden = false;
+      error.textContent = '페이지 번호는 1부터 1,048,576 사이의 정수로 입력하세요.';
+      return;
+    }
+    error.hidden = true;
+    const address = (page - 1) * 4096;
+    const physical = Math.floor(address / 16384);
+    const channel = physical % 4;
+    const slot = Math.floor(physical / 4);
+    const plane = slot % planes;
+    const q = Math.floor(slot / planes);
+    const die = Math.floor(plane / 2);
+    const offset = address % 16384;
+    summary.textContent = `4채널 · ${planes / 2} Die/채널 · ${planes * 4} Plane · 채널별 CA/Data 공유`;
+    output.textContent = `P${page} · 0x${address.toString(16).toUpperCase()} → CH${channel} / D${die} / PL${plane} / q${q} / +${offset}B`;
+    desc.textContent = `Die당 2Plane을 가정한 자원 배치 예입니다. ${planes * 4}개 Plane이 네 채널에 분산되고 각 채널 안의 Plane은 CA와 데이터 경로를 공유합니다. 선택한 논리 페이지 P${page}는 채널 ${channel}, Die ${die}, 채널 내 Plane ${plane}, Plane 내부 페이지 ${q}, offset ${offset}바이트로 연결됩니다.`;
+    addedLegend.hidden = planes === 8;
+    const width = svg.getBoundingClientRect().width;
+    if (width <= 0) return;
+    const height = 38 + (planes / 2) * 48;
+    svg.setAttribute('viewBox', `0 0 ${width} ${height}`);
+    svg.style.height = `${height}px`;
+    const old = svg.querySelector('g[data-layout]');
+    if (old) old.remove();
+    const group = node('g', {'data-layout': 'true'});
+    const margin = 5;
+    const gap = 8;
+    const col = (width - margin * 2 - gap * 3) / 4;
+    for (let ch = 0; ch < 4; ch++) {
+      const x = margin + ch * (col + gap);
+      group.appendChild(node('text', {x: x + col / 2, y: 17, 'text-anchor': 'middle'}, `CH${ch}`));
+      for (let d = 0; d < planes / 2; d++) {
+        const top = 31 + d * 48;
+        const planeX = x + col * 0.32;
+        const planeWidth = col * 0.66;
+        group.appendChild(node('text', {x: x + 1, y: top + 25}, `D${d}`));
+        group.appendChild(node('path', {
+          d: `M${planeX - 3},${top + 9} H${planeX - 5} V${top + 31} H${planeX - 3}`,
+          fill: 'none', stroke: 'var(--border)', 'stroke-width': 1
+        }));
+        for (let local = 0; local < 2; local++) {
+          const pl = d * 2 + local;
+          const y = top + local * 22;
+          const selected = ch === channel && pl === plane;
+          const color = pl < 8 ? 'var(--viz-series-1)' : 'var(--viz-series-2)';
+          const rect = node('rect', {
+            x: planeX, y, width: planeWidth, height: 18, rx: 2,
+            fill: color, 'fill-opacity': selected ? 0.30 : 0.12,
+            stroke: selected ? 'var(--viz-series-1)' : 'none', 'stroke-width': selected ? 2 : 0,
+            'data-channel': ch, 'data-plane': pl, 'data-selected': selected ? 'true' : 'false'
+          });
+          group.appendChild(rect);
+          group.appendChild(node('text', {x: planeX + planeWidth / 2, y: y + 13, 'text-anchor': 'middle'}, `PL${pl}`));
+        }
+      }
+    }
+    svg.appendChild(group);
+  }
+  countControl.addEventListener('change', draw);
+  pageControl.addEventListener('input', draw);
+  new ResizeObserver(draw).observe(svg);
+  draw();
+})();
+</script>
+
+</main></body></html>

@@ -1,0 +1,11 @@
+{
+  "source_base_commit": "2b1a831882dbf23855508c3f5478aadc973d8a23",
+  "model_sha256": "b7eab4e05cde09d1f0e20d7f54d6d59b271b1076e1c3a0ba555a24ca393e47d5",
+  "python": "3.12.14",
+  "checked_rows": 6,
+  "accounting_status": "passed",
+  "pattern": "A2",
+  "per_port": 4096,
+  "overlap": 0.0,
+  "note": "Locality and response policies unchanged. 2us sensing and zero maintenance are diagnostic assumptions."
+}

@@ -1,0 +1,23 @@
+{
+  "status": "passed",
+  "fresh_runs": 8,
+  "reused_results": 0,
+  "reproduced_8192_cases": [
+    "A1_64Plane_n8192_baseline",
+    "A1_64Plane_n8192_region_layout",
+    "A2_64Plane_n8192_baseline",
+    "A2_64Plane_n8192_region_layout"
+  ],
+  "identical_timing_all_cases": {
+    "first_us": 20.69,
+    "short_us": 2.0,
+    "mid_us": 2.08,
+    "long_us": 12.16,
+    "group_us": 20.69
+  },
+  "geometry": "4 channels x 16 Planes = 64 independent Planes",
+  "snapshot_only_difference_in_four_pairs": true,
+  "strict_port_order_checked_in_every_run": true,
+  "csv_json_and_source_hashes_verified": true,
+  "sweep_sha256": "790f87ec5dfac03e842c9734896c9aea893d39383cc983c33db8b8e58331d303"
+}

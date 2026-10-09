@@ -12,6 +12,8 @@
 
 [Host IF 256GB/s 가능성 검토](../results/znand/host_ceiling/RESULTS_KO.md)는 32/64Plane의 물리 공급 상한과 정적 L2P 배치 효과를 구분한다. `python3 -m znand.host_ceiling --workers 6`은 8개 신규 진단과 4개 기존 대조군을 검증한다. Region snapshot은 동일 8,192요청/port의 주소 범위만 포함하므로 요청 범위를 늘릴 때 매핑도 새로 생성해야 한다. 이 진단용 배치를 기본 실행 설정에 적용하지 않았다.
 
+현재 후속 평가는 **총 64Plane** 실행 프로파일을 사용한다. `Config.planes=16`은 채널당 16개를 뜻한다. `python3 -m znand.host64_measure --workers 4`는 PF OFF·고정 tR에서 A1/A2 × 기존/영역 배치 × 8,192/32,768요청/port의 8개 조건을 실행한다. [64Plane 결과](../results/znand/planes64/RESULTS_KO.md)와 [길이별 프로파일](../results/znand/planes64/profiles/)을 따르며, 아래 기본값 표는 과거 실험을 재현하는 모델 기본 설정이다.
+
 ## 실행
 
 Mac에서는 저장소 루트에서 `bash scripts/macos.sh setup`, `bash scripts/macos.sh smoke`, `bash scripts/macos.sh diagnostics`를 순서대로 실행한다. Python 3.10 이상을 사용하며 스크립트가 `.venv`를 직접 선택한다. 새 결과는 `results/local/`에 저장한다. 그래프는 `setup --plots` 후 `report`, 주소 배치는 `layout`으로 연다. 상세 절차는 [Mac 실행 안내](../docs/11_macos_run_ko.md)를 따른다.

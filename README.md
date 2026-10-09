@@ -11,6 +11,8 @@
 
 Host IF 목표는 geometry별로 구분한다. **32Plane은 현재 모델의 신규 데이터 공급량으로 256GB/s 달성이 불가능하고, 64Plane은 배치 변경으로 근접할 여지가 있다.** [물리 상한과 12개 비교 결과](results/znand/host_ceiling/RESULTS_KO.md)에 계산·실행 근거를 정리했다.
 
+현재 후속 성능 평가 기준은 **4channel × 16Plane = 총 64Plane**이다. 기존 tR·PF OFF·32MiB·QD2,048/port를 유지한 [64Plane 재측정 보고서](results/znand/planes64/RESULTS_KO.md)에 A1/A2의 기존 배치·영역 배치, 8,192/32,768요청/port의 8개 신규 실행을 기록한다. 실행은 `python3 -m znand.host64_measure --workers 4`이며, 길이에 맞는 [64Plane 프로파일](results/znand/planes64/profiles/)을 사용한다. 과거 결과 재현을 위한 모델 기본값과 기존 32Plane 프로파일은 보존한다.
+
 ## Mac에서 빠르게 실행
 
 Python 3.10 이상과 Git이 있는 Mac에서 저장소를 내려받은 뒤 실행합니다. 수치 모델에는 외부 Python 패키지가 필요하지 않습니다.
@@ -89,6 +91,7 @@ bash scripts/macos.sh diagnostics
 | 2026-10-10 | PF 자체 ON/OFF의 QD별 비교 28개 조건(신규 18개·대조군 재사용 10개), Host-only 성능 기준선과 프로파일 분리 |
 | 2026-10-10 | Host IF 물리 상한 검토, 정적 주소 영역별 Plane 배치와 물리 가정 진단 12개 조건(신규 8개·대조군 4개). 실제 지연의 64Plane에서 전체 235~236GB/s와 중간 구간 약 255GB/s 관측 |
 | 2026-10-10 | 최종 tR 확인: 네 배치 비교 쌍에서 snapshot만 변경됨을 전수 대조. 종류별 tR 고정값·발생 횟수·별도 2μs 진단 구분을 상세 보고서와 검증 JSON에 추가 |
+| 2026-10-10 | 총 64Plane을 후속 평가 기준으로 적용. 기존/영역 배치와 8,192/32,768요청/port를 새로 측정. 긴 영역 배치 A1/A2는 고정 tR에서 전체 249.508/249.325GB/s |
 
 ## 실행 가능한 모델과 결과
 

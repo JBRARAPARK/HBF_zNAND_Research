@@ -1,0 +1,13 @@
+{
+  "hashes": {
+    "znand/model.py": "755f822a6b7c1f44f65117b4892078419a766d4963ad4d49931e8aa1db679baf",
+    "znand/scheduling_probe.py": "8795d7d75428cf6923aada84df1ee8bbbe29b1440918654791e980b974261cf5",
+    "znand/scheduling_sweep.py": "bbc0fad577d2992a08f9c4bb34b5032e932b2ee1822e15b0c419053e2ad0a8e9",
+    "znand/pf_qd_sweep.py": "1020ba0fb1a7cda40b89da62a2a5930807ec3b2ec1c3415daf487dcd4161cea1",
+    "znand/host64_measure.py": "fd84324687178cf93ed77a7cfab227f48932761de2846ba70d8c8720ca5fc701"
+  },
+  "reference_rows_sha256": "05727c84c7d835444300014e411893d4db7a9d1ca15c1e29bae6f33d160ce19f",
+  "reference_cases_sha256": "a49e0ea9d428a6d2c9ce4e43d3be1cc058d5a7d16e3a936ddc6c96858d8faee8",
+  "source_commit": "9207b70cb44fc022c106e84b66f7147eb96dcf95",
+  "scope": "Eight fresh runs, 64Plane, fixed tR, no reused measurement rows."
+}

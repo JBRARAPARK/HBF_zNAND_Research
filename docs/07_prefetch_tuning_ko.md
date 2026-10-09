@@ -601,3 +601,9 @@ MQSim은 pinned revision의 preconditioning 매핑 할당 결과를 실제 추�
 이번 배치는 네 주소 영역의 균형 부하에 맞춘 정적 실험이다. Port와 channel의 고정 1:1 연결이나 runtime 미래 예측을 추가하지 않았다. 한 영역에 부하가 몰리거나 실제 L2P가 변경되는 조건에서의 성능은 남아 있다. 기존 A2 trace의 경계를 공유하는 요청 3개도 그대로 보존했다. 합성 snapshot을 MQSim 또는 실제 SSD 배치로 취급하지 않는다.
 
 다음 평가 순서는 (1) 32/64Plane별 물리 목표 결정, (2) 주소 영역 배치 효과의 장시간·다른 seed·부하 편향·L2P 민감도, (3) 동일 geometry·배치에서 예약/admission 조정으로 남은 손실 분리다. 64Plane에서는 Data turnaround 포함 상한 257.496GB/s가 Host 256GB/s에 매우 가까우므로 channel별 전송 공백도 함께 계측한다. 현재 8,192요청/port의 cold 전체 평균은 최초 준비 지연만 반영해도 Host 경로 상한이 약 245.805GB/s임을 함께 표시한다.
+
+## 64Plane을 기준으로 한 후속 측정
+
+사용자 요청에 따라 이후 성능 평가 geometry는 **4channel × 16Plane = 총 64Plane**으로 둔다. [64Plane 측정](../results/znand/planes64/RESULTS_KO.md)은 tR·가용률·버퍼·QD·발행 정책을 고정하고 A1/A2의 기존 배치와 영역 배치를 모두 새로 실행한다. 8,192요청/port를 재현하고 32,768요청/port까지 늘린다. 정적 snapshot은 각 길이에 맞춰 생성하며 모든 배치 쌍에서 channel·offset과 요청열을 유지한다.
+
+이후 튜닝의 기본 비교 단위는 동일한 64Plane·요청 길이·물리 배치다. 요청 수 확대 시 기존 workload의 논리 영역 span도 커지므로 짧은 실행과 긴 실행의 차이를 startup 영향만으로 설명하지 않는다. 기존 배치는 Plane 확장만의 효과를 확인하는 대조군이며, 영역 배치는 균형 부하를 이용하는 배치 조건으로 구분한다. 이번 결과로 64B 패턴·write 혼합·실제 동적 L2P의 성능을 추정하지 않는다.

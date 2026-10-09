@@ -14,3 +14,7 @@ scratch/
 
 # Version generated evaluation figures.
 !results/znand/full/*.png
+
+!results/znand/buffer_expansion/*.png
+results/znand/*_progress.log
+results/znand/buffer_expansion/report_generation.log

@@ -109,3 +109,7 @@ python3 -m znand.diagnostics
 추가 진단의 같은 A2 조건에서는 32Plane·8MiB가 72.265081GB/s, 64Plane·8MiB가 87.965665GB/s였습니다. 버퍼만 32MiB로 늘리면 32Plane에서 Long sensing이 증가해 37.116439GB/s로 낮아졌습니다. Word 보고서는 추가 진단 전의 1,488개 결과를 기준으로 작성한 자료이며, 최신 병목과 Plane 확장 결과는 문서 08·09와 별도 진단 폴더에 보관합니다.
 
 원래 `NAND_Prefetch_Model`의 simulator 파일은 보존했습니다. 이 비공개 저장소에는 별도 `znand/` 모듈과 실행 설정·결과를 함께 보관합니다.
+
+## Controller buffer 확대 평가 완료
+
+4port·32Plane에서 공유 buffer 8/16/24/32MiB, Outstanding 2,048/4,096/8,192를 비교했다. 기존 8MiB 60개와 신규 180개, 총 240개 조건이다. A1/A2는 16MiB에서 비교 범위 내 최고 처리량을 보였고, B1/B2/B3는 8MiB가 유리했다. [비교 보고서](results/znand/buffer_expansion/RESULTS_KO.md), [원본 CSV](results/znand/buffer_expansion/sweep.csv), [후속 튜닝](docs/07_prefetch_tuning_ko.md)을 참조한다.

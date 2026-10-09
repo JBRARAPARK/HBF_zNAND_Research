@@ -1,0 +1,6 @@
+{
+  "source_model_commit": "2b1a831882dbf23855508c3f5478aadc973d8a23",
+  "source_model_sha256": "93f9e24b7d1deef5e3aba379c83c0296d55e59ed0d67644d5c4aaf15a45e66ae",
+  "geometry": "4 channels x 8 independent planes = 32 planes",
+  "note": "All 180 new results were computed by workers that imported the original model before the main branch sync; reference_model_2b1a831.py preserves exactly those bytes. Git sync did not change running worker code. The current model 64-plane extension is a separate experiment dimension."
+}

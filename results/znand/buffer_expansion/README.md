@@ -2,7 +2,7 @@
 
 4port에서 기존 8MiB와 16·24·32MiB를 비교한다. 각 용량에서 A1/A2/B1/B2/B3, 4KiB/16KiB 분산, Prefetch OFF/ON, Outstanding 2,048/4,096/8,192를 비교하며 port당 8,192개 요청을 사용한다.
 
-`STATUS.json`은 저장 상태다. `sweep.csv`는 기존 8MiB 60개와 완료된 신규 조건을 포함한다. 전체 완료 전에는 최고값을 최종 결론으로 사용하지 않는다.
+`STATUS.json`은 저장 상태다. `sweep.csv`는 기존 8MiB 60개와 완료된 신규 조건을 포함한다. 추가 180개가 모두 완료됐고 총 240행을 검증했다. [최종 비교 보고서](RESULTS_KO.md)와 [패턴별 최고 조건](best_by_pattern.csv)을 함께 확인한다.
 
 이번 실험은 모델 커밋 `2b1a831`의 32Plane 동작을 고정했다. 동기화한 최신 모델과 섞이지 않도록 `znand/reference_model_2b1a831.py`에 원본을 그대로 보존했다. 일반 모델의 64Plane 지원은 `znand/model.py`에 유지한다.
 

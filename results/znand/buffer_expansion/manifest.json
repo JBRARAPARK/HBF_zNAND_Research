@@ -1,0 +1,10 @@
+{
+  "new_cases": 180,
+  "reused_baseline_cases": 60,
+  "validated_rows": 240,
+  "last_execution_elapsed_seconds": 1476.4646977079974,
+  "reused_checkpoint_cases": 80,
+  "model_sha256": "93f9e24b7d1deef5e3aba379c83c0296d55e59ed0d67644d5c4aaf15a45e66ae",
+  "baseline_sha256": "839cd15bb6a9ad4fdb46c84a2e96f186351c5a60a899369bce5660ba489d4c66",
+  "scope": "4 ports, 8192 requests/port, same seed and timing; only buffer and outstanding swept"
+}

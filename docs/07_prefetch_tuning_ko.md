@@ -503,3 +503,9 @@ MQSim은 pinned revision의 preconditioning 매핑 할당 결과를 실제 추�
 - [통합 결과 CSV](../results/znand/all_results.csv)
 - [초기 설정](../znand/baseline.json) / [관측 최고 설정](../znand/observed_best/)
 - [MQSim 재현 자료](../znand/mqsim/README.md)
+
+## 4port buffer 16·24·32MiB 추가 평가 결과
+
+[비교 보고서](../results/znand/buffer_expansion/RESULTS_KO.md)에 총 240개 조건(기존 8MiB 60개 + 신규 180개)을 정리했다. 총 32Plane, port당 8,192개 요청과 seed 7을 유지했다. A1/A2의 비교 범위 내 최고값은 16MiB·QD4,096/port·16KiB 분산·PF OFF에서 각각 78.824/77.001GB/s다. B1/B2/B3의 용량별 최고값은 8MiB 이후 낮아졌다.
+
+용량 증가는 수락 순서와 Plane-local Long sensing 비율을 바꾼다. 버퍼 확대와 QD를 함께 조절하되 내부 중재가 locality를 유지할 수 있는지 다음으로 확인한다. 외부 port 내부 in-order는 유지한다. 수락 이후 p99와 제시부터 반환까지의 지연을 함께 평가한다. 이번 결과는 64Plane이나 64MiB 결과로 확대 해석하지 않는다.

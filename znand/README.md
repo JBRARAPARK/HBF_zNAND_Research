@@ -2,6 +2,8 @@
 
 기존 `axi_burst_sim.py`, `multiport_sim.py`, `deep_prefetch_sim.py`는 그대로 보존하고, 합의한 주소 배치와 부분 Read·재방문·page buffer를 표현하는 이벤트 모델을 추가했다. 시간 단위는 μs, 대역폭은 decimal GB/s, 저장 단위는 KiB/MiB다. 제품 RTL 또는 실제 NAND 사양의 검증을 대체하지 않는다.
 
+현재 CA 정책의 적용 위치·선택 순서·우회 계수·패턴별 실행 설정은 [컨트롤러 스케줄링 적용점](../docs/12_controller_scheduling_ko.md)을 따른다. 아래 구현 기준 표의 `fifo`·8MiB 등 기본값과 평가 프로파일을 구분한다.
+
 ## 실행
 
 Mac에서는 저장소 루트에서 `bash scripts/macos.sh setup`, `bash scripts/macos.sh smoke`, `bash scripts/macos.sh diagnostics`를 순서대로 실행한다. Python 3.10 이상을 사용하며 스크립트가 `.venv`를 직접 선택한다. 새 결과는 `results/local/`에 저장한다. 그래프는 `setup --plots` 후 `report`, 주소 배치는 `layout`으로 연다. 상세 절차는 [Mac 실행 안내](../docs/11_macos_run_ko.md)를 따른다.

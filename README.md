@@ -2,7 +2,7 @@
 
 첨부 이미지의 영문 질의 1~4번, 질문별 의도, HBF 공개 사양 조사, `NAND_Prefetch_Model`과의 비교를 정리한 연구 기록입니다.
 
-- 최종 반영일: **2026-10-09, Asia/Seoul**
+- 최종 반영일: **2026-10-10, Asia/Seoul**
 - 공개 사양 조사 기준: **OCP HBF Base Die Specification v0.7.0, 2026-08-03**
 - 모델 검토 기준: [`NAND_Prefetch_Model` / `6456496`](https://github.com/JBRARAPARK/NAND_Prefetch_Model/tree/645649621a94c96de5a4d614267ab80387f06c0c)
 - 저장소 성격: 질의 분석, 설계 검토, 실행 가능한 모델과 평가 데이터. 삼성 제품의 공식 답변이나 실측 성능 자료가 아닙니다.
@@ -17,7 +17,7 @@ bash scripts/macos.sh smoke
 bash scripts/macos.sh diagnostics
 ```
 
-스크립트가 프로젝트 `.venv`를 사용하고 결과는 매번 `results/local/` 아래 새 폴더에 저장합니다. `smoke`는 테스트 35개와 Mac 방식의 spawn 병렬 실행을 확인하며, `diagnostics`가 실제 6개 추가 실험을 재현합니다. 처음 내려받는 절차, Python 선택, A2 재실행과 그래프 생성은 [Mac 실행 안내](docs/11_macos_run_ko.md)를 따릅니다.
+스크립트가 프로젝트 `.venv`를 사용하고 결과는 매번 `results/local/` 아래 새 폴더에 저장합니다. `smoke`는 테스트 51개와 Mac 방식의 spawn 병렬 실행을 확인하며, `diagnostics`가 실제 6개 추가 실험을 재현합니다. 처음 내려받는 절차, Python 선택, A2 재실행과 그래프 생성은 [Mac 실행 안내](docs/11_macos_run_ko.md)를 따릅니다.
 
 ## 먼저 읽을 내용
 
@@ -32,7 +32,8 @@ bash scripts/macos.sh diagnostics
 9. [32→64Plane 확장과 NAND 주소 배치](docs/09_plane_expansion_layout_ko.md): 지원 코드, 주소 비트, 물리 Die 구성의 가정과 한계.
 10. [Google 문의 답변용 모델 자료](docs/10_google_model_answers_ko.md): 기존 1,488개 실험 기준 최대 성능, A2 설명, 질문별 답변 가능 범위와 영문 초안.
 11. [Mac 실행과 후속 분석](docs/11_macos_run_ko.md): 가상환경, 32/64Plane 재현, spawn 확인, 그래프와 전체 평가 실행.
-12. [출처 및 검토 범위](sources/README.md): 공개 문서, 모델 소스, 이미지 출처, 증거 수준.
+12. [컨트롤러 스케줄링 적용점](docs/12_controller_scheduling_ko.md): CA 선택 위치, 연속 주소·선두 우선, 우회 계수, 버퍼·순서 제약, 현재 프로파일과 성능 근거.
+13. [출처 및 검토 범위](sources/README.md): 공개 문서, 모델 소스, 이미지 출처, 증거 수준.
 
 ## 현재 논의의 핵심
 
@@ -78,6 +79,7 @@ bash scripts/macos.sh diagnostics
 | 2026-10-09 | 4port·4channel 공유 관계, 4KiB 논리 영역과 초기 패킹, 64B 분산 제외 및 튜닝 계획 추가 |
 | 2026-10-09 | Google 문의용 보고서 본문 정리, Host IF 병목 진단 6개, 채널당 16Plane 지원과 배치 설명, 확장 회귀 테스트 7개 추가 |
 | 2026-10-09 | Mac 가상환경·실행 스크립트, spawn 병렬 확인, 로컬 결과 분리, 보고서와 상위 QD 실행의 출력 경로 옵션 추가 |
+| 2026-10-10 | 컨트롤러 스케줄링 적용점 통합 문서 추가: FIFO/locality/head_locality, 우회 제한 동작, 프로파일과 기존 실험 근거 정리 |
 
 ## 실행 가능한 모델과 결과
 
@@ -133,6 +135,8 @@ python3 -m znand.run --config znand/locality_A2_32MiB.json --pattern A2 --per-po
 [비교 보고서와 그래프](results/znand/buffer_growth/RESULTS_KO.md), [45개 원본 결과](results/znand/buffer_growth/sweep.csv), [용량별 요약](results/znand/buffer_growth/summary.csv), [버퍼 제한 확인](results/znand/buffer_growth/capacity_check.json), [후속 튜닝](docs/07_prefetch_tuning_ko.md)을 참조한다. 물리 buffer 용량과 admission 예약 한도는 결합되어 있으며, 64Plane이나 장시간 정상 상태의 최적 용량을 확정한 결과는 아니다.
 
 ## 선두 요청 우선과 연속 우회 한도 평가
+
+구현 위치와 동작을 처음부터 확인하려면 [컨트롤러 스케줄링 적용점](docs/12_controller_scheduling_ko.md)을 읽는다. Plane별 우회 계수 예시와 현재 실행용 설정을 함께 정리했다.
 
 `ca_policy=head_locality`를 추가하고, 공유 32MiB·QD2,048/port에서 우회 4/8/16/32회와 선두 대기 0/12.16/48.64μs를 비교했다. 총 47개 조건을 실행·검증했고 51개 모델 테스트가 통과했다. Port 내부 in-order는 유지한다. [결과 보고서](results/znand/head_locality/RESULTS_KO.md)와 [원본 CSV](results/znand/head_locality/sweep.csv)에 우회 한도 조정 효과와 선두 우선 기능 자체의 효과를 분리했다.
 

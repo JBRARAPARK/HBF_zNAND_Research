@@ -113,3 +113,13 @@ python3 -m znand.diagnostics
 ## Controller buffer 확대 평가 완료
 
 4port·32Plane에서 공유 buffer 8/16/24/32MiB, Outstanding 2,048/4,096/8,192를 비교했다. 기존 8MiB 60개와 신규 180개, 총 240개 조건이다. A1/A2는 16MiB에서 비교 범위 내 최고 처리량을 보였고, B1/B2/B3는 8MiB가 유리했다. [비교 보고서](results/znand/buffer_expansion/RESULTS_KO.md), [원본 CSV](results/znand/buffer_expansion/sweep.csv), [후속 튜닝](docs/07_prefetch_tuning_ko.md)을 참조한다.
+
+## 연속 물리 주소 우선 정책
+
+Controller의 NAND CA 발행에 `ca_policy=locality`를 추가했다. Host 요청열과 port 내부 in-order 응답은 유지한다. 기존 FIFO와 동일 조건의 신규 56개 비교에서 모두 처리량이 개선됐으며, 이번 범위의 4port·32Plane 최고값은 118.780GB/s다. [비교 보고서](results/znand/locality/RESULTS_KO.md)와 [동일 조건 CSV](results/znand/locality/matched_comparison.csv)를 확인한다. FIFO 대조군 4개 포함 총 60개를 실행·검증했고 테스트 42개가 통과했다. 기본 정책은 기존 재현성을 위해 fifo로 유지한다.
+
+A2·32MiB의 locality 설정 재실행:
+
+```sh
+python3 -m znand.run --config znand/locality_A2_32MiB.json --pattern A2 --per-port 8192 --out results/local/locality_A2_32MiB
+```

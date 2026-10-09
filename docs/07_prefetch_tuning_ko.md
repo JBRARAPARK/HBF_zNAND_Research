@@ -513,3 +513,11 @@ MQSim은 pinned revision의 preconditioning 매핑 할당 결과를 실제 추�
 ### 버퍼 용량과 예약 window의 결합에 대한 보정
 
 버퍼 확대 표는 물리 용량과 admission 예약 한도를 함께 바꾼 결과다. 동일 A2 설정에서 32MiB를 두고 예약 한도만 기존 512페이지로 제한하면 8MiB의 모든 결과 지표와 계수가 재현된다(69.282GB/s). 실제로 사용한 공간은 최대 8MiB이며, 남은 공간 활용은 검증하지 않은 대조 실험이다. [추가 검증](../results/znand/buffer_expansion/RESULTS_KO.md)을 반영하여 물리 용량·예약 한도·CA locality 정책을 독립 비교한다. 앞서 관측한 16MiB 최고값을 하드웨어 최적 크기로 단정하지 않는다.
+
+## 연속 물리 주소 우선 정책 적용과 평가
+
+`ca_policy=locality`를 추가했다. 같은 Plane의 이미 발행 가능한 동일 page buffer 또는 같은 Group의 q+1을 우선한다. Demand 우선, Plane별 연속 우회 최대 8회, oldest eligible 대기 1,000μs 이후 우선으로 제한한다. Channel의 Plane 간 우선순위는 각 Plane의 oldest를 기준으로 유지한다. 버퍼 reservation, Host 요청열, Data 중재, 외부 port 내부 in-order는 바꾸지 않았다. 기본값 fifo는 기존 결과 재현을 위해 유지한다.
+
+[평가 보고서](../results/znand/locality/RESULTS_KO.md): 신규 locality 56개와 FIFO 대조군 4개를 실행하고 60행 모두 검증했다. 동일 A2·16KiB 분산·PF ON·QD2,048/port·8,192요청/port에서 32MiB는 37.083→118.257GB/s, Long 비율은 91.81→10.57%다. 이 조건의 제시 기준 p99는 3,057.47→610.74μs다. 비교 범위의 최고값은 A1·32MiB·4KiB 분산·PF ON·QD2,048에서 118.780GB/s다.
+
+다음 튜닝은 우회 허용 횟수와 age, 물리 용량과 reservation window 분리, port별 부하·공정성 및 주소 분포, 64Plane 확장이다. 이번 56개 조건은 모두 개선됐지만 모든 workload의 개선이나 전역 최적값을 보장하지 않는다. 기존 FIFO에서 선택된 설정을 그대로 비교한 결과이므로 locality의 Outstanding 최적값은 별도 탐색 대상이다.

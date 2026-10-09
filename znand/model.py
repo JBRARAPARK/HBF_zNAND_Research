@@ -48,8 +48,14 @@ class Config:
     remap_fraction: float = 0.
     snapshot: str = ''
     trace: bool = False
+    ca_policy: str = 'fifo'
+    locality_max_bypass: int = 8
+    locality_age_us: float = 1000.
 
     def validate(self):
+        assert self.ca_policy in ('fifo', 'locality')
+        assert isinstance(self.locality_max_bypass,int) and self.locality_max_bypass > 0
+        assert math.isfinite(self.locality_age_us) and self.locality_age_us >= 0
         assert 1 <= self.ports <= 4 and self.channels == 4
         assert isinstance(self.planes, int) and self.planes in (8, 16)
         assert self.stripe in (4096, 16384)
@@ -172,6 +178,7 @@ class Simulator:
         self.lanes=[[0.]*c.lookup_pipelines for _ in range(c.ports)]
         self.next_ar=[0.]*c.ports;self.rb=[False]*c.ports;self.peak=[0]*c.ports
         self.ca=[False]*c.channels;self.data=[False]*c.channels
+        self.locality_bypasses=Counter()
         self.plane={ (ch,pl):dict(busy=False,last=None,pb=None,off=False,pending=0) for ch in range(c.channels) for pl in range(c.planes)}
         self.cb=[0.]*c.channels;self.db=[0.]*c.channels
         self.channel_data=[0]*c.channels;self.first_nand=None
@@ -279,17 +286,66 @@ class Simulator:
     def demand(self,x):
         return any(self.req[i]['lookup'] for i in x['refs'])
 
+    def ca_candidates(self,waiting):
+        """One issuable candidate per channel; the FIFO default is unchanged.
+
+        Locality selection uses only already-eligible work and recorded page
+        buffer/sensing state. It never waits for or invents a future request.
+        Within each plane, demand wins over prefetch. A same-buffer page or
+        q+1 in the same group may bypass older work, with age/count limits.
+        Across planes retain the oldest represented work's ordering priority.
+        """
+        available=[]
+        for x in waiting:
+            ch,pl,q=x['key'];plane=self.plane[(ch,pl)]
+            if not (self.ca[ch] or plane['busy'] or plane['off']):
+                available.append(x)
+        if self.c.ca_policy=='fifo':
+            best={}
+            for x in available:
+                ch=x['key'][0];rank=(not self.demand(x),x['seq'])
+                if ch not in best or rank<best[ch][0]:best[ch]=(rank,x)
+            return best,{}
+        planes={}
+        for x in available:planes.setdefault(x['key'][:2],[]).append(x)
+        best={};decisions={}
+        for key,items in planes.items():
+            plane=self.plane[key]
+            demand=[x for x in items if self.demand(x)]
+            tier=demand or items
+            oldest=min(tier,key=lambda x:x['seq'])
+            old_enough=self.now-oldest['eligible'] >= self.c.locality_age_us
+            exhausted=self.locality_bypasses[key] >= self.c.locality_max_bypass
+            selected=oldest;reason='oldest'
+            if old_enough:reason='age'
+            elif exhausted:reason='bypass_limit'
+            else:
+                local=[]
+                for x in tier:
+                    q=x['key'][2]
+                    hit=plane['pb']==q
+                    adjacent=plane['last'] is not None and q==plane['last']+1 and address(q)[0]==address(plane['last'])[0]
+                    if hit or adjacent:local.append((not hit,x['seq'],x))
+                if local:
+                    selected=min(local,key=lambda item:item[:2])[2]
+                    if selected is not oldest:reason='locality'
+            rank=(not bool(demand),oldest['seq'])
+            ch=key[0]
+            if ch not in best or rank<best[ch][0]:
+                best[ch]=(rank,selected)
+                decisions[ch]=(key,selected is not oldest,reason)
+        return best,decisions
+
     def dispatch(self):
         c=self.c
         waiting=[x for x in self.items.values() if x['state']=='waiting' and x['eligible'] is not None]
-        # Choose one eligible CA per channel, skipping busy/maintenance planes.
-        best={}
-        for x in waiting:
-            ch,pl,q=x['key'];plane=self.plane[(ch,pl)]
-            if self.ca[ch] or plane['busy'] or plane['off']:continue
-            rank=(not self.demand(x),x['seq'])
-            if ch not in best or rank<best[ch][0]:best[ch]=(rank,x)
+        best,decisions=self.ca_candidates(waiting)
         for ch,(_,x) in best.items():
+            if ch in decisions:
+                plane_key,bypassed,reason=decisions[ch]
+                if bypassed:self.locality_bypasses[plane_key]+=1
+                else:self.locality_bypasses[plane_key]=0
+                self.count['ca_selection_'+reason]+=1
             key=x['key'];plane=self.plane[key[:2]]
             hit=plane['pb']==key[2]
             x['state']='ca';x['pb_hit']=hit;x['issue']=self.now

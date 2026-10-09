@@ -18,3 +18,6 @@ scratch/
 !results/znand/buffer_expansion/*.png
 results/znand/*_progress.log
 results/znand/buffer_expansion/report_generation.log
+
+!results/znand/locality/*.png
+results/znand/locality/report_generation.log

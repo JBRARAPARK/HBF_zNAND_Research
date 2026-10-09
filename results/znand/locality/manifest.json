@@ -1,0 +1,13 @@
+{
+  "cases": 60,
+  "validated_rows": 60,
+  "elapsed_seconds": 511.99808470799326,
+  "model_sha256": "7048e367856ec7cc6750edbc26a3aac686a37adda6f8d9fb360049edbc443259",
+  "baseline_sha256": "3948e413adf85b86092b307a531a8ed8d96e8b76e81c06a2ecc860bf9741e5c4",
+  "scope": "4 ports, 32 planes, 8192 requests per port, identical inputs and timing; CA scheduling only",
+  "policy": {
+    "max_bypass": 8,
+    "age_us": 1000
+  },
+  "fifo_controls_reproduce_saved_results": true
+}

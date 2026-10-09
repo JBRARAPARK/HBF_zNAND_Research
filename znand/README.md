@@ -123,3 +123,11 @@ python3 -m znand.diagnostics --cases 64plane_8MiB 64plane_32MiB --out results/zn
 - [Host IF 병목 원인과 6개 진단 해석](../docs/08_host_if_bottleneck_ko.md)
 - [NAND 주소 비트와 물리 Die 구성 예](../docs/09_plane_expansion_layout_ko.md)
 - [추가 결과와 설정](../results/znand/diagnostics_2026-10-09/)
+
+## 연속 물리 주소 우선 CA 스케줄링
+
+`Config.ca_policy`는 `fifo`(기존 기본값)와 `locality`를 지원한다. Locality는 같은 Plane의 이미 발행 가능한 요청에서 page buffer 재사용 또는 같은 Group의 q+1을 우선한다. Demand 우선순위와 port 내부 in-order 반환을 유지하며, 후보가 없으면 기존 요청을 발행한다. 미도착 주소를 기다리거나 Host 요청열을 바꾸지 않는다.
+
+`locality_max_bypass=8`은 가장 오래된 해당 우선순위 요청을 연속 우회할 수 있는 최대 CA 선택 횟수다. `locality_age_us=1000`을 넘게 기다린 oldest 요청도 우선한다. Busy·maintenance를 포함한 절대 응답시간 보장은 아니다. Prefetch starvation은 기존 Demand 우선 원칙의 별도 튜닝 대상이다.
+
+`python3 -m znand.locality_sweep`와 `python3 -m znand.locality_report`로 평가를 재현한다. 결과는 `results/znand/locality/`에 기록한다. 동일 실험을 중복 실행하지 않도록 진행 중인 프로세스를 먼저 확인한다. 이번 비교는 버퍼·예약 정책과 Host 입력을 그대로 유지하고 CA 선택만 바꾼다.

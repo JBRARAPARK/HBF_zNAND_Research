@@ -16,7 +16,7 @@ usage() {
     cat <<'EOF'
 Usage: bash scripts/macos.sh COMMAND [OPTIONS]
   setup [--plots]   Create .venv using Python 3.10+; optionally install matplotlib
-  check            Run the 35 model tests
+  check            Run the 42 model tests
   smoke            Run tests plus two explicit-spawn 32/64-plane checks
   diagnostics      Reproduce the six A2 diagnostic cases (accepts CLI options)
   replay [PATTERN] Replay a saved best config; default A2, 8192 requests/port
@@ -116,12 +116,12 @@ case "$znand_action" in
     check)
         [[ $# -eq 0 ]] || fail 'check takes no options.'
         require_python
-        "$znand_python" -m unittest test_znand test_znand_expansion -q
+        "$znand_python" -m unittest test_znand test_znand_expansion test_znand_locality -q
         ;;
     smoke)
         [[ $# -eq 0 ]] || fail 'smoke takes no options.'
         require_python
-        "$znand_python" -m unittest test_znand test_znand_expansion -q
+        "$znand_python" -m unittest test_znand test_znand_expansion test_znand_locality -q
         new_output
         "$znand_python" -m znand.portability --out "$znand_out"
         ;;

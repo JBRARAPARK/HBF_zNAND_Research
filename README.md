@@ -7,6 +7,8 @@
 - 모델 검토 기준: [`NAND_Prefetch_Model` / `6456496`](https://github.com/JBRARAPARK/NAND_Prefetch_Model/tree/645649621a94c96de5a4d614267ab80387f06c0c)
 - 저장소 성격: 질의 분석, 설계 검토, 실행 가능한 모델과 평가 데이터. 삼성 제품의 공식 답변이나 실측 성능 자료가 아닙니다.
 
+높은 QD의 성능 평가는 현재 **PF 자체를 끈 Host-only 기준선**을 사용한다. [PF ON/OFF 비교와 실행 설정](results/znand/pf_qd/RESULTS_KO.md)에 같은 조건의 결과를 제공한다. 과거 PF ON 프로파일은 대조군으로 보존한다.
+
 ## Mac에서 빠르게 실행
 
 Python 3.10 이상과 Git이 있는 Mac에서 저장소를 내려받은 뒤 실행합니다. 수치 모델에는 외부 Python 패키지가 필요하지 않습니다.
@@ -82,6 +84,7 @@ bash scripts/macos.sh diagnostics
 | 2026-10-09 | Mac 가상환경·실행 스크립트, spawn 병렬 확인, 로컬 결과 분리, 보고서와 상위 QD 실행의 출력 경로 옵션 추가 |
 | 2026-10-10 | 컨트롤러 스케줄링 적용점 통합 문서 추가: FIFO/locality/head_locality, 우회 제한 동작, 프로파일과 기존 실험 근거 정리 |
 | 2026-10-10 | 버퍼×QD·제한적 연속 PF·NAND Data 선두 우선 92개 신규 실험, 상태별 버퍼 계측, 추가 조건 검증과 테스트 63개. 기존 실행용 프로파일 유지 |
+| 2026-10-10 | PF 자체 ON/OFF의 QD별 비교 28개 조건(신규 18개·대조군 재사용 10개), Host-only 성능 기준선과 프로파일 분리 |
 
 ## 실행 가능한 모델과 결과
 
@@ -159,3 +162,15 @@ python3 -m znand.run --config results/znand/head_locality/profiles/A1.json --pat
 **기존 실행용 프로파일을 유지한다.** 32Plane의 버퍼 32/40/48MiB × QD1,024/2,048/4,096 비교에서는 32MiB·QD2,048/port가 A1/A2 모두 최고였다(134.339/135.035GB/s). 제한적 PF 우선 후보의 작은 평균 이득은 seed·주소 재배치 조건에서 유지되지 않았다. NAND Data 선두 우선도 A1의 긴 요청열에서 143.352→140.442GB/s로 낮아져 기본 OFF를 유지한다.
 
 상태 계측에서 평균 예약 대기 약 14MiB와 ready 약 13MiB가 버퍼 점유의 대부분이었다. 다음 구현 후보는 요청 정보와 payload 예약을 분리하고 발행 범위를 조절하는 방식이다. 이번에는 그 변경을 구현하지 않았다. A1/A2의 기존 정책을 64Plane에 적용한 결과는 186.803/191.508GB/s였으며, 이는 geometry 확장 효과로 별도 해석한다.
+
+## 높은 QD의 PF 자체 OFF 비교
+
+이후 성능 튜닝의 기준선을 **Host-only (`prefetch=false`)**로 분리했다. 이전의 `pf_ahead_limit=0`은 PF ON에서 Demand 추월 예외만 끈 설정이었다. [28개 조건의 비교 보고서](results/znand/pf_qd/RESULTS_KO.md), [원본 CSV](results/znand/pf_qd/sweep.csv), [검증](results/znand/pf_qd/validation.json)에 신규 18개와 동일 조건 재사용 10개를 구분했다. Simulator 소스 변경 없이 각 쌍의 PF Boolean만 바꿨다.
+
+4port·32Plane·32MiB·8,192요청/port에서 Host-only 관측 최고는 QD2,048/port의 A1 **133.772GB/s**, A2 **137.212GB/s**다. QD4,096/8,192에서는 두 패턴 모두 PF OFF가 ON보다 빠르지만, OFF 상태에서도 QD2,048의 처리량을 넘지 못했다. 긴 요청열은 OFF 141.492/146.007GB/s, ON 143.352/143.164GB/s였다. PF OFF를 기준선으로 쓰되 항상 최고 성능인 공통 QD cutoff는 확정하지 않는다.
+
+[A1 Host-only 설정](results/znand/pf_qd/profiles/A1_host_only.json), [A2 Host-only 설정](results/znand/pf_qd/profiles/A2_host_only.json)을 제공한다. QD에 따른 동적 PF 전환은 구현하지 않았다. 이후 요청 정보와 payload 예약 분리 실험도 Host-only부터 평가한다.
+
+```sh
+python3 -m znand.run --config results/znand/pf_qd/profiles/A1_host_only.json --pattern A1 --per-port 8192 --out results/local/A1_host_only
+```

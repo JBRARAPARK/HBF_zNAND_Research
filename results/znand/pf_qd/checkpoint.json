@@ -1,0 +1,11 @@
+{
+  "hashes": {
+    "znand/model.py": "755f822a6b7c1f44f65117b4892078419a766d4963ad4d49931e8aa1db679baf",
+    "znand/scheduling_probe.py": "8795d7d75428cf6923aada84df1ee8bbbe29b1440918654791e980b974261cf5",
+    "znand/scheduling_sweep.py": "bbc0fad577d2992a08f9c4bb34b5032e932b2ee1822e15b0c419053e2ad0a8e9",
+    "znand/pf_qd_sweep.py": "1020ba0fb1a7cda40b89da62a2a5930807ec3b2ec1c3415daf487dcd4161cea1"
+  },
+  "reference_rows_sha256": "3e8f5a968466ea60171dc7071e16c28c0244bffb980ce850f5204574cde2904f",
+  "source_commit": "407708990258e68ca98c9d80966f2adf5e15d32e",
+  "scope": "Only prefetch Boolean differs inside each pair. No dynamic PF gating or model change."
+}

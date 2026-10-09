@@ -30,3 +30,5 @@ results/znand/head_locality/report_generation.log
 
 !results/znand/scheduling_next/*.png
 results/znand/scheduling_next/report_generation.log
+
+!results/znand/pf_qd/*.png

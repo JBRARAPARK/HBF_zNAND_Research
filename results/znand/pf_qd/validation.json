@@ -1,0 +1,12 @@
+{
+  "status": "passed",
+  "validated_rows": 28,
+  "new": 18,
+  "reused": 10,
+  "complete_pf_off_verified": true,
+  "same_condition_pairs": 14,
+  "reused_metrics_exact": true,
+  "csv_json_agree": true,
+  "source_hashes_match": true,
+  "sweep_sha256": "f579cf1287ba0c18e453a17beef8f43d9539bac4cf4f312698b9b178d6583fe5"
+}

@@ -6,6 +6,8 @@
 
 이 문서는 `b5c195b` 시점의 기준 정책과 결과를 보존한다. 이후 추가한 PF 제한 우선·NAND Data 선두 우선 및 자원 재평가는 [후속 적용과 튜닝](13_controller_followup_ko.md), [단계별 결과](../results/znand/scheduling_next/RESULTS_KO.md)를 따른다. 아래 후속 후보 중 Data 중재 변경은 이 추가 평가에서 구현했다.
 
+아래 성능 프로파일은 PF ON 실험 기록이다. 이후 높은 QD의 평가 기준은 `prefetch=false`인 Host-only로 분리했다. CA 정책은 유지하며 [PF 자체 ON/OFF 비교와 Host-only 실행 설정](../results/znand/pf_qd/RESULTS_KO.md)을 사용한다. `pf_ahead_limit=0`과 PF 자체 OFF는 서로 다른 설정이다.
+
 - 정리일: 2026-10-10, Asia/Seoul
 - 구현 기준: [`znand/model.py`](../znand/model.py), 커밋 `b5c195b`
 - 모델 SHA-256: `cebec697da50ce9dba53e0681b5e06a44e9bd8096f20862a2dd5c1cac9b0a15a`

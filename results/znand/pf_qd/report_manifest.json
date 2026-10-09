@@ -1,0 +1,10 @@
+{
+  "source_sha256": "0c02f6c51fd798db19b6a330662950b0067c0e341afa6f84000e1dab5700b897",
+  "sweep_sha256": "f579cf1287ba0c18e453a17beef8f43d9539bac4cf4f312698b9b178d6583fe5",
+  "selected_host_only": {
+    "A1": "A1_qd_q2048_pf0",
+    "A2": "A2_qd_q2048_pf0"
+  },
+  "high_qd_off_faster": 5,
+  "high_qd_pairs": 6
+}

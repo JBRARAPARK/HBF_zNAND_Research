@@ -8,6 +8,8 @@
 
 [92개 후속 실험 결과](../results/znand/scheduling_next/RESULTS_KO.md)에 따라 기존 패턴별 실행 프로파일을 유지한다. 새 PF/Data 정책은 opt-in 실험 옵션이다. `python3 -m znand.validate_scheduling`으로 결과·설정·선택 규칙·소스 해시를 함께 확인한다. 원본 모델의 기본값과 실험용 프로파일은 구분한다.
 
+높은 QD의 성능 평가는 이후 [Host-only 기준선](../results/znand/pf_qd/RESULTS_KO.md)으로 분리했다. `prefetch=false`로 PF 자체를 끄고 Host 요청만 처리한다. 기존 `pf_ahead_limit=0`은 PF ON에서 Demand 추월 예외만 끈 설정이다. 같은 CA 정책의 [A1 Host-only](../results/znand/pf_qd/profiles/A1_host_only.json), [A2 Host-only](../results/znand/pf_qd/profiles/A2_host_only.json)를 제공하며, 기존 PF ON 설정은 대조군으로 보관한다. QD에 따른 자동 PF 전환은 구현하지 않았다.
+
 ## 실행
 
 Mac에서는 저장소 루트에서 `bash scripts/macos.sh setup`, `bash scripts/macos.sh smoke`, `bash scripts/macos.sh diagnostics`를 순서대로 실행한다. Python 3.10 이상을 사용하며 스크립트가 `.venv`를 직접 선택한다. 새 결과는 `results/local/`에 저장한다. 그래프는 `setup --plots` 후 `report`, 주소 배치는 `layout`으로 연다. 상세 절차는 [Mac 실행 안내](../docs/11_macos_run_ko.md)를 따른다.

@@ -4,6 +4,8 @@
 
 2026-10-10까지 구현한 CA 정책과 현재 프로파일은 [컨트롤러 스케줄링 적용점](12_controller_scheduling_ko.md)에 통합했다. 적용 위치, 우회 32회의 동작, port 선두 보호와 성능 근거를 함께 확인할 수 있다. 아래 초기 중재 기준과 이후 정책 확장 기록을 구분해 읽는다.
 
+높은 QD의 최신 평가 기준은 사용자 요청에 따라 **Host-only (`prefetch=false`)**로 분리한다. [PF 자체 ON/OFF 비교](../results/znand/pf_qd/RESULTS_KO.md)와 이 문서 마지막의 후속 기준을 따른다. 이전 PF ON 실험 수치는 당시 조건의 기록으로 유지한다.
+
 - 결정 기록일: 2026-10-09
 - 대상 모델: `/Users/bagjunbeom/Downloads/NAND_Prefetch_Model`
 - 상태: 사용자 합의와 실행 기준을 기록한다. 2026-10-09에 별도 `znand/` 모듈을 구현하고 검증·실험을 진행했다. 기존 simulator 파일과 새 모듈을 구분하며 실행 결과는 아래 링크를 따른다.
@@ -575,3 +577,15 @@ MQSim은 pinned revision의 preconditioning 매핑 할당 결과를 실제 추�
 | 실제 L2P snapshot과 혼합 workload | 기본 seed의 작은 개선이 현실적인 주소 배치에서도 남는가 | 동일 snapshot/trace의 정책별 쌍 비교. 실제 predictor의 coverage·오예측량을 분리 |
 
 첫 항목을 다음 구현 우선순위로 둔다. Long 선택 시 다음 연속 페이지 미수락은 A1 361/600건, A2 332/591건이었다. QD·버퍼 제한이 동시에 관측되며 아직 Host가 제시하지 않은 요청도 포함되므로, 이 수치를 제거 가능한 Long의 양이나 예상 개선률로 사용하지 않는다. 64B 물리 분산 및 소비 후 cache는 기존 합의대로 후속 검토 항목에 남긴다.
+
+## 높은 QD의 Host-only 성능 기준
+
+사용자 방향: “PF를 high QD에서는 꺼야 하지 않을까? 결국 host 요청만으로 성능이 최대가 나와야 하거든.” 이후 높은 QD 성능 튜닝은 `prefetch=false`를 기준선으로 삼는다. PF는 같은 자원·배치·정책의 ON/OFF 추가 효과로 평가한다. 기존 `pf_ahead_limit=0`은 PF 자체를 끈 것이 아니므로 설정 이름을 구분한다.
+
+4port·32MiB에서 A1/A2 × QD128/1,024/2,048/4,096/8,192 × PF OFF/ON을 비교하고, QD2,048에서 긴 요청열과 64Plane을 확인했다. [총 28개 조건](../results/znand/pf_qd/RESULTS_KO.md)은 신규 18개와 이전 동일 조건 대조군 10개다. 각 쌍은 `prefetch` Boolean만 다르며 기존 CA 정책·port 내부 in-order·NAND 값은 유지한다.
+
+기본 32Plane·8,192요청/port에서 PF OFF 관측 최고는 두 패턴 모두 **QD2,048/port**로, A1 133.772GB/s, A2 137.212GB/s였다. 같은 조건의 ON은 134.339/135.035GB/s다. QD4,096·8,192에서는 두 패턴 모두 OFF가 빠르지만, OFF에서도 QD2,048보다 낮았다. QD를 높이거나 PF를 끄는 것만으로 전체 병목이 해결된 결과는 아니다.
+
+기본 A1의 QD2,048에서 PF ON의 Host 측정 구간 이득은 약 0.42%다. PF 사전 NAND 작업 시간을 포함한 ON은 133.008GB/s로 OFF 133.772GB/s보다 낮다. 반면 긴 A1에서는 사전 시간을 포함해도 ON이 빠른 조건이 남는다. 두 측정 구간과 요청 길이를 함께 기록하고, 공통 QD cutoff를 확정하지 않는다.
+
+다음 구현 비교는 Host-only 상태에서 요청 메타데이터와 payload 예약을 분리하고, 실제 수락량과 Plane별 발행 가능한 물리 페이지 수를 관측한다. 많은 4KiB/64B 요청이 같은 16KiB 페이지를 공유할 수 있으므로 설정 QD를 NAND 병렬성으로 직접 환산하지 않는다. 동적 PF OFF/ON을 추가한다면 실제 Demand 가시성·Plane별 준비 작업·버퍼 상태에 따른 기준과 전환 시 이미 진행 중인 PF 처리 방법을 따로 검증한다. 이번 실행은 정적 ON/OFF 비교이며 자동 전환 기능은 추가하지 않았다.

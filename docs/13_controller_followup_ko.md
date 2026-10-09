@@ -4,6 +4,8 @@
 
 평가 조건·선택 결과·추가 확인은 [92개 조건 결과 보고서](../results/znand/scheduling_next/RESULTS_KO.md), 이전 정책의 전체 구조는 [컨트롤러 스케줄링 적용점](12_controller_scheduling_ko.md)을 따른다. 이 문서의 추가 기능은 모델 기본값에서 꺼져 있다.
 
+**PF 자체와 우선순위 옵션을 구분한다.** 이 문서의 92개 실험은 `prefetch=true`였다. `pf_ahead_limit=0`은 PF의 Demand 추월 예외만 끈다. 이후 사용자 요청에 따른 [높은 QD의 Host-only 비교](../results/znand/pf_qd/RESULTS_KO.md)는 `prefetch=false`로 후보 생성부터 완전히 끄며, 높은 QD의 새 평가 기준선이다.
+
 ## 연속 Prefetch를 제한적으로 먼저 발행
 
 기존 정책은 같은 Plane에 발행 가능한 Demand가 있으면 Prefetch를 후순위로 둔다. 새 옵션은 마지막 sensing 페이지의 다음 물리 페이지가 PF 후보일 때, 연속성을 유지하기 위해 제한적으로 먼저 발행한다.

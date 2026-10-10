@@ -1,0 +1,12 @@
+{
+  "source_sha256": "feb7ee7970a8cfc23ed1e4116f4e9a9b2e59759d13ba64f2e8d75c1703de3806",
+  "rows_sha256": "cad258638894b682b3060038fd1794ad8f7fbd646578206ca08b4569bcfc1b73",
+  "outputs": {
+    "results/znand/saturation/A1_time_comparison.png": "fef7b0dc0fb1c394a83a8a000a6df837889ef9c62092d10a12359833e28ad92c",
+    "results/znand/saturation/A1_time_comparison.pdf": "d669520e15d5321c8496af35472012bbda60991c5c95851ecf4623cd596c9ff0",
+    "results/znand/saturation/A2_time_comparison.png": "49c0b11823baa1d9998b881650cbc71bb7ddafa7027814587fac2b23f010429f",
+    "results/znand/saturation/A2_time_comparison.pdf": "860fa8bf7bbd413f968cb6cfae66a00fc8b1b7f5616df2787d00de1d48aad508",
+    "results/znand/saturation/outstanding_performance.png": "946648e096507d16feddc6fd5540ca3f503882a8a3e1e57c96cb7124e6639c19",
+    "results/znand/saturation/outstanding_performance.pdf": "c126ea394e319dab71e4395d7fcf3e3391d3b99054fb629fe0a8a0e8d70fe557"
+  }
+}

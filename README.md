@@ -9,6 +9,8 @@
 
 높은 QD의 성능 평가는 현재 **PF 자체를 끈 Host-only 기준선**을 사용한다. [PF ON/OFF 비교와 실행 설정](results/znand/pf_qd/RESULTS_KO.md)에 같은 조건의 결과를 제공한다. 과거 PF ON 프로파일은 대조군으로 보존한다.
 
+**현재 처리량 판단은 지속 부하의 실제 Device outstanding과 시간별 평균을 기준으로 한다.** [지속 부하 측정과 시간 그래프](results/znand/saturation/RESULTS_KO.md)는 총 명령 완료를 기다리지 않고 2.2ms에서 관측을 끝낸다. 초기 200µs 제외 후 고정 2ms 평균과 최고 연속 500µs 평균, Port별 실제 outstanding, 25µs별 수락·완료 수를 함께 제공한다. 42개 조합에서 **8MiB·QD512/Port**의 A1/A2 고정 평균은 **255.366/255.058GB/s**다. **4MiB·QD256/Port**도 **234.484/239.904GB/s**였다. 기존 유한 요청열의 전체 완료 평균과 구분한다.
+
 Host IF 목표는 geometry별로 구분한다. **32Plane은 현재 모델의 신규 데이터 공급량으로 256GB/s 달성이 불가능하고, 64Plane은 배치 변경으로 근접할 여지가 있다.** [물리 상한과 12개 비교 결과](results/znand/host_ceiling/RESULTS_KO.md)에 계산·실행 근거를 정리했다.
 
 현재 후속 성능 평가 기준은 **4channel × 16Plane = 총 64Plane**이다. 기존 tR·PF OFF·32MiB·QD2,048/port를 유지한 [64Plane 재측정 보고서](results/znand/planes64/RESULTS_KO.md)에 A1/A2의 기존 배치·영역 배치, 8,192/32,768요청/port의 8개 신규 실행을 기록한다. 실행은 `python3 -m znand.host64_measure --workers 4`이며, 길이에 맞는 [64Plane 프로파일](results/znand/planes64/profiles/)을 사용한다. 과거 결과 재현을 위한 모델 기본값과 기존 32Plane 프로파일은 보존한다.
@@ -98,6 +100,7 @@ bash scripts/macos.sh diagnostics
 | 2026-10-10 | 총 64Plane을 후속 평가 기준으로 적용. 기존/영역 배치와 8,192/32,768요청/port를 새로 측정. 긴 영역 배치 A1/A2는 고정 tR에서 전체 249.508/249.325GB/s |
 | 2026-10-10 | 64Plane controller buffer 16MiB 신규 8개 조건과 32MiB 대조군 비교. 개선 배치 네 쌍의 실행 지표는 동일, 기존 배치의 긴 A1/A2는 −36.87/−40.12% |
 | 2026-10-10 | 개선 배치의 200GB/s 버퍼 경계 측정: 1~32MiB의 13개 용량 × A1/A2 × 두 길이, 신규 44개·대조군 8개. 공통 최소 측정 용량 7.75MiB, 8MiB에서 217.521~236.348GB/s. Port 수락·진행 불균형과 후속 튜닝 기록 |
+| 2026-10-10 | 측정 기준을 지속 부하·실제 outstanding·시간별 평균으로 변경. 42개 신규 조합, 25µs 시간 데이터, 초기 200µs 제외 고정 2ms 및 최고 500µs 평균. 8MiB·QD512에서 약 255GB/s, 큰 QD의 Port 편중 관측. 원본 NAND 모델 유지 및 신규 검증 5개 통과 |
 
 ## 실행 가능한 모델과 결과
 

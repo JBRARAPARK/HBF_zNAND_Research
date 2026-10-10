@@ -1,0 +1,26 @@
+{
+  "status": "passed",
+  "checks": [
+    {
+      "pattern": "A1",
+      "prefix_requests_per_port": 32766,
+      "ports": 4,
+      "physical_key_and_offset_identical": true,
+      "reference_profile": "results/znand/planes64/profiles/A1_64Plane_n32768_region_layout.json",
+      "reference_sha256": "f1a0048a33824341d25db73e96eb5bcb9027ea0a9f334b0a8ff88a8f8f73477b"
+    },
+    {
+      "pattern": "A2",
+      "prefix_requests_per_port": 32766,
+      "ports": 4,
+      "physical_key_and_offset_identical": true,
+      "reference_profile": "results/znand/planes64/profiles/A2_64Plane_n32768_region_layout.json",
+      "reference_sha256": "de8c7083306e58b8717d12b78e2041c738ca37af9338287dfef60aa6e445e633"
+    }
+  ],
+  "only_config_changes": [
+    "buffer_pages",
+    "outstanding",
+    "snapshot_address_domain_extension"
+  ]
+}

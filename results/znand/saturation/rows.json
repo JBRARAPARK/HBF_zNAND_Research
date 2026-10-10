@@ -1,0 +1,1220 @@
+[
+  {
+    "name": "A1_b4_q128",
+    "pattern": "A1",
+    "buffer_mib": 4,
+    "configured_qd_per_port": 128,
+    "fixed_gbps": 151.70237306441805,
+    "peak_500us_gbps": 152.06744647358255,
+    "peak_start_us": 1125.0,
+    "peak_end_us": 1625.0,
+    "fixed_actual_outstanding": 512.0,
+    "fixed_actual_outstanding_per_port": [
+      128.0,
+      128.0,
+      128.0,
+      128.0
+    ],
+    "fixed_per_port_gbps": [
+      36.8773211689236,
+      36.30989949852804,
+      39.32462439695407,
+      39.19052800001237
+    ],
+    "fixed_accepted_requests": 74074,
+    "fixed_completed_requests": 74074,
+    "peak_actual_outstanding": 512.0,
+    "peak_completed_requests": 18563,
+    "peak_buffer_mib": 2.25,
+    "second_vs_first_pct": 0.4507718976613839
+  },
+  {
+    "name": "A2_b4_q128",
+    "pattern": "A2",
+    "buffer_mib": 4,
+    "configured_qd_per_port": 128,
+    "fixed_gbps": 149.68892230773815,
+    "peak_500us_gbps": 150.51532872154618,
+    "peak_start_us": 250.0,
+    "peak_end_us": 750.0,
+    "fixed_actual_outstanding": 512.0,
+    "fixed_actual_outstanding_per_port": [
+      128.0,
+      128.0,
+      128.0,
+      128.0
+    ],
+    "fixed_per_port_gbps": [
+      36.962304000011784,
+      34.08076800001086,
+      39.324250307703174,
+      39.32160000001233
+    ],
+    "fixed_accepted_requests": 73090,
+    "fixed_completed_requests": 73090,
+    "peak_actual_outstanding": 512.0,
+    "peak_completed_requests": 18374,
+    "peak_buffer_mib": 2.0625,
+    "second_vs_first_pct": -0.3468448125402701
+  },
+  {
+    "name": "A1_b4_q256",
+    "pattern": "A1",
+    "buffer_mib": 4,
+    "configured_qd_per_port": 256,
+    "fixed_gbps": 234.48431349697435,
+    "peak_500us_gbps": 235.28912402958528,
+    "peak_start_us": 1550.0,
+    "peak_end_us": 2050.0,
+    "fixed_actual_outstanding": 985.0664234159688,
+    "fixed_actual_outstanding_per_port": [
+      254.92914702745287,
+      254.097538912699,
+      252.96041061448742,
+      223.07932686132946
+    ],
+    "fixed_per_port_gbps": [
+      60.15529254987162,
+      59.50268879390325,
+      59.90716415318228,
+      54.9191680000172
+    ],
+    "fixed_accepted_requests": 114507,
+    "fixed_completed_requests": 114495,
+    "peak_actual_outstanding": 985.2753408215697,
+    "peak_completed_requests": 28722,
+    "peak_buffer_mib": 4.0,
+    "second_vs_first_pct": 0.3408514662802675
+  },
+  {
+    "name": "A2_b4_q256",
+    "pattern": "A2",
+    "buffer_mib": 4,
+    "configured_qd_per_port": 256,
+    "fixed_gbps": 239.90423596824712,
+    "peak_500us_gbps": 240.7451968272568,
+    "peak_start_us": 1150.0,
+    "peak_end_us": 1650.0,
+    "fixed_actual_outstanding": 1012.2927143891943,
+    "fixed_actual_outstanding_per_port": [
+      255.88680807612192,
+      255.75053745855047,
+      255.2397805480893,
+      245.41558830643265
+    ],
+    "fixed_per_port_gbps": [
+      60.234775327215374,
+      60.1512119082734,
+      60.66692073273971,
+      58.851328000018626
+    ],
+    "fixed_accepted_requests": 117138,
+    "fixed_completed_requests": 117141,
+    "peak_actual_outstanding": 1012.3141413664059,
+    "peak_completed_requests": 29387,
+    "peak_buffer_mib": 4.0,
+    "second_vs_first_pct": 0.004848769939513886
+  },
+  {
+    "name": "A1_b4_q512",
+    "pattern": "A1",
+    "buffer_mib": 4,
+    "configured_qd_per_port": 512,
+    "fixed_gbps": 131.28908800000133,
+    "peak_500us_gbps": 131.39968000000542,
+    "peak_start_us": 1375.0,
+    "peak_end_us": 1875.0,
+    "fixed_actual_outstanding": 999.4718551435964,
+    "fixed_actual_outstanding_per_port": [
+      507.223919911572,
+      490.24793523202436,
+      1.0,
+      1.0
+    ],
+    "fixed_per_port_gbps": [
+      64.0000000000002,
+      64.0000000000002,
+      1.5339520000004223,
+      1.7551360000004896
+    ],
+    "fixed_accepted_requests": 64106,
+    "fixed_completed_requests": 64106,
+    "peak_actual_outstanding": 999.4685809112096,
+    "peak_completed_requests": 16041,
+    "peak_buffer_mib": 4.0,
+    "second_vs_first_pct": -0.09355120369014536
+  },
+  {
+    "name": "A2_b4_q512",
+    "pattern": "A2",
+    "buffer_mib": 4,
+    "configured_qd_per_port": 512,
+    "fixed_gbps": 133.25926400000188,
+    "peak_500us_gbps": 133.3821439999966,
+    "peak_start_us": 525.0,
+    "peak_end_us": 1025.0,
+    "fixed_actual_outstanding": 1015.67849453841,
+    "fixed_actual_outstanding_per_port": [
+      511.1400066024286,
+      499.5689158948559,
+      2.505669167989072,
+      2.463902873136415
+    ],
+    "fixed_per_port_gbps": [
+      64.0000000000002,
+      64.0000000000002,
+      2.6214400000007734,
+      2.6378240000007063
+    ],
+    "fixed_accepted_requests": 65073,
+    "fixed_completed_requests": 65068,
+    "peak_actual_outstanding": 1015.6997315152967,
+    "peak_completed_requests": 16282,
+    "peak_buffer_mib": 4.0,
+    "second_vs_first_pct": 0.07379619949856586
+  },
+  {
+    "name": "A1_b4_q1024",
+    "pattern": "A1",
+    "buffer_mib": 4,
+    "configured_qd_per_port": 1024,
+    "fixed_gbps": 68.85480039694352,
+    "peak_500us_gbps": 68.9889279999967,
+    "peak_start_us": 475.0,
+    "peak_end_us": 975.0,
+    "fixed_actual_outstanding": 1005.548979851199,
+    "fixed_actual_outstanding_per_port": [
+      1002.548979851199,
+      1.0,
+      1.0,
+      1.0
+    ],
+    "fixed_per_port_gbps": [
+      64.0000000000002,
+      1.5196160000005565,
+      1.5810560000004708,
+      1.7541283969422885
+    ],
+    "fixed_accepted_requests": 33633,
+    "fixed_completed_requests": 33621,
+    "peak_actual_outstanding": 1005.5473361984691,
+    "peak_completed_requests": 8421,
+    "peak_buffer_mib": 4.0,
+    "second_vs_first_pct": -0.24068201805484968
+  },
+  {
+    "name": "A2_b4_q1024",
+    "pattern": "A2",
+    "buffer_mib": 4,
+    "configured_qd_per_port": 1024,
+    "fixed_gbps": 71.87456000000248,
+    "peak_500us_gbps": 72.00358399999591,
+    "peak_start_us": 525.0,
+    "peak_end_us": 1025.0,
+    "fixed_actual_outstanding": 1017.2799688301608,
+    "fixed_actual_outstanding_per_port": [
+      1009.7251682638495,
+      2.589884295118339,
+      2.5017044823100547,
+      2.463211788882887
+    ],
+    "fixed_per_port_gbps": [
+      64.0000000000002,
+      2.6214400000007783,
+      2.6152960000007743,
+      2.637824000000708
+    ],
+    "fixed_accepted_requests": 35105,
+    "fixed_completed_requests": 35095,
+    "peak_actual_outstanding": 1017.2537546494665,
+    "peak_completed_requests": 8790,
+    "peak_buffer_mib": 4.0,
+    "second_vs_first_pct": 0.1654023840819363
+  },
+  {
+    "name": "A1_b4_q2048",
+    "pattern": "A1",
+    "buffer_mib": 4,
+    "configured_qd_per_port": 2048,
+    "fixed_gbps": 68.85480039694352,
+    "peak_500us_gbps": 68.9889279999967,
+    "peak_start_us": 475.0,
+    "peak_end_us": 975.0,
+    "fixed_actual_outstanding": 1005.548979851199,
+    "fixed_actual_outstanding_per_port": [
+      1002.548979851199,
+      1.0,
+      1.0,
+      1.0
+    ],
+    "fixed_per_port_gbps": [
+      64.0000000000002,
+      1.5196160000005565,
+      1.5810560000004708,
+      1.7541283969422885
+    ],
+    "fixed_accepted_requests": 33633,
+    "fixed_completed_requests": 33621,
+    "peak_actual_outstanding": 1005.5473361984691,
+    "peak_completed_requests": 8421,
+    "peak_buffer_mib": 4.0,
+    "second_vs_first_pct": -0.24068201805484968
+  },
+  {
+    "name": "A2_b4_q2048",
+    "pattern": "A2",
+    "buffer_mib": 4,
+    "configured_qd_per_port": 2048,
+    "fixed_gbps": 71.87456000000248,
+    "peak_500us_gbps": 72.00358399999591,
+    "peak_start_us": 525.0,
+    "peak_end_us": 1025.0,
+    "fixed_actual_outstanding": 1017.2799688301608,
+    "fixed_actual_outstanding_per_port": [
+      1009.7251682638495,
+      2.589884295118339,
+      2.5017044823100547,
+      2.463211788882887
+    ],
+    "fixed_per_port_gbps": [
+      64.0000000000002,
+      2.6214400000007783,
+      2.6152960000007743,
+      2.637824000000708
+    ],
+    "fixed_accepted_requests": 35105,
+    "fixed_completed_requests": 35095,
+    "peak_actual_outstanding": 1017.2537546494665,
+    "peak_completed_requests": 8790,
+    "peak_buffer_mib": 4.0,
+    "second_vs_first_pct": 0.1654023840819363
+  },
+  {
+    "name": "A1_b8_q128",
+    "pattern": "A1",
+    "buffer_mib": 8,
+    "configured_qd_per_port": 128,
+    "fixed_gbps": 151.70237306441805,
+    "peak_500us_gbps": 152.06744647358255,
+    "peak_start_us": 1125.0,
+    "peak_end_us": 1625.0,
+    "fixed_actual_outstanding": 512.0,
+    "fixed_actual_outstanding_per_port": [
+      128.0,
+      128.0,
+      128.0,
+      128.0
+    ],
+    "fixed_per_port_gbps": [
+      36.8773211689236,
+      36.30989949852804,
+      39.32462439695407,
+      39.19052800001237
+    ],
+    "fixed_accepted_requests": 74074,
+    "fixed_completed_requests": 74074,
+    "peak_actual_outstanding": 512.0,
+    "peak_completed_requests": 18563,
+    "peak_buffer_mib": 2.25,
+    "second_vs_first_pct": 0.4507718976613839
+  },
+  {
+    "name": "A2_b8_q128",
+    "pattern": "A2",
+    "buffer_mib": 8,
+    "configured_qd_per_port": 128,
+    "fixed_gbps": 149.68892230773815,
+    "peak_500us_gbps": 150.51532872154618,
+    "peak_start_us": 250.0,
+    "peak_end_us": 750.0,
+    "fixed_actual_outstanding": 512.0,
+    "fixed_actual_outstanding_per_port": [
+      128.0,
+      128.0,
+      128.0,
+      128.0
+    ],
+    "fixed_per_port_gbps": [
+      36.962304000011784,
+      34.08076800001086,
+      39.324250307703174,
+      39.32160000001233
+    ],
+    "fixed_accepted_requests": 73090,
+    "fixed_completed_requests": 73090,
+    "peak_actual_outstanding": 512.0,
+    "peak_completed_requests": 18374,
+    "peak_buffer_mib": 2.0625,
+    "second_vs_first_pct": -0.3468448125402701
+  },
+  {
+    "name": "A1_b8_q256",
+    "pattern": "A1",
+    "buffer_mib": 8,
+    "configured_qd_per_port": 256,
+    "fixed_gbps": 241.0666213737719,
+    "peak_500us_gbps": 241.51472012482432,
+    "peak_start_us": 1700.0,
+    "peak_end_us": 2200.0,
+    "fixed_actual_outstanding": 1024.0,
+    "fixed_actual_outstanding_per_port": [
+      256.0,
+      256.0,
+      256.0,
+      256.0
+    ],
+    "fixed_per_port_gbps": [
+      60.305167358422096,
+      60.036678351089,
+      60.40434723671737,
+      60.32042842754347
+    ],
+    "fixed_accepted_requests": 117708,
+    "fixed_completed_requests": 117708,
+    "peak_actual_outstanding": 1024.0,
+    "peak_completed_requests": 29482,
+    "peak_buffer_mib": 4.25,
+    "second_vs_first_pct": 0.13102862782823355
+  },
+  {
+    "name": "A2_b8_q256",
+    "pattern": "A2",
+    "buffer_mib": 8,
+    "configured_qd_per_port": 256,
+    "fixed_gbps": 241.97594335972855,
+    "peak_500us_gbps": 242.47043522757232,
+    "peak_start_us": 525.0,
+    "peak_end_us": 1025.0,
+    "fixed_actual_outstanding": 1024.0,
+    "fixed_actual_outstanding_per_port": [
+      256.0,
+      256.0,
+      256.0,
+      256.0
+    ],
+    "fixed_per_port_gbps": [
+      60.28019090156451,
+      60.18388363365926,
+      61.05175960307754,
+      60.460109221427224
+    ],
+    "fixed_accepted_requests": 118152,
+    "fixed_completed_requests": 118152,
+    "peak_actual_outstanding": 1024.0,
+    "peak_completed_requests": 29598,
+    "peak_buffer_mib": 4.0625,
+    "second_vs_first_pct": -0.07885658172553933
+  },
+  {
+    "name": "A1_b8_q512",
+    "pattern": "A1",
+    "buffer_mib": 8,
+    "configured_qd_per_port": 512,
+    "fixed_gbps": 255.3659216227934,
+    "peak_500us_gbps": 255.65887962055254,
+    "peak_start_us": 900.0,
+    "peak_end_us": 1400.0,
+    "fixed_actual_outstanding": 2006.6894181993769,
+    "fixed_actual_outstanding_per_port": [
+      511.3722476745772,
+      510.5591839580133,
+      510.27411854333707,
+      474.48386802344936
+    ],
+    "fixed_per_port_gbps": [
+      63.952295604326316,
+      63.75884308693963,
+      63.654782931527244,
+      64.0000000000002
+    ],
+    "fixed_accepted_requests": 124690,
+    "fixed_completed_requests": 124692,
+    "peak_actual_outstanding": 2004.2032189437857,
+    "peak_completed_requests": 31208,
+    "peak_buffer_mib": 8.0,
+    "second_vs_first_pct": 0.04160856373134347
+  },
+  {
+    "name": "A2_b8_q512",
+    "pattern": "A2",
+    "buffer_mib": 8,
+    "configured_qd_per_port": 512,
+    "fixed_gbps": 255.05833049279303,
+    "peak_500us_gbps": 255.60650451296286,
+    "peak_start_us": 600.0,
+    "peak_end_us": 1100.0,
+    "fixed_actual_outstanding": 2035.874138895402,
+    "fixed_actual_outstanding_per_port": [
+      511.9544380056691,
+      511.7543900558354,
+      511.39516583374063,
+      500.7701450001569
+    ],
+    "fixed_per_port_gbps": [
+      63.949352063667774,
+      63.632193168377604,
+      63.47678526074746,
+      64.0000000000002
+    ],
+    "fixed_accepted_requests": 124541,
+    "fixed_completed_requests": 124541,
+    "peak_actual_outstanding": 2035.398088965147,
+    "peak_completed_requests": 31203,
+    "peak_buffer_mib": 8.0,
+    "second_vs_first_pct": -0.15133047713904446
+  },
+  {
+    "name": "A1_b8_q1024",
+    "pattern": "A1",
+    "buffer_mib": 8,
+    "configured_qd_per_port": 1024,
+    "fixed_gbps": 131.22355200000155,
+    "peak_500us_gbps": 131.39968000000374,
+    "peak_start_us": 1575.0,
+    "peak_end_us": 2075.0,
+    "fixed_actual_outstanding": 2021.6669178857107,
+    "fixed_actual_outstanding_per_port": [
+      1021.778832439454,
+      997.8880854462567,
+      1.0,
+      1.0
+    ],
+    "fixed_per_port_gbps": [
+      64.0000000000002,
+      64.0000000000002,
+      1.5052800000005317,
+      1.7182720000005856
+    ],
+    "fixed_accepted_requests": 64072,
+    "fixed_completed_requests": 64074,
+    "peak_actual_outstanding": 2021.664801018883,
+    "peak_completed_requests": 16040,
+    "peak_buffer_mib": 8.0,
+    "second_vs_first_pct": 0.056200824281038564
+  },
+  {
+    "name": "A2_b8_q1024",
+    "pattern": "A2",
+    "buffer_mib": 8,
+    "configured_qd_per_port": 1024,
+    "fixed_gbps": 133.25926400000196,
+    "peak_500us_gbps": 133.38214400000135,
+    "peak_start_us": 725.0,
+    "peak_end_us": 1225.0,
+    "fixed_actual_outstanding": 2039.553486837564,
+    "fixed_actual_outstanding_per_port": [
+      1023.5715862551867,
+      1011.016107828996,
+      2.4760128031076687,
+      2.4897799502737095
+    ],
+    "fixed_per_port_gbps": [
+      64.0000000000002,
+      64.0000000000002,
+      2.6214400000008427,
+      2.63782400000072
+    ],
+    "fixed_accepted_requests": 65068,
+    "fixed_completed_requests": 65068,
+    "peak_actual_outstanding": 2039.5375866126546,
+    "peak_completed_requests": 16282,
+    "peak_buffer_mib": 8.0,
+    "second_vs_first_pct": -0.07119225796425876
+  },
+  {
+    "name": "A1_b8_q2048",
+    "pattern": "A1",
+    "buffer_mib": 8,
+    "configured_qd_per_port": 2048,
+    "fixed_gbps": 68.85785600000169,
+    "peak_500us_gbps": 69.17734400000694,
+    "peak_start_us": 1450.0,
+    "peak_end_us": 1950.0,
+    "fixed_actual_outstanding": 2029.5485133807158,
+    "fixed_actual_outstanding_per_port": [
+      2026.5485133807158,
+      1.0,
+      1.0,
+      1.0
+    ],
+    "fixed_per_port_gbps": [
+      64.0000000000002,
+      1.5646720000004144,
+      1.5728640000004834,
+      1.720320000000581
+    ],
+    "fixed_accepted_requests": 33620,
+    "fixed_completed_requests": 33622,
+    "peak_actual_outstanding": 2029.5480030457225,
+    "peak_completed_requests": 8444,
+    "peak_buffer_mib": 8.0,
+    "second_vs_first_pct": 0.4650608156494984
+  },
+  {
+    "name": "A2_b8_q2048",
+    "pattern": "A2",
+    "buffer_mib": 8,
+    "configured_qd_per_port": 2048,
+    "fixed_gbps": 71.88892509908196,
+    "peak_500us_gbps": 72.0035840000104,
+    "peak_start_us": 1325.0,
+    "peak_end_us": 1825.0,
+    "fixed_actual_outstanding": 2041.4033490205848,
+    "fixed_actual_outstanding_per_port": [
+      2033.8085884289246,
+      2.616312645270835,
+      2.4807856087605784,
+      2.4976623376288036
+    ],
+    "fixed_per_port_gbps": [
+      64.0000000000002,
+      2.623488000000768,
+      2.627613099080247,
+      2.637824000000742
+    ],
+    "fixed_accepted_requests": 35106,
+    "fixed_completed_requests": 35103,
+    "peak_actual_outstanding": 2041.3413327869396,
+    "peak_completed_requests": 8790,
+    "peak_buffer_mib": 8.0,
+    "second_vs_first_pct": -0.12535127390499445
+  },
+  {
+    "name": "A1_b16_q128",
+    "pattern": "A1",
+    "buffer_mib": 16,
+    "configured_qd_per_port": 128,
+    "fixed_gbps": 151.70237306441805,
+    "peak_500us_gbps": 152.06744647358255,
+    "peak_start_us": 1125.0,
+    "peak_end_us": 1625.0,
+    "fixed_actual_outstanding": 512.0,
+    "fixed_actual_outstanding_per_port": [
+      128.0,
+      128.0,
+      128.0,
+      128.0
+    ],
+    "fixed_per_port_gbps": [
+      36.8773211689236,
+      36.30989949852804,
+      39.32462439695407,
+      39.19052800001237
+    ],
+    "fixed_accepted_requests": 74074,
+    "fixed_completed_requests": 74074,
+    "peak_actual_outstanding": 512.0,
+    "peak_completed_requests": 18563,
+    "peak_buffer_mib": 2.25,
+    "second_vs_first_pct": 0.4507718976613839
+  },
+  {
+    "name": "A2_b16_q128",
+    "pattern": "A2",
+    "buffer_mib": 16,
+    "configured_qd_per_port": 128,
+    "fixed_gbps": 149.68892230773815,
+    "peak_500us_gbps": 150.51532872154618,
+    "peak_start_us": 250.0,
+    "peak_end_us": 750.0,
+    "fixed_actual_outstanding": 512.0,
+    "fixed_actual_outstanding_per_port": [
+      128.0,
+      128.0,
+      128.0,
+      128.0
+    ],
+    "fixed_per_port_gbps": [
+      36.962304000011784,
+      34.08076800001086,
+      39.324250307703174,
+      39.32160000001233
+    ],
+    "fixed_accepted_requests": 73090,
+    "fixed_completed_requests": 73090,
+    "peak_actual_outstanding": 512.0,
+    "peak_completed_requests": 18374,
+    "peak_buffer_mib": 2.0625,
+    "second_vs_first_pct": -0.3468448125402701
+  },
+  {
+    "name": "A1_b16_q256",
+    "pattern": "A1",
+    "buffer_mib": 16,
+    "configured_qd_per_port": 256,
+    "fixed_gbps": 241.0666213737719,
+    "peak_500us_gbps": 241.51472012482432,
+    "peak_start_us": 1700.0,
+    "peak_end_us": 2200.0,
+    "fixed_actual_outstanding": 1024.0,
+    "fixed_actual_outstanding_per_port": [
+      256.0,
+      256.0,
+      256.0,
+      256.0
+    ],
+    "fixed_per_port_gbps": [
+      60.305167358422096,
+      60.036678351089,
+      60.40434723671737,
+      60.32042842754347
+    ],
+    "fixed_accepted_requests": 117708,
+    "fixed_completed_requests": 117708,
+    "peak_actual_outstanding": 1024.0,
+    "peak_completed_requests": 29482,
+    "peak_buffer_mib": 4.25,
+    "second_vs_first_pct": 0.13102862782823355
+  },
+  {
+    "name": "A2_b16_q256",
+    "pattern": "A2",
+    "buffer_mib": 16,
+    "configured_qd_per_port": 256,
+    "fixed_gbps": 241.97594335972855,
+    "peak_500us_gbps": 242.47043522757232,
+    "peak_start_us": 525.0,
+    "peak_end_us": 1025.0,
+    "fixed_actual_outstanding": 1024.0,
+    "fixed_actual_outstanding_per_port": [
+      256.0,
+      256.0,
+      256.0,
+      256.0
+    ],
+    "fixed_per_port_gbps": [
+      60.28019090156451,
+      60.18388363365926,
+      61.05175960307754,
+      60.460109221427224
+    ],
+    "fixed_accepted_requests": 118152,
+    "fixed_completed_requests": 118152,
+    "peak_actual_outstanding": 1024.0,
+    "peak_completed_requests": 29598,
+    "peak_buffer_mib": 4.0625,
+    "second_vs_first_pct": -0.07885658172553933
+  },
+  {
+    "name": "A1_b16_q512",
+    "pattern": "A1",
+    "buffer_mib": 16,
+    "configured_qd_per_port": 512,
+    "fixed_gbps": 255.37165135533505,
+    "peak_500us_gbps": 255.8203952492779,
+    "peak_start_us": 1225.0,
+    "peak_end_us": 1725.0,
+    "fixed_actual_outstanding": 2048.0,
+    "fixed_actual_outstanding_per_port": [
+      512.0,
+      512.0,
+      512.0,
+      512.0
+    ],
+    "fixed_per_port_gbps": [
+      63.97888213699642,
+      63.744591967571786,
+      63.64817725076662,
+      64.0000000000002
+    ],
+    "fixed_accepted_requests": 124694,
+    "fixed_completed_requests": 124694,
+    "peak_actual_outstanding": 2048.0,
+    "peak_completed_requests": 31228,
+    "peak_buffer_mib": 8.25,
+    "second_vs_first_pct": 0.17257559138055267
+  },
+  {
+    "name": "A2_b16_q512",
+    "pattern": "A2",
+    "buffer_mib": 16,
+    "configured_qd_per_port": 512,
+    "fixed_gbps": 255.21121881361591,
+    "peak_500us_gbps": 255.65311852202254,
+    "peak_start_us": 600.0,
+    "peak_end_us": 1100.0,
+    "fixed_actual_outstanding": 2048.0,
+    "fixed_actual_outstanding_per_port": [
+      512.0,
+      512.0,
+      512.0,
+      512.0
+    ],
+    "fixed_per_port_gbps": [
+      63.86397682261856,
+      63.71162696460461,
+      63.63561502639254,
+      64.0000000000002
+    ],
+    "fixed_accepted_requests": 124616,
+    "fixed_completed_requests": 124616,
+    "peak_actual_outstanding": 2048.0,
+    "peak_completed_requests": 31209,
+    "peak_buffer_mib": 8.0625,
+    "second_vs_first_pct": -0.00034300502548267886
+  },
+  {
+    "name": "A1_b16_q1024",
+    "pattern": "A1",
+    "buffer_mib": 16,
+    "configured_qd_per_port": 1024,
+    "fixed_gbps": 253.87309803596628,
+    "peak_500us_gbps": 254.91518104672804,
+    "peak_start_us": 1625.0,
+    "peak_end_us": 2125.0,
+    "fixed_actual_outstanding": 4059.749587833557,
+    "fixed_actual_outstanding_per_port": [
+      1023.0908668889671,
+      1021.9889195162791,
+      1020.7075312658893,
+      993.9622701624215
+    ],
+    "fixed_per_port_gbps": [
+      63.59601631208959,
+      63.2074574130333,
+      63.09935872681052,
+      63.97026558403288
+    ],
+    "fixed_accepted_requests": 123961,
+    "fixed_completed_requests": 123963,
+    "peak_actual_outstanding": 4059.8258524754424,
+    "peak_completed_requests": 31119,
+    "peak_buffer_mib": 16.0,
+    "second_vs_first_pct": 0.48166740061150737
+  },
+  {
+    "name": "A2_b16_q1024",
+    "pattern": "A2",
+    "buffer_mib": 16,
+    "configured_qd_per_port": 1024,
+    "fixed_gbps": 254.0121981264761,
+    "peak_500us_gbps": 255.15164072537362,
+    "peak_start_us": 1650.0,
+    "peak_end_us": 2150.0,
+    "fixed_actual_outstanding": 4083.9741589182822,
+    "fixed_actual_outstanding_per_port": [
+      1023.8575102522948,
+      1023.7624178960947,
+      1023.5555801376336,
+      1012.798650632259
+    ],
+    "fixed_per_port_gbps": [
+      63.67618559403724,
+      63.25238385522437,
+      63.126990449708764,
+      63.95663822750574
+    ],
+    "fixed_accepted_requests": 124026,
+    "fixed_completed_requests": 124029,
+    "peak_actual_outstanding": 4083.950723235674,
+    "peak_completed_requests": 31147,
+    "peak_buffer_mib": 16.0,
+    "second_vs_first_pct": 0.5819010923969081
+  },
+  {
+    "name": "A1_b16_q2048",
+    "pattern": "A1",
+    "buffer_mib": 16,
+    "configured_qd_per_port": 2048,
+    "fixed_gbps": 131.2563200000015,
+    "peak_500us_gbps": 131.39968000000374,
+    "peak_start_us": 1575.0,
+    "peak_end_us": 2075.0,
+    "fixed_actual_outstanding": 4069.666917885709,
+    "fixed_actual_outstanding_per_port": [
+      2045.778832439452,
+      2021.888085446257,
+      1.0,
+      1.0
+    ],
+    "fixed_per_port_gbps": [
+      64.0000000000002,
+      64.0000000000002,
+      1.523712000000499,
+      1.7326080000005903
+    ],
+    "fixed_accepted_requests": 64088,
+    "fixed_completed_requests": 64090,
+    "peak_actual_outstanding": 4069.6648010188806,
+    "peak_completed_requests": 16040,
+    "peak_buffer_mib": 16.0,
+    "second_vs_first_pct": 0.006241418052521652
+  },
+  {
+    "name": "A2_b16_q2048",
+    "pattern": "A2",
+    "buffer_mib": 16,
+    "configured_qd_per_port": 2048,
+    "fixed_gbps": 133.3329920000019,
+    "peak_500us_gbps": 133.6033279999994,
+    "peak_start_us": 200.0,
+    "peak_end_us": 700.0,
+    "fixed_actual_outstanding": 4087.8581965483045,
+    "fixed_actual_outstanding_per_port": [
+      2047.5716631277899,
+      2035.3494088142447,
+      2.476108268748659,
+      2.4610163375212144
+    ],
+    "fixed_per_port_gbps": [
+      64.0000000000002,
+      64.0000000000002,
+      2.695168000000782,
+      2.6378240000007063
+    ],
+    "fixed_accepted_requests": 65114,
+    "fixed_completed_requests": 65104,
+    "peak_actual_outstanding": 4087.782829686481,
+    "peak_completed_requests": 16309,
+    "peak_buffer_mib": 16.0,
+    "second_vs_first_pct": -0.03685730081418592
+  },
+  {
+    "name": "A1_b2_q128",
+    "pattern": "A1",
+    "buffer_mib": 2.0,
+    "configured_qd_per_port": 128,
+    "fixed_gbps": 143.08848643419185,
+    "peak_500us_gbps": 143.83338663450624,
+    "peak_start_us": 1225.0,
+    "peak_end_us": 1725.0,
+    "fixed_actual_outstanding": 478.71167075017627,
+    "fixed_actual_outstanding_per_port": [
+      126.44910586898794,
+      126.36060062954385,
+      123.36574474488467,
+      102.53621950675976
+    ],
+    "fixed_per_port_gbps": [
+      36.69283843415846,
+      34.078720000010854,
+      39.19052800001225,
+      33.12640000001028
+    ],
+    "fixed_accepted_requests": 69872,
+    "fixed_completed_requests": 69867,
+    "peak_actual_outstanding": 478.8247209003552,
+    "peak_completed_requests": 17558,
+    "peak_buffer_mib": 2.0,
+    "second_vs_first_pct": 0.05891456332256517
+  },
+  {
+    "name": "A2_b2_q128",
+    "pattern": "A2",
+    "buffer_mib": 2.0,
+    "configured_qd_per_port": 128,
+    "fixed_gbps": 146.94195200004648,
+    "peak_500us_gbps": 148.38169599998557,
+    "peak_start_us": 225.0,
+    "peak_end_us": 725.0,
+    "fixed_actual_outstanding": 501.28183590396566,
+    "fixed_actual_outstanding_per_port": [
+      127.81330491103179,
+      127.58916178352453,
+      126.98914786104586,
+      118.89022134836347
+    ],
+    "fixed_per_port_gbps": [
+      36.96230400001181,
+      34.08076800001086,
+      39.321600000012204,
+      36.57728000001161
+    ],
+    "fixed_accepted_requests": 71748,
+    "fixed_completed_requests": 71749,
+    "peak_actual_outstanding": 501.25243138139956,
+    "peak_completed_requests": 18113,
+    "peak_buffer_mib": 2.0,
+    "second_vs_first_pct": -0.35208220062614703
+  },
+  {
+    "name": "A1_b2_q192",
+    "pattern": "A1",
+    "buffer_mib": 2.0,
+    "configured_qd_per_port": 192,
+    "fixed_gbps": 132.81404879392616,
+    "peak_500us_gbps": 133.48113957105036,
+    "peak_start_us": 1125.0,
+    "peak_end_us": 1625.0,
+    "fixed_actual_outstanding": 482.51594599256345,
+    "fixed_actual_outstanding_per_port": [
+      189.70873504151976,
+      188.13189644827852,
+      103.5152672714527,
+      1.1600472313124492
+    ],
+    "fixed_per_port_gbps": [
+      49.80451279389969,
+      47.185920000015045,
+      34.07872000001093,
+      1.74489600000051
+    ],
+    "fixed_accepted_requests": 64851,
+    "fixed_completed_requests": 64851,
+    "peak_actual_outstanding": 482.66259354918594,
+    "peak_completed_requests": 16295,
+    "peak_buffer_mib": 2.0,
+    "second_vs_first_pct": 0.09247147458191218
+  },
+  {
+    "name": "A2_b2_q192",
+    "pattern": "A2",
+    "buffer_mib": 2.0,
+    "configured_qd_per_port": 192,
+    "fixed_gbps": 138.76838400004425,
+    "peak_500us_gbps": 139.63753792820702,
+    "peak_start_us": 1050.0,
+    "peak_end_us": 1550.0,
+    "fixed_actual_outstanding": 503.73530049271176,
+    "fixed_actual_outstanding_per_port": [
+      191.46672106439675,
+      190.7674846008423,
+      117.87933077770128,
+      3.6217640497714227
+    ],
+    "fixed_per_port_gbps": [
+      49.80531200001611,
+      47.18592000001508,
+      38.535168000012085,
+      3.24198400000098
+    ],
+    "fixed_accepted_requests": 67754,
+    "fixed_completed_requests": 67758,
+    "peak_actual_outstanding": 503.90674737860434,
+    "peak_completed_requests": 17045,
+    "peak_buffer_mib": 2.0,
+    "second_vs_first_pct": 0.2789534259170612
+  },
+  {
+    "name": "A1_b2_q256",
+    "pattern": "A1",
+    "buffer_mib": 2.0,
+    "configured_qd_per_port": 256,
+    "fixed_gbps": 121.1311419347056,
+    "peak_500us_gbps": 121.55266608265573,
+    "peak_start_us": 425.0,
+    "peak_end_us": 925.0,
+    "fixed_actual_outstanding": 486.4879687907204,
+    "fixed_actual_outstanding_per_port": [
+      252.53727187252318,
+      231.6372571445072,
+      1.3134397736900272,
+      1.0
+    ],
+    "fixed_per_port_gbps": [
+      60.2305935877865,
+      57.48448434691807,
+      1.665024000000516,
+      1.7510400000005102
+    ],
+    "fixed_accepted_requests": 59145,
+    "fixed_completed_requests": 59146,
+    "peak_actual_outstanding": 486.66741331485855,
+    "peak_completed_requests": 14839,
+    "peak_buffer_mib": 2.0,
+    "second_vs_first_pct": -0.08871168611943592
+  },
+  {
+    "name": "A2_b2_q256",
+    "pattern": "A2",
+    "buffer_mib": 2.0,
+    "configured_qd_per_port": 256,
+    "fixed_gbps": 123.66465661732623,
+    "peak_500us_gbps": 123.88345890249546,
+    "peak_start_us": 625.0,
+    "peak_end_us": 1125.0,
+    "fixed_actual_outstanding": 503.584043635564,
+    "fixed_actual_outstanding_per_port": [
+      255.52465431853926,
+      242.63867141281412,
+      2.9691766548764305,
+      2.451541249334195
+    ],
+    "fixed_per_port_gbps": [
+      60.29427200001953,
+      57.67694461730467,
+      3.0699520000010634,
+      2.6234880000009606
+    ],
+    "fixed_accepted_requests": 60383,
+    "fixed_completed_requests": 60384,
+    "peak_actual_outstanding": 503.69878237587795,
+    "peak_completed_requests": 15124,
+    "peak_buffer_mib": 2.0,
+    "second_vs_first_pct": 0.02275282150445701
+  },
+  {
+    "name": "A1_b3_q128",
+    "pattern": "A1",
+    "buffer_mib": 3.0,
+    "configured_qd_per_port": 128,
+    "fixed_gbps": 151.70237306441805,
+    "peak_500us_gbps": 152.06744647358255,
+    "peak_start_us": 1125.0,
+    "peak_end_us": 1625.0,
+    "fixed_actual_outstanding": 512.0,
+    "fixed_actual_outstanding_per_port": [
+      128.0,
+      128.0,
+      128.0,
+      128.0
+    ],
+    "fixed_per_port_gbps": [
+      36.8773211689236,
+      36.30989949852804,
+      39.32462439695407,
+      39.19052800001237
+    ],
+    "fixed_accepted_requests": 74074,
+    "fixed_completed_requests": 74074,
+    "peak_actual_outstanding": 512.0,
+    "peak_completed_requests": 18563,
+    "peak_buffer_mib": 2.25,
+    "second_vs_first_pct": 0.4507718976613839
+  },
+  {
+    "name": "A2_b3_q128",
+    "pattern": "A2",
+    "buffer_mib": 3.0,
+    "configured_qd_per_port": 128,
+    "fixed_gbps": 149.68892230773815,
+    "peak_500us_gbps": 150.51532872154618,
+    "peak_start_us": 250.0,
+    "peak_end_us": 750.0,
+    "fixed_actual_outstanding": 512.0,
+    "fixed_actual_outstanding_per_port": [
+      128.0,
+      128.0,
+      128.0,
+      128.0
+    ],
+    "fixed_per_port_gbps": [
+      36.962304000011784,
+      34.08076800001086,
+      39.324250307703174,
+      39.32160000001233
+    ],
+    "fixed_accepted_requests": 73090,
+    "fixed_completed_requests": 73090,
+    "peak_actual_outstanding": 512.0,
+    "peak_completed_requests": 18374,
+    "peak_buffer_mib": 2.0625,
+    "second_vs_first_pct": -0.3468448125402701
+  },
+  {
+    "name": "A1_b3_q192",
+    "pattern": "A1",
+    "buffer_mib": 3.0,
+    "configured_qd_per_port": 192,
+    "fixed_gbps": 191.31348726621331,
+    "peak_500us_gbps": 192.00350250961586,
+    "peak_start_us": 750.0,
+    "peak_end_us": 1250.0,
+    "fixed_actual_outstanding": 731.9599823987563,
+    "fixed_actual_outstanding_per_port": [
+      190.6764656493826,
+      190.14453550462855,
+      188.1954554838856,
+      162.94352576085953
+    ],
+    "fixed_per_port_gbps": [
+      49.807360000016104,
+      47.2307363969569,
+      49.355265036258224,
+      44.920125832982116
+    ],
+    "fixed_accepted_requests": 93415,
+    "fixed_completed_requests": 93415,
+    "peak_actual_outstanding": 732.4592908613984,
+    "peak_completed_requests": 23437,
+    "peak_buffer_mib": 3.0,
+    "second_vs_first_pct": -0.031001528043328452
+  },
+  {
+    "name": "A2_b3_q192",
+    "pattern": "A2",
+    "buffer_mib": 3.0,
+    "configured_qd_per_port": 192,
+    "fixed_gbps": 197.33721772295544,
+    "peak_500us_gbps": 198.13080647334317,
+    "peak_start_us": 325.0,
+    "peak_end_us": 825.0,
+    "fixed_actual_outstanding": 758.5222412881973,
+    "fixed_actual_outstanding_per_port": [
+      191.6731484585823,
+      191.48559699048215,
+      190.80675358664914,
+      184.55674225248367
+    ],
+    "fixed_per_port_gbps": [
+      49.803648000016075,
+      47.30947451678985,
+      50.45815642754077,
+      49.76593877860874
+    ],
+    "fixed_accepted_requests": 96350,
+    "fixed_completed_requests": 96355,
+    "peak_actual_outstanding": 758.6573536334529,
+    "peak_completed_requests": 24186,
+    "peak_buffer_mib": 3.0,
+    "second_vs_first_pct": -0.10920238800588011
+  },
+  {
+    "name": "A1_b3_q256",
+    "pattern": "A1",
+    "buffer_mib": 3.0,
+    "configured_qd_per_port": 256,
+    "fixed_gbps": 179.58875261734374,
+    "peak_500us_gbps": 180.1923253127749,
+    "peak_start_us": 1150.0,
+    "peak_end_us": 1650.0,
+    "fixed_actual_outstanding": 734.577806413256,
+    "fixed_actual_outstanding_per_port": [
+      254.2290062715917,
+      253.11535845023064,
+      225.7668044267296,
+      1.4666372647040151
+    ],
+    "fixed_per_port_gbps": [
+      60.28689560307747,
+      60.16245020507269,
+      57.16923080919284,
+      1.9701760000007371
+    ],
+    "fixed_accepted_requests": 87695,
+    "fixed_completed_requests": 87690,
+    "peak_actual_outstanding": 734.1852850374579,
+    "peak_completed_requests": 21997,
+    "peak_buffer_mib": 3.0,
+    "second_vs_first_pct": 0.19903772850979884
+  },
+  {
+    "name": "A2_b3_q256",
+    "pattern": "A2",
+    "buffer_mib": 3.0,
+    "configured_qd_per_port": 256,
+    "fixed_gbps": 183.59252914144068,
+    "peak_500us_gbps": 184.0359705579408,
+    "peak_start_us": 975.0,
+    "peak_end_us": 1475.0,
+    "fixed_actual_outstanding": 757.9618360423102,
+    "fixed_actual_outstanding_per_port": [
+      255.79662806615053,
+      255.4827529209598,
+      241.3188931449902,
+      5.363561910209699
+    ],
+    "fixed_per_port_gbps": [
+      60.29325744772682,
+      60.29376464073984,
+      58.819395052972084,
+      4.186112000001926
+    ],
+    "fixed_accepted_requests": 89654,
+    "fixed_completed_requests": 89644,
+    "peak_actual_outstanding": 757.8763414081837,
+    "peak_completed_requests": 22466,
+    "peak_buffer_mib": 3.0,
+    "second_vs_first_pct": -0.2916344187454789
+  }
+]

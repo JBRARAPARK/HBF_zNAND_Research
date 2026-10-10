@@ -1,0 +1,22 @@
+{
+  "hashes": {
+    "znand/model.py": "755f822a6b7c1f44f65117b4892078419a766d4963ad4d49931e8aa1db679baf",
+    "znand/saturation.py": "1787ccf9aec0db13e8af0b15eacf824992647fca76d8bd2b90d4c864f3ee59dc",
+    "znand/saturation_sweep.py": "0ca02b5ef113be5fe24a20ecbbe91513abf1e3528a9f112476932f021a35dd37",
+    "znand/host64_measure.py": "fd84324687178cf93ed77a7cfab227f48932761de2846ba70d8c8720ca5fc701",
+    "znand/pf_qd_sweep.py": "1020ba0fb1a7cda40b89da62a2a5930807ec3b2ec1c3415daf487dcd4161cea1",
+    "test_znand_saturation.py": "759aba41bda7dc2eaaf7f939b1767117549cc3e5c0217220126c0bbd7bcb562c"
+  },
+  "snapshots": {
+    "results/znand/saturation/snapshots/A1.json": "b8ae4937445a99c8e90f50a4138be9eaa0da00c2ff229578892101d7217d1161",
+    "results/znand/saturation/snapshots/A2.json": "b8ae4937445a99c8e90f50a4138be9eaa0da00c2ff229578892101d7217d1161"
+  },
+  "source_commit": "dfc65217ab612c8d45aaab34d93845d9e692b20d",
+  "domain_requests_per_port": 65536,
+  "duration_us": 2200.0,
+  "warmup_us": 200.0,
+  "bin_us": 25.0,
+  "peak_window_us": 500.0,
+  "source": "Continuous next request per port; refill on AR acceptance, limited by existing device QD/admission",
+  "throughput": "Host payload transfer bytes intersecting each time bin; completed-command counts also recorded"
+}

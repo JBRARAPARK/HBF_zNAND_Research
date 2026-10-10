@@ -1,0 +1,24 @@
+{
+  "status": "passed",
+  "conditions": 42,
+  "source_hashes_verified": true,
+  "timelines_and_windows_verified": true,
+  "unfinished_work_excluded_from_duration_denominator": true,
+  "all_ports_continuously_supplied": true,
+  "port_order_checked_during_runs": true,
+  "actual_outstanding_accounting_verified": true,
+  "fixed_tr_us": {
+    "first_us": 20.69,
+    "short_us": 2.0,
+    "mid_us": 2.08,
+    "long_us": 12.16,
+    "group_us": 20.69
+  },
+  "definition": "Device outstanding = accepted request minus final response completed",
+  "fixed_window_us": [
+    200.0,
+    2200.0
+  ],
+  "best_window_us": 500.0,
+  "sweep_sha256": "e1c61b3bf253746327f2a8ffdf3f12cf18d453fd634014e4d9d5e98d9e1e2533"
+}

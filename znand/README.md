@@ -14,6 +14,8 @@
 
 현재 후속 평가는 **총 64Plane** 실행 프로파일을 사용한다. `Config.planes=16`은 채널당 16개를 뜻한다. `python3 -m znand.host64_measure --workers 4`는 PF OFF·고정 tR에서 A1/A2 × 기존/영역 배치 × 8,192/32,768요청/port의 8개 조건을 실행한다. [64Plane 결과](../results/znand/planes64/RESULTS_KO.md)와 [길이별 프로파일](../results/znand/planes64/profiles/)을 따르며, 아래 기본값 표는 과거 실험을 재현하는 모델 기본 설정이다.
 
+같은 64Plane 조건에서 controller buffer만 32→16MiB로 변경하는 실험은 `python3 -m znand.host64_buffer --workers 4`로 실행한다. [16MiB 결과](../results/znand/planes64_buffer16/RESULTS_KO.md)와 [실행 프로파일](../results/znand/planes64_buffer16/profiles/)을 제공하며, NAND page buffer나 QD·tR는 변경하지 않는다.
+
 ## 실행
 
 Mac에서는 저장소 루트에서 `bash scripts/macos.sh setup`, `bash scripts/macos.sh smoke`, `bash scripts/macos.sh diagnostics`를 순서대로 실행한다. Python 3.10 이상을 사용하며 스크립트가 `.venv`를 직접 선택한다. 새 결과는 `results/local/`에 저장한다. 그래프는 `setup --plots` 후 `report`, 주소 배치는 `layout`으로 연다. 상세 절차는 [Mac 실행 안내](../docs/11_macos_run_ko.md)를 따른다.

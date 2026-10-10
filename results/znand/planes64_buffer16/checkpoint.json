@@ -1,0 +1,23 @@
+{
+  "hashes": {
+    "znand/model.py": "755f822a6b7c1f44f65117b4892078419a766d4963ad4d49931e8aa1db679baf",
+    "znand/scheduling_probe.py": "8795d7d75428cf6923aada84df1ee8bbbe29b1440918654791e980b974261cf5",
+    "znand/scheduling_sweep.py": "bbc0fad577d2992a08f9c4bb34b5032e932b2ee1822e15b0c419053e2ad0a8e9",
+    "znand/pf_qd_sweep.py": "1020ba0fb1a7cda40b89da62a2a5930807ec3b2ec1c3415daf487dcd4161cea1",
+    "znand/host64_measure.py": "fd84324687178cf93ed77a7cfab227f48932761de2846ba70d8c8720ca5fc701",
+    "znand/host64_buffer.py": "d019f31cb5d0e9b006f404f1c492b4309475376cd984cd1a07de3f95346423fc"
+  },
+  "reference_hashes": {
+    "cases.json": "c501bddbe370a0560548a8ed64d205f2d690ea003d0e2cc1375f79016db5e089",
+    "rows.json": "d898e3fe94f5eda22aa9e7c1bd198a2db5ff95e30df6a2b027d540f29683d8f4",
+    "manifest.json": "64b654215a8adca303ec60382cbe7aff4917bbe41e7f2a5b1d42cf415dd3f295"
+  },
+  "snapshot_hashes": {
+    "results/znand/planes64/snapshots/A1_n8192.json": "8005a7eaa00d909de9591b5c6e0f9efe2781560fdf4fa68d1041dbb437bebc00",
+    "results/znand/planes64/snapshots/A2_n8192.json": "8004c15463994223554909a6427f3ec042baca092df27e0990c5d3ed707f8132",
+    "results/znand/planes64/snapshots/A1_n32768.json": "7df59cd11ea305d627d90938b451bdd0b6303bc3db709f9135bcbc766b69fe9f",
+    "results/znand/planes64/snapshots/A2_n32768.json": "f3aaf28c0bc178db62a16385cfcf8944d35410efc248abc3cb819359d3b8b369"
+  },
+  "source_commit": "c32e96081ed94b4c9ad7a1f0c8003e33bfbfdbbf",
+  "scope": "Only buffer_pages changes per pair; eight new 16MiB runs and eight exact 32MiB controls."
+}

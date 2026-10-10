@@ -1,0 +1,115 @@
+{
+  "status": "passed",
+  "conditions": 16,
+  "new_16mib_runs": 8,
+  "exact_reused_32mib_controls": 8,
+  "pairs": [
+    {
+      "pair": "A1_64Plane_n8192_baseline",
+      "buffer32_gbps": 185.86158628401367,
+      "buffer16_gbps": 127.75343143882516,
+      "throughput_delta_pct": -31.264209031549896,
+      "config_diff": {
+        "buffer_pages": [
+          2048,
+          1024
+        ]
+      }
+    },
+    {
+      "pair": "A1_64Plane_n8192_region_layout",
+      "buffer32_gbps": 236.3611378036561,
+      "buffer16_gbps": 236.3611378036561,
+      "throughput_delta_pct": 0.0,
+      "config_diff": {
+        "buffer_pages": [
+          2048,
+          1024
+        ]
+      }
+    },
+    {
+      "pair": "A2_64Plane_n8192_baseline",
+      "buffer32_gbps": 189.32390772313727,
+      "buffer16_gbps": 127.88845595952657,
+      "throughput_delta_pct": -32.44991744700961,
+      "config_diff": {
+        "buffer_pages": [
+          2048,
+          1024
+        ]
+      }
+    },
+    {
+      "pair": "A2_64Plane_n8192_region_layout",
+      "buffer32_gbps": 234.98773466674444,
+      "buffer16_gbps": 234.98773466674444,
+      "throughput_delta_pct": 0.0,
+      "config_diff": {
+        "buffer_pages": [
+          2048,
+          1024
+        ]
+      }
+    },
+    {
+      "pair": "A1_64Plane_n32768_baseline",
+      "buffer32_gbps": 210.57355264120952,
+      "buffer16_gbps": 132.9341207658156,
+      "throughput_delta_pct": -36.870457330261985,
+      "config_diff": {
+        "buffer_pages": [
+          2048,
+          1024
+        ]
+      }
+    },
+    {
+      "pair": "A1_64Plane_n32768_region_layout",
+      "buffer32_gbps": 249.50811667610745,
+      "buffer16_gbps": 249.50811667610745,
+      "throughput_delta_pct": 0.0,
+      "config_diff": {
+        "buffer_pages": [
+          2048,
+          1024
+        ]
+      }
+    },
+    {
+      "pair": "A2_64Plane_n32768_baseline",
+      "buffer32_gbps": 214.08173179741328,
+      "buffer16_gbps": 128.18482129753625,
+      "throughput_delta_pct": -40.12341911600461,
+      "config_diff": {
+        "buffer_pages": [
+          2048,
+          1024
+        ]
+      }
+    },
+    {
+      "pair": "A2_64Plane_n32768_region_layout",
+      "buffer32_gbps": 249.32484565617693,
+      "buffer16_gbps": 249.32484565617693,
+      "throughput_delta_pct": 0.0,
+      "config_diff": {
+        "buffer_pages": [
+          2048,
+          1024
+        ]
+      }
+    }
+  ],
+  "fixed_tr_us": {
+    "first_us": 20.69,
+    "short_us": 2.0,
+    "mid_us": 2.08,
+    "long_us": 12.16,
+    "group_us": 20.69
+  },
+  "snapshots_and_workloads_unchanged": true,
+  "strict_port_order_verified": true,
+  "source_hashes_and_csv_json_verified": true,
+  "sweep_sha256": "83e9cfdde36dea2ca37ecd2d2fe33292d811a51ea97bf1ca1fdc0702396e3683"
+}

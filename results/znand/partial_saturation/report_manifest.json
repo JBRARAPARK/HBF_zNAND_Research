@@ -1,0 +1,13 @@
+{
+  "source_sha256": "2fc92ebd034b150ec80797eb02301a00c66b42d78aab641c588e4d84513250ea",
+  "results_sha256": "a154d429343ff879e8965d780d2034d91d6b4dd3c2db8364a28c3268ce99ed8c",
+  "outputs": {
+    "results/znand/partial_saturation/B1_B2_time.png": "2e9e757cd5cb62ef8faca74faccd153e27b76a8a1ceec132e4cf3db2a1204964",
+    "results/znand/partial_saturation/B1_B2_time.pdf": "6981e07061467812ad9f74bdbbdaa245697238c8c0cbbdb2598e7e63099ec9e9",
+    "results/znand/partial_saturation/B1_B2_outstanding.png": "21e1dc18e00633d85742d9793a77794927e21065e969bea6111a90fedaea786a",
+    "results/znand/partial_saturation/B1_B2_outstanding.pdf": "b8b2e22b2669ce82e3fa1713a8d510f23058cba80359e7c322c7b0909407f72c",
+    "results/znand/partial_saturation/RESULTS_KO.md": "bb1c9abb6ec15790ad3a0c8abc346988f9ea29f57ee7f7cd55b6dd23e00f4c80",
+    "results/znand/partial_saturation/selection.json": "df94442cce5d61dc97d1c1073033a9a99f79a5a65cd710c9a3f394f5531a18af",
+    "results/znand/partial_saturation/reference_validation.json": "1fe46e8827aecba3c64e2248954204a547891b38733f8353b70796ce0203f47f"
+  }
+}

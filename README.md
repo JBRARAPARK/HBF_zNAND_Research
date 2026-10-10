@@ -2,7 +2,7 @@
 
 첨부 이미지의 영문 질의 1~4번, 질문별 의도, HBF 공개 사양 조사, `NAND_Prefetch_Model`과의 비교를 정리한 연구 기록입니다.
 
-- 최종 반영일: **2026-10-10, Asia/Seoul**
+- 최종 반영일: **2026-10-11, Asia/Seoul**
 - 공개 사양 조사 기준: **OCP HBF Base Die Specification v0.7.0, 2026-08-03**
 - 모델 검토 기준: [`NAND_Prefetch_Model` / `6456496`](https://github.com/JBRARAPARK/NAND_Prefetch_Model/tree/645649621a94c96de5a4d614267ab80387f06c0c)
 - 저장소 성격: 질의 분석, 설계 검토, 실행 가능한 모델과 평가 데이터. 삼성 제품의 공식 답변이나 실측 성능 자료가 아닙니다.
@@ -10,6 +10,8 @@
 높은 QD의 성능 평가는 현재 **PF 자체를 끈 Host-only 기준선**을 사용한다. [PF ON/OFF 비교와 실행 설정](results/znand/pf_qd/RESULTS_KO.md)에 같은 조건의 결과를 제공한다. 과거 PF ON 프로파일은 대조군으로 보존한다.
 
 **현재 처리량 판단은 지속 부하의 실제 Device outstanding과 시간별 평균을 기준으로 한다.** [지속 부하 측정과 시간 그래프](results/znand/saturation/RESULTS_KO.md)는 총 명령 완료를 기다리지 않고 2.2ms에서 관측을 끝낸다. 초기 200µs 제외 후 고정 2ms 평균과 최고 연속 500µs 평균, Port별 실제 outstanding, 25µs별 수락·완료 수를 함께 제공한다. 42개 조합에서 **8MiB·QD512/Port**의 A1/A2 고정 평균은 **255.366/255.058GB/s**다. **4MiB·QD256/Port**도 **234.484/239.904GB/s**였다. 기존 유한 요청열의 전체 완료 평균과 구분한다.
+
+**B1/B2의 64B 부분 읽기도 같은 지속 부하 기준으로 측정했다.** [30개 조건과 시간 그래프](results/znand/partial_saturation/RESULTS_KO.md)에서 **8MiB·QD512/port**의 B1/B2 고정 평균은 **3.995/4.001GB/s**, 최고 500µs 평균은 **4.014/4.031GB/s**다. 내부 NAND는 약 257GB/s를 전송하지만, 현재 모델은 물리 16KiB마다 Host 유효 256B를 사용해 약 1/64만 유효 데이터가 된다. Long tR 비율은 해당 고정 구간에서 둘 다 0%다. 64B 물리 분산이나 부분 NAND 출력은 추가하지 않았다.
 
 Host IF 목표는 geometry별로 구분한다. **32Plane은 현재 모델의 신규 데이터 공급량으로 256GB/s 달성이 불가능하고, 64Plane은 배치 변경으로 근접할 여지가 있다.** [물리 상한과 12개 비교 결과](results/znand/host_ceiling/RESULTS_KO.md)에 계산·실행 근거를 정리했다.
 
@@ -101,6 +103,7 @@ bash scripts/macos.sh diagnostics
 | 2026-10-10 | 64Plane controller buffer 16MiB 신규 8개 조건과 32MiB 대조군 비교. 개선 배치 네 쌍의 실행 지표는 동일, 기존 배치의 긴 A1/A2는 −36.87/−40.12% |
 | 2026-10-10 | 개선 배치의 200GB/s 버퍼 경계 측정: 1~32MiB의 13개 용량 × A1/A2 × 두 길이, 신규 44개·대조군 8개. 공통 최소 측정 용량 7.75MiB, 8MiB에서 217.521~236.348GB/s. Port 수락·진행 불균형과 후속 튜닝 기록 |
 | 2026-10-10 | 측정 기준을 지속 부하·실제 outstanding·시간별 평균으로 변경. 42개 신규 조합, 25µs 시간 데이터, 초기 200µs 제외 고정 2ms 및 최고 500µs 평균. 8MiB·QD512에서 약 255GB/s, 큰 QD의 Port 편중 관측. 원본 NAND 모델 유지 및 신규 검증 5개 통과 |
+| 2026-10-11 | B1/B2 64B 지속 부하 신규 30개 조건. 실제 QD·시간별 요청 수·NAND 내부 전송량 동시 계측, 8MiB·QD512에서 약 4GB/s 유효 처리량 및 64배 내부 데이터량 확인. 이전 A 결과 보존, 전체 테스트 71개 통과 |
 
 ## 실행 가능한 모델과 결과
 

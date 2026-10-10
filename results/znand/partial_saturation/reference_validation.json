@@ -1,0 +1,182 @@
+[
+  {
+    "case": "B1_b4_q128",
+    "reference": "results/znand/saturation/profiles/A1_b4_q128.json",
+    "identical_device_config": true,
+    "identical_mapping": true
+  },
+  {
+    "case": "B2_b4_q128",
+    "reference": "results/znand/saturation/profiles/A1_b4_q128.json",
+    "identical_device_config": true,
+    "identical_mapping": true
+  },
+  {
+    "case": "B1_b4_q256",
+    "reference": "results/znand/saturation/profiles/A1_b4_q256.json",
+    "identical_device_config": true,
+    "identical_mapping": true
+  },
+  {
+    "case": "B2_b4_q256",
+    "reference": "results/znand/saturation/profiles/A1_b4_q256.json",
+    "identical_device_config": true,
+    "identical_mapping": true
+  },
+  {
+    "case": "B1_b4_q512",
+    "reference": "results/znand/saturation/profiles/A1_b4_q512.json",
+    "identical_device_config": true,
+    "identical_mapping": true
+  },
+  {
+    "case": "B2_b4_q512",
+    "reference": "results/znand/saturation/profiles/A1_b4_q512.json",
+    "identical_device_config": true,
+    "identical_mapping": true
+  },
+  {
+    "case": "B1_b4_q1024",
+    "reference": "results/znand/saturation/profiles/A1_b4_q1024.json",
+    "identical_device_config": true,
+    "identical_mapping": true
+  },
+  {
+    "case": "B2_b4_q1024",
+    "reference": "results/znand/saturation/profiles/A1_b4_q1024.json",
+    "identical_device_config": true,
+    "identical_mapping": true
+  },
+  {
+    "case": "B1_b4_q2048",
+    "reference": "results/znand/saturation/profiles/A1_b4_q2048.json",
+    "identical_device_config": true,
+    "identical_mapping": true
+  },
+  {
+    "case": "B2_b4_q2048",
+    "reference": "results/znand/saturation/profiles/A1_b4_q2048.json",
+    "identical_device_config": true,
+    "identical_mapping": true
+  },
+  {
+    "case": "B1_b8_q128",
+    "reference": "results/znand/saturation/profiles/A1_b8_q128.json",
+    "identical_device_config": true,
+    "identical_mapping": true
+  },
+  {
+    "case": "B2_b8_q128",
+    "reference": "results/znand/saturation/profiles/A1_b8_q128.json",
+    "identical_device_config": true,
+    "identical_mapping": true
+  },
+  {
+    "case": "B1_b8_q256",
+    "reference": "results/znand/saturation/profiles/A1_b8_q256.json",
+    "identical_device_config": true,
+    "identical_mapping": true
+  },
+  {
+    "case": "B2_b8_q256",
+    "reference": "results/znand/saturation/profiles/A1_b8_q256.json",
+    "identical_device_config": true,
+    "identical_mapping": true
+  },
+  {
+    "case": "B1_b8_q512",
+    "reference": "results/znand/saturation/profiles/A1_b8_q512.json",
+    "identical_device_config": true,
+    "identical_mapping": true
+  },
+  {
+    "case": "B2_b8_q512",
+    "reference": "results/znand/saturation/profiles/A1_b8_q512.json",
+    "identical_device_config": true,
+    "identical_mapping": true
+  },
+  {
+    "case": "B1_b8_q1024",
+    "reference": "results/znand/saturation/profiles/A1_b8_q1024.json",
+    "identical_device_config": true,
+    "identical_mapping": true
+  },
+  {
+    "case": "B2_b8_q1024",
+    "reference": "results/znand/saturation/profiles/A1_b8_q1024.json",
+    "identical_device_config": true,
+    "identical_mapping": true
+  },
+  {
+    "case": "B1_b8_q2048",
+    "reference": "results/znand/saturation/profiles/A1_b8_q2048.json",
+    "identical_device_config": true,
+    "identical_mapping": true
+  },
+  {
+    "case": "B2_b8_q2048",
+    "reference": "results/znand/saturation/profiles/A1_b8_q2048.json",
+    "identical_device_config": true,
+    "identical_mapping": true
+  },
+  {
+    "case": "B1_b16_q128",
+    "reference": "results/znand/saturation/profiles/A1_b16_q128.json",
+    "identical_device_config": true,
+    "identical_mapping": true
+  },
+  {
+    "case": "B2_b16_q128",
+    "reference": "results/znand/saturation/profiles/A1_b16_q128.json",
+    "identical_device_config": true,
+    "identical_mapping": true
+  },
+  {
+    "case": "B1_b16_q256",
+    "reference": "results/znand/saturation/profiles/A1_b16_q256.json",
+    "identical_device_config": true,
+    "identical_mapping": true
+  },
+  {
+    "case": "B2_b16_q256",
+    "reference": "results/znand/saturation/profiles/A1_b16_q256.json",
+    "identical_device_config": true,
+    "identical_mapping": true
+  },
+  {
+    "case": "B1_b16_q512",
+    "reference": "results/znand/saturation/profiles/A1_b16_q512.json",
+    "identical_device_config": true,
+    "identical_mapping": true
+  },
+  {
+    "case": "B2_b16_q512",
+    "reference": "results/znand/saturation/profiles/A1_b16_q512.json",
+    "identical_device_config": true,
+    "identical_mapping": true
+  },
+  {
+    "case": "B1_b16_q1024",
+    "reference": "results/znand/saturation/profiles/A1_b16_q1024.json",
+    "identical_device_config": true,
+    "identical_mapping": true
+  },
+  {
+    "case": "B2_b16_q1024",
+    "reference": "results/znand/saturation/profiles/A1_b16_q1024.json",
+    "identical_device_config": true,
+    "identical_mapping": true
+  },
+  {
+    "case": "B1_b16_q2048",
+    "reference": "results/znand/saturation/profiles/A1_b16_q2048.json",
+    "identical_device_config": true,
+    "identical_mapping": true
+  },
+  {
+    "case": "B2_b16_q2048",
+    "reference": "results/znand/saturation/profiles/A1_b16_q2048.json",
+    "identical_device_config": true,
+    "identical_mapping": true
+  }
+]

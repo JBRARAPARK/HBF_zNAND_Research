@@ -15,6 +15,8 @@ Host IF 목표는 geometry별로 구분한다. **32Plane은 현재 모델의 신
 
 Controller buffer를 줄인 [64Plane 16MiB 비교](results/znand/planes64_buffer16/RESULTS_KO.md)는 같은 조건의 32MiB 대조군과 비교한다. `python3 -m znand.host64_buffer --workers 4`로 실행하며, [16MiB 프로파일](results/znand/planes64_buffer16/profiles/)을 별도로 제공한다. 기존 배치와 개선 배치의 용량 민감도를 구분한다.
 
+개선 배치에서 더 줄일 수 있는 용량은 [200GB/s 버퍼 하한 측정](results/znand/planes64_buffer_floor/RESULTS_KO.md)에 기록한다. 64Plane·QD2,048/port·PF OFF·기존 tR 및 snapshot을 고정하고 공유 버퍼만 변경했다. 신규 44개와 대조군 8개에서 A1/A2 × 8,192/32,768요청/port를 모두 통과한 최소 측정 용량은 **7.75MiB**이며, 바로 아래 7.5MiB는 세 조건이 미달했다. **8MiB**의 전체 평균은 217.521~236.348GB/s, **10MiB**는 234.988~249.367GB/s다. 시작 지연을 포함한 전체 평균으로 판정하며, 작은 버퍼에서의 Port 진행 불균형을 함께 제공한다.
+
 ## Mac에서 빠르게 실행
 
 Python 3.10 이상과 Git이 있는 Mac에서 저장소를 내려받은 뒤 실행합니다. 수치 모델에는 외부 Python 패키지가 필요하지 않습니다.
@@ -95,6 +97,7 @@ bash scripts/macos.sh diagnostics
 | 2026-10-10 | 최종 tR 확인: 네 배치 비교 쌍에서 snapshot만 변경됨을 전수 대조. 종류별 tR 고정값·발생 횟수·별도 2μs 진단 구분을 상세 보고서와 검증 JSON에 추가 |
 | 2026-10-10 | 총 64Plane을 후속 평가 기준으로 적용. 기존/영역 배치와 8,192/32,768요청/port를 새로 측정. 긴 영역 배치 A1/A2는 고정 tR에서 전체 249.508/249.325GB/s |
 | 2026-10-10 | 64Plane controller buffer 16MiB 신규 8개 조건과 32MiB 대조군 비교. 개선 배치 네 쌍의 실행 지표는 동일, 기존 배치의 긴 A1/A2는 −36.87/−40.12% |
+| 2026-10-10 | 개선 배치의 200GB/s 버퍼 경계 측정: 1~32MiB의 13개 용량 × A1/A2 × 두 길이, 신규 44개·대조군 8개. 공통 최소 측정 용량 7.75MiB, 8MiB에서 217.521~236.348GB/s. Port 수락·진행 불균형과 후속 튜닝 기록 |
 
 ## 실행 가능한 모델과 결과
 

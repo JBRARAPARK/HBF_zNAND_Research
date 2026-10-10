@@ -1,0 +1,24 @@
+{
+  "hashes": {
+    "znand/model.py": "755f822a6b7c1f44f65117b4892078419a766d4963ad4d49931e8aa1db679baf",
+    "znand/scheduling_probe.py": "8795d7d75428cf6923aada84df1ee8bbbe29b1440918654791e980b974261cf5",
+    "znand/scheduling_sweep.py": "bbc0fad577d2992a08f9c4bb34b5032e932b2ee1822e15b0c419053e2ad0a8e9",
+    "znand/pf_qd_sweep.py": "1020ba0fb1a7cda40b89da62a2a5930807ec3b2ec1c3415daf487dcd4161cea1",
+    "znand/host64_measure.py": "fd84324687178cf93ed77a7cfab227f48932761de2846ba70d8c8720ca5fc701",
+    "znand/host64_buffer.py": "d019f31cb5d0e9b006f404f1c492b4309475376cd984cd1a07de3f95346423fc",
+    "znand/host64_buffer_floor.py": "41202b0096d4c2c13f81e9848127646311e925682c2d1b090502719b4af267e6"
+  },
+  "reference_hashes": {
+    "results/znand/planes64_buffer16/cases.json": "0c60878f1220f0fe9cfc4e7b12692a50652ad47bb5bbc8c5ccf0c234a590b041",
+    "results/znand/planes64_buffer16/rows.json": "6652ec2bfaf80ba3aa74a99a10edf664321f9c1d5432547a34449e8aed677f26",
+    "results/znand/planes64_buffer16/manifest.json": "f0c527124e82abd68677dccbf7c8452bcce5a511befdd4672fc02ebf313bc0d4"
+  },
+  "snapshot_hashes": {
+    "results/znand/planes64/snapshots/A1_n32768.json": "7df59cd11ea305d627d90938b451bdd0b6303bc3db709f9135bcbc766b69fe9f",
+    "results/znand/planes64/snapshots/A1_n8192.json": "8005a7eaa00d909de9591b5c6e0f9efe2781560fdf4fa68d1041dbb437bebc00",
+    "results/znand/planes64/snapshots/A2_n8192.json": "8004c15463994223554909a6427f3ec042baca092df27e0990c5d3ed707f8132",
+    "results/znand/planes64/snapshots/A2_n32768.json": "f3aaf28c0bc178db62a16385cfcf8944d35410efc248abc3cb819359d3b8b369"
+  },
+  "source_commit": "abcd67c6cc902cc8cfc5a7d282d1f62aaa06dff7",
+  "scope": "Fixed layout, timing, scheduler, QD and workload; buffer_pages only. Capacities may be appended to refine observed 200GB/s crossings."
+}

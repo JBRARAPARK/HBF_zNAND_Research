@@ -1,0 +1,117 @@
+{
+  "status": "passed",
+  "measured_conditions": 52,
+  "target_gbps": 200.0,
+  "target_metric": "Whole cold-run useful Host bytes / first-offer-to-last-return time",
+  "new_runs": 44,
+  "exact_reused_controls": 8,
+  "fixed_tr_us": {
+    "first_us": 20.69,
+    "short_us": 2.0,
+    "mid_us": 2.08,
+    "long_us": 12.16,
+    "group_us": 20.69
+  },
+  "config_difference_only_buffer_pages": true,
+  "source_snapshot_and_reference_hashes_verified": true,
+  "strict_port_order_and_accounting_verified": true,
+  "minima": [
+    {
+      "pattern": "A1",
+      "per_port": 8192,
+      "minimum_tested_passing_mib": 7.75,
+      "passing_gbps": 206.5295277812019,
+      "nearest_lower_tested_mib": 7.5,
+      "nearest_lower_gbps": 189.13693023258548,
+      "tested_mib": [
+        1.0,
+        2.0,
+        4.0,
+        6.0,
+        7.0,
+        7.25,
+        7.5,
+        7.75,
+        8.0,
+        10.0,
+        12.0,
+        16.0,
+        32.0
+      ],
+      "nonmonotonic_steps": []
+    },
+    {
+      "pattern": "A2",
+      "per_port": 8192,
+      "minimum_tested_passing_mib": 7.75,
+      "passing_gbps": 208.67510097812206,
+      "nearest_lower_tested_mib": 7.5,
+      "nearest_lower_gbps": 196.18174024345873,
+      "tested_mib": [
+        1.0,
+        2.0,
+        4.0,
+        6.0,
+        7.0,
+        7.25,
+        7.5,
+        7.75,
+        8.0,
+        10.0,
+        12.0,
+        16.0,
+        32.0
+      ],
+      "nonmonotonic_steps": []
+    },
+    {
+      "pattern": "A1",
+      "per_port": 32768,
+      "minimum_tested_passing_mib": 7.75,
+      "passing_gbps": 214.67801137567557,
+      "nearest_lower_tested_mib": 7.5,
+      "nearest_lower_gbps": 195.76324036718918,
+      "tested_mib": [
+        1.0,
+        2.0,
+        4.0,
+        6.0,
+        7.0,
+        7.25,
+        7.5,
+        7.75,
+        8.0,
+        10.0,
+        12.0,
+        16.0,
+        32.0
+      ],
+      "nonmonotonic_steps": []
+    },
+    {
+      "pattern": "A2",
+      "per_port": 32768,
+      "minimum_tested_passing_mib": 7.5,
+      "passing_gbps": 201.86632121774602,
+      "nearest_lower_tested_mib": 7.25,
+      "nearest_lower_gbps": 181.99261754184738,
+      "tested_mib": [
+        1.0,
+        2.0,
+        4.0,
+        6.0,
+        7.0,
+        7.25,
+        7.5,
+        7.75,
+        8.0,
+        10.0,
+        12.0,
+        16.0,
+        32.0
+      ],
+      "nonmonotonic_steps": []
+    }
+  ],
+  "sweep_sha256": "c62100e0ecf5859098c4c6c5c551920097cc55a32c8067bd56beb97451f3a40f"
+}

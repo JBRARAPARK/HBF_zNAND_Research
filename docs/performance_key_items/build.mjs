@@ -73,7 +73,88 @@ function chart(s,kind,config) {
   return ch;
 }
 
-// 1. Overall model structure replaces the original cover.
+// 1. Editable architecture figure with the tunable inputs next to their resources.
+{
+ const orange='#B65D13';
+ const s=base('모델 구조와 주요 가변 요소','주황색은 조정 가능한 항목입니다. 현재 대표 설정을 각 블록에 함께 표시했습니다.','모델 구조도    2026-10-11    대표 기준: 4 Port · 총 64 Plane · 8MiB · QD512/Port · PF OFF');
+ function box(name,x,y,w,h,fill=C.bg,line=C.grid,width=1.5) {
+   return s.shapes.add({geometry:'rect',name,position:{left:x,top:y,width:w,height:h},fill,line:{fill:line,width,style:'solid'}});
+ }
+ function wire(name,x1,y1,x2,y2,color,arrow='none',width=2.5) {
+   const backwards=x2<x1 || y2<y1;
+   return s.shapes.add({geometry:'connector',name,kind:'straight',
+     position:{left:Math.min(x1,x2),top:Math.min(y1,y2),width:Math.abs(x2-x1),height:Math.abs(y2-y1)},
+     line:{fill:color,width,style:'solid'},
+     ...(arrow==='none'?{}:backwards?{head:{type:'triangle',width:'med',length:'med'}}:{tail:{type:'triangle',width:'med',length:'med'}})
+   });
+ }
+ // Containers describe model resources, rather than physical circuit partitions.
+ box('host-container',56,205,172,345,C.pale);
+ box('controller-container',276,205,566,345,'#F8FAFC');
+ box('nand-container',889,205,335,345,'#F8FAFC');
+ text(s,'host-heading','Host',72,218,142,33,27,C.ink,true);
+ text(s,'host-ports-setting','Port 1–4개\n현재 4개',72,257,148,59,22,orange,true);
+ for(let i=0;i<4;i++) {
+   const x=72+(i%2)*75,y=330+Math.floor(i/2)*48;
+   box('host-port-'+i,x,y,66,34,C.bg,C.blue);
+   text(s,'host-port-label-'+i,'P'+i,x+18,y+4,47,29,23,C.blue,true);
+ }
+ text(s,'host-workload','Workload A / B\n4KiB / 64B',72,433,152,62,22,orange);
+ text(s,'host-return-order','Port별 in-order',72,512,151,27,20,C.teal,true);
+
+ text(s,'controller-heading','Controller',292,218,235,33,27,C.ink,true);
+ text(s,'request-legend','요청 →',636,221,88,30,22,C.blue,true);
+ text(s,'data-legend','← 데이터',733,221,103,30,22,C.teal,true);
+ box('admission',292,274,138,107,C.bg,C.blue);
+ box('l2p-mapping',453,274,159,107,C.bg,C.blue);
+ box('ca-scheduler',635,274,191,107,C.bg,C.blue);
+ text(s,'admission-heading','수락·버퍼 예약',300,283,130,28,20,C.ink,true);
+ text(s,'admission-parameters','QD / Port\n현재 512',304,322,124,53,22,orange,true);
+ text(s,'mapping-heading','L2P / 배치',466,283,146,28,22,C.ink,true);
+ text(s,'mapping-parameters','영역별 배치\nstripe 4/16KiB',466,322,140,52,20,orange,true);
+ text(s,'ca-heading','CA 스케줄러',648,283,175,28,22,C.ink,true);
+ text(s,'ca-parameters','정책·우회·대기\nPF ON/OFF',648,322,172,52,21,orange,true);
+ text(s,'current-ca-policy','현재 A1: head_locality / A2: locality',292,397,537,28,21,C.muted);
+ text(s,'current-ca-parameters','우회 32회 · A1 선두대기 48.64µs · PF OFF',292,432,541,28,21,orange);
+ box('shared-controller-buffer',292,481,353,57,'#EAF5F3',C.teal);
+ text(s,'buffer-heading','공유 Controller buffer',303,483,336,27,23,C.teal,true);
+ text(s,'buffer-parameters','용량 가변 · 현재 8MiB (512 × 16KiB)',303,513,337,25,19,orange,true);
+ box('ecc',701,481,125,57,'#EAF5F3',C.teal);
+ text(s,'ecc-label','ECC',735,495,90,35,25,C.teal,true);
+
+ text(s,'nand-heading','NAND / 4 Channel 고정',906,218,308,33,26,C.ink,true);
+ text(s,'plane-setting','Plane/CH 8·16개 · 현재 16개',905,259,311,28,21,orange,true);
+ for(let i=0;i<4;i++) {
+   const y=297+i*51;
+   box('channel-'+i,915,y,282,38,C.bg,C.gray);
+   box('channel-label-bg-'+i,915,y,63,38,C.pale,C.gray);
+   text(s,'channel-label-'+i,'CH'+i,924,y+6,63,28,21,C.ink,true);
+   text(s,'plane-array-'+i,'Plane 0 … 15',991,y+6,202,28,22,C.ink);
+ }
+ text(s,'nand-output-unit','16KiB / NAND 출력',973,496,232,27,21,C.teal);
+
+ // Request path: every host Port shares the same controller-to-channel fabric.
+ wire('host-request',228,327,292,327,C.blue,'arrow');
+ wire('request-to-mapping',430,327,453,327,C.blue,'arrow');
+ wire('request-to-scheduler',612,327,635,327,C.blue,'arrow');
+ wire('ca-to-shared-channel-bus',826,327,866,327,C.blue);
+ wire('shared-ca-bus',866,316,866,469,C.blue);
+ for(let i=0;i<4;i++)wire('ca-to-channel-'+i,866,316+i*51,915,316+i*51,C.blue,'arrow');
+ // Return path: four channel outputs join before ECC and the shared buffer.
+ for(let i=0;i<4;i++)wire('channel-data-'+i,1197,316+i*51,1212,316+i*51,C.teal);
+ wire('shared-data-bus',1212,316,1212,531,C.teal);
+ wire('nand-data-to-ecc',1212,531,826,531,C.teal,'arrow');
+ wire('ecc-to-buffer',701,516,645,516,C.teal,'arrow');
+ wire('buffer-to-host',292,516,228,516,C.teal,'arrow');
+
+ text(s,'all-to-all','모든 Port가 4채널을 공유하며, L2P 결과가 읽을 Channel과 Plane을 결정합니다.',58,571,1160,33,25,C.ink,true);
+ text(s,'fixed-timing','비교 고정: tR S/M/L = 2.00 / 2.08 / 12.16µs (First/Group 20.69µs) · 가용률 85%',58,610,1162,28,22,C.muted);
+ text(s,'fixed-geometry','물리 Page 16KiB · Plane당 page buffer 1개 · 현재 4 Port의 Host IF 합계 256GB/s',58,641,1162,28,22,C.muted);
+ notes(s,'현재 시뮬레이터의 자원과 처리 흐름을 요약한 편집 가능한 블록 다이어그램이다. 왼쪽 Host의 P0~P3는 독립 Port이며 AXI ID는 Port별로 구분된다. 파란 선은 요청/CA 방향, 녹색 선은 NAND 데이터/ECC/공유 버퍼/Host 반환 방향이다. Port와 Channel은 1:1 연결이 아니며 한 Port도 주소에 따라 네 채널 전체를 사용할 수 있다. 도식의 공통선은 자원 공유 관계를 뜻하며 물리 버스 폭이나 실제 UCIe 회로를 정의하지 않는다. 주황색은 모델의 주요 가변 입력을 뜻한다. Ports는1~4, Plane은채널당8 또는16, stripe는4 또는16KiB를지원한다. 대표 A1은4KiB stripe/head_locality, A2는16KiB stripe/locality이며 둘다영역별L2P snapshot,우회32회,PF OFF다. 선두대기48.64µs는head_locality에적용한다. B1/B2의최근지속부하는A1프로파일을사용한다. QD512/Port와8MiB(512개의16KiB슬롯)는현재대표조합이지고정하드웨어제약이아니다. 버퍼는요청수락시예약하고연결된마지막응답완료후해제하며,지속cache는구현하지않았다. Plane마다 page buffer 하나가 있고 전체물리16KiB페이지를출력한다. 4채널은현재모델에서고정이며Plane×16/CH로총64Plane이다. tR/availability/Host IF는입력파라미터이나이번성능개선비교에서는표시값을고정했다. 추가입력에는CA/output CA0.1µs,Lookup0.5µs,ECC0.2µs,채널당NAND전송80.1125GB/s,turnaround0.05µs가있다. 가용률85%는주기적Plane휴지로반영하며실제GC trace를뜻하지않는다. 전체입력과추후튜닝후보는docs/07_prefetch_tuning_ko.md및Config를참조한다.',['znand/model.py','znand/saturation.py','znand/partial_saturation.py','docs/07_prefetch_tuning_ko.md','docs/12_controller_scheduling_ko.md','results/znand/saturation/RESULTS_KO.md']);
+}
+
+// The existing ten slides follow unchanged, apart from automatic page numbers.
+// 2. Overall model structure and resource rules.
 {
  const s=base('전체 구조와 데이터 흐름','4개의 독립 Port가 4채널 전체를 공유하며, 읽기 주소가 Channel과 Plane을 결정합니다.','성능 개선 핵심 3가지    2026-10-11    현재 대표 실행 기준: 총 64 Plane, PF OFF');
  table(s,'model-architecture',[
@@ -88,7 +169,7 @@ function chart(s,kind,config) {
  notes(s,'이 구조는 현재 시뮬레이터 기준이다. 4개 Port는 독립적인 요청/응답 주체로, 한 Port도 주소에 따라 모든 Channel을 사용할 수 있다. Port와 Channel을 고정 1:1로 연결하지 않는다. Host IF는 Port당 512bit, 1GHz로 64GB/s이며 합계256GB/s다. 요청 수락 시 QD와 버퍼 용량을 확인하고, 신규16KiB 물리 페이지 작업에 대한 공유 버퍼 공간을 예약한다. 동일 물리 페이지 요청은 기존 작업에 연결할 수 있다. Lookup 이후 물리 주소의 연속성과 Port 선두 대기를 고려해 CA를 발행한다. NAND는4채널, 채널당16Plane, Plane당page buffer1개다. NAND출력은16KiB 전체 페이지이며 ECC 후 Controller buffer의 데이터가 반환 가능해진다. Port별 FIFO 선두만 응답하며 연결된 마지막 응답이 끝나면 Controller buffer를 해제한다. 영구cache나LRU 정책은 적용하지 않았다. UCIe의 모든 프로토콜 계층을 상세 구현한 회로도가 아니라 본 평가 모델의 동작 구조다.',['znand/model.py','docs/12_controller_scheduling_ko.md','results/znand/saturation/RESULTS_KO.md']);
 }
 
-// 2. The three items
+// 3. The three items
 {
  const s=base('지금까지 효과를 확인한 3가지','발행 순서, 데이터 위치, 수락 가능한 요청의 분포를 각각 개선했습니다.','근거: locality, host_ceiling, saturation 실험 원자료');
  table(s,'three-items',[
@@ -101,7 +182,7 @@ function chart(s,kind,config) {
  notes(s,'세 항목 중 1번은 내부 스케줄러 변경, 2번은 물리 자원 확대와 L2P 배치 변경, 3번은 버퍼와 포트별 QD 설정의 조합이다. 3번 비교는 admission 알고리즘을 수정한 결과가 아니다. 1번은 PF ON, 32 Plane, 32MiB, QD2048, 16KiB stripe의 A2 case37. 2번은 PF OFF, 64 Plane, 32MiB, QD2048, A2의 snapshot만 변경한 쌍. 3번은 PF OFF, 64 Plane, 8MiB, 영역 배치 A1의 고정 2ms 평균이다.',['results/znand/locality/matched_comparison.csv','results/znand/host_ceiling/sweep.csv','results/znand/saturation/sweep.csv']);
 }
 
-// 3. Scheduling
+// 4. Scheduling
 {
  const l=e.locality;
  const s=base('1. 연속 물리 주소를 우선하는 스케줄링','tR 상수는 그대로 두고, Long tR이 발생하는 접근의 비율을 낮췄습니다.','조건: A2, 32 Plane, 32MiB, QD 2,048/Port, PF ON, 8,192요청/Port의 전체 평균');
@@ -115,7 +196,7 @@ function chart(s,kind,config) {
  notes(s,`동일 조건의 CA 선택 정책만 비교한 case37. FIFO ${l.fifo_gbps} GB/s, locality ${l.locality_gbps} GB/s, 증가율 ${l.gain_pct}%. Long 비율 ${l.fifo_long_pct}%에서 ${l.locality_long_pct}%. locality에서는 같은 Group의 q+1만 연속 후보로 취급한다. 이미 busy인 Plane은 선점하지 않는다. 이 초기 비교의 bypass 한도는 8이다. 후속 실험은 32로 확대했다. A1에서 bypass32 locality 129.174 GB/s와 head_locality 134.339 GB/s를 비교한 추가 이득은 4.00%였으며, 그 전체 증가를 선두 우선 효과로 해석하지 않는다. A2는 선두 우선의 추가 효과가 작아서 locality를 유지했다. 과거 B 패턴에 선두 우선을 무조건 확대하면 성능이 떨어진 사례도 있다. 현재 B 지속 부하 실험은 A1과 조건을 맞춰 head_locality를 사용한다.`,['docs/12_controller_scheduling_ko.md','results/znand/locality/matched_comparison.csv','results/znand/head_locality/RESULTS_KO.md']);
 }
 
-// 4. Physical resources and measured placement benefit
+// 5. Physical resources and measured placement benefit
 {
  const b32=geom('A2_32Plane_baseline'),r32=geom('A2_32Plane_region_layout'),b64=geom('A2_64Plane_baseline'),r64=geom('A2_64Plane_region_layout');
  const s=base('2. 64 Plane과 영역별 데이터 배치','Plane 확장으로 공급 여력을 확보하고, 배치 개선으로 그 여력을 활용했습니다.','조건: A2, 4 Port, 32MiB, QD 2,048/Port, PF OFF, 8,192요청/Port의 전체 평균');
@@ -129,7 +210,7 @@ function chart(s,kind,config) {
  notes(s,'32 Plane의 최단 주기 상한은 CA 0.1µs + Short tR 2µs + NAND Data/turnaround 0.254512µs로 계산한 낙관적 상한이다. 가용률 100%로 놓아도 약222.674GB/s이며 현재85%를 고려한 Short/Mid 교대 공급량은 약186.111GB/s다. 이 가용률을 실험 결과에서 다시 감산하면 안 된다. 32에서64 Plane으로 바꾸는 비교는 geometry 변경을 포함한다. 같은 geometry의 기존 배치와 영역 배치 쌍은 전체 config 중 snapshot만 다르다. 64 Plane A2 Long비율은1142/8196=13.93%에서3/8196=0.0366%이며 finite run 초기first sensing을 포함한다. 평균tR만 낮아졌으며 tR 상수는 바꾸지 않았다.',['results/znand/host_ceiling/sweep.csv','results/znand/host_ceiling/RESULTS_KO.md','results/znand/host_ceiling/timing_validation.json']);
 }
 
-// 5. Explicit mapping explanation, native table
+// 6. Explicit mapping explanation, native table
 {
  const s=base('2. 데이터 배치가 Long tR를 줄이는 원리','각 논리 영역은 4채널을 모두 쓰되, 채널 안에서 서로 다른 Plane 묶음을 사용합니다.','근거: host_ceiling의 영역별 L2P snapshot. 총 64 Plane 구성의 설명용 배치 표');
  table(s,'region-mapping',[
@@ -144,7 +225,7 @@ function chart(s,kind,config) {
  notes(s,'표의 Plane 번호는 각 채널 내부 번호다. 동일하게 표시된 Plane 0은 채널별로 서로 다른 물리 자원이다. 영역 0은 채널당 Plane 0~3 등 4개 Plane을 사용하며, 4채널을 모두 활용한다. 비중첩 논리 영역을 각 Port가 읽는 합성 요청열에 맞춘 정적 L2P snapshot이다. 같은 물리 페이지의 offset 및 Channel 배치를 보존하고 Plane을 재배치한다. 64B 단위의 물리 분산이나 64B 단위 매핑을 추가하지 않았다. 동적 L2P와 편향 workload는 후속 검증이 필요하다.',['results/znand/host_ceiling/RESULTS_KO.md','results/znand/host_ceiling/snapshots/A2_64Plane.json']);
 }
 
-// 6. Buffer and QD
+// 7. Buffer and QD
 {
  const qds=[128,256,512,1024,2048];
  const s=base('3. 버퍼와 Port별 Outstanding의 공동 조정','8MiB에서는 QD 512/Port가 4개 Port의 동시 진행을 유지했습니다.','조건: 64 Plane, 영역 배치, PF OFF. 초기 200µs 제외 후 200–2,200µs 고정 평균');
@@ -158,7 +239,7 @@ function chart(s,kind,config) {
  notes(s,'현재 admission은 Port 0, 1, 2, 3 순서이고, 요청 수락 시 공유 controller buffer를 예약한다. 버퍼와 Port별 QD 제한을 조합해 기존 admission의 편중을 줄인 결과다. 공정 중재 알고리즘을 구현한 결과는 아니다. 표는 설정 상한과 실제 평균 outstanding을 구분한다. A1 8MiB QD2048은 총 2029.55개, QD512는 총 2006.69개로 총합이 비슷해도 Port 분포가 다르다. A1 고정 평균은 68.857856에서 255.365922GB/s, A2는 71.888925에서 255.058330GB/s다. Actual outstanding은 수락된 AR에서 마지막 응답 완료 수를 뺀 값이며, Host 대기 요청은 포함하지 않는다. A1은 head_locality와 4KiB stripe, A2는 locality와 16KiB stripe를 사용한다.',['results/znand/saturation/sweep.csv','results/znand/saturation/RESULTS_KO.md']);
 }
 
-// 7. Current practical baseline
+// 8. Current practical baseline
 {
  const s=base('현재 확인된 실행 기준','8MiB와 QD 512/Port의 조합으로 A1/A2가 Host IF 256GB/s에 근접했습니다.','관측 범위: seed 7, 지속 부하 2.2ms. 아래 처리량은 초기 200µs를 제외한 고정 2ms 평균');
  table(s,'buffer-choices',[
@@ -174,7 +255,7 @@ function chart(s,kind,config) {
  notes(s,'이 표는 버퍼별 QD를 함께 선택한 결과다. 4MiB는 측정 조합 중 A1/A2가 모두 200GB/s를 넘긴 최소 용량이며, 모든 슬롯 수와 QD를 전수 탐색한 절대 하한은 아니다. 8MiB와 16MiB의 QD512 쌍은 같은 QD에서 버퍼를 비교할 수 있다. A1은 255.365922/255.371651, A2는 255.058330/255.211219GB/s다. 최고 500µs 값과 고정 2ms 값을 혼용하지 않는다. PF OFF이므로 Host 요청만으로 이 수치를 관측했다. Controller buffer는 16KiB 작업 단위로 예약하며 마지막 연결 응답 후 해제하는 임시 버퍼다. 지속적인 demand cache나 LRU를 새로 도입한 결과가 아니다. B1/B2는 연속된 64B 모두를 읽는 패턴이 아니고, 각 4KiB 논리 페이지의 64B만 읽는다. 16KiB 물리 페이지당 4개 64B, 즉 256B를 사용하므로 명목 효율은 1/64이다. 모델 내 NAND 부분 전송은 없다.',['results/znand/saturation/sweep.csv','results/znand/saturation/RESULTS_KO.md','results/znand/partial_saturation/RESULTS_KO.md']);
 }
 
-// 8. Measurement and bounds, traceable sources in notes
+// 9. Measurement and bounds, traceable sources in notes
 {
  const s=base('비교 조건과 적용 범위','각 실험 안의 전후 비교로 효과를 판단하고, 서로 다른 실험의 증가율은 합산하지 않습니다.','원자료 기준 커밋: '+e.source_commit.slice(0,7)+'    상세 경로와 설명은 슬라이드 노트 및 동봉 문서 참조');
  table(s,'comparison-contract',[
@@ -189,7 +270,7 @@ function chart(s,kind,config) {
  notes(s,'증거 목록과 원문은 아래 고정 커밋 URL로 제공한다. 본 자료는 제품 실측 성능이나 HBF 사양의 공식 보장이 아니다. 모델은 4개의 독립 Port가 4채널 전체를 공유하며, Plane당 page buffer 1개와 물리 16KiB page를 사용한다. 가용률 85%는 100µs 주기의 명목 15µs Plane 휴지 구간으로 모델링했다. 실제 GC 쓰기/erase trace를 실행한 것은 아니다. 이전 maintenance OFF 실험은 B 패턴 낙폭 원인 확인을 위한 대조군이며, 성능 개선 기준으로 채택하지 않았다. Controller cache 및 64B 물리 분산도 채택하지 않았다. 후속 후보는 Port별 수락의 공정성, 주소 편향 및 동적 매핑에서의 재현성 검증이다. 이번 정리는 기존 결과만 사용했으며 성능 엔진이나 입력 tR을 수정하지 않았다.',['results/znand/locality/matched_comparison.csv','results/znand/host_ceiling/sweep.csv','results/znand/host_ceiling/timing_validation.json','results/znand/saturation/sweep.csv','results/znand/saturation/RESULTS_KO.md','results/znand/partial_dips/RESULTS_KO.md','docs/07_prefetch_tuning_ko.md']);
 }
 
-// 9. Logical workload definitions.
+// 10. Logical workload definitions.
 {
  const s=base('A·B 워크로드의 요청 크기와 접근 순서','아래 P1, P2는 각각 4KiB 논리 페이지입니다. NAND의 16KiB 물리 페이지와 구분합니다.','근거: model.py의 workload(), A/B 지속 부하 생성기. A2/B2는 3개 단위의 국소 순열');
  table(s,'workload-patterns',[
@@ -204,7 +285,7 @@ function chart(s,kind,config) {
  notes(s,'A1은 요청마다 다음 4KiB 논리 페이지를 읽고, A2는 3개 묶음의 0,2,1 순열을 반복한다. 예시의 페이지 번호는 1부터 표시했다. A2/B2는 전체 주소 영역의 균등 난수 접근이 아니다. B1/B2는 각 페이지의 offset 0에서 64B만 반환한다. B3는 3개 논리 페이지 묶음에서 0,2,0,1 순서로 읽고 세 번째 요청에만 offset 64를 적용한다. 그러므로 P1의 첫 64B와 재방문의 두 번째 64B는 다른 데이터지만 동일 논리 페이지에 속하며, 동일 물리 페이지로 매핑될 수 있다. NAND page buffer 또는 Controller buffer에서 재사용할 수 있는지는 그 시점의 상태에 따른다. 항상 hit이나 항상 새 tR을 가정하지 않는다. B3는 기존 유한 요청열 모델에 구현되어 있으나 최근 64 Plane의 2ms 지속 부하 비교에는 포함하지 않았다.',['znand/model.py','znand/saturation.py','znand/partial_saturation.py']);
 }
 
-// 10. Useful bytes and measured A/B performance.
+// 11. Useful bytes and measured A/B performance.
 {
  const b1=e.partial_saturation.B1_b8_q512,b2=e.partial_saturation.B2_b8_q512;
  const s=base('A·B의 유효 데이터량과 처리량','현재 모델은 64B 요청에도 NAND에서 물리 페이지 전체 16KiB를 출력합니다.','조건: 64 Plane, 영역 배치, 8MiB, QD512/Port, PF OFF. 200–2,200µs 고정 평균');
@@ -225,15 +306,17 @@ for(let i=0;i<p.slides.items.length;i++) {
   await fs.writeFile(path.join(build,'previews',stem+'.png'),new Uint8Array(await (await p.export({slide:s,format:'png',scale:1.5})).arrayBuffer()));
   await fs.writeFile(path.join(build,'previews',stem+'.layout.json'),await (await s.export({format:'layout'})).text());
 }
+await fs.copyFile(path.join(build,'previews','slide-01.png'),path.join(out,'architecture_parameters_ko.png'));
 const candidate=path.join(build,'candidate.pptx');
 await (await PresentationFile.exportPptx(p)).save(candidate);
-const finalPath=path.join(out,'performance_key_items_ko.pptx');
+const finalPath=path.join(out,'performance_key_items_with_diagram_ko.pptx');
 const result=await finalizePresentation({
   workspaceDir:repo,candidatePath:candidate,finalPath,pythonExecutable:python,
   integrityValidatorPath:path.join(skill,'container_tools/inspect_presentation_package_integrity.py'),
   layoutValidatorPath:path.join(skill,'container_tools/inspect_presentation_layout_geometry.py'),
-  layoutArgs:['--expected-slide-size-emu','12192000,6858000','--validate-bullet-geometry','--validate-heading-fit',...[1,2,3,5,6,7,8,9,10].flatMap(n=>['--require-native-table-slide',String(n)])],
-  requiredNativeTableOwnerSlides:[1,2,3,5,6,7,8,9,10],requiredNativeChartOwnerSlides:[3,4,6],
+  explicitTotalSlideCount:11,
+  layoutArgs:['--expected-slide-size-emu','12192000,6858000','--validate-bullet-geometry','--validate-heading-fit',...[2,3,4,6,7,8,9,10,11].flatMap(n=>['--require-native-table-slide',String(n)])],
+  requiredNativeTableOwnerSlides:[2,3,4,6,7,8,9,10,11],requiredNativeChartOwnerSlides:[4,5,7],
   materializeLiteralChartWorkbooks:true,
   fontPolicy:{basis:'design',families:[F],scriptFonts:{ea:F}},
   verifyArtifactToolImport:true,receiptPath:path.join(build,path.basename(out)+'.validation.json')
@@ -248,5 +331,5 @@ const bundledFonts = path.join(homedir(), '.cache/codex-runtimes/codex-primary-r
 const fontConfig = path.join(build, 'fonts.conf');
 await fs.writeFile(fontConfig, '<?xml version="1.0"?><!DOCTYPE fontconfig SYSTEM "fonts.dtd"><fontconfig><dir>/System/Library/Fonts</dir><dir>'+xmlEscape(bundledFonts)+'</dir><cachedir>'+xmlEscape(fontCache)+'</cachedir></fontconfig>');
 execFileSync(soffice, ['--headless', '-env:UserInstallation='+pathToFileURL(path.join(build,'lo-profile')).href, '--convert-to', 'pdf', '--outdir', out, finalPath], {stdio:'pipe', timeout:60000, env:{...process.env,FONTCONFIG_FILE:fontConfig}});
-await fs.access(path.join(out,'performance_key_items_ko.pdf'));
-console.log(JSON.stringify({slides:p.slides.items.length,pptx:finalPath,pdf:path.join(out,'performance_key_items_ko.pdf'),validation:result},null,2));
+await fs.access(path.join(out,'performance_key_items_with_diagram_ko.pdf'));
+console.log(JSON.stringify({slides:p.slides.items.length,pptx:finalPath,pdf:path.join(out,'performance_key_items_with_diagram_ko.pdf'),validation:result},null,2));

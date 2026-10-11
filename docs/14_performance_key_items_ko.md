@@ -2,16 +2,22 @@
 
 2026-10-11까지의 실험에서 효과를 확인한 항목은 **컨트롤러 스케줄링**, **Plane 확장과 데이터 배치**, **버퍼와 Port별 Outstanding의 공동 조정**이다. 이 문서는 저장된 결과를 정리하며, 새 성능 실험이나 모델 변경은 포함하지 않는다.
 
-- [발표 자료 PPTX](performance_key_items/performance_key_items_ko.pptx)
-- [공유용 PDF](performance_key_items/performance_key_items_ko.pdf)
+- [발표 자료 PPTX](performance_key_items/performance_key_items_with_diagram_ko.pptx)
+- [공유용 PDF](performance_key_items/performance_key_items_with_diagram_ko.pdf)
 - [수치 원자료와 출처 해시](performance_key_items/evidence.json)
 - [슬라이드 생성 소스](performance_key_items/build.mjs)
 
-자료는 **10장**이다. 첫 페이지는 전체 모델 구조, 2~8페이지는 핵심 개선과 비교 조건, 마지막 9~10페이지는 A·B 워크로드 정의와 유효 데이터량의 차이를 설명한다.
+자료는 **11장**이다. 첫 페이지는 요청·데이터 경로와 주요 가변 요소를 함께 표시한 블록 다이어그램이고, 2페이지는 구조별 상세 동작과 자원 제약이다. 3~9페이지는 핵심 개선과 비교 조건, 마지막 10~11페이지는 A·B 워크로드 정의와 유효 데이터량의 차이를 설명한다.
 
 **세 항목의 수치는 서로 다른 실험에 속한다. 각 실험 안의 전후 비교는 유효하지만, 증가율을 합산하거나 하나의 누적 개선 과정처럼 연결하지 않는다.** 1번은 PF ON의 32 Plane 유한 요청열, 2번은 PF OFF의 32/64 Plane 유한 요청열, 3번은 PF OFF의 64 Plane 지속 부하다.
 
 ## 전체 구조와 데이터 흐름
+
+![모델 구조와 주요 가변 요소](performance_key_items/architecture_parameters_ko.png)
+
+구조도에서 파란 화살표는 읽기 요청과 CA 발행 경로, 초록 화살표는 NAND 출력·ECC·공유 버퍼·Host 반환 경로다. 주황색은 Port 수, QD, 버퍼 용량, L2P/stripe, 스케줄링, PF, Plane 수 등 주요 가변 항목이다. 도식의 공통선은 자원의 공유 관계를 나타내며 물리 배선의 폭이나 개수를 정의하지 않는다.
+
+현재 대표 조합은 **4 Port, 4채널 × 16 Plane, 공유 8MiB, QD512/Port, PF OFF**다. A1은 4KiB stripe와 `head_locality`, A2는 16KiB stripe와 `locality`이며 영역별 L2P 배치를 사용한다. 우회 한도는 32회이고, 선두대기 48.64µs는 `head_locality`에 적용한다. 최근 B1/B2의 지속 부하는 A1 프로파일을 사용한다. tR, 가용률, Host IF도 모델 입력이지만 이번 개선 비교에서는 고정했으므로 그림 하단에 분리해 표시했다. 전체 파라미터와 후속 후보는 [튜닝 문서](07_prefetch_tuning_ko.md)를 참고한다.
 
 4개의 독립 Port가 4개 NAND Channel 전체를 공유한다. Port와 Channel의 고정 1:1 연결은 없으며, 읽기 주소를 매핑한 결과로 Channel과 Plane을 선택한다. AXI ID도 Port별로 구분하고, 응답은 각 Port 내부에서 수락 순서를 지킨다.
 

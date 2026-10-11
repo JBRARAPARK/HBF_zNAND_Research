@@ -1,0 +1,12 @@
+{
+  "hashes": {
+    "znand/model.py": "755f822a6b7c1f44f65117b4892078419a766d4963ad4d49931e8aa1db679baf",
+    "znand/saturation.py": "1787ccf9aec0db13e8af0b15eacf824992647fca76d8bd2b90d4c864f3ee59dc",
+    "znand/partial_saturation.py": "b0cee8bc1577adb2387a9e176155ea03e0e4647ac1d9bfca3dd8be49aec0382e",
+    "znand/partial_dip_diagnosis.py": "7f1699a0d9affba802376c0dc27b9bca7c7ad8bd045aeb2cd8f0b1d785935e69"
+  },
+  "reference_commit": "586806fa2609641f9ef77d5bec2af765b3036aaa",
+  "duration_us": 1200.0,
+  "warmup_us": 200.0,
+  "controls": "Only availability or maintenance_period_us changes; fixed tR, strict in-order retained"
+}

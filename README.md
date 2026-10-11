@@ -13,6 +13,8 @@
 
 **B1/B2의 64B 부분 읽기도 같은 지속 부하 기준으로 측정했다.** [30개 조건과 시간 그래프](results/znand/partial_saturation/RESULTS_KO.md)에서 **8MiB·QD512/port**의 B1/B2 고정 평균은 **3.995/4.001GB/s**, 최고 500µs 평균은 **4.014/4.031GB/s**다. 내부 NAND는 약 257GB/s를 전송하지만, 현재 모델은 물리 16KiB마다 Host 유효 256B를 사용해 약 1/64만 유효 데이터가 된다. Long tR 비율은 해당 고정 구간에서 둘 다 0%다. 64B 물리 분산이나 부분 NAND 출력은 추가하지 않았다.
 
+B 그래프의 주기적 하락은 [maintenance·in-order 원인 대조](results/znand/partial_dips/RESULTS_KO.md)에서 확인했다. 100µs마다 Plane을 명목 15µs 쉬게 하는 85% 가용률 모델이 선두 요청을 지연시켜, 뒤의 ready 응답도 기다리게 한다. 유지보수 OFF 대조에서 큰 낙폭이 거의 사라졌으며 기준 85%·기존 tR·in-order는 보존했다.
+
 Host IF 목표는 geometry별로 구분한다. **32Plane은 현재 모델의 신규 데이터 공급량으로 256GB/s 달성이 불가능하고, 64Plane은 배치 변경으로 근접할 여지가 있다.** [물리 상한과 12개 비교 결과](results/znand/host_ceiling/RESULTS_KO.md)에 계산·실행 근거를 정리했다.
 
 현재 후속 성능 평가 기준은 **4channel × 16Plane = 총 64Plane**이다. 기존 tR·PF OFF·32MiB·QD2,048/port를 유지한 [64Plane 재측정 보고서](results/znand/planes64/RESULTS_KO.md)에 A1/A2의 기존 배치·영역 배치, 8,192/32,768요청/port의 8개 신규 실행을 기록한다. 실행은 `python3 -m znand.host64_measure --workers 4`이며, 길이에 맞는 [64Plane 프로파일](results/znand/planes64/profiles/)을 사용한다. 과거 결과 재현을 위한 모델 기본값과 기존 32Plane 프로파일은 보존한다.

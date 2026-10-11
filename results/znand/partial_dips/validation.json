@@ -1,0 +1,45 @@
+{
+  "status": "passed",
+  "cases": [
+    {
+      "pattern": "B1",
+      "control": "100",
+      "changed_fields": []
+    },
+    {
+      "pattern": "B1",
+      "control": "off",
+      "changed_fields": [
+        "availability"
+      ]
+    },
+    {
+      "pattern": "B1",
+      "control": "200",
+      "changed_fields": [
+        "maintenance_period_us"
+      ]
+    },
+    {
+      "pattern": "B2",
+      "control": "100",
+      "changed_fields": []
+    },
+    {
+      "pattern": "B2",
+      "control": "off",
+      "changed_fields": [
+        "availability"
+      ]
+    },
+    {
+      "pattern": "B2",
+      "control": "200",
+      "changed_fields": [
+        "maintenance_period_us"
+      ]
+    }
+  ],
+  "original_prefix_verified": true,
+  "original_device_source_unchanged": true
+}

@@ -1,0 +1,6459 @@
+{
+  "pattern": "B1",
+  "control": "200",
+  "config": {
+    "ports": 4,
+    "channels": 4,
+    "planes": 16,
+    "stripe": 4096,
+    "outstanding": 512,
+    "buffer_pages": 512,
+    "ca_us": 0.1,
+    "output_ca_us": 0.1,
+    "io_gbps": 80.1125,
+    "turnaround_us": 0.05,
+    "ecc_us": 0.2,
+    "lookup_us": 0.5,
+    "lookup_clock_mhz": 500.0,
+    "lookup_pipelines": 2,
+    "lookup_slots": 500,
+    "host_bits": 512,
+    "host_mhz": 1000.0,
+    "first_us": 20.69,
+    "short_us": 2.0,
+    "mid_us": 2.08,
+    "long_us": 12.16,
+    "group_us": 20.69,
+    "availability": 0.85,
+    "maintenance_period_us": 200.0,
+    "maintenance_sync": false,
+    "prefetch": false,
+    "accuracy": 1.0,
+    "lead_us": 10.0,
+    "prefetch_limit": 128,
+    "seed": 7,
+    "remap_fraction": 0.0,
+    "snapshot": "results/znand/partial_saturation/snapshots/B1.json",
+    "trace": false,
+    "ca_policy": "head_locality",
+    "locality_max_bypass": 32,
+    "locality_age_us": 1000.0,
+    "head_wait_us": 48.64,
+    "pf_ahead_limit": 0,
+    "pf_head_wait_us": 48.64,
+    "data_policy": "ready",
+    "data_head_wait_us": 0.0,
+    "data_age_us": 1000.0
+  },
+  "fixed": {
+    "start_us": 200.0,
+    "end_us": 1200.0,
+    "duration_us": 1000.0,
+    "bandwidth_gbps": 4.005887999908525,
+    "completed_bandwidth_gbps": 4.005888,
+    "accepted_requests": 62592,
+    "completed_requests": 62592,
+    "outstanding_mean": 2028.9000657146407,
+    "buffer_mean_mib": 7.9997940490594255,
+    "outstanding_start": 2026,
+    "outstanding_end": 2026,
+    "p_outstanding_mean": [
+      511.5266938711244,
+      510.58533324544055,
+      508.9983199592858,
+      497.78971863879
+    ],
+    "p_bandwidth_gbps": [
+      0.9994239999771817,
+      0.9994239999771817,
+      0.9953279999772149,
+      1.0117119999769475
+    ],
+    "p_completed_requests": [
+      15616,
+      15616,
+      15552,
+      15808
+    ],
+    "bin_min_gbps": 2.867199999938166,
+    "bin_max_gbps": 4.702719999888796,
+    "bin_std_gbps": 0.43811318371625535,
+    "nand_mean_gbps": 256.311296,
+    "phase100_gbps": [
+      4.0727912372409625,
+      3.7999767625858802,
+      4.294573196340061,
+      3.856210803467198
+    ],
+    "gaps_at_least_1us": 1245,
+    "gaps_with_ready_followers": 1245,
+    "gaps_with_maintenance_and_ready_followers": 123
+  },
+  "baseline_prefix_matches_existing": false,
+  "examples": [
+    {
+      "port": 2,
+      "port_sequence": 6225,
+      "key": [
+        1,
+        9,
+        97
+      ],
+      "start_us": 439.14444936808627,
+      "end_us": 453.28852270247097,
+      "duration_us": 14.1440733343847,
+      "ready_followers_at_midpoint": 303,
+      "direct_head_plane_maintenance_overlap_us": 11.15868403807957,
+      "maintenance_intervals_us": [
+        [
+          420.30313340616584,
+          450.30313340616584
+        ]
+      ],
+      "page_events": [
+        {
+          "time_us": 450.38888625372675,
+          "event": "ca_start",
+          "key": [
+            1,
+            9,
+            97
+          ],
+          "page_buffer_hit": false,
+          "duration": 0.1
+        },
+        {
+          "time_us": 450.4888862537268,
+          "event": "sense_start",
+          "key": [
+            1,
+            9,
+            97
+          ],
+          "tr_kind": "short",
+          "duration": 2.0
+        },
+        {
+          "time_us": 452.8340102980397,
+          "event": "data_start",
+          "key": [
+            1,
+            9,
+            97
+          ],
+          "duration": 0.25451240443126855
+        },
+        {
+          "time_us": 453.28852270247097,
+          "event": "ready",
+          "key": [
+            1,
+            9,
+            97
+          ]
+        }
+      ]
+    },
+    {
+      "port": 1,
+      "port_sequence": 9425,
+      "key": [
+        1,
+        5,
+        147
+      ],
+      "start_us": 643.3617614292349,
+      "end_us": 656.9952566703058,
+      "duration_us": 13.633495241070932,
+      "ready_followers_at_midpoint": 335,
+      "direct_head_plane_maintenance_overlap_us": 10.45787377127283,
+      "maintenance_intervals_us": [
+        [
+          623.8196352005077,
+          653.8196352005077
+        ]
+      ],
+      "page_events": [
+        {
+          "time_us": 653.8196352005077,
+          "event": "ca_start",
+          "key": [
+            1,
+            5,
+            147
+          ],
+          "page_buffer_hit": false,
+          "duration": 0.1
+        },
+        {
+          "time_us": 653.9196352005077,
+          "event": "sense_start",
+          "key": [
+            1,
+            5,
+            147
+          ],
+          "tr_kind": "short",
+          "duration": 2.0
+        },
+        {
+          "time_us": 656.5407442658745,
+          "event": "data_start",
+          "key": [
+            1,
+            5,
+            147
+          ],
+          "duration": 0.25451240443126855
+        },
+        {
+          "time_us": 656.9952566703058,
+          "event": "ready",
+          "key": [
+            1,
+            5,
+            147
+          ]
+        }
+      ]
+    },
+    {
+      "port": 1,
+      "port_sequence": 12497,
+      "key": [
+        1,
+        5,
+        195
+      ],
+      "start_us": 841.9772327976231,
+      "end_us": 855.2145342486928,
+      "duration_us": 13.237301451069698,
+      "ready_followers_at_midpoint": 331,
+      "direct_head_plane_maintenance_overlap_us": 10.108011390220668,
+      "maintenance_intervals_us": [
+        [
+          822.0852441878437,
+          852.0852441878437
+        ]
+      ],
+      "page_events": [
+        {
+          "time_us": 852.0852441878437,
+          "event": "ca_start",
+          "key": [
+            1,
+            5,
+            195
+          ],
+          "page_buffer_hit": false,
+          "duration": 0.1
+        },
+        {
+          "time_us": 852.1852441878438,
+          "event": "sense_start",
+          "key": [
+            1,
+            5,
+            195
+          ],
+          "tr_kind": "short",
+          "duration": 2.0
+        },
+        {
+          "time_us": 854.7600218442615,
+          "event": "data_start",
+          "key": [
+            1,
+            5,
+            195
+          ],
+          "duration": 0.25451240443126855
+        },
+        {
+          "time_us": 855.2145342486928,
+          "event": "ready",
+          "key": [
+            1,
+            5,
+            195
+          ]
+        }
+      ]
+    },
+    {
+      "port": 1,
+      "port_sequence": 15633,
+      "key": [
+        1,
+        5,
+        244
+      ],
+      "start_us": 1043.1082747698667,
+      "end_us": 1056.1855418942157,
+      "duration_us": 13.077267124348964,
+      "ready_followers_at_midpoint": 319,
+      "direct_head_plane_maintenance_overlap_us": 10.074687938821853,
+      "maintenance_intervals_us": [
+        [
+          1023.1829627086886,
+          1053.1829627086886
+        ]
+      ],
+      "page_events": [
+        {
+          "time_us": 1053.1829627086886,
+          "event": "ca_start",
+          "key": [
+            1,
+            5,
+            244
+          ],
+          "page_buffer_hit": false,
+          "duration": 0.1
+        },
+        {
+          "time_us": 1053.2829627086885,
+          "event": "sense_start",
+          "key": [
+            1,
+            5,
+            244
+          ],
+          "tr_kind": "mid",
+          "duration": 2.08
+        },
+        {
+          "time_us": 1055.7310294897843,
+          "event": "data_start",
+          "key": [
+            1,
+            5,
+            244
+          ],
+          "duration": 0.25451240443126855
+        },
+        {
+          "time_us": 1056.1855418942157,
+          "event": "ready",
+          "key": [
+            1,
+            5,
+            244
+          ]
+        }
+      ]
+    },
+    {
+      "port": 3,
+      "port_sequence": 2961,
+      "key": [
+        1,
+        13,
+        46
+      ],
+      "start_us": 231.47503713527692,
+      "end_us": 243.83529286940183,
+      "duration_us": 12.360255734124905,
+      "ready_followers_at_midpoint": 287,
+      "direct_head_plane_maintenance_overlap_us": 9.725743329693614,
+      "maintenance_intervals_us": [
+        [
+          211.2007804649705,
+          241.20078046497053
+        ]
+      ],
+      "page_events": [
+        {
+          "time_us": 241.20078046497053,
+          "event": "ca_start",
+          "key": [
+            1,
+            13,
+            46
+          ],
+          "page_buffer_hit": false,
+          "duration": 0.1
+        },
+        {
+          "time_us": 241.30078046497056,
+          "event": "sense_start",
+          "key": [
+            1,
+            13,
+            46
+          ],
+          "tr_kind": "mid",
+          "duration": 2.08
+        },
+        {
+          "time_us": 243.38078046497054,
+          "event": "data_start",
+          "key": [
+            1,
+            13,
+            46
+          ],
+          "duration": 0.25451240443126855
+        },
+        {
+          "time_us": 243.83529286940183,
+          "event": "ready",
+          "key": [
+            1,
+            13,
+            46
+          ]
+        }
+      ]
+    },
+    {
+      "port": 1,
+      "port_sequence": 6289,
+      "key": [
+        1,
+        5,
+        98
+      ],
+      "start_us": 443.0570343267313,
+      "end_us": 455.32462193792134,
+      "duration_us": 12.267587611190038,
+      "ready_followers_at_midpoint": 315,
+      "direct_head_plane_maintenance_overlap_us": 9.027685910453613,
+      "maintenance_intervals_us": [
+        [
+          422.0847202371849,
+          452.0847202371849
+        ]
+      ],
+      "page_events": [
+        {
+          "time_us": 452.1704730847458,
+          "event": "ca_start",
+          "key": [
+            1,
+            5,
+            98
+          ],
+          "page_buffer_hit": false,
+          "duration": 0.1
+        },
+        {
+          "time_us": 452.27047308474584,
+          "event": "sense_start",
+          "key": [
+            1,
+            5,
+            98
+          ],
+          "tr_kind": "mid",
+          "duration": 2.08
+        },
+        {
+          "time_us": 454.87010953349005,
+          "event": "data_start",
+          "key": [
+            1,
+            5,
+            98
+          ],
+          "duration": 0.25451240443126855
+        },
+        {
+          "time_us": 455.32462193792134,
+          "event": "ready",
+          "key": [
+            1,
+            5,
+            98
+          ]
+        }
+      ]
+    },
+    {
+      "port": 1,
+      "port_sequence": 3153,
+      "key": [
+        1,
+        5,
+        49
+      ],
+      "start_us": 242.9632337338121,
+      "end_us": 254.38385582774345,
+      "duration_us": 11.420622093931343,
+      "ready_followers_at_midpoint": 319,
+      "direct_head_plane_maintenance_overlap_us": 8.41804290840912,
+      "maintenance_intervals_us": [
+        [
+          221.3812766422212,
+          251.38127664222122
+        ]
+      ],
+      "page_events": [
+        {
+          "time_us": 251.38127664222122,
+          "event": "ca_start",
+          "key": [
+            1,
+            5,
+            49
+          ],
+          "page_buffer_hit": false,
+          "duration": 0.1
+        },
+        {
+          "time_us": 251.48127664222125,
+          "event": "sense_start",
+          "key": [
+            1,
+            5,
+            49
+          ],
+          "tr_kind": "short",
+          "duration": 2.0
+        },
+        {
+          "time_us": 253.92934342331216,
+          "event": "data_start",
+          "key": [
+            1,
+            5,
+            49
+          ],
+          "duration": 0.25451240443126855
+        },
+        {
+          "time_us": 254.38385582774345,
+          "event": "ready",
+          "key": [
+            1,
+            5,
+            49
+          ]
+        }
+      ]
+    },
+    {
+      "port": 2,
+      "port_sequence": 9361,
+      "key": [
+        1,
+        9,
+        146
+      ],
+      "start_us": 642.3452154782311,
+      "end_us": 653.6865954126997,
+      "duration_us": 11.341379934468591,
+      "ready_followers_at_midpoint": 299,
+      "direct_head_plane_maintenance_overlap_us": 8.420270869101728,
+      "maintenance_intervals_us": [
+        [
+          620.7654863473329,
+          650.7654863473329
+        ]
+      ],
+      "page_events": [
+        {
+          "time_us": 650.7869589639561,
+          "event": "ca_start",
+          "key": [
+            1,
+            9,
+            146
+          ],
+          "page_buffer_hit": false,
+          "duration": 0.1
+        },
+        {
+          "time_us": 650.8869589639561,
+          "event": "sense_start",
+          "key": [
+            1,
+            9,
+            146
+          ],
+          "tr_kind": "mid",
+          "duration": 2.08
+        },
+        {
+          "time_us": 653.2320830082684,
+          "event": "data_start",
+          "key": [
+            1,
+            9,
+            146
+          ],
+          "duration": 0.25451240443126855
+        },
+        {
+          "time_us": 653.6865954126997,
+          "event": "ready",
+          "key": [
+            1,
+            9,
+            146
+          ]
+        }
+      ]
+    }
+  ],
+  "bins": [
+    {
+      "t_start_us": 0.0,
+      "t_end_us": 25.0,
+      "bandwidth_gbps": 0.16895999999960623,
+      "completed_bandwidth_gbps": 0.16896,
+      "accepted_requests": 2100,
+      "completed_requests": 66,
+      "cumulative_accepted": 2100,
+      "cumulative_completed": 66,
+      "outstanding_mean": 2025.3408324044065,
+      "outstanding_end": 2034,
+      "buffer_mean_mib": 7.920159999999903,
+      "buffer_peak_mib": 8.0,
+      "p0_accepted": 514,
+      "p0_completed": 2,
+      "p0_cumulative_accepted": 514,
+      "p0_cumulative_completed": 2,
+      "p0_gbps": 0.005119999999988067,
+      "p0_outstanding_mean": 506.7459990076394,
+      "p0_outstanding_min": 1,
+      "p0_outstanding_max": 512,
+      "p0_outstanding_end": 512,
+      "p1_accepted": 528,
+      "p1_completed": 16,
+      "p1_cumulative_accepted": 528,
+      "p1_cumulative_completed": 16,
+      "p1_gbps": 0.04095999999990454,
+      "p1_outstanding_mean": 506.61807305351226,
+      "p1_outstanding_min": 1,
+      "p1_outstanding_max": 512,
+      "p1_outstanding_end": 512,
+      "p2_accepted": 544,
+      "p2_completed": 32,
+      "p2_cumulative_accepted": 544,
+      "p2_cumulative_completed": 32,
+      "p2_gbps": 0.08191999999980908,
+      "p2_outstanding_mean": 506.6001725573349,
+      "p2_outstanding_min": 1,
+      "p2_outstanding_max": 512,
+      "p2_outstanding_end": 512,
+      "p3_accepted": 514,
+      "p3_completed": 16,
+      "p3_cumulative_accepted": 514,
+      "p3_cumulative_completed": 16,
+      "p3_gbps": 0.04095999999990454,
+      "p3_outstanding_mean": 505.3765877859199,
+      "p3_outstanding_min": 1,
+      "p3_outstanding_max": 512,
+      "p3_outstanding_end": 498,
+      "nand_completed_pages": 56,
+      "nand_completed_gbps": 36.700160000000004,
+      "tr_first": 64,
+      "tr_short": 41,
+      "tr_mid": 1,
+      "tr_long": 0,
+      "tr_group": 0
+    },
+    {
+      "t_start_us": 25.0,
+      "t_end_us": 50.0,
+      "bandwidth_gbps": 0.5017600000023594,
+      "completed_bandwidth_gbps": 0.50176,
+      "accepted_requests": 180,
+      "completed_requests": 196,
+      "cumulative_accepted": 2280,
+      "cumulative_completed": 262,
+      "outstanding_mean": 2029.8950321672655,
+      "outstanding_end": 2018,
+      "buffer_mean_mib": 7.99999375,
+      "buffer_peak_mib": 8.0,
+      "p0_accepted": 65,
+      "p0_completed": 65,
+      "p0_cumulative_accepted": 579,
+      "p0_cumulative_completed": 67,
+      "p0_gbps": 0.16640000000079452,
+      "p0_outstanding_mean": 511.557719656733,
+      "p0_outstanding_min": 500,
+      "p0_outstanding_max": 512,
+      "p0_outstanding_end": 512,
+      "p1_accepted": 48,
+      "p1_completed": 48,
+      "p1_cumulative_accepted": 576,
+      "p1_cumulative_completed": 64,
+      "p1_gbps": 0.12288000000058673,
+      "p1_outstanding_mean": 511.9769600000004,
+      "p1_outstanding_min": 500,
+      "p1_outstanding_max": 512,
+      "p1_outstanding_end": 512,
+      "p2_accepted": 34,
+      "p2_completed": 34,
+      "p2_cumulative_accepted": 578,
+      "p2_cumulative_completed": 66,
+      "p2_gbps": 0.0870400000004156,
+      "p2_outstanding_mean": 504.2827448899984,
+      "p2_outstanding_min": 486,
+      "p2_outstanding_max": 512,
+      "p2_outstanding_end": 512,
+      "p3_accepted": 33,
+      "p3_completed": 49,
+      "p3_cumulative_accepted": 547,
+      "p3_cumulative_completed": 65,
+      "p3_gbps": 0.12544000000056257,
+      "p3_outstanding_mean": 502.0776076205336,
+      "p3_outstanding_min": 482,
+      "p3_outstanding_max": 512,
+      "p3_outstanding_end": 482,
+      "nand_completed_pages": 357,
+      "nand_completed_gbps": 233.96352,
+      "tr_first": 0,
+      "tr_short": 146,
+      "tr_mid": 173,
+      "tr_long": 0,
+      "tr_group": 0
+    },
+    {
+      "t_start_us": 50.0,
+      "t_end_us": 75.0,
+      "bandwidth_gbps": 3.8988800000186163,
+      "completed_bandwidth_gbps": 3.89888,
+      "accepted_requests": 1520,
+      "completed_requests": 1523,
+      "cumulative_accepted": 3800,
+      "cumulative_completed": 1785,
+      "outstanding_mean": 2023.5397173599504,
+      "outstanding_end": 2015,
+      "buffer_mean_mib": 7.999899374999969,
+      "buffer_peak_mib": 8.0,
+      "p0_accepted": 368,
+      "p0_completed": 368,
+      "p0_cumulative_accepted": 947,
+      "p0_cumulative_completed": 435,
+      "p0_gbps": 0.9420800000044983,
+      "p0_outstanding_mean": 511.59309057263084,
+      "p0_outstanding_min": 500,
+      "p0_outstanding_max": 512,
+      "p0_outstanding_end": 512,
+      "p1_accepted": 416,
+      "p1_completed": 416,
+      "p1_cumulative_accepted": 992,
+      "p1_cumulative_completed": 480,
+      "p1_gbps": 1.064960000005085,
+      "p1_outstanding_mean": 511.37422881572087,
+      "p1_outstanding_min": 484,
+      "p1_outstanding_max": 512,
+      "p1_outstanding_end": 512,
+      "p2_accepted": 353,
+      "p2_completed": 353,
+      "p2_cumulative_accepted": 931,
+      "p2_cumulative_completed": 419,
+      "p2_gbps": 0.9036800000043149,
+      "p2_outstanding_mean": 509.9401877110288,
+      "p2_outstanding_min": 496,
+      "p2_outstanding_max": 512,
+      "p2_outstanding_end": 512,
+      "p3_accepted": 383,
+      "p3_completed": 386,
+      "p3_cumulative_accepted": 930,
+      "p3_cumulative_completed": 451,
+      "p3_gbps": 0.9881600000047183,
+      "p3_outstanding_mean": 490.63221026057,
+      "p3_outstanding_min": 470,
+      "p3_outstanding_max": 498,
+      "p3_outstanding_end": 479,
+      "nand_completed_pages": 316,
+      "nand_completed_gbps": 207.09376,
+      "tr_first": 0,
+      "tr_short": 178,
+      "tr_mid": 176,
+      "tr_long": 0,
+      "tr_group": 0
+    },
+    {
+      "t_start_us": 75.0,
+      "t_end_us": 100.0,
+      "bandwidth_gbps": 4.093440000019545,
+      "completed_bandwidth_gbps": 4.09344,
+      "accepted_requests": 1600,
+      "completed_requests": 1599,
+      "cumulative_accepted": 5400,
+      "cumulative_completed": 3384,
+      "outstanding_mean": 2017.8068084506108,
+      "outstanding_end": 2016,
+      "buffer_mean_mib": 7.999847335387733,
+      "buffer_peak_mib": 8.0,
+      "p0_accepted": 448,
+      "p0_completed": 448,
+      "p0_cumulative_accepted": 1395,
+      "p0_cumulative_completed": 883,
+      "p0_gbps": 1.1468800000054762,
+      "p0_outstanding_mean": 511.448483201745,
+      "p0_outstanding_min": 500,
+      "p0_outstanding_max": 512,
+      "p0_outstanding_end": 512,
+      "p1_accepted": 353,
+      "p1_completed": 353,
+      "p1_cumulative_accepted": 1345,
+      "p1_cumulative_completed": 833,
+      "p1_gbps": 0.9036800000043149,
+      "p1_outstanding_mean": 511.08013488531736,
+      "p1_outstanding_min": 484,
+      "p1_outstanding_max": 512,
+      "p1_outstanding_end": 512,
+      "p2_accepted": 398,
+      "p2_completed": 398,
+      "p2_cumulative_accepted": 1329,
+      "p2_cumulative_completed": 817,
+      "p2_gbps": 1.018880000004865,
+      "p2_outstanding_mean": 511.21058625058305,
+      "p2_outstanding_min": 499,
+      "p2_outstanding_max": 512,
+      "p2_outstanding_end": 512,
+      "p3_accepted": 401,
+      "p3_completed": 400,
+      "p3_cumulative_accepted": 1331,
+      "p3_cumulative_completed": 851,
+      "p3_gbps": 1.0240000000048894,
+      "p3_outstanding_mean": 484.0676041129655,
+      "p3_outstanding_min": 468,
+      "p3_outstanding_max": 509,
+      "p3_outstanding_end": 480,
+      "nand_completed_pages": 380,
+      "nand_completed_gbps": 249.0368,
+      "tr_first": 0,
+      "tr_short": 198,
+      "tr_mid": 179,
+      "tr_long": 0,
+      "tr_group": 0
+    },
+    {
+      "t_start_us": 100.0,
+      "t_end_us": 125.0,
+      "bandwidth_gbps": 4.12160000001968,
+      "completed_bandwidth_gbps": 4.1216,
+      "accepted_requests": 1640,
+      "completed_requests": 1610,
+      "cumulative_accepted": 7040,
+      "cumulative_completed": 4994,
+      "outstanding_mean": 2029.0045237010374,
+      "outstanding_end": 2046,
+      "buffer_mean_mib": 7.999768027285844,
+      "buffer_peak_mib": 8.0,
+      "p0_accepted": 365,
+      "p0_completed": 365,
+      "p0_cumulative_accepted": 1760,
+      "p0_cumulative_completed": 1248,
+      "p0_gbps": 0.9344000000044617,
+      "p0_outstanding_mean": 511.51589049149436,
+      "p0_outstanding_min": 500,
+      "p0_outstanding_max": 512,
+      "p0_outstanding_end": 512,
+      "p1_accepted": 431,
+      "p1_completed": 432,
+      "p1_cumulative_accepted": 1776,
+      "p1_cumulative_completed": 1265,
+      "p1_gbps": 1.1059200000052807,
+      "p1_outstanding_mean": 510.86248273989423,
+      "p1_outstanding_min": 486,
+      "p1_outstanding_max": 512,
+      "p1_outstanding_end": 511,
+      "p2_accepted": 447,
+      "p2_completed": 448,
+      "p2_cumulative_accepted": 1776,
+      "p2_cumulative_completed": 1265,
+      "p2_gbps": 1.1468800000054762,
+      "p2_outstanding_mean": 509.86212253393535,
+      "p2_outstanding_min": 485,
+      "p2_outstanding_max": 512,
+      "p2_outstanding_end": 511,
+      "p3_accepted": 397,
+      "p3_completed": 365,
+      "p3_cumulative_accepted": 1728,
+      "p3_cumulative_completed": 1216,
+      "p3_gbps": 0.9344000000044617,
+      "p3_outstanding_mean": 496.76402793571344,
+      "p3_outstanding_min": 471,
+      "p3_outstanding_max": 512,
+      "p3_outstanding_end": 512,
+      "nand_completed_pages": 392,
+      "nand_completed_gbps": 256.90112,
+      "tr_first": 0,
+      "tr_short": 202,
+      "tr_mid": 200,
+      "tr_long": 0,
+      "tr_group": 0
+    },
+    {
+      "t_start_us": 125.0,
+      "t_end_us": 150.0,
+      "bandwidth_gbps": 4.262400000020352,
+      "completed_bandwidth_gbps": 4.2623999999999995,
+      "accepted_requests": 1652,
+      "completed_requests": 1665,
+      "cumulative_accepted": 8692,
+      "cumulative_completed": 6659,
+      "outstanding_mean": 2030.7092900546063,
+      "outstanding_end": 2033,
+      "buffer_mean_mib": 7.999852045560925,
+      "buffer_peak_mib": 8.0,
+      "p0_accepted": 449,
+      "p0_completed": 449,
+      "p0_cumulative_accepted": 2209,
+      "p0_cumulative_completed": 1697,
+      "p0_gbps": 1.1494400000054883,
+      "p0_outstanding_mean": 511.65069488531606,
+      "p0_outstanding_min": 500,
+      "p0_outstanding_max": 512,
+      "p0_outstanding_end": 512,
+      "p1_accepted": 385,
+      "p1_completed": 384,
+      "p1_cumulative_accepted": 2161,
+      "p1_cumulative_completed": 1649,
+      "p1_gbps": 0.9830400000046938,
+      "p1_outstanding_mean": 511.2439870619427,
+      "p1_outstanding_min": 497,
+      "p1_outstanding_max": 512,
+      "p1_outstanding_end": 512,
+      "p2_accepted": 385,
+      "p2_completed": 384,
+      "p2_cumulative_accepted": 2161,
+      "p2_cumulative_completed": 1649,
+      "p2_gbps": 0.9830400000046938,
+      "p2_outstanding_mean": 511.5658502231223,
+      "p2_outstanding_min": 487,
+      "p2_outstanding_max": 512,
+      "p2_outstanding_end": 512,
+      "p3_accepted": 433,
+      "p3_completed": 448,
+      "p3_cumulative_accepted": 2161,
+      "p3_cumulative_completed": 1664,
+      "p3_gbps": 1.1468800000054762,
+      "p3_outstanding_mean": 496.2487578842252,
+      "p3_outstanding_min": 470,
+      "p3_outstanding_max": 512,
+      "p3_outstanding_end": 497,
+      "nand_completed_pages": 391,
+      "nand_completed_gbps": 256.24576,
+      "tr_first": 0,
+      "tr_short": 190,
+      "tr_mid": 196,
+      "tr_long": 0,
+      "tr_group": 0
+    },
+    {
+      "t_start_us": 150.0,
+      "t_end_us": 175.0,
+      "bandwidth_gbps": 4.185600000019986,
+      "completed_bandwidth_gbps": 4.1856,
+      "accepted_requests": 1632,
+      "completed_requests": 1635,
+      "cumulative_accepted": 10324,
+      "cumulative_completed": 8294,
+      "outstanding_mean": 2029.5106101607048,
+      "outstanding_end": 2030,
+      "buffer_mean_mib": 7.999783749999995,
+      "buffer_peak_mib": 8.0,
+      "p0_accepted": 383,
+      "p0_completed": 384,
+      "p0_cumulative_accepted": 2592,
+      "p0_cumulative_completed": 2081,
+      "p0_gbps": 0.9830400000046938,
+      "p0_outstanding_mean": 511.6957019066912,
+      "p0_outstanding_min": 500,
+      "p0_outstanding_max": 512,
+      "p0_outstanding_end": 511,
+      "p1_accepted": 432,
+      "p1_completed": 432,
+      "p1_cumulative_accepted": 2593,
+      "p1_cumulative_completed": 2081,
+      "p1_gbps": 1.1059200000052807,
+      "p1_outstanding_mean": 510.4477943953787,
+      "p1_outstanding_min": 497,
+      "p1_outstanding_max": 512,
+      "p1_outstanding_end": 512,
+      "p2_accepted": 401,
+      "p2_completed": 402,
+      "p2_cumulative_accepted": 2562,
+      "p2_cumulative_completed": 2051,
+      "p2_gbps": 1.0291200000049139,
+      "p2_outstanding_mean": 510.73182810422753,
+      "p2_outstanding_min": 485,
+      "p2_outstanding_max": 512,
+      "p2_outstanding_end": 511,
+      "p3_accepted": 416,
+      "p3_completed": 417,
+      "p3_cumulative_accepted": 2577,
+      "p3_cumulative_completed": 2081,
+      "p3_gbps": 1.0675200000050973,
+      "p3_outstanding_mean": 496.6352857544073,
+      "p3_outstanding_min": 470,
+      "p3_outstanding_max": 511,
+      "p3_outstanding_end": 496,
+      "nand_completed_pages": 391,
+      "nand_completed_gbps": 256.24576,
+      "tr_first": 0,
+      "tr_short": 196,
+      "tr_mid": 196,
+      "tr_long": 0,
+      "tr_group": 0
+    },
+    {
+      "t_start_us": 175.0,
+      "t_end_us": 200.0,
+      "bandwidth_gbps": 3.778560000018042,
+      "completed_bandwidth_gbps": 3.77856,
+      "accepted_requests": 1472,
+      "completed_requests": 1476,
+      "cumulative_accepted": 11796,
+      "cumulative_completed": 9770,
+      "outstanding_mean": 2024.4509632204654,
+      "outstanding_end": 2026,
+      "buffer_mean_mib": 7.999783749999997,
+      "buffer_peak_mib": 8.0,
+      "p0_accepted": 337,
+      "p0_completed": 336,
+      "p0_cumulative_accepted": 2929,
+      "p0_cumulative_completed": 2417,
+      "p0_gbps": 0.8601600000041071,
+      "p0_outstanding_mean": 511.55439339678327,
+      "p0_outstanding_min": 500,
+      "p0_outstanding_max": 512,
+      "p0_outstanding_end": 512,
+      "p1_accepted": 354,
+      "p1_completed": 354,
+      "p1_cumulative_accepted": 2947,
+      "p1_cumulative_completed": 2435,
+      "p1_gbps": 0.9062400000043271,
+      "p1_outstanding_mean": 511.3644525573394,
+      "p1_outstanding_min": 500,
+      "p1_outstanding_max": 512,
+      "p1_outstanding_end": 512,
+      "p2_accepted": 446,
+      "p2_completed": 448,
+      "p2_cumulative_accepted": 3008,
+      "p2_cumulative_completed": 2499,
+      "p2_gbps": 1.1468800000054762,
+      "p2_outstanding_mean": 510.796408332031,
+      "p2_outstanding_min": 500,
+      "p2_outstanding_max": 512,
+      "p2_outstanding_end": 509,
+      "p3_accepted": 335,
+      "p3_completed": 338,
+      "p3_cumulative_accepted": 2912,
+      "p3_cumulative_completed": 2419,
+      "p3_gbps": 0.8652800000041316,
+      "p3_outstanding_mean": 490.7357089343117,
+      "p3_outstanding_min": 469,
+      "p3_outstanding_max": 496,
+      "p3_outstanding_end": 493,
+      "nand_completed_pages": 392,
+      "nand_completed_gbps": 256.90112,
+      "tr_first": 0,
+      "tr_short": 200,
+      "tr_mid": 194,
+      "tr_long": 0,
+      "tr_group": 0
+    },
+    {
+      "t_start_us": 200.0,
+      "t_end_us": 225.0,
+      "bandwidth_gbps": 4.367360000020853,
+      "completed_bandwidth_gbps": 4.36736,
+      "accepted_requests": 1712,
+      "completed_requests": 1706,
+      "cumulative_accepted": 13508,
+      "cumulative_completed": 11476,
+      "outstanding_mean": 2023.3587017756167,
+      "outstanding_end": 2032,
+      "buffer_mean_mib": 7.9998875,
+      "buffer_peak_mib": 8.0,
+      "p0_accepted": 448,
+      "p0_completed": 448,
+      "p0_cumulative_accepted": 3377,
+      "p0_cumulative_completed": 2865,
+      "p0_gbps": 1.1468800000054762,
+      "p0_outstanding_mean": 511.4409431986231,
+      "p0_outstanding_min": 500,
+      "p0_outstanding_max": 512,
+      "p0_outstanding_end": 512,
+      "p1_accepted": 397,
+      "p1_completed": 397,
+      "p1_cumulative_accepted": 3344,
+      "p1_cumulative_completed": 2832,
+      "p1_gbps": 1.0163200000048527,
+      "p1_outstanding_mean": 511.2563513808685,
+      "p1_outstanding_min": 500,
+      "p1_outstanding_max": 512,
+      "p1_outstanding_end": 512,
+      "p2_accepted": 416,
+      "p2_completed": 413,
+      "p2_cumulative_accepted": 3424,
+      "p2_cumulative_completed": 2912,
+      "p2_gbps": 1.0572800000050484,
+      "p2_outstanding_mean": 511.2389556561061,
+      "p2_outstanding_min": 500,
+      "p2_outstanding_max": 512,
+      "p2_outstanding_end": 512,
+      "p3_accepted": 451,
+      "p3_completed": 448,
+      "p3_cumulative_accepted": 3363,
+      "p3_cumulative_completed": 2867,
+      "p3_gbps": 1.1468800000054762,
+      "p3_outstanding_mean": 489.4224515400191,
+      "p3_outstanding_min": 469,
+      "p3_outstanding_max": 496,
+      "p3_outstanding_end": 496,
+      "nand_completed_pages": 393,
+      "nand_completed_gbps": 257.55648,
+      "tr_first": 0,
+      "tr_short": 190,
+      "tr_mid": 196,
+      "tr_long": 0,
+      "tr_group": 0
+    },
+    {
+      "t_start_us": 225.0,
+      "t_end_us": 250.0,
+      "bandwidth_gbps": 2.867199999938166,
+      "completed_bandwidth_gbps": 2.8672,
+      "accepted_requests": 1120,
+      "completed_requests": 1120,
+      "cumulative_accepted": 14628,
+      "cumulative_completed": 12596,
+      "outstanding_mean": 2026.3668974067841,
+      "outstanding_end": 2032,
+      "buffer_mean_mib": 7.999829375000008,
+      "buffer_peak_mib": 8.0,
+      "p0_accepted": 288,
+      "p0_completed": 288,
+      "p0_cumulative_accepted": 3665,
+      "p0_cumulative_completed": 3153,
+      "p0_gbps": 0.7372799999825657,
+      "p0_outstanding_mean": 511.52072831331367,
+      "p0_outstanding_min": 500,
+      "p0_outstanding_max": 512,
+      "p0_outstanding_end": 512,
+      "p1_accepted": 321,
+      "p1_completed": 321,
+      "p1_cumulative_accepted": 3665,
+      "p1_cumulative_completed": 3153,
+      "p1_gbps": 0.8217599999842787,
+      "p1_outstanding_mean": 500.86302980184485,
+      "p1_outstanding_min": 469,
+      "p1_outstanding_max": 512,
+      "p1_outstanding_end": 512,
+      "p2_accepted": 241,
+      "p2_completed": 241,
+      "p2_cumulative_accepted": 3665,
+      "p2_cumulative_completed": 3153,
+      "p2_gbps": 0.6169599999854108,
+      "p2_outstanding_mean": 510.467142274932,
+      "p2_outstanding_min": 484,
+      "p2_outstanding_max": 512,
+      "p2_outstanding_end": 512,
+      "p3_accepted": 270,
+      "p3_completed": 270,
+      "p3_cumulative_accepted": 3633,
+      "p3_cumulative_completed": 3137,
+      "p3_gbps": 0.6911999999859109,
+      "p3_outstanding_mean": 503.51599701669375,
+      "p3_outstanding_min": 469,
+      "p3_outstanding_max": 512,
+      "p3_outstanding_end": 496,
+      "nand_completed_pages": 386,
+      "nand_completed_gbps": 252.96895999999998,
+      "tr_first": 0,
+      "tr_short": 193,
+      "tr_mid": 188,
+      "tr_long": 0,
+      "tr_group": 0
+    },
+    {
+      "t_start_us": 250.0,
+      "t_end_us": 275.0,
+      "bandwidth_gbps": 4.462079999894486,
+      "completed_bandwidth_gbps": 4.46208,
+      "accepted_requests": 1744,
+      "completed_requests": 1743,
+      "cumulative_accepted": 16372,
+      "cumulative_completed": 14339,
+      "outstanding_mean": 2031.2172593540658,
+      "outstanding_end": 2033,
+      "buffer_mean_mib": 7.999820000000004,
+      "buffer_peak_mib": 8.0,
+      "p0_accepted": 495,
+      "p0_completed": 495,
+      "p0_cumulative_accepted": 4160,
+      "p0_cumulative_completed": 3648,
+      "p0_gbps": 1.2671999999700347,
+      "p0_outstanding_mean": 511.5553930535272,
+      "p0_outstanding_min": 500,
+      "p0_outstanding_max": 512,
+      "p0_outstanding_end": 512,
+      "p1_accepted": 448,
+      "p1_completed": 448,
+      "p1_cumulative_accepted": 4113,
+      "p1_cumulative_completed": 3601,
+      "p1_gbps": 1.1468799999728798,
+      "p1_outstanding_mean": 511.6501725573512,
+      "p1_outstanding_min": 500,
+      "p1_outstanding_max": 512,
+      "p1_outstanding_end": 512,
+      "p2_accepted": 432,
+      "p2_completed": 432,
+      "p2_cumulative_accepted": 4097,
+      "p2_cumulative_completed": 3585,
+      "p2_gbps": 1.1059199999738485,
+      "p2_outstanding_mean": 511.50702511469194,
+      "p2_outstanding_min": 500,
+      "p2_outstanding_max": 512,
+      "p2_outstanding_end": 512,
+      "p3_accepted": 369,
+      "p3_completed": 368,
+      "p3_cumulative_accepted": 4002,
+      "p3_cumulative_completed": 3505,
+      "p3_gbps": 0.9420799999777227,
+      "p3_outstanding_mean": 496.50466862849555,
+      "p3_outstanding_min": 485,
+      "p3_outstanding_max": 497,
+      "p3_outstanding_end": 497,
+      "nand_completed_pages": 391,
+      "nand_completed_gbps": 256.24576,
+      "tr_first": 0,
+      "tr_short": 197,
+      "tr_mid": 201,
+      "tr_long": 0,
+      "tr_group": 0
+    },
+    {
+      "t_start_us": 275.0,
+      "t_end_us": 300.0,
+      "bandwidth_gbps": 3.863039999908651,
+      "completed_bandwidth_gbps": 3.86304,
+      "accepted_requests": 1504,
+      "completed_requests": 1509,
+      "cumulative_accepted": 17876,
+      "cumulative_completed": 15848,
+      "outstanding_mean": 2026.569900028107,
+      "outstanding_end": 2028,
+      "buffer_mean_mib": 7.999897500000002,
+      "buffer_peak_mib": 8.0,
+      "p0_accepted": 432,
+      "p0_completed": 435,
+      "p0_cumulative_accepted": 4592,
+      "p0_cumulative_completed": 4083,
+      "p0_gbps": 1.1135999999736668,
+      "p0_outstanding_mean": 511.5334869090392,
+      "p0_outstanding_min": 500,
+      "p0_outstanding_max": 512,
+      "p0_outstanding_end": 509,
+      "p1_accepted": 336,
+      "p1_completed": 336,
+      "p1_cumulative_accepted": 4449,
+      "p1_cumulative_completed": 3937,
+      "p1_gbps": 0.8601599999796599,
+      "p1_outstanding_mean": 511.4433150007847,
+      "p1_outstanding_min": 497,
+      "p1_outstanding_max": 512,
+      "p1_outstanding_end": 512,
+      "p2_accepted": 353,
+      "p2_completed": 368,
+      "p2_cumulative_accepted": 4450,
+      "p2_cumulative_completed": 3953,
+      "p2_gbps": 0.9420799999777227,
+      "p2_outstanding_mean": 508.91925388672644,
+      "p2_outstanding_min": 484,
+      "p2_outstanding_max": 512,
+      "p2_outstanding_end": 497,
+      "p3_accepted": 383,
+      "p3_completed": 370,
+      "p3_cumulative_accepted": 4385,
+      "p3_cumulative_completed": 3875,
+      "p3_gbps": 0.9471999999776017,
+      "p3_outstanding_mean": 494.67384423155664,
+      "p3_outstanding_min": 470,
+      "p3_outstanding_max": 510,
+      "p3_outstanding_end": 510,
+      "nand_completed_pages": 388,
+      "nand_completed_gbps": 254.27967999999998,
+      "tr_first": 0,
+      "tr_short": 199,
+      "tr_mid": 193,
+      "tr_long": 0,
+      "tr_group": 0
+    },
+    {
+      "t_start_us": 300.0,
+      "t_end_us": 325.0,
+      "bandwidth_gbps": 3.8425599999091355,
+      "completed_bandwidth_gbps": 3.8425599999999998,
+      "accepted_requests": 1504,
+      "completed_requests": 1501,
+      "cumulative_accepted": 19380,
+      "cumulative_completed": 17349,
+      "outstanding_mean": 2029.8540162459212,
+      "outstanding_end": 2031,
+      "buffer_mean_mib": 7.9998156250000045,
+      "buffer_peak_mib": 8.0,
+      "p0_accepted": 240,
+      "p0_completed": 240,
+      "p0_cumulative_accepted": 4832,
+      "p0_cumulative_completed": 4323,
+      "p0_gbps": 0.6143999999854713,
+      "p0_outstanding_mean": 511.35882269309025,
+      "p0_outstanding_min": 500,
+      "p0_outstanding_max": 512,
+      "p0_outstanding_end": 509,
+      "p1_accepted": 400,
+      "p1_completed": 400,
+      "p1_cumulative_accepted": 4849,
+      "p1_cumulative_completed": 4337,
+      "p1_gbps": 1.0239999999757856,
+      "p1_outstanding_mean": 510.41378927133957,
+      "p1_outstanding_min": 486,
+      "p1_outstanding_max": 512,
+      "p1_outstanding_end": 512,
+      "p2_accepted": 462,
+      "p2_completed": 448,
+      "p2_cumulative_accepted": 4912,
+      "p2_cumulative_completed": 4401,
+      "p2_gbps": 1.1468799999728798,
+      "p2_outstanding_mean": 510.39785954127285,
+      "p2_outstanding_min": 485,
+      "p2_outstanding_max": 512,
+      "p2_outstanding_end": 511,
+      "p3_accepted": 402,
+      "p3_completed": 413,
+      "p3_cumulative_accepted": 4787,
+      "p3_cumulative_completed": 4288,
+      "p3_gbps": 1.0572799999749987,
+      "p3_outstanding_mean": 497.68354474021857,
+      "p3_outstanding_min": 471,
+      "p3_outstanding_max": 512,
+      "p3_outstanding_end": 499,
+      "nand_completed_pages": 394,
+      "nand_completed_gbps": 258.21184,
+      "tr_first": 0,
+      "tr_short": 190,
+      "tr_mid": 197,
+      "tr_long": 0,
+      "tr_group": 0
+    },
+    {
+      "t_start_us": 325.0,
+      "t_end_us": 350.0,
+      "bandwidth_gbps": 4.702719999888796,
+      "completed_bandwidth_gbps": 4.70272,
+      "accepted_requests": 1840,
+      "completed_requests": 1837,
+      "cumulative_accepted": 21220,
+      "cumulative_completed": 19186,
+      "outstanding_mean": 2031.9730532751178,
+      "outstanding_end": 2034,
+      "buffer_mean_mib": 7.999736082072072,
+      "buffer_peak_mib": 8.0,
+      "p0_accepted": 512,
+      "p0_completed": 509,
+      "p0_cumulative_accepted": 5344,
+      "p0_cumulative_completed": 4832,
+      "p0_gbps": 1.3030399999691873,
+      "p0_outstanding_mean": 511.5845450210742,
+      "p0_outstanding_min": 500,
+      "p0_outstanding_max": 512,
+      "p0_outstanding_end": 512,
+      "p1_accepted": 447,
+      "p1_completed": 448,
+      "p1_cumulative_accepted": 5296,
+      "p1_cumulative_completed": 4785,
+      "p1_gbps": 1.1468799999728798,
+      "p1_outstanding_mean": 510.9103457887364,
+      "p1_outstanding_min": 500,
+      "p1_outstanding_max": 512,
+      "p1_outstanding_end": 511,
+      "p2_accepted": 385,
+      "p2_completed": 384,
+      "p2_cumulative_accepted": 5297,
+      "p2_cumulative_completed": 4785,
+      "p2_gbps": 0.9830399999767542,
+      "p2_outstanding_mean": 509.4945042845998,
+      "p2_outstanding_min": 484,
+      "p2_outstanding_max": 512,
+      "p2_outstanding_end": 512,
+      "p3_accepted": 496,
+      "p3_completed": 496,
+      "p3_cumulative_accepted": 5283,
+      "p3_cumulative_completed": 4784,
+      "p3_gbps": 1.2697599999699742,
+      "p3_outstanding_mean": 499.98365818070744,
+      "p3_outstanding_min": 471,
+      "p3_outstanding_max": 512,
+      "p3_outstanding_end": 499,
+      "nand_completed_pages": 392,
+      "nand_completed_gbps": 256.90112,
+      "tr_first": 0,
+      "tr_short": 200,
+      "tr_mid": 196,
+      "tr_long": 0,
+      "tr_group": 0
+    },
+    {
+      "t_start_us": 350.0,
+      "t_end_us": 375.0,
+      "bandwidth_gbps": 4.166851964317612,
+      "completed_bandwidth_gbps": 4.16512,
+      "accepted_requests": 1613,
+      "completed_requests": 1627,
+      "cumulative_accepted": 22833,
+      "cumulative_completed": 20813,
+      "outstanding_mean": 2030.0695175222554,
+      "outstanding_end": 2020,
+      "buffer_mean_mib": 7.999785625000004,
+      "buffer_peak_mib": 8.0,
+      "p0_accepted": 371,
+      "p0_completed": 371,
+      "p0_cumulative_accepted": 5715,
+      "p0_cumulative_completed": 5203,
+      "p0_gbps": 0.9497599999775411,
+      "p0_outstanding_mean": 511.641679163683,
+      "p0_outstanding_min": 500,
+      "p0_outstanding_max": 512,
+      "p0_outstanding_end": 512,
+      "p1_accepted": 385,
+      "p1_completed": 384,
+      "p1_cumulative_accepted": 5681,
+      "p1_cumulative_completed": 5169,
+      "p1_gbps": 0.9830399999767542,
+      "p1_outstanding_mean": 510.7363490404246,
+      "p1_outstanding_min": 485,
+      "p1_outstanding_max": 512,
+      "p1_outstanding_end": 512,
+      "p2_accepted": 415,
+      "p2_completed": 424,
+      "p2_cumulative_accepted": 5712,
+      "p2_cumulative_completed": 5209,
+      "p2_gbps": 1.0871719643904363,
+      "p2_outstanding_mean": 508.98723332189655,
+      "p2_outstanding_min": 484,
+      "p2_outstanding_max": 512,
+      "p2_outstanding_end": 503,
+      "p3_accepted": 442,
+      "p3_completed": 448,
+      "p3_cumulative_accepted": 5725,
+      "p3_cumulative_completed": 5232,
+      "p3_gbps": 1.1468799999728798,
+      "p3_outstanding_mean": 498.7042559962511,
+      "p3_outstanding_min": 469,
+      "p3_outstanding_max": 512,
+      "p3_outstanding_end": 493,
+      "nand_completed_pages": 392,
+      "nand_completed_gbps": 256.90112,
+      "tr_first": 0,
+      "tr_short": 196,
+      "tr_mid": 196,
+      "tr_long": 0,
+      "tr_group": 0
+    },
+    {
+      "t_start_us": 375.0,
+      "t_end_us": 400.0,
+      "bandwidth_gbps": 3.840828035493032,
+      "completed_bandwidth_gbps": 3.8425599999999998,
+      "accepted_requests": 1507,
+      "completed_requests": 1501,
+      "cumulative_accepted": 24340,
+      "cumulative_completed": 22314,
+      "outstanding_mean": 2026.666035175548,
+      "outstanding_end": 2026,
+      "buffer_mean_mib": 7.999872499999999,
+      "buffer_peak_mib": 8.0,
+      "p0_accepted": 350,
+      "p0_completed": 350,
+      "p0_cumulative_accepted": 6065,
+      "p0_cumulative_completed": 5553,
+      "p0_gbps": 0.8959999999788124,
+      "p0_outstanding_mean": 511.72876674676877,
+      "p0_outstanding_min": 500,
+      "p0_outstanding_max": 512,
+      "p0_outstanding_end": 512,
+      "p1_accepted": 402,
+      "p1_completed": 402,
+      "p1_cumulative_accepted": 6083,
+      "p1_cumulative_completed": 5571,
+      "p1_gbps": 1.0291199999756646,
+      "p1_outstanding_mean": 510.2151476798456,
+      "p1_outstanding_min": 484,
+      "p1_outstanding_max": 512,
+      "p1_outstanding_end": 512,
+      "p2_accepted": 416,
+      "p2_completed": 426,
+      "p2_cumulative_accepted": 6128,
+      "p2_cumulative_completed": 5635,
+      "p2_gbps": 1.0888280355581081,
+      "p2_outstanding_mean": 506.2716033640274,
+      "p2_outstanding_min": 484,
+      "p2_outstanding_max": 512,
+      "p2_outstanding_end": 493,
+      "p3_accepted": 339,
+      "p3_completed": 323,
+      "p3_cumulative_accepted": 6064,
+      "p3_cumulative_completed": 5555,
+      "p3_gbps": 0.8268799999804469,
+      "p3_outstanding_mean": 498.4505173849061,
+      "p3_outstanding_min": 471,
+      "p3_outstanding_max": 512,
+      "p3_outstanding_end": 509,
+      "nand_completed_pages": 392,
+      "nand_completed_gbps": 256.90112,
+      "tr_first": 0,
+      "tr_short": 194,
+      "tr_mid": 201,
+      "tr_long": 0,
+      "tr_group": 0
+    },
+    {
+      "t_start_us": 400.0,
+      "t_end_us": 425.0,
+      "bandwidth_gbps": 4.114806752903678,
+      "completed_bandwidth_gbps": 4.11392,
+      "accepted_requests": 1602,
+      "completed_requests": 1607,
+      "cumulative_accepted": 25942,
+      "cumulative_completed": 23921,
+      "outstanding_mean": 2027.6593624340678,
+      "outstanding_end": 2021,
+      "buffer_mean_mib": 7.999626250000003,
+      "buffer_peak_mib": 8.0,
+      "p0_accepted": 384,
+      "p0_completed": 384,
+      "p0_cumulative_accepted": 6449,
+      "p0_cumulative_completed": 5937,
+      "p0_gbps": 0.9830399999767542,
+      "p0_outstanding_mean": 511.61814682478575,
+      "p0_outstanding_min": 500,
+      "p0_outstanding_max": 512,
+      "p0_outstanding_end": 512,
+      "p1_accepted": 397,
+      "p1_completed": 397,
+      "p1_cumulative_accepted": 6480,
+      "p1_cumulative_completed": 5968,
+      "p1_gbps": 1.0163199999759671,
+      "p1_outstanding_mean": 507.83928355749595,
+      "p1_outstanding_min": 484,
+      "p1_outstanding_max": 512,
+      "p1_outstanding_end": 512,
+      "p2_accepted": 418,
+      "p2_completed": 411,
+      "p2_cumulative_accepted": 6546,
+      "p2_cumulative_completed": 6046,
+      "p2_gbps": 1.053046752976079,
+      "p2_outstanding_mean": 509.029026843503,
+      "p2_outstanding_min": 484,
+      "p2_outstanding_max": 512,
+      "p2_outstanding_end": 500,
+      "p3_accepted": 403,
+      "p3_completed": 415,
+      "p3_cumulative_accepted": 6467,
+      "p3_cumulative_completed": 5970,
+      "p3_gbps": 1.0623999999748777,
+      "p3_outstanding_mean": 499.17290520828317,
+      "p3_outstanding_min": 471,
+      "p3_outstanding_max": 512,
+      "p3_outstanding_end": 497,
+      "nand_completed_pages": 393,
+      "nand_completed_gbps": 257.55648,
+      "tr_first": 0,
+      "tr_short": 194,
+      "tr_mid": 192,
+      "tr_long": 0,
+      "tr_group": 0
+    },
+    {
+      "t_start_us": 425.0,
+      "t_end_us": 450.0,
+      "bandwidth_gbps": 2.955913246929122,
+      "completed_bandwidth_gbps": 2.9568000000000003,
+      "accepted_requests": 1166,
+      "completed_requests": 1155,
+      "cumulative_accepted": 27108,
+      "cumulative_completed": 25076,
+      "outstanding_mean": 2030.9337218598744,
+      "outstanding_end": 2032,
+      "buffer_mean_mib": 7.99968250000001,
+      "buffer_peak_mib": 8.0,
+      "p0_accepted": 288,
+      "p0_completed": 288,
+      "p0_cumulative_accepted": 6737,
+      "p0_cumulative_completed": 6225,
+      "p0_gbps": 0.7372799999825657,
+      "p0_outstanding_mean": 511.6042226806104,
+      "p0_outstanding_min": 500,
+      "p0_outstanding_max": 512,
+      "p0_outstanding_end": 512,
+      "p1_accepted": 321,
+      "p1_completed": 321,
+      "p1_cumulative_accepted": 6801,
+      "p1_cumulative_completed": 6289,
+      "p1_gbps": 0.8217599999805679,
+      "p1_outstanding_mean": 510.1389257731287,
+      "p1_outstanding_min": 485,
+      "p1_outstanding_max": 512,
+      "p1_outstanding_end": 512,
+      "p2_accepted": 191,
+      "p2_completed": 179,
+      "p2_cumulative_accepted": 6737,
+      "p2_cumulative_completed": 6225,
+      "p2_gbps": 0.4573532469882048,
+      "p2_outstanding_mean": 511.6797582774118,
+      "p2_outstanding_min": 485,
+      "p2_outstanding_max": 512,
+      "p2_outstanding_end": 512,
+      "p3_accepted": 366,
+      "p3_completed": 367,
+      "p3_cumulative_accepted": 6833,
+      "p3_cumulative_completed": 6337,
+      "p3_gbps": 0.9395199999777833,
+      "p3_outstanding_mean": 497.5108151287235,
+      "p3_outstanding_min": 470,
+      "p3_outstanding_max": 512,
+      "p3_outstanding_end": 496,
+      "nand_completed_pages": 390,
+      "nand_completed_gbps": 255.5904,
+      "tr_first": 0,
+      "tr_short": 192,
+      "tr_mid": 191,
+      "tr_long": 0,
+      "tr_group": 0
+    },
+    {
+      "t_start_us": 450.0,
+      "t_end_us": 475.0,
+      "bandwidth_gbps": 4.505599999893457,
+      "completed_bandwidth_gbps": 4.5056,
+      "accepted_requests": 1760,
+      "completed_requests": 1760,
+      "cumulative_accepted": 28868,
+      "cumulative_completed": 26836,
+      "outstanding_mean": 2030.4514017038912,
+      "outstanding_end": 2032,
+      "buffer_mean_mib": 7.999798870338606,
+      "buffer_peak_mib": 8.0,
+      "p0_accepted": 512,
+      "p0_completed": 512,
+      "p0_cumulative_accepted": 7249,
+      "p0_cumulative_completed": 6737,
+      "p0_gbps": 1.3107199999690056,
+      "p0_outstanding_mean": 511.56344168514784,
+      "p0_outstanding_min": 500,
+      "p0_outstanding_max": 512,
+      "p0_outstanding_end": 512,
+      "p1_accepted": 432,
+      "p1_completed": 448,
+      "p1_cumulative_accepted": 7233,
+      "p1_cumulative_completed": 6737,
+      "p1_gbps": 1.1468799999728798,
+      "p1_outstanding_mean": 511.1918574130458,
+      "p1_outstanding_min": 487,
+      "p1_outstanding_max": 512,
+      "p1_outstanding_end": 496,
+      "p2_accepted": 432,
+      "p2_completed": 432,
+      "p2_cumulative_accepted": 7169,
+      "p2_cumulative_completed": 6657,
+      "p2_gbps": 1.1059199999738485,
+      "p2_outstanding_mean": 511.6907936589267,
+      "p2_outstanding_min": 500,
+      "p2_outstanding_max": 512,
+      "p2_outstanding_end": 512,
+      "p3_accepted": 384,
+      "p3_completed": 368,
+      "p3_cumulative_accepted": 7217,
+      "p3_cumulative_completed": 6705,
+      "p3_gbps": 0.9420799999777227,
+      "p3_outstanding_mean": 496.0053089467708,
+      "p3_outstanding_min": 482,
+      "p3_outstanding_max": 512,
+      "p3_outstanding_end": 512,
+      "nand_completed_pages": 391,
+      "nand_completed_gbps": 256.24576,
+      "tr_first": 0,
+      "tr_short": 204,
+      "tr_mid": 196,
+      "tr_long": 0,
+      "tr_group": 0
+    },
+    {
+      "t_start_us": 475.0,
+      "t_end_us": 500.0,
+      "bandwidth_gbps": 3.8988799999078037,
+      "completed_bandwidth_gbps": 3.89888,
+      "accepted_requests": 1520,
+      "completed_requests": 1523,
+      "cumulative_accepted": 30388,
+      "cumulative_completed": 28359,
+      "outstanding_mean": 2028.3267622281387,
+      "outstanding_end": 2029,
+      "buffer_mean_mib": 7.999913125000001,
+      "buffer_peak_mib": 8.0,
+      "p0_accepted": 447,
+      "p0_completed": 449,
+      "p0_cumulative_accepted": 7696,
+      "p0_cumulative_completed": 7186,
+      "p0_gbps": 1.1494399999728193,
+      "p0_outstanding_mean": 511.3036755999441,
+      "p0_outstanding_min": 500,
+      "p0_outstanding_max": 512,
+      "p0_outstanding_end": 510,
+      "p1_accepted": 352,
+      "p1_completed": 336,
+      "p1_cumulative_accepted": 7585,
+      "p1_cumulative_completed": 7073,
+      "p1_gbps": 0.8601599999796599,
+      "p1_outstanding_mean": 509.3896619129306,
+      "p1_outstanding_min": 484,
+      "p1_outstanding_max": 512,
+      "p1_outstanding_end": 512,
+      "p2_accepted": 353,
+      "p2_completed": 368,
+      "p2_cumulative_accepted": 7522,
+      "p2_cumulative_completed": 7025,
+      "p2_gbps": 0.9420799999777227,
+      "p2_outstanding_mean": 506.22403517556415,
+      "p2_outstanding_min": 484,
+      "p2_outstanding_max": 512,
+      "p2_outstanding_end": 497,
+      "p3_accepted": 368,
+      "p3_completed": 370,
+      "p3_cumulative_accepted": 7585,
+      "p3_cumulative_completed": 7075,
+      "p3_gbps": 0.9471999999776017,
+      "p3_outstanding_mean": 501.4093895397,
+      "p3_outstanding_min": 471,
+      "p3_outstanding_max": 512,
+      "p3_outstanding_end": 510,
+      "nand_completed_pages": 386,
+      "nand_completed_gbps": 252.96895999999998,
+      "tr_first": 0,
+      "tr_short": 195,
+      "tr_mid": 195,
+      "tr_long": 0,
+      "tr_group": 0
+    },
+    {
+      "t_start_us": 500.0,
+      "t_end_us": 525.0,
+      "bandwidth_gbps": 3.9193599999073196,
+      "completed_bandwidth_gbps": 3.91936,
+      "accepted_requests": 1536,
+      "completed_requests": 1531,
+      "cumulative_accepted": 31924,
+      "cumulative_completed": 29890,
+      "outstanding_mean": 2030.5068033203372,
+      "outstanding_end": 2034,
+      "buffer_mean_mib": 7.999795275686524,
+      "buffer_peak_mib": 8.0,
+      "p0_accepted": 272,
+      "p0_completed": 270,
+      "p0_cumulative_accepted": 7968,
+      "p0_cumulative_completed": 7456,
+      "p0_gbps": 0.6911999999836553,
+      "p0_outstanding_mean": 511.72854715556196,
+      "p0_outstanding_min": 500,
+      "p0_outstanding_max": 512,
+      "p0_outstanding_end": 512,
+      "p1_accepted": 400,
+      "p1_completed": 400,
+      "p1_cumulative_accepted": 7985,
+      "p1_cumulative_completed": 7473,
+      "p1_gbps": 1.0239999999757856,
+      "p1_outstanding_mean": 511.2918996598608,
+      "p1_outstanding_min": 500,
+      "p1_outstanding_max": 512,
+      "p1_outstanding_end": 512,
+      "p2_accepted": 463,
+      "p2_completed": 448,
+      "p2_cumulative_accepted": 7985,
+      "p2_cumulative_completed": 7473,
+      "p2_gbps": 1.1468799999728798,
+      "p2_outstanding_mean": 507.6295506381901,
+      "p2_outstanding_min": 484,
+      "p2_outstanding_max": 512,
+      "p2_outstanding_end": 512,
+      "p3_accepted": 401,
+      "p3_completed": 413,
+      "p3_cumulative_accepted": 7986,
+      "p3_cumulative_completed": 7488,
+      "p3_gbps": 1.0572799999749987,
+      "p3_outstanding_mean": 499.8568058667243,
+      "p3_outstanding_min": 471,
+      "p3_outstanding_max": 512,
+      "p3_outstanding_end": 498,
+      "nand_completed_pages": 393,
+      "nand_completed_gbps": 257.55648,
+      "tr_first": 0,
+      "tr_short": 190,
+      "tr_mid": 201,
+      "tr_long": 0,
+      "tr_group": 0
+    },
+    {
+      "t_start_us": 525.0,
+      "t_end_us": 550.0,
+      "bandwidth_gbps": 4.546559999892488,
+      "completed_bandwidth_gbps": 4.54656,
+      "accepted_requests": 1776,
+      "completed_requests": 1776,
+      "cumulative_accepted": 33700,
+      "cumulative_completed": 31666,
+      "outstanding_mean": 2031.222638208777,
+      "outstanding_end": 2034,
+      "buffer_mean_mib": 7.9997545013847855,
+      "buffer_peak_mib": 8.0,
+      "p0_accepted": 512,
+      "p0_completed": 512,
+      "p0_cumulative_accepted": 8480,
+      "p0_cumulative_completed": 7968,
+      "p0_gbps": 1.3107199999690056,
+      "p0_outstanding_mean": 511.4482429458633,
+      "p0_outstanding_min": 500,
+      "p0_outstanding_max": 512,
+      "p0_outstanding_end": 512,
+      "p1_accepted": 431,
+      "p1_completed": 432,
+      "p1_cumulative_accepted": 8416,
+      "p1_cumulative_completed": 7905,
+      "p1_gbps": 1.1059199999738485,
+      "p1_outstanding_mean": 510.8980491683718,
+      "p1_outstanding_min": 500,
+      "p1_outstanding_max": 512,
+      "p1_outstanding_end": 511,
+      "p2_accepted": 384,
+      "p2_completed": 384,
+      "p2_cumulative_accepted": 8369,
+      "p2_cumulative_completed": 7857,
+      "p2_gbps": 0.9830399999767542,
+      "p2_outstanding_mean": 510.81679661729163,
+      "p2_outstanding_min": 484,
+      "p2_outstanding_max": 512,
+      "p2_outstanding_end": 512,
+      "p3_accepted": 449,
+      "p3_completed": 448,
+      "p3_cumulative_accepted": 8435,
+      "p3_cumulative_completed": 7936,
+      "p3_gbps": 1.1468799999728798,
+      "p3_outstanding_mean": 498.05954947725024,
+      "p3_outstanding_min": 471,
+      "p3_outstanding_max": 512,
+      "p3_outstanding_end": 499,
+      "nand_completed_pages": 393,
+      "nand_completed_gbps": 257.55648,
+      "tr_first": 0,
+      "tr_short": 198,
+      "tr_mid": 192,
+      "tr_long": 0,
+      "tr_group": 0
+    },
+    {
+      "t_start_us": 550.0,
+      "t_end_us": 575.0,
+      "bandwidth_gbps": 4.149759999901871,
+      "completed_bandwidth_gbps": 4.149760000000001,
+      "accepted_requests": 1616,
+      "completed_requests": 1621,
+      "cumulative_accepted": 35316,
+      "cumulative_completed": 33287,
+      "outstanding_mean": 2028.5920121828499,
+      "outstanding_end": 2029,
+      "buffer_mean_mib": 7.999820000000004,
+      "buffer_peak_mib": 8.0,
+      "p0_accepted": 307,
+      "p0_completed": 307,
+      "p0_cumulative_accepted": 8787,
+      "p0_cumulative_completed": 8275,
+      "p0_gbps": 0.7859199999814155,
+      "p0_outstanding_mean": 511.5970812856977,
+      "p0_outstanding_min": 500,
+      "p0_outstanding_max": 512,
+      "p0_outstanding_end": 512,
+      "p1_accepted": 401,
+      "p1_completed": 400,
+      "p1_cumulative_accepted": 8817,
+      "p1_cumulative_completed": 8305,
+      "p1_gbps": 1.0239999999757856,
+      "p1_outstanding_mean": 511.63642983929816,
+      "p1_outstanding_min": 500,
+      "p1_outstanding_max": 512,
+      "p1_outstanding_end": 512,
+      "p2_accepted": 431,
+      "p2_completed": 433,
+      "p2_cumulative_accepted": 8800,
+      "p2_cumulative_completed": 8290,
+      "p2_gbps": 1.108479999973788,
+      "p2_outstanding_mean": 509.8663468559852,
+      "p2_outstanding_min": 484,
+      "p2_outstanding_max": 512,
+      "p2_outstanding_end": 510,
+      "p3_accepted": 477,
+      "p3_completed": 481,
+      "p3_cumulative_accepted": 8912,
+      "p3_cumulative_completed": 8417,
+      "p3_gbps": 1.2313599999708822,
+      "p3_outstanding_mean": 495.4921542018689,
+      "p3_outstanding_min": 469,
+      "p3_outstanding_max": 512,
+      "p3_outstanding_end": 495,
+      "nand_completed_pages": 390,
+      "nand_completed_gbps": 255.5904,
+      "tr_first": 0,
+      "tr_short": 200,
+      "tr_mid": 194,
+      "tr_long": 0,
+      "tr_group": 0
+    },
+    {
+      "t_start_us": 575.0,
+      "t_end_us": 600.0,
+      "bandwidth_gbps": 3.857919999908772,
+      "completed_bandwidth_gbps": 3.85792,
+      "accepted_requests": 1492,
+      "completed_requests": 1507,
+      "cumulative_accepted": 36808,
+      "cumulative_completed": 34794,
+      "outstanding_mean": 2025.033885305079,
+      "outstanding_end": 2014,
+      "buffer_mean_mib": 7.999920000000004,
+      "buffer_peak_mib": 8.0,
+      "p0_accepted": 350,
+      "p0_completed": 350,
+      "p0_cumulative_accepted": 9137,
+      "p0_cumulative_completed": 8625,
+      "p0_gbps": 0.8959999999788124,
+      "p0_outstanding_mean": 511.75114623186556,
+      "p0_outstanding_min": 500,
+      "p0_outstanding_max": 512,
+      "p0_outstanding_end": 512,
+      "p1_accepted": 402,
+      "p1_completed": 402,
+      "p1_cumulative_accepted": 9219,
+      "p1_cumulative_completed": 8707,
+      "p1_gbps": 1.0291199999756646,
+      "p1_outstanding_mean": 510.75794062724736,
+      "p1_outstanding_min": 486,
+      "p1_outstanding_max": 512,
+      "p1_outstanding_end": 512,
+      "p2_accepted": 419,
+      "p2_completed": 417,
+      "p2_cumulative_accepted": 9219,
+      "p2_cumulative_completed": 8707,
+      "p2_gbps": 1.0675199999747564,
+      "p2_outstanding_mean": 506.192556997996,
+      "p2_outstanding_min": 480,
+      "p2_outstanding_max": 512,
+      "p2_outstanding_end": 512,
+      "p3_accepted": 321,
+      "p3_completed": 338,
+      "p3_cumulative_accepted": 9233,
+      "p3_cumulative_completed": 8755,
+      "p3_gbps": 0.8652799999795389,
+      "p3_outstanding_mean": 496.3322414479701,
+      "p3_outstanding_min": 469,
+      "p3_outstanding_max": 512,
+      "p3_outstanding_end": 478,
+      "nand_completed_pages": 391,
+      "nand_completed_gbps": 256.24576,
+      "tr_first": 0,
+      "tr_short": 192,
+      "tr_mid": 201,
+      "tr_long": 0,
+      "tr_group": 0
+    },
+    {
+      "t_start_us": 600.0,
+      "t_end_us": 625.0,
+      "bandwidth_gbps": 4.039679999904474,
+      "completed_bandwidth_gbps": 4.03968,
+      "accepted_requests": 1596,
+      "completed_requests": 1578,
+      "cumulative_accepted": 38404,
+      "cumulative_completed": 36372,
+      "outstanding_mean": 2025.0950322921324,
+      "outstanding_end": 2032,
+      "buffer_mean_mib": 7.999880000000003,
+      "buffer_peak_mib": 8.0,
+      "p0_accepted": 384,
+      "p0_completed": 384,
+      "p0_cumulative_accepted": 9521,
+      "p0_cumulative_completed": 9009,
+      "p0_gbps": 0.9830399999767542,
+      "p0_outstanding_mean": 511.7130518333663,
+      "p0_outstanding_min": 500,
+      "p0_outstanding_max": 512,
+      "p0_outstanding_end": 512,
+      "p1_accepted": 397,
+      "p1_completed": 397,
+      "p1_cumulative_accepted": 9616,
+      "p1_cumulative_completed": 9104,
+      "p1_gbps": 1.0163199999759671,
+      "p1_outstanding_mean": 511.5119305414253,
+      "p1_outstanding_min": 500,
+      "p1_outstanding_max": 512,
+      "p1_outstanding_end": 512,
+      "p2_accepted": 400,
+      "p2_completed": 413,
+      "p2_cumulative_accepted": 9619,
+      "p2_cumulative_completed": 9120,
+      "p2_gbps": 1.0572799999749987,
+      "p2_outstanding_mean": 508.623714844783,
+      "p2_outstanding_min": 484,
+      "p2_outstanding_max": 512,
+      "p2_outstanding_end": 499,
+      "p3_accepted": 415,
+      "p3_completed": 384,
+      "p3_cumulative_accepted": 9648,
+      "p3_cumulative_completed": 9139,
+      "p3_gbps": 0.9830399999767542,
+      "p3_outstanding_mean": 493.2463350725577,
+      "p3_outstanding_min": 469,
+      "p3_outstanding_max": 510,
+      "p3_outstanding_end": 509,
+      "nand_completed_pages": 389,
+      "nand_completed_gbps": 254.93504000000001,
+      "tr_first": 0,
+      "tr_short": 192,
+      "tr_mid": 192,
+      "tr_long": 0,
+      "tr_group": 0
+    },
+    {
+      "t_start_us": 625.0,
+      "t_end_us": 650.0,
+      "bandwidth_gbps": 3.194879999924451,
+      "completed_bandwidth_gbps": 3.19488,
+      "accepted_requests": 1248,
+      "completed_requests": 1248,
+      "cumulative_accepted": 39652,
+      "cumulative_completed": 37620,
+      "outstanding_mean": 2029.3682063036285,
+      "outstanding_end": 2032,
+      "buffer_mean_mib": 7.999757500000005,
+      "buffer_peak_mib": 8.0,
+      "p0_accepted": 352,
+      "p0_completed": 352,
+      "p0_cumulative_accepted": 9873,
+      "p0_cumulative_completed": 9361,
+      "p0_gbps": 0.9011199999786913,
+      "p0_outstanding_mean": 511.44620927446437,
+      "p0_outstanding_min": 500,
+      "p0_outstanding_max": 512,
+      "p0_outstanding_end": 512,
+      "p1_accepted": 321,
+      "p1_completed": 321,
+      "p1_cumulative_accepted": 9937,
+      "p1_cumulative_completed": 9425,
+      "p1_gbps": 0.8217599999805679,
+      "p1_outstanding_mean": 511.77483285380316,
+      "p1_outstanding_min": 500,
+      "p1_outstanding_max": 512,
+      "p1_outstanding_end": 512,
+      "p2_accepted": 254,
+      "p2_completed": 241,
+      "p2_cumulative_accepted": 9873,
+      "p2_cumulative_completed": 9361,
+      "p2_gbps": 0.6169599999854108,
+      "p2_outstanding_mean": 510.3028549789339,
+      "p2_outstanding_min": 485,
+      "p2_outstanding_max": 512,
+      "p2_outstanding_end": 512,
+      "p3_accepted": 321,
+      "p3_completed": 334,
+      "p3_cumulative_accepted": 9969,
+      "p3_cumulative_completed": 9473,
+      "p3_gbps": 0.855039999979781,
+      "p3_outstanding_mean": 495.844309196427,
+      "p3_outstanding_min": 470,
+      "p3_outstanding_max": 512,
+      "p3_outstanding_end": 496,
+      "nand_completed_pages": 390,
+      "nand_completed_gbps": 255.5904,
+      "tr_first": 0,
+      "tr_short": 192,
+      "tr_mid": 190,
+      "tr_long": 0,
+      "tr_group": 0
+    },
+    {
+      "t_start_us": 650.0,
+      "t_end_us": 675.0,
+      "bandwidth_gbps": 4.29823999989836,
+      "completed_bandwidth_gbps": 4.29824,
+      "accepted_requests": 1680,
+      "completed_requests": 1679,
+      "cumulative_accepted": 41332,
+      "cumulative_completed": 39299,
+      "outstanding_mean": 2031.1451742737072,
+      "outstanding_end": 2033,
+      "buffer_mean_mib": 7.999790738317213,
+      "buffer_peak_mib": 8.0,
+      "p0_accepted": 495,
+      "p0_completed": 495,
+      "p0_cumulative_accepted": 10368,
+      "p0_cumulative_completed": 9856,
+      "p0_gbps": 1.2671999999700347,
+      "p0_outstanding_mean": 511.6076512966229,
+      "p0_outstanding_min": 500,
+      "p0_outstanding_max": 512,
+      "p0_outstanding_end": 512,
+      "p1_accepted": 384,
+      "p1_completed": 384,
+      "p1_cumulative_accepted": 10321,
+      "p1_cumulative_completed": 9809,
+      "p1_gbps": 0.9830399999767542,
+      "p1_outstanding_mean": 511.50838412233503,
+      "p1_outstanding_min": 500,
+      "p1_outstanding_max": 512,
+      "p1_outstanding_end": 512,
+      "p2_accepted": 431,
+      "p2_completed": 432,
+      "p2_cumulative_accepted": 10304,
+      "p2_cumulative_completed": 9793,
+      "p2_gbps": 1.1059199999738485,
+      "p2_outstanding_mean": 511.55727309097483,
+      "p2_outstanding_min": 500,
+      "p2_outstanding_max": 512,
+      "p2_outstanding_end": 511,
+      "p3_accepted": 370,
+      "p3_completed": 368,
+      "p3_cumulative_accepted": 10339,
+      "p3_cumulative_completed": 9841,
+      "p3_gbps": 0.9420799999777227,
+      "p3_outstanding_mean": 496.47186576377453,
+      "p3_outstanding_min": 485,
+      "p3_outstanding_max": 498,
+      "p3_outstanding_end": 498,
+      "nand_completed_pages": 390,
+      "nand_completed_gbps": 255.5904,
+      "tr_first": 0,
+      "tr_short": 198,
+      "tr_mid": 200,
+      "tr_long": 0,
+      "tr_group": 0
+    },
+    {
+      "t_start_us": 675.0,
+      "t_end_us": 700.0,
+      "bandwidth_gbps": 3.8195199999096805,
+      "completed_bandwidth_gbps": 3.81952,
+      "accepted_requests": 1488,
+      "completed_requests": 1492,
+      "cumulative_accepted": 42820,
+      "cumulative_completed": 40791,
+      "outstanding_mean": 2028.5119937775207,
+      "outstanding_end": 2029,
+      "buffer_mean_mib": 7.999906250000001,
+      "buffer_peak_mib": 8.0,
+      "p0_accepted": 418,
+      "p0_completed": 418,
+      "p0_cumulative_accepted": 10786,
+      "p0_cumulative_completed": 10274,
+      "p0_gbps": 1.070079999974696,
+      "p0_outstanding_mean": 511.26759350913346,
+      "p0_outstanding_min": 500,
+      "p0_outstanding_max": 512,
+      "p0_outstanding_end": 512,
+      "p1_accepted": 336,
+      "p1_completed": 336,
+      "p1_cumulative_accepted": 10657,
+      "p1_cumulative_completed": 10145,
+      "p1_gbps": 0.8601599999796599,
+      "p1_outstanding_mean": 511.6114723669884,
+      "p1_outstanding_min": 500,
+      "p1_outstanding_max": 512,
+      "p1_outstanding_end": 512,
+      "p2_accepted": 352,
+      "p2_completed": 368,
+      "p2_cumulative_accepted": 10656,
+      "p2_cumulative_completed": 10161,
+      "p2_gbps": 0.9420799999777227,
+      "p2_outstanding_mean": 507.08563117491167,
+      "p2_outstanding_min": 484,
+      "p2_outstanding_max": 512,
+      "p2_outstanding_end": 495,
+      "p3_accepted": 382,
+      "p3_completed": 370,
+      "p3_cumulative_accepted": 10721,
+      "p3_cumulative_completed": 10211,
+      "p3_gbps": 0.9471999999776017,
+      "p3_outstanding_mean": 498.5472967264871,
+      "p3_outstanding_min": 480,
+      "p3_outstanding_max": 512,
+      "p3_outstanding_end": 510,
+      "nand_completed_pages": 389,
+      "nand_completed_gbps": 254.93504000000001,
+      "tr_first": 0,
+      "tr_short": 195,
+      "tr_mid": 199,
+      "tr_long": 0,
+      "tr_group": 0
+    },
+    {
+      "t_start_us": 700.0,
+      "t_end_us": 725.0,
+      "bandwidth_gbps": 4.0544000997845435,
+      "completed_bandwidth_gbps": 4.05248,
+      "accepted_requests": 1579,
+      "completed_requests": 1583,
+      "cumulative_accepted": 44399,
+      "cumulative_completed": 42374,
+      "outstanding_mean": 2030.2958550039232,
+      "outstanding_end": 2025,
+      "buffer_mean_mib": 7.999780328054315,
+      "buffer_peak_mib": 8.0,
+      "p0_accepted": 265,
+      "p0_completed": 274,
+      "p0_cumulative_accepted": 11051,
+      "p0_cumulative_completed": 10548,
+      "p0_gbps": 0.7033600998637849,
+      "p0_outstanding_mean": 511.6266383398349,
+      "p0_outstanding_min": 500,
+      "p0_outstanding_max": 512,
+      "p0_outstanding_end": 503,
+      "p1_accepted": 448,
+      "p1_completed": 448,
+      "p1_cumulative_accepted": 11105,
+      "p1_cumulative_completed": 10593,
+      "p1_gbps": 1.1468799999728798,
+      "p1_outstanding_mean": 510.1081004150526,
+      "p1_outstanding_min": 485,
+      "p1_outstanding_max": 512,
+      "p1_outstanding_end": 512,
+      "p2_accepted": 451,
+      "p2_completed": 448,
+      "p2_cumulative_accepted": 11107,
+      "p2_cumulative_completed": 10609,
+      "p2_gbps": 1.1468799999728798,
+      "p2_outstanding_mean": 508.0857706038548,
+      "p2_outstanding_min": 484,
+      "p2_outstanding_max": 512,
+      "p2_outstanding_end": 498,
+      "p3_accepted": 415,
+      "p3_completed": 413,
+      "p3_cumulative_accepted": 11136,
+      "p3_cumulative_completed": 10624,
+      "p3_gbps": 1.0572799999749987,
+      "p3_outstanding_mean": 500.47534564518077,
+      "p3_outstanding_min": 483,
+      "p3_outstanding_max": 512,
+      "p3_outstanding_end": 512,
+      "nand_completed_pages": 392,
+      "nand_completed_gbps": 256.90112,
+      "tr_first": 0,
+      "tr_short": 201,
+      "tr_mid": 190,
+      "tr_long": 0,
+      "tr_group": 0
+    },
+    {
+      "t_start_us": 725.0,
+      "t_end_us": 750.0,
+      "bandwidth_gbps": 4.57535990001139,
+      "completed_bandwidth_gbps": 4.57728,
+      "accepted_requests": 1809,
+      "completed_requests": 1788,
+      "cumulative_accepted": 46208,
+      "cumulative_completed": 44162,
+      "outstanding_mean": 2031.2835236823437,
+      "outstanding_end": 2046,
+      "buffer_mean_mib": 7.999657203054315,
+      "buffer_peak_mib": 8.0,
+      "p0_accepted": 501,
+      "p0_completed": 492,
+      "p0_cumulative_accepted": 11552,
+      "p0_cumulative_completed": 11040,
+      "p0_gbps": 1.2575999000898446,
+      "p0_outstanding_mean": 511.4824488250946,
+      "p0_outstanding_min": 500,
+      "p0_outstanding_max": 512,
+      "p0_outstanding_end": 512,
+      "p1_accepted": 415,
+      "p1_completed": 416,
+      "p1_cumulative_accepted": 11520,
+      "p1_cumulative_completed": 11009,
+      "p1_gbps": 1.064959999974817,
+      "p1_outstanding_mean": 510.06066941490377,
+      "p1_outstanding_min": 485,
+      "p1_outstanding_max": 512,
+      "p1_outstanding_end": 511,
+      "p2_accepted": 397,
+      "p2_completed": 384,
+      "p2_cumulative_accepted": 11504,
+      "p2_cumulative_completed": 10993,
+      "p2_gbps": 0.9830399999767542,
+      "p2_outstanding_mean": 509.6041628273036,
+      "p2_outstanding_min": 484,
+      "p2_outstanding_max": 512,
+      "p2_outstanding_end": 511,
+      "p3_accepted": 496,
+      "p3_completed": 496,
+      "p3_cumulative_accepted": 11632,
+      "p3_cumulative_completed": 11120,
+      "p3_gbps": 1.2697599999699742,
+      "p3_outstanding_mean": 500.1362426150417,
+      "p3_outstanding_min": 471,
+      "p3_outstanding_max": 512,
+      "p3_outstanding_end": 512,
+      "nand_completed_pages": 393,
+      "nand_completed_gbps": 257.55648,
+      "tr_first": 0,
+      "tr_short": 194,
+      "tr_mid": 197,
+      "tr_long": 0,
+      "tr_group": 0
+    },
+    {
+      "t_start_us": 750.0,
+      "t_end_us": 775.0,
+      "bandwidth_gbps": 4.231679999899934,
+      "completed_bandwidth_gbps": 4.23168,
+      "accepted_requests": 1636,
+      "completed_requests": 1653,
+      "cumulative_accepted": 47844,
+      "cumulative_completed": 45815,
+      "outstanding_mean": 2030.3722256951464,
+      "outstanding_end": 2029,
+      "buffer_mean_mib": 7.999610000000007,
+      "buffer_peak_mib": 8.0,
+      "p0_accepted": 371,
+      "p0_completed": 371,
+      "p0_cumulative_accepted": 11923,
+      "p0_cumulative_completed": 11411,
+      "p0_gbps": 0.9497599999775411,
+      "p0_outstanding_mean": 511.65876297707007,
+      "p0_outstanding_min": 500,
+      "p0_outstanding_max": 512,
+      "p0_outstanding_end": 512,
+      "p1_accepted": 417,
+      "p1_completed": 416,
+      "p1_cumulative_accepted": 11937,
+      "p1_cumulative_completed": 11425,
+      "p1_gbps": 1.064959999974817,
+      "p1_outstanding_mean": 510.9383365142783,
+      "p1_outstanding_min": 486,
+      "p1_outstanding_max": 512,
+      "p1_outstanding_end": 512,
+      "p2_accepted": 432,
+      "p2_completed": 433,
+      "p2_cumulative_accepted": 11936,
+      "p2_cumulative_completed": 11426,
+      "p2_gbps": 1.108479999973788,
+      "p2_outstanding_mean": 508.9186887377104,
+      "p2_outstanding_min": 484,
+      "p2_outstanding_max": 512,
+      "p2_outstanding_end": 510,
+      "p3_accepted": 416,
+      "p3_completed": 433,
+      "p3_cumulative_accepted": 12048,
+      "p3_cumulative_completed": 11553,
+      "p3_gbps": 1.108479999973788,
+      "p3_outstanding_mean": 498.8564374660875,
+      "p3_outstanding_min": 470,
+      "p3_outstanding_max": 512,
+      "p3_outstanding_end": 495,
+      "nand_completed_pages": 390,
+      "nand_completed_gbps": 255.5904,
+      "tr_first": 0,
+      "tr_short": 194,
+      "tr_mid": 199,
+      "tr_long": 0,
+      "tr_group": 0
+    },
+    {
+      "t_start_us": 775.0,
+      "t_end_us": 800.0,
+      "bandwidth_gbps": 3.763199999911012,
+      "completed_bandwidth_gbps": 3.7632,
+      "accepted_requests": 1472,
+      "completed_requests": 1470,
+      "cumulative_accepted": 49316,
+      "cumulative_completed": 47285,
+      "outstanding_mean": 2025.5182638727042,
+      "outstanding_end": 2031,
+      "buffer_mean_mib": 7.999905625000002,
+      "buffer_peak_mib": 8.0,
+      "p0_accepted": 350,
+      "p0_completed": 350,
+      "p0_cumulative_accepted": 12273,
+      "p0_cumulative_completed": 11761,
+      "p0_gbps": 0.8959999999788124,
+      "p0_outstanding_mean": 511.7397754595169,
+      "p0_outstanding_min": 500,
+      "p0_outstanding_max": 512,
+      "p0_outstanding_end": 512,
+      "p1_accepted": 415,
+      "p1_completed": 416,
+      "p1_cumulative_accepted": 12352,
+      "p1_cumulative_completed": 11841,
+      "p1_gbps": 1.064959999974817,
+      "p1_outstanding_mean": 511.13341778125135,
+      "p1_outstanding_min": 498,
+      "p1_outstanding_max": 512,
+      "p1_outstanding_end": 511,
+      "p2_accepted": 368,
+      "p2_completed": 366,
+      "p2_cumulative_accepted": 12304,
+      "p2_cumulative_completed": 11792,
+      "p2_gbps": 0.9369599999778438,
+      "p2_outstanding_mean": 506.9507009954791,
+      "p2_outstanding_min": 484,
+      "p2_outstanding_max": 512,
+      "p2_outstanding_end": 512,
+      "p3_accepted": 339,
+      "p3_completed": 338,
+      "p3_cumulative_accepted": 12387,
+      "p3_cumulative_completed": 11891,
+      "p3_gbps": 0.8652799999795389,
+      "p3_outstanding_mean": 495.6943696364569,
+      "p3_outstanding_min": 470,
+      "p3_outstanding_max": 510,
+      "p3_outstanding_end": 496,
+      "nand_completed_pages": 392,
+      "nand_completed_gbps": 256.90112,
+      "tr_first": 0,
+      "tr_short": 201,
+      "tr_mid": 191,
+      "tr_long": 0,
+      "tr_group": 0
+    },
+    {
+      "t_start_us": 800.0,
+      "t_end_us": 825.0,
+      "bandwidth_gbps": 4.221439999900176,
+      "completed_bandwidth_gbps": 4.221439999999999,
+      "accepted_requests": 1648,
+      "completed_requests": 1649,
+      "cumulative_accepted": 50964,
+      "cumulative_completed": 48934,
+      "outstanding_mean": 2028.787301070415,
+      "outstanding_end": 2030,
+      "buffer_mean_mib": 7.999685000000002,
+      "buffer_peak_mib": 8.0,
+      "p0_accepted": 384,
+      "p0_completed": 384,
+      "p0_cumulative_accepted": 12657,
+      "p0_cumulative_completed": 12145,
+      "p0_gbps": 0.9830399999767542,
+      "p0_outstanding_mean": 511.59840210329196,
+      "p0_outstanding_min": 500,
+      "p0_outstanding_max": 512,
+      "p0_outstanding_end": 512,
+      "p1_accepted": 384,
+      "p1_completed": 386,
+      "p1_cumulative_accepted": 12736,
+      "p1_cumulative_completed": 12227,
+      "p1_gbps": 0.9881599999766331,
+      "p1_outstanding_mean": 511.39115697926024,
+      "p1_outstanding_min": 499,
+      "p1_outstanding_max": 512,
+      "p1_outstanding_end": 509,
+      "p2_accepted": 464,
+      "p2_completed": 464,
+      "p2_cumulative_accepted": 12768,
+      "p2_cumulative_completed": 12256,
+      "p2_gbps": 1.1878399999719114,
+      "p2_outstanding_mean": 505.13832848809676,
+      "p2_outstanding_min": 484,
+      "p2_outstanding_max": 512,
+      "p2_outstanding_end": 512,
+      "p3_accepted": 416,
+      "p3_completed": 415,
+      "p3_cumulative_accepted": 12803,
+      "p3_cumulative_completed": 12306,
+      "p3_gbps": 1.0623999999748777,
+      "p3_outstanding_mean": 500.65941349976606,
+      "p3_outstanding_min": 471,
+      "p3_outstanding_max": 512,
+      "p3_outstanding_end": 497,
+      "nand_completed_pages": 393,
+      "nand_completed_gbps": 257.55648,
+      "tr_first": 0,
+      "tr_short": 190,
+      "tr_mid": 195,
+      "tr_long": 0,
+      "tr_group": 0
+    },
+    {
+      "t_start_us": 825.0,
+      "t_end_us": 850.0,
+      "bandwidth_gbps": 3.148799999925541,
+      "completed_bandwidth_gbps": 3.1488,
+      "accepted_requests": 1232,
+      "completed_requests": 1230,
+      "cumulative_accepted": 52196,
+      "cumulative_completed": 50164,
+      "outstanding_mean": 2030.3279552691802,
+      "outstanding_end": 2032,
+      "buffer_mean_mib": 7.9996772960875475,
+      "buffer_peak_mib": 8.0,
+      "p0_accepted": 352,
+      "p0_completed": 352,
+      "p0_cumulative_accepted": 13009,
+      "p0_cumulative_completed": 12497,
+      "p0_gbps": 0.9011199999786913,
+      "p0_outstanding_mean": 511.0920468653491,
+      "p0_outstanding_min": 500,
+      "p0_outstanding_max": 512,
+      "p0_outstanding_end": 512,
+      "p1_accepted": 273,
+      "p1_completed": 270,
+      "p1_cumulative_accepted": 13009,
+      "p1_cumulative_completed": 12497,
+      "p1_gbps": 0.6911999999836553,
+      "p1_outstanding_mean": 511.76567952567495,
+      "p1_outstanding_min": 500,
+      "p1_outstanding_max": 512,
+      "p1_outstanding_end": 512,
+      "p2_accepted": 241,
+      "p2_completed": 241,
+      "p2_cumulative_accepted": 13009,
+      "p2_cumulative_completed": 12497,
+      "p2_gbps": 0.6169599999854108,
+      "p2_outstanding_mean": 510.00485642691984,
+      "p2_outstanding_min": 485,
+      "p2_outstanding_max": 512,
+      "p2_outstanding_end": 512,
+      "p3_accepted": 366,
+      "p3_completed": 367,
+      "p3_cumulative_accepted": 13169,
+      "p3_cumulative_completed": 12673,
+      "p3_gbps": 0.9395199999777833,
+      "p3_outstanding_mean": 497.4653724512363,
+      "p3_outstanding_min": 471,
+      "p3_outstanding_max": 512,
+      "p3_outstanding_end": 496,
+      "nand_completed_pages": 391,
+      "nand_completed_gbps": 256.24576,
+      "tr_first": 0,
+      "tr_short": 188,
+      "tr_mid": 197,
+      "tr_long": 0,
+      "tr_group": 0
+    },
+    {
+      "t_start_us": 850.0,
+      "t_end_us": 875.0,
+      "bandwidth_gbps": 4.29823999989836,
+      "completed_bandwidth_gbps": 4.29824,
+      "accepted_requests": 1680,
+      "completed_requests": 1679,
+      "cumulative_accepted": 53876,
+      "cumulative_completed": 51843,
+      "outstanding_mean": 2030.5028871961158,
+      "outstanding_end": 2033,
+      "buffer_mean_mib": 7.999783035964903,
+      "buffer_peak_mib": 8.0,
+      "p0_accepted": 495,
+      "p0_completed": 495,
+      "p0_cumulative_accepted": 13504,
+      "p0_cumulative_completed": 12992,
+      "p0_gbps": 1.2671999999700347,
+      "p0_outstanding_mean": 511.50506034639665,
+      "p0_outstanding_min": 500,
+      "p0_outstanding_max": 512,
+      "p0_outstanding_end": 512,
+      "p1_accepted": 447,
+      "p1_completed": 448,
+      "p1_cumulative_accepted": 13456,
+      "p1_cumulative_completed": 12945,
+      "p1_gbps": 1.1468799999728798,
+      "p1_outstanding_mean": 511.61560785142734,
+      "p1_outstanding_min": 500,
+      "p1_outstanding_max": 512,
+      "p1_outstanding_end": 511,
+      "p2_accepted": 368,
+      "p2_completed": 368,
+      "p2_cumulative_accepted": 13377,
+      "p2_cumulative_completed": 12865,
+      "p2_gbps": 0.9420799999777227,
+      "p2_outstanding_mean": 511.62746945233755,
+      "p2_outstanding_min": 500,
+      "p2_outstanding_max": 512,
+      "p2_outstanding_end": 512,
+      "p3_accepted": 370,
+      "p3_completed": 368,
+      "p3_cumulative_accepted": 13539,
+      "p3_cumulative_completed": 13041,
+      "p3_gbps": 0.9420799999777227,
+      "p3_outstanding_mean": 495.75474954595427,
+      "p3_outstanding_min": 485,
+      "p3_outstanding_max": 498,
+      "p3_outstanding_end": 498,
+      "nand_completed_pages": 389,
+      "nand_completed_gbps": 254.93504000000001,
+      "tr_first": 0,
+      "tr_short": 205,
+      "tr_mid": 197,
+      "tr_long": 0,
+      "tr_group": 0
+    },
+    {
+      "t_start_us": 875.0,
+      "t_end_us": 900.0,
+      "bandwidth_gbps": 3.863039999908651,
+      "completed_bandwidth_gbps": 3.86304,
+      "accepted_requests": 1504,
+      "completed_requests": 1509,
+      "cumulative_accepted": 55380,
+      "cumulative_completed": 53352,
+      "outstanding_mean": 2028.1247955562687,
+      "outstanding_end": 2028,
+      "buffer_mean_mib": 7.999911894016216,
+      "buffer_peak_mib": 8.0,
+      "p0_accepted": 432,
+      "p0_completed": 435,
+      "p0_cumulative_accepted": 13936,
+      "p0_cumulative_completed": 13427,
+      "p0_gbps": 1.1135999999736668,
+      "p0_outstanding_mean": 511.18950228740636,
+      "p0_outstanding_min": 500,
+      "p0_outstanding_max": 512,
+      "p0_outstanding_end": 509,
+      "p1_accepted": 336,
+      "p1_completed": 336,
+      "p1_cumulative_accepted": 13792,
+      "p1_cumulative_completed": 13281,
+      "p1_gbps": 0.8601599999796599,
+      "p1_outstanding_mean": 511.58701633947584,
+      "p1_outstanding_min": 500,
+      "p1_outstanding_max": 512,
+      "p1_outstanding_end": 511,
+      "p2_accepted": 368,
+      "p2_completed": 368,
+      "p2_cumulative_accepted": 13745,
+      "p2_cumulative_completed": 13233,
+      "p2_gbps": 0.9420799999777227,
+      "p2_outstanding_mean": 508.40973372445893,
+      "p2_outstanding_min": 484,
+      "p2_outstanding_max": 512,
+      "p2_outstanding_end": 512,
+      "p3_accepted": 368,
+      "p3_completed": 370,
+      "p3_cumulative_accepted": 13907,
+      "p3_cumulative_completed": 13411,
+      "p3_gbps": 0.9471999999776017,
+      "p3_outstanding_mean": 496.93854320492756,
+      "p3_outstanding_min": 480,
+      "p3_outstanding_max": 512,
+      "p3_outstanding_end": 496,
+      "nand_completed_pages": 391,
+      "nand_completed_gbps": 256.24576,
+      "tr_first": 0,
+      "tr_short": 190,
+      "tr_mid": 201,
+      "tr_long": 0,
+      "tr_group": 0
+    },
+    {
+      "t_start_us": 900.0,
+      "t_end_us": 925.0,
+      "bandwidth_gbps": 3.9273943016928388,
+      "completed_bandwidth_gbps": 3.92704,
+      "accepted_requests": 1530,
+      "completed_requests": 1534,
+      "cumulative_accepted": 56910,
+      "cumulative_completed": 54886,
+      "outstanding_mean": 2029.769206715567,
+      "outstanding_end": 2024,
+      "buffer_mean_mib": 7.999773750000002,
+      "buffer_peak_mib": 8.0,
+      "p0_accepted": 266,
+      "p0_completed": 273,
+      "p0_cumulative_accepted": 14202,
+      "p0_cumulative_completed": 13700,
+      "p0_gbps": 0.6992343017691747,
+      "p0_outstanding_mean": 511.5724583741592,
+      "p0_outstanding_min": 500,
+      "p0_outstanding_max": 512,
+      "p0_outstanding_end": 502,
+      "p1_accepted": 401,
+      "p1_completed": 400,
+      "p1_cumulative_accepted": 14193,
+      "p1_cumulative_completed": 13681,
+      "p1_gbps": 1.0239999999757856,
+      "p1_outstanding_mean": 508.60350173195366,
+      "p1_outstanding_min": 486,
+      "p1_outstanding_max": 512,
+      "p1_outstanding_end": 512,
+      "p2_accepted": 448,
+      "p2_completed": 448,
+      "p2_cumulative_accepted": 14193,
+      "p2_cumulative_completed": 13681,
+      "p2_gbps": 1.1468799999728798,
+      "p2_outstanding_mean": 510.29547825247545,
+      "p2_outstanding_min": 484,
+      "p2_outstanding_max": 512,
+      "p2_outstanding_end": 512,
+      "p3_accepted": 415,
+      "p3_completed": 413,
+      "p3_cumulative_accepted": 14322,
+      "p3_cumulative_completed": 13824,
+      "p3_gbps": 1.0572799999749987,
+      "p3_outstanding_mean": 499.2977683569787,
+      "p3_outstanding_min": 471,
+      "p3_outstanding_max": 512,
+      "p3_outstanding_end": 498,
+      "nand_completed_pages": 392,
+      "nand_completed_gbps": 256.90112,
+      "tr_first": 0,
+      "tr_short": 204,
+      "tr_mid": 184,
+      "tr_long": 0,
+      "tr_group": 0
+    },
+    {
+      "t_start_us": 925.0,
+      "t_end_us": 950.0,
+      "bandwidth_gbps": 4.538525698106969,
+      "completed_bandwidth_gbps": 4.53888,
+      "accepted_requests": 1782,
+      "completed_requests": 1773,
+      "cumulative_accepted": 58692,
+      "cumulative_completed": 56659,
+      "outstanding_mean": 2030.1900131565133,
+      "outstanding_end": 2033,
+      "buffer_mean_mib": 7.9997181302660145,
+      "buffer_peak_mib": 8.0,
+      "p0_accepted": 486,
+      "p0_completed": 476,
+      "p0_cumulative_accepted": 14688,
+      "p0_cumulative_completed": 14176,
+      "p0_gbps": 1.2182056981854839,
+      "p0_outstanding_mean": 511.5691431736741,
+      "p0_outstanding_min": 500,
+      "p0_outstanding_max": 512,
+      "p0_outstanding_end": 512,
+      "p1_accepted": 432,
+      "p1_completed": 432,
+      "p1_cumulative_accepted": 14625,
+      "p1_cumulative_completed": 14113,
+      "p1_gbps": 1.1059199999738485,
+      "p1_outstanding_mean": 510.45721448589734,
+      "p1_outstanding_min": 497,
+      "p1_outstanding_max": 512,
+      "p1_outstanding_end": 512,
+      "p2_accepted": 415,
+      "p2_completed": 417,
+      "p2_cumulative_accepted": 14608,
+      "p2_cumulative_completed": 14098,
+      "p2_gbps": 1.0675199999747564,
+      "p2_outstanding_mean": 511.2957604431374,
+      "p2_outstanding_min": 486,
+      "p2_outstanding_max": 512,
+      "p2_outstanding_end": 510,
+      "p3_accepted": 449,
+      "p3_completed": 448,
+      "p3_cumulative_accepted": 14771,
+      "p3_cumulative_completed": 14272,
+      "p3_gbps": 1.1468799999728798,
+      "p3_outstanding_mean": 496.86789505380443,
+      "p3_outstanding_min": 471,
+      "p3_outstanding_max": 512,
+      "p3_outstanding_end": 499,
+      "nand_completed_pages": 393,
+      "nand_completed_gbps": 257.55648,
+      "tr_first": 0,
+      "tr_short": 191,
+      "tr_mid": 202,
+      "tr_long": 0,
+      "tr_group": 0
+    },
+    {
+      "t_start_us": 950.0,
+      "t_end_us": 975.0,
+      "bandwidth_gbps": 4.34687999989721,
+      "completed_bandwidth_gbps": 4.3468800000000005,
+      "accepted_requests": 1696,
+      "completed_requests": 1698,
+      "cumulative_accepted": 60388,
+      "cumulative_completed": 58357,
+      "outstanding_mean": 2030.6958228678784,
+      "outstanding_end": 2031,
+      "buffer_mean_mib": 7.99981865218833,
+      "buffer_peak_mib": 8.0,
+      "p0_accepted": 400,
+      "p0_completed": 402,
+      "p0_cumulative_accepted": 15088,
+      "p0_cumulative_completed": 14578,
+      "p0_gbps": 1.0291199999756646,
+      "p0_outstanding_mean": 511.31966904041127,
+      "p0_outstanding_min": 500,
+      "p0_outstanding_max": 512,
+      "p0_outstanding_end": 510,
+      "p1_accepted": 400,
+      "p1_completed": 400,
+      "p1_cumulative_accepted": 15025,
+      "p1_cumulative_completed": 14513,
+      "p1_gbps": 1.0239999999757856,
+      "p1_outstanding_mean": 510.48067478232946,
+      "p1_outstanding_min": 484,
+      "p1_outstanding_max": 512,
+      "p1_outstanding_end": 512,
+      "p2_accepted": 417,
+      "p2_completed": 415,
+      "p2_cumulative_accepted": 15025,
+      "p2_cumulative_completed": 14513,
+      "p2_gbps": 1.0623999999748777,
+      "p2_outstanding_mean": 507.38145369949837,
+      "p2_outstanding_min": 484,
+      "p2_outstanding_max": 512,
+      "p2_outstanding_end": 512,
+      "p3_accepted": 479,
+      "p3_completed": 481,
+      "p3_cumulative_accepted": 15250,
+      "p3_cumulative_completed": 14753,
+      "p3_gbps": 1.2313599999708822,
+      "p3_outstanding_mean": 501.51402534563925,
+      "p3_outstanding_min": 469,
+      "p3_outstanding_max": 512,
+      "p3_outstanding_end": 497,
+      "nand_completed_pages": 390,
+      "nand_completed_gbps": 255.5904,
+      "tr_first": 0,
+      "tr_short": 199,
+      "tr_mid": 195,
+      "tr_long": 0,
+      "tr_group": 0
+    },
+    {
+      "t_start_us": 975.0,
+      "t_end_us": 1000.0,
+      "bandwidth_gbps": 3.609599999914644,
+      "completed_bandwidth_gbps": 3.6096,
+      "accepted_requests": 1408,
+      "completed_requests": 1410,
+      "cumulative_accepted": 61796,
+      "cumulative_completed": 59767,
+      "outstanding_mean": 2025.9243958683346,
+      "outstanding_end": 2029,
+      "buffer_mean_mib": 7.999876875000002,
+      "buffer_peak_mib": 8.0,
+      "p0_accepted": 320,
+      "p0_completed": 319,
+      "p0_cumulative_accepted": 15408,
+      "p0_cumulative_completed": 14897,
+      "p0_gbps": 0.816639999980689,
+      "p0_outstanding_mean": 511.6957227898329,
+      "p0_outstanding_min": 500,
+      "p0_outstanding_max": 512,
+      "p0_outstanding_end": 511,
+      "p1_accepted": 402,
+      "p1_completed": 402,
+      "p1_cumulative_accepted": 15427,
+      "p1_cumulative_completed": 14915,
+      "p1_gbps": 1.0291199999756646,
+      "p1_outstanding_mean": 510.48309804337885,
+      "p1_outstanding_min": 485,
+      "p1_outstanding_max": 512,
+      "p1_outstanding_end": 512,
+      "p2_accepted": 400,
+      "p2_completed": 415,
+      "p2_cumulative_accepted": 15425,
+      "p2_cumulative_completed": 14928,
+      "p2_gbps": 1.0623999999748777,
+      "p2_outstanding_mean": 503.9431328132565,
+      "p2_outstanding_min": 469,
+      "p2_outstanding_max": 512,
+      "p2_outstanding_end": 497,
+      "p3_accepted": 286,
+      "p3_completed": 274,
+      "p3_cumulative_accepted": 15536,
+      "p3_cumulative_completed": 15027,
+      "p3_gbps": 0.7014399999834131,
+      "p3_outstanding_mean": 499.8024422218663,
+      "p3_outstanding_min": 471,
+      "p3_outstanding_max": 512,
+      "p3_outstanding_end": 509,
+      "nand_completed_pages": 391,
+      "nand_completed_gbps": 256.24576,
+      "tr_first": 0,
+      "tr_short": 193,
+      "tr_mid": 201,
+      "tr_long": 0,
+      "tr_group": 0
+    },
+    {
+      "t_start_us": 1000.0,
+      "t_end_us": 1025.0,
+      "bandwidth_gbps": 4.198671218482195,
+      "completed_bandwidth_gbps": 4.1983999999999995,
+      "accepted_requests": 1632,
+      "completed_requests": 1640,
+      "cumulative_accepted": 63428,
+      "cumulative_completed": 61407,
+      "outstanding_mean": 2025.9934854236649,
+      "outstanding_end": 2021,
+      "buffer_mean_mib": 7.999823750000003,
+      "buffer_peak_mib": 8.0,
+      "p0_accepted": 385,
+      "p0_completed": 384,
+      "p0_cumulative_accepted": 15793,
+      "p0_cumulative_completed": 15281,
+      "p0_gbps": 0.9830399999767542,
+      "p0_outstanding_mean": 511.63354683726743,
+      "p0_outstanding_min": 500,
+      "p0_outstanding_max": 512,
+      "p0_outstanding_end": 512,
+      "p1_accepted": 397,
+      "p1_completed": 397,
+      "p1_cumulative_accepted": 15824,
+      "p1_cumulative_completed": 15312,
+      "p1_gbps": 1.0163199999759671,
+      "p1_outstanding_mean": 511.3917623404657,
+      "p1_outstanding_min": 500,
+      "p1_outstanding_max": 512,
+      "p1_outstanding_end": 512,
+      "p2_accepted": 415,
+      "p2_completed": 411,
+      "p2_cumulative_accepted": 15840,
+      "p2_cumulative_completed": 15339,
+      "p2_gbps": 1.052431218556594,
+      "p2_outstanding_mean": 506.1765203308122,
+      "p2_outstanding_min": 484,
+      "p2_outstanding_max": 512,
+      "p2_outstanding_end": 501,
+      "p3_accepted": 435,
+      "p3_completed": 448,
+      "p3_cumulative_accepted": 15971,
+      "p3_cumulative_completed": 15475,
+      "p3_gbps": 1.1468799999728798,
+      "p3_outstanding_mean": 496.7916559151196,
+      "p3_outstanding_min": 471,
+      "p3_outstanding_max": 509,
+      "p3_outstanding_end": 496,
+      "nand_completed_pages": 394,
+      "nand_completed_gbps": 258.21184,
+      "tr_first": 0,
+      "tr_short": 194,
+      "tr_mid": 191,
+      "tr_long": 0,
+      "tr_group": 0
+    },
+    {
+      "t_start_us": 1025.0,
+      "t_end_us": 1050.0,
+      "bandwidth_gbps": 3.1664487813436426,
+      "completed_bandwidth_gbps": 3.1667199999999998,
+      "accepted_requests": 1248,
+      "completed_requests": 1237,
+      "cumulative_accepted": 64676,
+      "cumulative_completed": 62644,
+      "outstanding_mean": 2029.4754944983945,
+      "outstanding_end": 2032,
+      "buffer_mean_mib": 7.999720000000007,
+      "buffer_peak_mib": 8.0,
+      "p0_accepted": 352,
+      "p0_completed": 352,
+      "p0_cumulative_accepted": 16145,
+      "p0_cumulative_completed": 15633,
+      "p0_gbps": 0.9011199999786913,
+      "p0_outstanding_mean": 511.34021261975533,
+      "p0_outstanding_min": 500,
+      "p0_outstanding_max": 512,
+      "p0_outstanding_end": 512,
+      "p1_accepted": 321,
+      "p1_completed": 321,
+      "p1_cumulative_accepted": 16145,
+      "p1_cumulative_completed": 15633,
+      "p1_gbps": 0.8217599999805679,
+      "p1_outstanding_mean": 510.92712146047234,
+      "p1_outstanding_min": 484,
+      "p1_outstanding_max": 512,
+      "p1_outstanding_end": 512,
+      "p2_accepted": 241,
+      "p2_completed": 230,
+      "p2_cumulative_accepted": 16081,
+      "p2_cumulative_completed": 15569,
+      "p2_gbps": 0.5885287814046023,
+      "p2_outstanding_mean": 509.50928495553956,
+      "p2_outstanding_min": 485,
+      "p2_outstanding_max": 512,
+      "p2_outstanding_end": 512,
+      "p3_accepted": 334,
+      "p3_completed": 334,
+      "p3_cumulative_accepted": 16305,
+      "p3_cumulative_completed": 15809,
+      "p3_gbps": 0.855039999979781,
+      "p3_outstanding_mean": 497.6988754626273,
+      "p3_outstanding_min": 470,
+      "p3_outstanding_max": 512,
+      "p3_outstanding_end": 496,
+      "nand_completed_pages": 391,
+      "nand_completed_gbps": 256.24576,
+      "tr_first": 0,
+      "tr_short": 192,
+      "tr_mid": 191,
+      "tr_long": 0,
+      "tr_group": 0
+    },
+    {
+      "t_start_us": 1050.0,
+      "t_end_us": 1075.0,
+      "bandwidth_gbps": 4.1779199999012055,
+      "completed_bandwidth_gbps": 4.17792,
+      "accepted_requests": 1632,
+      "completed_requests": 1632,
+      "cumulative_accepted": 66308,
+      "cumulative_completed": 64276,
+      "outstanding_mean": 2030.80308512407,
+      "outstanding_end": 2032,
+      "buffer_mean_mib": 7.999800663129972,
+      "buffer_peak_mib": 8.0,
+      "p0_accepted": 447,
+      "p0_completed": 448,
+      "p0_cumulative_accepted": 16592,
+      "p0_cumulative_completed": 16081,
+      "p0_gbps": 1.1468799999728798,
+      "p0_outstanding_mean": 511.4233784615488,
+      "p0_outstanding_min": 500,
+      "p0_outstanding_max": 512,
+      "p0_outstanding_end": 511,
+      "p1_accepted": 384,
+      "p1_completed": 384,
+      "p1_cumulative_accepted": 16529,
+      "p1_cumulative_completed": 16017,
+      "p1_gbps": 0.9830399999767542,
+      "p1_outstanding_mean": 511.7809308160517,
+      "p1_outstanding_min": 500,
+      "p1_outstanding_max": 512,
+      "p1_outstanding_end": 512,
+      "p2_accepted": 431,
+      "p2_completed": 432,
+      "p2_cumulative_accepted": 16512,
+      "p2_cumulative_completed": 16001,
+      "p2_gbps": 1.1059199999738485,
+      "p2_outstanding_mean": 511.37640209706046,
+      "p2_outstanding_min": 500,
+      "p2_outstanding_max": 512,
+      "p2_outstanding_end": 511,
+      "p3_accepted": 370,
+      "p3_completed": 368,
+      "p3_cumulative_accepted": 16675,
+      "p3_cumulative_completed": 16177,
+      "p3_gbps": 0.9420799999777227,
+      "p3_outstanding_mean": 496.22237374940914,
+      "p3_outstanding_min": 483,
+      "p3_outstanding_max": 498,
+      "p3_outstanding_end": 498,
+      "nand_completed_pages": 391,
+      "nand_completed_gbps": 256.24576,
+      "tr_first": 0,
+      "tr_short": 203,
+      "tr_mid": 199,
+      "tr_long": 0,
+      "tr_group": 0
+    },
+    {
+      "t_start_us": 1075.0,
+      "t_end_us": 1100.0,
+      "bandwidth_gbps": 4.267519999899086,
+      "completed_bandwidth_gbps": 4.26752,
+      "accepted_requests": 1664,
+      "completed_requests": 1667,
+      "cumulative_accepted": 67972,
+      "cumulative_completed": 65943,
+      "outstanding_mean": 2028.2493044406463,
+      "outstanding_end": 2029,
+      "buffer_mean_mib": 7.999814375000002,
+      "buffer_peak_mib": 8.0,
+      "p0_accepted": 466,
+      "p0_completed": 465,
+      "p0_cumulative_accepted": 17058,
+      "p0_cumulative_completed": 16546,
+      "p0_gbps": 1.1903999999718509,
+      "p0_outstanding_mean": 510.9762665064855,
+      "p0_outstanding_min": 500,
+      "p0_outstanding_max": 512,
+      "p0_outstanding_end": 512,
+      "p1_accepted": 399,
+      "p1_completed": 400,
+      "p1_cumulative_accepted": 16928,
+      "p1_cumulative_completed": 16417,
+      "p1_gbps": 1.0239999999757856,
+      "p1_outstanding_mean": 510.04564148541766,
+      "p1_outstanding_min": 484,
+      "p1_outstanding_max": 512,
+      "p1_outstanding_end": 511,
+      "p2_accepted": 369,
+      "p2_completed": 368,
+      "p2_cumulative_accepted": 16881,
+      "p2_cumulative_completed": 16369,
+      "p2_gbps": 0.9420799999777227,
+      "p2_outstanding_mean": 509.7278162271871,
+      "p2_outstanding_min": 484,
+      "p2_outstanding_max": 512,
+      "p2_outstanding_end": 512,
+      "p3_accepted": 430,
+      "p3_completed": 434,
+      "p3_cumulative_accepted": 17105,
+      "p3_cumulative_completed": 16611,
+      "p3_gbps": 1.1110399999737275,
+      "p3_outstanding_mean": 497.4995802215561,
+      "p3_outstanding_min": 471,
+      "p3_outstanding_max": 510,
+      "p3_outstanding_end": 494,
+      "nand_completed_pages": 391,
+      "nand_completed_gbps": 256.24576,
+      "tr_first": 0,
+      "tr_short": 199,
+      "tr_mid": 196,
+      "tr_long": 0,
+      "tr_group": 0
+    },
+    {
+      "t_start_us": 1100.0,
+      "t_end_us": 1125.0,
+      "bandwidth_gbps": 4.042239999904414,
+      "completed_bandwidth_gbps": 4.04224,
+      "accepted_requests": 1584,
+      "completed_requests": 1579,
+      "cumulative_accepted": 69556,
+      "cumulative_completed": 67522,
+      "outstanding_mean": 2030.6124689468375,
+      "outstanding_end": 2034,
+      "buffer_mean_mib": 7.999754804376657,
+      "buffer_peak_mib": 8.0,
+      "p0_accepted": 318,
+      "p0_completed": 318,
+      "p0_cumulative_accepted": 17376,
+      "p0_cumulative_completed": 16864,
+      "p0_gbps": 0.8140799999807495,
+      "p0_outstanding_mean": 511.51857979715965,
+      "p0_outstanding_min": 500,
+      "p0_outstanding_max": 512,
+      "p0_outstanding_end": 512,
+      "p1_accepted": 401,
+      "p1_completed": 400,
+      "p1_cumulative_accepted": 17329,
+      "p1_cumulative_completed": 16817,
+      "p1_gbps": 1.0239999999757856,
+      "p1_outstanding_mean": 510.90193680761485,
+      "p1_outstanding_min": 486,
+      "p1_outstanding_max": 512,
+      "p1_outstanding_end": 512,
+      "p2_accepted": 448,
+      "p2_completed": 448,
+      "p2_cumulative_accepted": 17329,
+      "p2_cumulative_completed": 16817,
+      "p2_gbps": 1.1468799999728798,
+      "p2_outstanding_mean": 509.8196277235136,
+      "p2_outstanding_min": 484,
+      "p2_outstanding_max": 512,
+      "p2_outstanding_end": 512,
+      "p3_accepted": 417,
+      "p3_completed": 413,
+      "p3_cumulative_accepted": 17522,
+      "p3_cumulative_completed": 17024,
+      "p3_gbps": 1.0572799999749987,
+      "p3_outstanding_mean": 498.37232461854944,
+      "p3_outstanding_min": 471,
+      "p3_outstanding_max": 512,
+      "p3_outstanding_end": 498,
+      "nand_completed_pages": 394,
+      "nand_completed_gbps": 258.21184,
+      "tr_first": 0,
+      "tr_short": 185,
+      "tr_mid": 204,
+      "tr_long": 0,
+      "tr_group": 0
+    },
+    {
+      "t_start_us": 1125.0,
+      "t_end_us": 1150.0,
+      "bandwidth_gbps": 4.303359999898239,
+      "completed_bandwidth_gbps": 4.30336,
+      "accepted_requests": 1680,
+      "completed_requests": 1681,
+      "cumulative_accepted": 71236,
+      "cumulative_completed": 69203,
+      "outstanding_mean": 2032.1641286815666,
+      "outstanding_end": 2033,
+      "buffer_mean_mib": 7.999749174305591,
+      "buffer_peak_mib": 8.0,
+      "p0_accepted": 448,
+      "p0_completed": 448,
+      "p0_cumulative_accepted": 17824,
+      "p0_cumulative_completed": 17312,
+      "p0_gbps": 1.1468799999728798,
+      "p0_outstanding_mean": 511.7389599313587,
+      "p0_outstanding_min": 500,
+      "p0_outstanding_max": 512,
+      "p0_outstanding_end": 512,
+      "p1_accepted": 431,
+      "p1_completed": 432,
+      "p1_cumulative_accepted": 17760,
+      "p1_cumulative_completed": 17249,
+      "p1_gbps": 1.1059199999738485,
+      "p1_outstanding_mean": 510.84277639567824,
+      "p1_outstanding_min": 500,
+      "p1_outstanding_max": 512,
+      "p1_outstanding_end": 511,
+      "p2_accepted": 384,
+      "p2_completed": 384,
+      "p2_cumulative_accepted": 17713,
+      "p2_cumulative_completed": 17201,
+      "p2_gbps": 0.9830399999767542,
+      "p2_outstanding_mean": 511.0544584677521,
+      "p2_outstanding_min": 486,
+      "p2_outstanding_max": 512,
+      "p2_outstanding_end": 512,
+      "p3_accepted": 417,
+      "p3_completed": 417,
+      "p3_cumulative_accepted": 17939,
+      "p3_cumulative_completed": 17441,
+      "p3_gbps": 1.0675199999747564,
+      "p3_outstanding_mean": 498.5279338867776,
+      "p3_outstanding_min": 471,
+      "p3_outstanding_max": 512,
+      "p3_outstanding_end": 498,
+      "nand_completed_pages": 391,
+      "nand_completed_gbps": 256.24576,
+      "tr_first": 0,
+      "tr_short": 201,
+      "tr_mid": 192,
+      "tr_long": 0,
+      "tr_group": 0
+    },
+    {
+      "t_start_us": 1150.0,
+      "t_end_us": 1175.0,
+      "bandwidth_gbps": 4.308479999898118,
+      "completed_bandwidth_gbps": 4.308479999999999,
+      "accepted_requests": 1680,
+      "completed_requests": 1683,
+      "cumulative_accepted": 72916,
+      "cumulative_completed": 70886,
+      "outstanding_mean": 2028.3248926822107,
+      "outstanding_end": 2030,
+      "buffer_mean_mib": 7.9998209381338885,
+      "buffer_peak_mib": 8.0,
+      "p0_accepted": 400,
+      "p0_completed": 402,
+      "p0_cumulative_accepted": 18224,
+      "p0_cumulative_completed": 17714,
+      "p0_gbps": 1.0291199999756646,
+      "p0_outstanding_mean": 511.5764160274767,
+      "p0_outstanding_min": 500,
+      "p0_outstanding_max": 512,
+      "p0_outstanding_end": 510,
+      "p1_accepted": 401,
+      "p1_completed": 400,
+      "p1_cumulative_accepted": 18161,
+      "p1_cumulative_completed": 17649,
+      "p1_gbps": 1.0239999999757856,
+      "p1_outstanding_mean": 510.75596758932807,
+      "p1_outstanding_min": 485,
+      "p1_outstanding_max": 512,
+      "p1_outstanding_end": 512,
+      "p2_accepted": 418,
+      "p2_completed": 433,
+      "p2_cumulative_accepted": 18131,
+      "p2_cumulative_completed": 17634,
+      "p2_gbps": 1.108479999973788,
+      "p2_outstanding_mean": 509.90002795443723,
+      "p2_outstanding_min": 486,
+      "p2_outstanding_max": 512,
+      "p2_outstanding_end": 497,
+      "p3_accepted": 461,
+      "p3_completed": 448,
+      "p3_cumulative_accepted": 18400,
+      "p3_cumulative_completed": 17889,
+      "p3_gbps": 1.1468799999728798,
+      "p3_outstanding_mean": 496.0924811109688,
+      "p3_outstanding_min": 468,
+      "p3_outstanding_max": 512,
+      "p3_outstanding_end": 511,
+      "nand_completed_pages": 390,
+      "nand_completed_gbps": 255.5904,
+      "tr_first": 0,
+      "tr_short": 198,
+      "tr_mid": 195,
+      "tr_long": 0,
+      "tr_group": 0
+    },
+    {
+      "t_start_us": 1175.0,
+      "t_end_us": 1200.0,
+      "bandwidth_gbps": 3.778559999910649,
+      "completed_bandwidth_gbps": 3.77856,
+      "accepted_requests": 1472,
+      "completed_requests": 1476,
+      "cumulative_accepted": 74388,
+      "cumulative_completed": 72362,
+      "outstanding_mean": 2025.6651481604345,
+      "outstanding_end": 2026,
+      "buffer_mean_mib": 7.9997912499999995,
+      "buffer_peak_mib": 8.0,
+      "p0_accepted": 320,
+      "p0_completed": 319,
+      "p0_cumulative_accepted": 18544,
+      "p0_cumulative_completed": 18033,
+      "p0_gbps": 0.816639999980689,
+      "p0_outstanding_mean": 511.7973886597043,
+      "p0_outstanding_min": 500,
+      "p0_outstanding_max": 512,
+      "p0_outstanding_end": 511,
+      "p1_accepted": 400,
+      "p1_completed": 402,
+      "p1_cumulative_accepted": 18561,
+      "p1_cumulative_completed": 18051,
+      "p1_gbps": 1.0291199999756646,
+      "p1_outstanding_mean": 511.10355070058444,
+      "p1_outstanding_min": 500,
+      "p1_outstanding_max": 512,
+      "p1_outstanding_end": 510,
+      "p2_accepted": 432,
+      "p2_completed": 417,
+      "p2_cumulative_accepted": 18563,
+      "p2_cumulative_completed": 18051,
+      "p2_gbps": 1.0675199999747564,
+      "p2_outstanding_mean": 502.73120755187864,
+      "p2_outstanding_min": 484,
+      "p2_outstanding_max": 512,
+      "p2_outstanding_end": 512,
+      "p3_accepted": 320,
+      "p3_completed": 338,
+      "p3_cumulative_accepted": 18720,
+      "p3_cumulative_completed": 18227,
+      "p3_gbps": 0.8652799999795389,
+      "p3_outstanding_mean": 500.03300124826694,
+      "p3_outstanding_min": 471,
+      "p3_outstanding_max": 512,
+      "p3_outstanding_end": 493,
+      "nand_completed_pages": 392,
+      "nand_completed_gbps": 256.90112,
+      "tr_first": 0,
+      "tr_short": 195,
+      "tr_mid": 197,
+      "tr_long": 0,
+      "tr_group": 0
+    }
+  ],
+  "maintenance_intervals": [
+    [
+      [
+        0,
+        13
+      ],
+      -24.060166097352305,
+      5.939833902647699
+    ],
+    [
+      [
+        2,
+        15
+      ],
+      -19.905160248349404,
+      10.094839751650596
+    ],
+    [
+      [
+        2,
+        0
+      ],
+      -16.57954824811924,
+      13.420451751880762
+    ],
+    [
+      [
+        0,
+        10
+      ],
+      -15.52668514610584,
+      14.473314853894166
+    ],
+    [
+      [
+        0,
+        5
+      ],
+      -15.314669039533687,
+      14.685330960466317
+    ],
+    [
+      [
+        2,
+        13
+      ],
+      -5.147618909999036,
+      24.852381090000968
+    ],
+    [
+      [
+        3,
+        0
+      ],
+      21.54851240443128,
+      51.54851240443128
+    ],
+    [
+      [
+        0,
+        4
+      ],
+      21.79902480886254,
+      51.79902480886254
+    ],
+    [
+      [
+        2,
+        8
+      ],
+      21.801024808862536,
+      51.801024808862536
+    ],
+    [
+      [
+        2,
+        12
+      ],
+      22.055537213293803,
+      52.0555372132938
+    ],
+    [
+      [
+        1,
+        12
+      ],
+      22.31004961772507,
+      52.31004961772507
+    ],
+    [
+      [
+        1,
+        1
+      ],
+      22.564562022156338,
+      52.56456202215634
+    ],
+    [
+      [
+        1,
+        5
+      ],
+      22.819074426587605,
+      52.819074426587605
+    ],
+    [
+      [
+        1,
+        9
+      ],
+      23.073586831018872,
+      53.07358683101887
+    ],
+    [
+      [
+        0,
+        6
+      ],
+      23.326099235450144,
+      53.326099235450144
+    ],
+    [
+      [
+        1,
+        13
+      ],
+      23.32809923545014,
+      53.32809923545014
+    ],
+    [
+      [
+        3,
+        13
+      ],
+      23.33009923545015,
+      53.33009923545015
+    ],
+    [
+      [
+        3,
+        10
+      ],
+      24.09363644874395,
+      54.09363644874395
+    ],
+    [
+      [
+        3,
+        3
+      ],
+      24.602661257606485,
+      54.602661257606485
+    ],
+    [
+      [
+        3,
+        11
+      ],
+      25.11168606646902,
+      55.11168606646902
+    ],
+    [
+      [
+        1,
+        8
+      ],
+      26.12773568419408,
+      56.12773568419408
+    ],
+    [
+      [
+        3,
+        12
+      ],
+      31.729008581681967,
+      61.72900858168197
+    ],
+    [
+      [
+        0,
+        0
+      ],
+      37.57879388360111,
+      67.57879388360111
+    ],
+    [
+      [
+        1,
+        10
+      ],
+      39.61689311905124,
+      69.61689311905124
+    ],
+    [
+      [
+        0,
+        7
+      ],
+      42.92355437665772,
+      72.92355437665772
+    ],
+    [
+      [
+        1,
+        15
+      ],
+      43.24396754563884,
+      73.24396754563884
+    ],
+    [
+      [
+        2,
+        11
+      ],
+      46.488728038695456,
+      76.48872803869546
+    ],
+    [
+      [
+        3,
+        14
+      ],
+      48.56967682754738,
+      78.56967682754738
+    ],
+    [
+      [
+        2,
+        2
+      ],
+      49.811628027590515,
+      79.81162802759052
+    ],
+    [
+      [
+        2,
+        6
+      ],
+      52.08855294459714,
+      82.08855294459714
+    ],
+    [
+      [
+        1,
+        6
+      ],
+      62.95285972850674,
+      92.95285972850674
+    ],
+    [
+      [
+        1,
+        11
+      ],
+      64.47993415509434,
+      94.47993415509434
+    ],
+    [
+      [
+        1,
+        4
+      ],
+      67.55589577199181,
+      97.55589577199181
+    ],
+    [
+      [
+        1,
+        14
+      ],
+      69.82469464815095,
+      99.82469464815097
+    ],
+    [
+      [
+        0,
+        14
+      ],
+      70.20362022156336,
+      100.20362022156337
+    ],
+    [
+      [
+        2,
+        14
+      ],
+      73.2592566703073,
+      103.25925667030731
+    ],
+    [
+      [
+        2,
+        1
+      ],
+      75.29535590575743,
+      105.29535590575745
+    ],
+    [
+      [
+        1,
+        2
+      ],
+      75.31335590575742,
+      105.31335590575742
+    ],
+    [
+      [
+        2,
+        4
+      ],
+      77.63864894535742,
+      107.63864894535743
+    ],
+    [
+      [
+        0,
+        12
+      ],
+      81.14765361210785,
+      111.14765361210786
+    ],
+    [
+      [
+        0,
+        2
+      ],
+      84.06568462737464,
+      114.06568462737465
+    ],
+    [
+      [
+        3,
+        2
+      ],
+      89.03656295833966,
+      119.03656295833966
+    ],
+    [
+      [
+        1,
+        7
+      ],
+      91.69056202215633,
+      121.69056202215634
+    ],
+    [
+      [
+        3,
+        7
+      ],
+      104.05279481978442,
+      134.05279481978442
+    ],
+    [
+      [
+        3,
+        6
+      ],
+      107.3614560773909,
+      137.3614560773909
+    ],
+    [
+      [
+        2,
+        9
+      ],
+      112.10023186144477,
+      142.10023186144477
+    ],
+    [
+      [
+        0,
+        15
+      ],
+      123.15421563426418,
+      153.15421563426418
+    ],
+    [
+      [
+        2,
+        7
+      ],
+      125.58938929630193,
+      155.58938929630193
+    ],
+    [
+      [
+        3,
+        9
+      ],
+      126.48142175066309,
+      156.4814217506631
+    ],
+    [
+      [
+        3,
+        5
+      ],
+      127.24495896395689,
+      157.2449589639569
+    ],
+    [
+      [
+        3,
+        1
+      ],
+      134.37130628803237,
+      164.37130628803237
+    ],
+    [
+      [
+        3,
+        8
+      ],
+      134.38137365826793,
+      164.38137365826793
+    ],
+    [
+      [
+        0,
+        11
+      ],
+      137.40691028241514,
+      167.40691028241514
+    ],
+    [
+      [
+        0,
+        8
+      ],
+      138.67947230457148,
+      168.67947230457148
+    ],
+    [
+      [
+        2,
+        10
+      ],
+      139.33305913559036,
+      169.33305913559036
+    ],
+    [
+      [
+        2,
+        3
+      ],
+      143.91428241535317,
+      173.91428241535317
+    ],
+    [
+      [
+        0,
+        3
+      ],
+      147.8419188640971,
+      177.8419188640971
+    ],
+    [
+      [
+        3,
+        4
+      ],
+      147.98849398331552,
+      177.98849398331552
+    ],
+    [
+      [
+        3,
+        15
+      ],
+      150.2949761273208,
+      180.2949761273208
+    ],
+    [
+      [
+        0,
+        1
+      ],
+      151.91411733499737,
+      181.91411733499737
+    ],
+    [
+      [
+        1,
+        3
+      ],
+      154.69902668122918,
+      184.69902668122918
+    ],
+    [
+      [
+        0,
+        9
+      ],
+      162.16051240443127,
+      192.16051240443127
+    ],
+    [
+      [
+        1,
+        0
+      ],
+      162.84342362302974,
+      192.84342362302974
+    ],
+    [
+      [
+        2,
+        5
+      ],
+      164.02076236542328,
+      194.02076236542328
+    ],
+    [
+      [
+        0,
+        13
+      ],
+      178.51320705258223,
+      208.51320705258223
+    ],
+    [
+      [
+        2,
+        15
+      ],
+      180.56406865345565,
+      210.56406865345565
+    ],
+    [
+      [
+        0,
+        5
+      ],
+      185.38504197222645,
+      215.38504197222645
+    ],
+    [
+      [
+        2,
+        0
+      ],
+      185.39980433764973,
+      215.39980433764973
+    ],
+    [
+      [
+        0,
+        10
+      ],
+      187.67565361210785,
+      217.67565361210785
+    ],
+    [
+      [
+        2,
+        13
+      ],
+      197.87091215478182,
+      227.87091215478182
+    ],
+    [
+      [
+        2,
+        8
+      ],
+      208.0514083320325,
+      238.0514083320325
+    ],
+    [
+      [
+        2,
+        12
+      ],
+      208.56043314089504,
+      238.56043314089504
+    ],
+    [
+      [
+        3,
+        11
+      ],
+      209.3418539553748,
+      239.3418539553748
+    ],
+    [
+      [
+        0,
+        6
+      ],
+      209.91774127082002,
+      239.91774127082004
+    ],
+    [
+      [
+        1,
+        13
+      ],
+      211.2007804649705,
+      241.20078046497053
+    ],
+    [
+      [
+        3,
+        3
+      ],
+      212.14149040411874,
+      242.14149040411877
+    ],
+    [
+      [
+        1,
+        12
+      ],
+      212.7278548915581,
+      242.72785489155814
+    ],
+    [
+      [
+        3,
+        0
+      ],
+      214.17758963956888,
+      244.1775896395689
+    ],
+    [
+      [
+        0,
+        4
+      ],
+      214.83709496946528,
+      244.83709496946528
+    ],
+    [
+      [
+        1,
+        1
+      ],
+      220.36322702449613,
+      250.36322702449615
+    ],
+    [
+      [
+        3,
+        13
+      ],
+      220.54039975035056,
+      250.54039975035056
+    ],
+    [
+      [
+        1,
+        5
+      ],
+      221.3812766422212,
+      251.38127664222122
+    ],
+    [
+      [
+        1,
+        9
+      ],
+      221.63578904665246,
+      251.63578904665246
+    ],
+    [
+      [
+        3,
+        10
+      ],
+      221.8129617725069,
+      251.81296177250692
+    ],
+    [
+      [
+        1,
+        8
+      ],
+      227.99859915743434,
+      257.99859915743434
+    ],
+    [
+      [
+        3,
+        12
+      ],
+      232.24797035418953,
+      262.24797035418953
+    ],
+    [
+      [
+        0,
+        0
+      ],
+      238.13301045404995,
+      268.13301045404995
+    ],
+    [
+      [
+        1,
+        10
+      ],
+      238.37063173168917,
+      268.3706317316892
+    ],
+    [
+      [
+        0,
+        7
+      ],
+      241.27964135254444,
+      271.27964135254444
+    ],
+    [
+      [
+        1,
+        15
+      ],
+      242.81590341233482,
+      272.8159034123348
+    ],
+    [
+      [
+        2,
+        11
+      ],
+      247.50083101888134,
+      277.50083101888134
+    ],
+    [
+      [
+        2,
+        2
+      ],
+      249.81162802759053,
+      279.81162802759053
+    ],
+    [
+      [
+        3,
+        14
+      ],
+      251.17907817132306,
+      281.17907817132306
+    ],
+    [
+      [
+        2,
+        6
+      ],
+      252.08855294459715,
+      282.08855294459715
+    ],
+    [
+      [
+        1,
+        6
+      ],
+      260.6905667030755,
+      290.6905667030755
+    ],
+    [
+      [
+        1,
+        11
+      ],
+      262.21764112966326,
+      292.21764112966326
+    ],
+    [
+      [
+        0,
+        14
+      ],
+      267.43522608831694,
+      297.43522608831694
+    ],
+    [
+      [
+        1,
+        4
+      ],
+      268.32593883601436,
+      298.32593883601436
+    ],
+    [
+      [
+        1,
+        14
+      ],
+      269.08947604930825,
+      299.08947604930825
+    ],
+    [
+      [
+        2,
+        14
+      ],
+      273.2388774496601,
+      303.2388774496601
+    ],
+    [
+      [
+        1,
+        2
+      ],
+      275.19777375565934,
+      305.19777375565934
+    ],
+    [
+      [
+        2,
+        1
+      ],
+      276.4046334841674,
+      306.4046334841674
+    ],
+    [
+      [
+        0,
+        12
+      ],
+      280.1608463098817,
+      310.1608463098817
+    ],
+    [
+      [
+        2,
+        4
+      ],
+      280.2223195506368,
+      310.2223195506368
+    ],
+    [
+      [
+        0,
+        2
+      ],
+      284.99658199407634,
+      314.99658199407634
+    ],
+    [
+      [
+        1,
+        7
+      ],
+      291.1214435949493,
+      321.1214435949493
+    ],
+    [
+      [
+        3,
+        2
+      ],
+      291.5359388360174,
+      321.5359388360174
+    ],
+    [
+      [
+        3,
+        6
+      ],
+      305.53412107973867,
+      335.53412107973867
+    ],
+    [
+      [
+        3,
+        7
+      ],
+      305.78863348416996,
+      335.78863348416996
+    ],
+    [
+      [
+        2,
+        9
+      ],
+      311.7360496177252,
+      341.7360496177252
+    ],
+    [
+      [
+        0,
+        15
+      ],
+      322.9189302543394,
+      352.9189302543394
+    ],
+    [
+      [
+        2,
+        7
+      ],
+      323.6018716465561,
+      353.6018716465561
+    ],
+    [
+      [
+        3,
+        9
+      ],
+      325.13157622094843,
+      355.13157622094843
+    ],
+    [
+      [
+        3,
+        5
+      ],
+      329.20377469184916,
+      359.20377469184916
+    ],
+    [
+      [
+        3,
+        8
+      ],
+      334.38137365826793,
+      364.38137365826793
+    ],
+    [
+      [
+        3,
+        1
+      ],
+      334.54853518490637,
+      364.54853518490637
+    ],
+    [
+      [
+        0,
+        11
+      ],
+      337.17162490249194,
+      367.17162490249194
+    ],
+    [
+      [
+        0,
+        8
+      ],
+      338.6986993290797,
+      368.6986993290797
+    ],
+    [
+      [
+        2,
+        10
+      ],
+      339.4779017007364,
+      369.4779017007364
+    ],
+    [
+      [
+        2,
+        3
+      ],
+      345.3316870026562,
+      375.3316870026562
+    ],
+    [
+      [
+        3,
+        4
+      ],
+      348.56254579497704,
+      378.56254579497704
+    ],
+    [
+      [
+        3,
+        15
+      ],
+      349.8351078171335,
+      379.8351078171335
+    ],
+    [
+      [
+        0,
+        3
+      ],
+      350.151757528488,
+      380.151757528488
+    ],
+    [
+      [
+        0,
+        1
+      ],
+      353.46041878609486,
+      383.46041878609486
+    ],
+    [
+      [
+        1,
+        3
+      ],
+      353.6208834451664,
+      383.6208834451664
+    ],
+    [
+      [
+        0,
+        9
+      ],
+      363.242710875332,
+      393.242710875332
+    ],
+    [
+      [
+        2,
+        5
+      ],
+      365.5820677172782,
+      395.5820677172782
+    ],
+    [
+      [
+        1,
+        0
+      ],
+      365.5829664534373,
+      395.5829664534373
+    ],
+    [
+      [
+        0,
+        13
+      ],
+      378.51345514120976,
+      408.51345514120976
+    ],
+    [
+      [
+        2,
+        15
+      ],
+      380.0948397516506,
+      410.0948397516506
+    ],
+    [
+      [
+        2,
+        0
+      ],
+      383.42045175188076,
+      413.42045175188076
+    ],
+    [
+      [
+        0,
+        10
+      ],
+      384.4733148538942,
+      414.4733148538942
+    ],
+    [
+      [
+        0,
+        5
+      ],
+      385.5291908254044,
+      415.5291908254044
+    ],
+    [
+      [
+        2,
+        13
+      ],
+      394.85238109000096,
+      424.85238109000096
+    ],
+    [
+      [
+        3,
+        11
+      ],
+      406.33686160088115,
+      436.33686160088115
+    ],
+    [
+      [
+        2,
+        12
+      ],
+      406.8130772351481,
+      436.8130772351481
+    ],
+    [
+      [
+        2,
+        8
+      ],
+      409.1036888750298,
+      439.1036888750298
+    ],
+    [
+      [
+        0,
+        6
+      ],
+      409.91774127082,
+      439.91774127082
+    ],
+    [
+      [
+        1,
+        13
+      ],
+      411.3951992510705,
+      441.3951992510705
+    ],
+    [
+      [
+        3,
+        3
+      ],
+      411.68162209393836,
+      441.68162209393836
+    ],
+    [
+      [
+        3,
+        0
+      ],
+      411.93613449836965,
+      441.93613449836965
+    ],
+    [
+      [
+        1,
+        12
+      ],
+      413.94032329538345,
+      443.94032329538345
+    ],
+    [
+      [
+        0,
+        4
+      ],
+      414.8370949694653,
+      444.8370949694653
+    ],
+    [
+      [
+        1,
+        1
+      ],
+      418.2670341707155,
+      448.2670341707155
+    ],
+    [
+      [
+        1,
+        9
+      ],
+      420.30313340616584,
+      450.30313340616584
+    ],
+    [
+      [
+        3,
+        10
+      ],
+      421.6076058667589,
+      451.6076058667589
+    ],
+    [
+      [
+        1,
+        5
+      ],
+      422.0847202371849,
+      452.0847202371849
+    ],
+    [
+      [
+        3,
+        13
+      ],
+      422.62565548448407,
+      452.62565548448407
+    ],
+    [
+      [
+        1,
+        8
+      ],
+      426.66594351694823,
+      456.66594351694823
+    ],
+    [
+      [
+        3,
+        12
+      ],
+      430.6275626830611,
+      460.6275626830611
+    ],
+    [
+      [
+        0,
+        0
+      ],
+      436.95424902481267,
+      466.95424902481267
+    ],
+    [
+      [
+        1,
+        10
+      ],
+      439.6460761429443,
+      469.6460761429443
+    ],
+    [
+      [
+        0,
+        7
+      ],
+      441.27964135254444,
+      471.27964135254444
+    ],
+    [
+      [
+        1,
+        15
+      ],
+      443.6076629739634,
+      473.6076629739634
+    ],
+    [
+      [
+        2,
+        11
+      ],
+      445.2561440832147,
+      475.2561440832147
+    ],
+    [
+      [
+        2,
+        2
+      ],
+      449.81162802759053,
+      479.81162802759053
+    ],
+    [
+      [
+        3,
+        14
+      ],
+      451.1310447807892,
+      481.1310447807892
+    ],
+    [
+      [
+        2,
+        6
+      ],
+      452.08855294459715,
+      482.08855294459715
+    ],
+    [
+      [
+        1,
+        6
+      ],
+      461.99645685756633,
+      491.9964568575664
+    ],
+    [
+      [
+        1,
+        11
+      ],
+      464.287068497448,
+      494.287068497448
+    ],
+    [
+      [
+        0,
+        14
+      ],
+      467.8941507255491,
+      497.89415072554914
+    ],
+    [
+      [
+        1,
+        4
+      ],
+      469.3773165860739,
+      499.3773165860739
+    ],
+    [
+      [
+        1,
+        14
+      ],
+      471.41341582152427,
+      501.41341582152427
+    ],
+    [
+      [
+        2,
+        14
+      ],
+      473.2388774496601,
+      503.2388774496601
+    ],
+    [
+      [
+        2,
+        1
+      ],
+      474.03764112967815,
+      504.03764112967815
+    ],
+    [
+      [
+        1,
+        2
+      ],
+      476.7581763145815,
+      506.75817631458153
+    ],
+    [
+      [
+        2,
+        4
+      ],
+      479.38240162273536,
+      509.3824016227354
+    ],
+    [
+      [
+        0,
+        12
+      ],
+      480.87428335154516,
+      510.87428335154516
+    ],
+    [
+      [
+        0,
+        2
+      ],
+      484.0656846273746,
+      514.0656846273746
+    ],
+    [
+      [
+        1,
+        7
+      ],
+      490.90025932285096,
+      520.900259322851
+    ],
+    [
+      [
+        3,
+        2
+      ],
+      491.23339304105014,
+      521.2333930410501
+    ],
+    [
+      [
+        3,
+        6
+      ],
+      506.2496249024932,
+      536.2496249024932
+    ],
+    [
+      [
+        3,
+        7
+      ],
+      506.7586497113557,
+      536.7586497113557
+    ],
+    [
+      [
+        2,
+        9
+      ],
+      511.8026668747225,
+      541.8026668747225
+    ],
+    [
+      [
+        2,
+        7
+      ],
+      523.6018716465561,
+      553.6018716465561
+    ],
+    [
+      [
+        0,
+        15
+      ],
+      525.4778548915623,
+      555.4778548915623
+    ],
+    [
+      [
+        3,
+        9
+      ],
+      526.6106172569923,
+      556.6106172569923
+    ],
+    [
+      [
+        3,
+        5
+      ],
+      528.9012288968735,
+      558.9012288968735
+    ],
+    [
+      [
+        3,
+        8
+      ],
+      534.3813736582679,
+      564.3813736582679
+    ],
+    [
+      [
+        3,
+        1
+      ],
+      535.0095266032232,
+      565.0095266032232
+    ],
+    [
+      [
+        0,
+        11
+      ],
+      537.1854254953993,
+      567.1854254953993
+    ],
+    [
+      [
+        0,
+        8
+      ],
+      537.948962708693,
+      567.948962708693
+    ],
+    [
+      [
+        2,
+        10
+      ],
+      538.5264693400026,
+      568.5264693400026
+    ],
+    [
+      [
+        2,
+        3
+      ],
+      545.398304259646,
+      575.398304259646
+    ],
+    [
+      [
+        3,
+        4
+      ],
+      548.8970972070603,
+      578.8970972070603
+    ],
+    [
+      [
+        0,
+        3
+      ],
+      549.9110457169612,
+      579.9110457169612
+    ],
+    [
+      [
+        3,
+        15
+      ],
+      550.6786840380789,
+      580.6786840380789
+    ],
+    [
+      [
+        0,
+        1
+      ],
+      553.2197069745673,
+      583.2197069745673
+    ],
+    [
+      [
+        1,
+        3
+      ],
+      553.3196991730546,
+      583.3196991730546
+    ],
+    [
+      [
+        0,
+        9
+      ],
+      562.1561513510464,
+      592.1561513510464
+    ],
+    [
+      [
+        2,
+        5
+      ],
+      564.4867345919889,
+      594.4867345919889
+    ],
+    [
+      [
+        1,
+        0
+      ],
+      565.2817821813228,
+      595.2817821813228
+    ],
+    [
+      [
+        0,
+        13
+      ],
+      576.6537194570119,
+      606.6537194570119
+    ],
+    [
+      [
+        2,
+        15
+      ],
+      581.7935780933132,
+      611.7935780933132
+    ],
+    [
+      [
+        2,
+        0
+      ],
+      583.4204517518808,
+      613.4204517518808
+    ],
+    [
+      [
+        0,
+        10
+      ],
+      585.260430332343,
+      615.260430332343
+    ],
+    [
+      [
+        0,
+        5
+      ],
+      585.7694551412055,
+      615.7694551412055
+    ],
+    [
+      [
+        2,
+        13
+      ],
+      596.0462727414625,
+      626.0462727414625
+    ],
+    [
+      [
+        2,
+        8
+      ],
+      607.3887193009872,
+      637.3887193009872
+    ],
+    [
+      [
+        2,
+        12
+      ],
+      607.6432317054184,
+      637.6432317054184
+    ],
+    [
+      [
+        3,
+        11
+      ],
+      609.6149502262452,
+      639.6149502262452
+    ],
+    [
+      [
+        0,
+        6
+      ],
+      609.91774127082,
+      639.91774127082
+    ],
+    [
+      [
+        3,
+        3
+      ],
+      611.6510494616952,
+      641.6510494616952
+    ],
+    [
+      [
+        3,
+        0
+      ],
+      612.1600742705576,
+      642.1600742705576
+    ],
+    [
+      [
+        1,
+        13
+      ],
+      612.366577001102,
+      642.366577001102
+    ],
+    [
+      [
+        1,
+        12
+      ],
+      612.8756018099645,
+      642.8756018099645
+    ],
+    [
+      [
+        0,
+        4
+      ],
+      614.8370949694653,
+      644.8370949694653
+    ],
+    [
+      [
+        1,
+        1
+      ],
+      619.7474367296079,
+      649.7474367296079
+    ],
+    [
+      [
+        1,
+        9
+      ],
+      620.7654863473329,
+      650.7654863473329
+    ],
+    [
+      [
+        3,
+        10
+      ],
+      622.5950828522384,
+      652.5950828522384
+    ],
+    [
+      [
+        3,
+        13
+      ],
+      623.3586200655321,
+      653.3586200655321
+    ],
+    [
+      [
+        1,
+        5
+      ],
+      623.8196352005077,
+      653.8196352005077
+    ],
+    [
+      [
+        1,
+        8
+      ],
+      625.8557344359576,
+      655.8557344359576
+    ],
+    [
+      [
+        3,
+        12
+      ],
+      630.9939921984693,
+      660.9939921984693
+    ],
+    [
+      [
+        0,
+        0
+      ],
+      636.4954389140238,
+      666.4954389140238
+    ],
+    [
+      [
+        1,
+        10
+      ],
+      639.5351240443125,
+      669.5351240443125
+    ],
+    [
+      [
+        0,
+        7
+      ],
+      641.2796413525444,
+      671.2796413525444
+    ],
+    [
+      [
+        1,
+        15
+      ],
+      642.8159034123348,
+      672.8159034123348
+    ],
+    [
+      [
+        2,
+        11
+      ],
+      645.2561440832146,
+      675.2561440832146
+    ],
+    [
+      [
+        2,
+        2
+      ],
+      649.8116280275906,
+      679.8116280275906
+    ],
+    [
+      [
+        3,
+        14
+      ],
+      651.2776620377564,
+      681.2776620377564
+    ],
+    [
+      [
+        2,
+        6
+      ],
+      652.0885529445972,
+      682.0885529445972
+    ],
+    [
+      [
+        1,
+        11
+      ],
+      662.6490419722243,
+      692.6490419722243
+    ],
+    [
+      [
+        1,
+        6
+      ],
+      663.6670915899492,
+      693.6670915899492
+    ],
+    [
+      [
+        1,
+        4
+      ],
+      667.739290060849,
+      697.739290060849
+    ],
+    [
+      [
+        0,
+        14
+      ],
+      669.5820514900848,
+      699.5820514900848
+    ],
+    [
+      [
+        1,
+        14
+      ],
+      670.0299017007302,
+      700.0299017007302
+    ],
+    [
+      [
+        2,
+        14
+      ],
+      673.3536698392869,
+      703.3536698392869
+    ],
+    [
+      [
+        1,
+        2
+      ],
+      674.3566125760613,
+      704.3566125760613
+    ],
+    [
+      [
+        2,
+        1
+      ],
+      674.6262318614431,
+      704.6262318614431
+    ],
+    [
+      [
+        2,
+        4
+      ],
+      679.9709923544991,
+      709.9709923544991
+    ],
+    [
+      [
+        0,
+        12
+      ],
+      680.2715724761969,
+      710.2715724761969
+    ],
+    [
+      [
+        0,
+        2
+      ],
+      684.5982833515279,
+      714.5982833515279
+    ],
+    [
+      [
+        1,
+        7
+      ],
+      691.5528444375044,
+      721.5528444375044
+    ],
+    [
+      [
+        3,
+        2
+      ],
+      691.6956373849235,
+      721.6956373849235
+    ],
+    [
+      [
+        3,
+        6
+      ],
+      704.930282415348,
+      734.930282415348
+    ],
+    [
+      [
+        3,
+        7
+      ],
+      705.1847948197792,
+      735.1847948197792
+    ],
+    [
+      [
+        2,
+        9
+      ],
+      709.7274369806291,
+      739.7274369806291
+    ],
+    [
+      [
+        0,
+        15
+      ],
+      723.7931936339387,
+      753.7931936339387
+    ],
+    [
+      [
+        2,
+        7
+      ],
+      725.5620018723599,
+      755.5620018723599
+    ],
+    [
+      [
+        3,
+        5
+      ],
+      727.5818864097282,
+      757.5818864097282
+    ],
+    [
+      [
+        3,
+        9
+      ],
+      728.3454236230219,
+      758.3454236230219
+    ],
+    [
+      [
+        3,
+        8
+      ],
+      734.7082337338029,
+      764.7082337338029
+    ],
+    [
+      [
+        3,
+        1
+      ],
+      734.9627461382341,
+      764.9627461382341
+    ],
+    [
+      [
+        0,
+        8
+      ],
+      735.5007642377757,
+      765.5007642377757
+    ],
+    [
+      [
+        2,
+        10
+      ],
+      737.2695724761969,
+      767.2695724761969
+    ],
+    [
+      [
+        0,
+        11
+      ],
+      738.5549130909505,
+      768.5549130909505
+    ],
+    [
+      [
+        2,
+        3
+      ],
+      745.6684818224278,
+      775.6684818224278
+    ],
+    [
+      [
+        0,
+        3
+      ],
+      749.2444340770626,
+      779.2444340770626
+    ],
+    [
+      [
+        3,
+        15
+      ],
+      749.360825199278,
+      779.360825199278
+    ],
+    [
+      [
+        3,
+        4
+      ],
+      750.5194398502036,
+      780.5194398502036
+    ],
+    [
+      [
+        0,
+        1
+      ],
+      753.3166325479624,
+      783.3166325479624
+    ],
+    [
+      [
+        1,
+        3
+      ],
+      753.6214073958405,
+      783.6214073958405
+    ],
+    [
+      [
+        2,
+        5
+      ],
+      763.211986228524,
+      793.211986228524
+    ],
+    [
+      [
+        0,
+        9
+      ],
+      763.6231736620375,
+      793.6231736620375
+    ],
+    [
+      [
+        1,
+        0
+      ],
+      765.3289779996775,
+      795.3289779996775
+    ],
+    [
+      [
+        0,
+        13
+      ],
+      775.9398339026477,
+      805.9398339026477
+    ],
+    [
+      [
+        2,
+        15
+      ],
+      780.9350943984889,
+      810.9350943984889
+    ],
+    [
+      [
+        2,
+        0
+      ],
+      783.7347308472325,
+      813.7347308472325
+    ],
+    [
+      [
+        0,
+        5
+      ],
+      784.6853309604663,
+      814.6853309604663
+    ],
+    [
+      [
+        0,
+        10
+      ],
+      786.0373062880305,
+      816.0373062880305
+    ],
+    [
+      [
+        2,
+        13
+      ],
+      794.933276642207,
+      824.933276642207
+    ],
+    [
+      [
+        3,
+        11
+      ],
+      806.0364331408828,
+      836.0364331408828
+    ],
+    [
+      [
+        2,
+        8
+      ],
+      806.5181946378461,
+      836.5181946378461
+    ],
+    [
+      [
+        2,
+        12
+      ],
+      806.8083348468828,
+      836.8083348468828
+    ],
+    [
+      [
+        1,
+        13
+      ],
+      809.1051115618505,
+      839.1051115618505
+    ],
+    [
+      [
+        0,
+        6
+      ],
+      811.4253559057555,
+      841.4253559057555
+    ],
+    [
+      [
+        3,
+        3
+      ],
+      811.63570603837,
+      841.63570603837
+    ],
+    [
+      [
+        3,
+        0
+      ],
+      812.1447308472325,
+      842.1447308472325
+    ],
+    [
+      [
+        1,
+        12
+      ],
+      813.4318224371816,
+      843.4318224371816
+    ],
+    [
+      [
+        0,
+        4
+      ],
+      816.5795047589304,
+      846.5795047589304
+    ],
+    [
+      [
+        1,
+        1
+      ],
+      820.303657356825,
+      850.303657356825
+    ],
+    [
+      [
+        1,
+        9
+      ],
+      821.5762193789812,
+      851.5762193789812
+    ],
+    [
+      [
+        1,
+        5
+      ],
+      822.0852441878437,
+      852.0852441878437
+    ],
+    [
+      [
+        3,
+        13
+      ],
+      822.5797394289133,
+      852.5797394289133
+    ],
+    [
+      [
+        3,
+        10
+      ],
+      823.8523014510695,
+      853.8523014510695
+    ],
+    [
+      [
+        1,
+        8
+      ],
+      826.666467467606,
+      856.666467467606
+    ],
+    [
+      [
+        3,
+        12
+      ],
+      830.6275626830611,
+      860.6275626830611
+    ],
+    [
+      [
+        0,
+        0
+      ],
+      836.9404971134295,
+      866.9404971134295
+    ],
+    [
+      [
+        1,
+        10
+      ],
+      838.3706317316892,
+      868.3706317316892
+    ],
+    [
+      [
+        0,
+        7
+      ],
+      842.5397700109168,
+      872.5397700109168
+    ],
+    [
+      [
+        1,
+        15
+      ],
+      844.3250132625807,
+      874.3250132625807
+    ],
+    [
+      [
+        2,
+        11
+      ],
+      845.2561440832146,
+      875.2561440832146
+    ],
+    [
+      [
+        2,
+        2
+      ],
+      849.8116280275906,
+      879.8116280275906
+    ],
+    [
+      [
+        3,
+        14
+      ],
+      850.8306163207808,
+      880.8306163207808
+    ],
+    [
+      [
+        2,
+        6
+      ],
+      852.0885529445972,
+      882.0885529445972
+    ],
+    [
+      [
+        1,
+        6
+      ],
+      861.6318567639049,
+      891.6318567639049
+    ],
+    [
+      [
+        1,
+        11
+      ],
+      864.1769808082173,
+      894.1769808082173
+    ],
+    [
+      [
+        0,
+        14
+      ],
+      867.9910104540406,
+      897.9910104540406
+    ],
+    [
+      [
+        1,
+        4
+      ],
+      869.0127164924108,
+      899.0127164924108
+    ],
+    [
+      [
+        1,
+        14
+      ],
+      871.303328132292,
+      901.303328132292
+    ],
+    [
+      [
+        2,
+        14
+      ],
+      873.2388774496601,
+      903.2388774496601
+    ],
+    [
+      [
+        1,
+        2
+      ],
+      875.1210141987606,
+      905.1210141987606
+    ],
+    [
+      [
+        2,
+        1
+      ],
+      875.3924855671476,
+      905.3924855671476
+    ],
+    [
+      [
+        2,
+        4
+      ],
+      878.1921220158912,
+      908.1921220158912
+    ],
+    [
+      [
+        0,
+        12
+      ],
+      881.7346802933275,
+      911.7346802933275
+    ],
+    [
+      [
+        0,
+        2
+      ],
+      884.2798043376399,
+      914.2798043376399
+    ],
+    [
+      [
+        1,
+        7
+      ],
+      891.0271240443125,
+      921.0271240443125
+    ],
+    [
+      [
+        3,
+        2
+      ],
+      891.4257366203734,
+      921.4257366203734
+    ],
+    [
+      [
+        3,
+        6
+      ],
+      905.932943672954,
+      935.932943672954
+    ],
+    [
+      [
+        3,
+        7
+      ],
+      906.1874560773853,
+      936.1874560773853
+    ],
+    [
+      [
+        2,
+        9
+      ],
+      910.799520986112,
+      940.799520986112
+    ],
+    [
+      [
+        2,
+        7
+      ],
+      923.6018716465561,
+      953.6018716465561
+    ],
+    [
+      [
+        0,
+        15
+      ],
+      924.3821525978946,
+      954.3821525978946
+    ],
+    [
+      [
+        3,
+        9
+      ],
+      926.5484484318844,
+      956.5484484318844
+    ],
+    [
+      [
+        3,
+        5
+      ],
+      929.348084880628,
+      959.348084880628
+    ],
+    [
+      [
+        3,
+        1
+      ],
+      934.4383329692528,
+      964.4383329692528
+    ],
+    [
+      [
+        0,
+        11
+      ],
+      935.3261859884378,
+      965.3261859884378
+    ],
+    [
+      [
+        3,
+        8
+      ],
+      936.7289446091339,
+      966.7289446091339
+    ],
+    [
+      [
+        2,
+        10
+      ],
+      937.2688110469609,
+      967.2688110469609
+    ],
+    [
+      [
+        0,
+        8
+      ],
+      937.8713100327502,
+      967.8713100327502
+    ],
+    [
+      [
+        2,
+        3
+      ],
+      944.793571540017,
+      974.793571540017
+    ],
+    [
+      [
+        3,
+        4
+      ],
+      948.4365152129709,
+      978.4365152129709
+    ],
+    [
+      [
+        0,
+        3
+      ],
+      949.5788806365872,
+      979.5788806365872
+    ],
+    [
+      [
+        3,
+        15
+      ],
+      951.2361516617145,
+      981.2361516617145
+    ],
+    [
+      [
+        0,
+        1
+      ],
+      952.8875418941933,
+      982.8875418941933
+    ],
+    [
+      [
+        1,
+        3
+      ],
+      953.7010762989473,
+      983.7010762989473
+    ],
+    [
+      [
+        0,
+        9
+      ],
+      962.1561513510464,
+      992.1561513510464
+    ],
+    [
+      [
+        2,
+        5
+      ],
+      964.9000514900848,
+      994.9000514900849
+    ],
+    [
+      [
+        1,
+        0
+      ],
+      965.4086469027843,
+      995.4086469027843
+    ],
+    [
+      [
+        0,
+        13
+      ],
+      978.2598349196435,
+      1008.2598349196435
+    ],
+    [
+      [
+        2,
+        15
+      ],
+      980.9343329692529,
+      1010.9343329692529
+    ],
+    [
+      [
+        2,
+        0
+      ],
+      983.4204517518808,
+      1013.4204517518808
+    ],
+    [
+      [
+        0,
+        10
+      ],
+      985.0210581994058,
+      1015.0210581994058
+    ],
+    [
+      [
+        0,
+        5
+      ],
+      985.5300830082683,
+      1015.5300830082683
+    ],
+    [
+      [
+        2,
+        13
+      ],
+      996.4595896395595,
+      1026.4595896395595
+    ],
+    [
+      [
+        2,
+        8
+      ],
+      1007.9126478389703,
+      1037.9126478389703
+    ],
+    [
+      [
+        2,
+        12
+      ],
+      1008.421672647833,
+      1038.421672647833
+    ],
+    [
+      [
+        3,
+        11
+      ],
+      1009.0437565922816,
+      1039.0437565922816
+    ],
+    [
+      [
+        1,
+        13
+      ],
+      1009.1847804649642,
+      1039.1847804649642
+    ],
+    [
+      [
+        0,
+        6
+      ],
+      1009.91774127082,
+      1039.91774127082
+    ],
+    [
+      [
+        3,
+        3
+      ],
+      1011.8433930410265,
+      1041.8433930410265
+    ],
+    [
+      [
+        3,
+        0
+      ],
+      1012.0979054454579,
+      1042.0979054454579
+    ],
+    [
+      [
+        0,
+        4
+      ],
+      1014.8370949694654,
+      1044.8370949694654
+    ],
+    [
+      [
+        1,
+        12
+      ],
+      1015.0385657668853,
+      1045.0385657668853
+    ],
+    [
+      [
+        1,
+        9
+      ],
+      1019.110764237787,
+      1049.110764237787
+    ],
+    [
+      [
+        1,
+        1
+      ],
+      1020.3833262599437,
+      1050.3833262599437
+    ],
+    [
+      [
+        3,
+        13
+      ],
+      1020.7513271961238,
+      1050.7513271961238
+    ],
+    [
+      [
+        3,
+        10
+      ],
+      1022.278401622712,
+      1052.278401622712
+    ],
+    [
+      [
+        1,
+        5
+      ],
+      1023.1829627086886,
+      1053.1829627086886
+    ],
+    [
+      [
+        1,
+        8
+      ],
+      1027.2551611795902,
+      1057.2551611795902
+    ],
+    [
+      [
+        3,
+        12
+      ],
+      1031.4408481822406,
+      1061.4408481822406
+    ],
+    [
+      [
+        0,
+        0
+      ],
+      1036.7509770635154,
+      1066.7509770635154
+    ],
+    [
+      [
+        1,
+        10
+      ],
+      1038.4069960992365,
+      1068.4069960992365
+    ],
+    [
+      [
+        0,
+        7
+      ],
+      1041.2796413525443,
+      1071.2796413525443
+    ],
+    [
+      [
+        1,
+        15
+      ],
+      1042.8159034123348,
+      1072.8159034123348
+    ],
+    [
+      [
+        2,
+        11
+      ],
+      1045.2561440832146,
+      1075.2561440832146
+    ],
+    [
+      [
+        3,
+        14
+      ],
+      1048.5696768275475,
+      1078.5696768275475
+    ],
+    [
+      [
+        2,
+        2
+      ],
+      1049.8116280275906,
+      1079.8116280275906
+    ],
+    [
+      [
+        2,
+        6
+      ],
+      1052.0885529445973,
+      1082.0885529445973
+    ],
+    [
+      [
+        1,
+        6
+      ],
+      1062.6028644094308,
+      1092.6028644094308
+    ],
+    [
+      [
+        1,
+        11
+      ],
+      1064.6389636448816,
+      1094.6389636448816
+    ],
+    [
+      [
+        0,
+        14
+      ],
+      1069.0740524262972,
+      1099.0740524262972
+    ],
+    [
+      [
+        1,
+        4
+      ],
+      1069.4746993290773,
+      1099.4746993290773
+    ],
+    [
+      [
+        1,
+        14
+      ],
+      1070.747261351234,
+      1100.747261351234
+    ],
+    [
+      [
+        2,
+        14
+      ],
+      1073.8952613512397,
+      1103.8952613512397
+    ],
+    [
+      [
+        2,
+        1
+      ],
+      1075.9313605866905,
+      1105.9313605866905
+    ],
+    [
+      [
+        1,
+        2
+      ],
+      1076.0920218442925,
+      1106.0920218442925
+    ],
+    [
+      [
+        2,
+        4
+      ],
+      1078.9855094398667,
+      1108.9855094398667
+    ],
+    [
+      [
+        0,
+        12
+      ],
+      1080.0180858168453,
+      1110.0180858168453
+    ],
+    [
+      [
+        0,
+        2
+      ],
+      1085.617358714335,
+      1115.617358714335
+    ],
+    [
+      [
+        1,
+        7
+      ],
+      1091.1082537057423,
+      1121.1082537057423
+    ],
+    [
+      [
+        3,
+        2
+      ],
+      1091.3484531128242,
+      1121.3484531128242
+    ],
+    [
+      [
+        3,
+        6
+      ],
+      1106.8737097831367,
+      1136.8737097831367
+    ],
+    [
+      [
+        3,
+        7
+      ],
+      1107.3827345919995,
+      1137.3827345919995
+    ],
+    [
+      [
+        2,
+        9
+      ],
+      1111.419669839293,
+      1141.419669839293
+    ],
+    [
+      [
+        2,
+        7
+      ],
+      1123.601871646556,
+      1153.601871646556
+    ],
+    [
+      [
+        0,
+        15
+      ],
+      1126.08483101892,
+      1156.08483101892
+    ],
+    [
+      [
+        3,
+        5
+      ],
+      1126.2166525199195,
+      1156.2166525199195
+    ],
+    [
+      [
+        3,
+        9
+      ],
+      1127.998239350939,
+      1157.998239350939
+    ],
+    [
+      [
+        3,
+        1
+      ],
+      1134.3610494617228,
+      1164.3610494617228
+    ],
+    [
+      [
+        3,
+        8
+      ],
+      1134.3813736582679,
+      1164.3813736582679
+    ],
+    [
+      [
+        0,
+        11
+      ],
+      1136.0108147917429,
+      1166.0108147917429
+    ],
+    [
+      [
+        0,
+        8
+      ],
+      1138.0469140271937,
+      1168.0469140271937
+    ],
+    [
+      [
+        2,
+        10
+      ],
+      1138.3979847090163,
+      1168.3979847090163
+    ],
+    [
+      [
+        2,
+        3
+      ],
+      1145.2856860664701,
+      1175.2856860664701
+    ],
+    [
+      [
+        3,
+        15
+      ],
+      1149.360825199278,
+      1179.360825199278
+    ],
+    [
+      [
+        3,
+        4
+      ],
+      1149.775694492153,
+      1179.775694492153
+    ],
+    [
+      [
+        0,
+        3
+      ],
+      1150.0089970354672,
+      1180.0089970354672
+    ],
+    [
+      [
+        0,
+        1
+      ],
+      1153.3176582930748,
+      1183.3176582930748
+    ],
+    [
+      [
+        1,
+        3
+      ],
+      1153.4637927914237,
+      1183.4637927914237
+    ],
+    [
+      [
+        0,
+        9
+      ],
+      1162.2894932127213,
+      1192.2894932127213
+    ],
+    [
+      [
+        1,
+        0
+      ],
+      1165.4258757996972,
+      1195.4258757996972
+    ],
+    [
+      [
+        2,
+        5
+      ],
+      1165.6957356841956,
+      1195.6957356841956
+    ],
+    [
+      [
+        0,
+        13
+      ],
+      1178.7221878608768,
+      1208.7221878608768
+    ],
+    [
+      [
+        2,
+        15
+      ],
+      1180.0948397516506,
+      1210.0948397516506
+    ],
+    [
+      [
+        2,
+        0
+      ],
+      1183.4204517518808,
+      1213.4204517518808
+    ],
+    [
+      [
+        0,
+        10
+      ],
+      1186.246948353935,
+      1216.246948353935
+    ],
+    [
+      [
+        0,
+        5
+      ],
+      1187.2649979716605,
+      1217.2649979716605
+    ],
+    [
+      [
+        2,
+        13
+      ],
+      1194.852381090001,
+      1224.852381090001
+    ]
+  ]
+}

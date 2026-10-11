@@ -1,0 +1,16 @@
+{
+  "source_sha256": "c0c752f10dce9f5eafaf9b2e17fdcdf77ae79911be795a1fe55750f77627729f",
+  "input_sha256": {
+    "results/znand/partial_dips/B1_100.json": "5c2e781ff32a15d18f60bf96d591bbed158c4be14c59db08d87093d79b5cd91d",
+    "results/znand/partial_dips/B1_off.json": "092531cbd68bb163c2050c0c783f29033da6b03321e4ae92df2e8a0a2da0eb5d",
+    "results/znand/partial_dips/B1_200.json": "3739af0e24be612e595d1efc68d78ed5e429a5516f17002679caf4f8c091a5b6",
+    "results/znand/partial_dips/B2_100.json": "144d89e4b466369144d3726ad4ae0893d5b72652b6026a949374fe4b532eabf5",
+    "results/znand/partial_dips/B2_off.json": "41ef29ccaaff2bd0c08e24c35a1e81497ffcb83590d2544f245382311092685b",
+    "results/znand/partial_dips/B2_200.json": "98568996848d3073fb2645419ebde824fbe2100cf4cdc7d1cdf4004e6ad59c5f"
+  },
+  "outputs": {
+    "results/znand/partial_dips/maintenance_control.png": "a49b85a0ebc8954f3a523134b696e1ee640efcfc2083231f9fa7a0db98111b1c",
+    "results/znand/partial_dips/maintenance_control.pdf": "c0530f159be1831d2d82ca880642bac98734a69979f0911af8a325d901400374",
+    "results/znand/partial_dips/RESULTS_KO.md": "4bd2ffe2388f9d563413a520d56964ac7ef7d129437250eb9343f06ead9c9c25"
+  }
+}

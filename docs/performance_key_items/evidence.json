@@ -1358,6 +1358,68 @@
     {
       "path": "znand/model.py",
       "sha256": "755f822a6b7c1f44f65117b4892078419a766d4963ad4d49931e8aa1db679baf"
+    },
+    {
+      "path": "results/znand/partial_saturation/sweep.csv",
+      "sha256": "cf98b320ff9c7e67f782cea10ae25a3a2d707d76953e0a0abccc2d9ca523ff89"
+    },
+    {
+      "path": "znand/saturation.py",
+      "sha256": "1787ccf9aec0db13e8af0b15eacf824992647fca76d8bd2b90d4c864f3ee59dc"
+    },
+    {
+      "path": "znand/partial_saturation.py",
+      "sha256": "b0cee8bc1577adb2387a9e176155ea03e0e4647ac1d9bfca3dd8be49aec0382e"
     }
-  ]
+  ],
+  "partial_saturation": {
+    "B1_b8_q512": {
+      "name": "B1_b8_q512",
+      "pattern": "B1",
+      "buffer_mib": "8",
+      "configured_qd_per_port": "512",
+      "fixed_gbps": "3.994623999993548",
+      "peak_500us_gbps": "4.014463999905533",
+      "peak_start_us": "225.0",
+      "peak_end_us": "725.0",
+      "fixed_actual_outstanding": "2030.7330302551911",
+      "fixed_actual_outstanding_per_port": "[511.6257025198966, 511.3421558936662, 511.00597010851993, 496.7592017331083]",
+      "fixed_per_port_gbps": "[1.0030079999984292, 0.9937919999986616, 0.9902079999987327, 1.0076159999977243]",
+      "fixed_accepted_requests": "124832",
+      "fixed_completed_requests": "124832",
+      "peak_actual_outstanding": "2029.8120462911645",
+      "peak_completed_requests": "31363",
+      "peak_buffer_mib": "8.0",
+      "second_vs_first_pct": "0.15392509409446475",
+      "fixed_miops": "62.416",
+      "fixed_nand_gbps": "256.77824",
+      "fixed_efficiency_pct": "1.5556707608869038",
+      "fixed_read_amplification": "64.2809536016406",
+      "fixed_long_tr_pct": "0.0"
+    },
+    "B2_b8_q512": {
+      "name": "B2_b8_q512",
+      "pattern": "B2",
+      "buffer_mib": "8",
+      "configured_qd_per_port": "512",
+      "fixed_gbps": "4.000735999993382",
+      "peak_500us_gbps": "4.030847999904683",
+      "peak_start_us": "1375.0",
+      "peak_end_us": "1875.0",
+      "fixed_actual_outstanding": "2029.3002258162096",
+      "fixed_actual_outstanding_per_port": "[508.47915293349956, 507.62091138578614, 507.57625200819723, 505.6239094887268]",
+      "fixed_per_port_gbps": "[1.003007999998421, 0.9957759999986074, 0.992255999998677, 1.0096959999976771]",
+      "fixed_accepted_requests": "125023",
+      "fixed_completed_requests": "125023",
+      "peak_actual_outstanding": "2030.0381779332756",
+      "peak_completed_requests": "31491",
+      "peak_buffer_mib": "8.0",
+      "second_vs_first_pct": "0.35416099531107026",
+      "fixed_miops": "62.5115",
+      "fixed_nand_gbps": "256.99123199999997",
+      "fixed_efficiency_pct": "1.5567597263396131",
+      "fixed_read_amplification": "64.23598857810163",
+      "fixed_long_tr_pct": "0.0"
+    }
+  }
 }

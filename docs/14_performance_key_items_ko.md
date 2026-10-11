@@ -7,7 +7,24 @@
 - [수치 원자료와 출처 해시](performance_key_items/evidence.json)
 - [슬라이드 생성 소스](performance_key_items/build.mjs)
 
+자료는 **10장**이다. 첫 페이지는 전체 모델 구조, 2~8페이지는 핵심 개선과 비교 조건, 마지막 9~10페이지는 A·B 워크로드 정의와 유효 데이터량의 차이를 설명한다.
+
 **세 항목의 수치는 서로 다른 실험에 속한다. 각 실험 안의 전후 비교는 유효하지만, 증가율을 합산하거나 하나의 누적 개선 과정처럼 연결하지 않는다.** 1번은 PF ON의 32 Plane 유한 요청열, 2번은 PF OFF의 32/64 Plane 유한 요청열, 3번은 PF OFF의 64 Plane 지속 부하다.
+
+## 전체 구조와 데이터 흐름
+
+4개의 독립 Port가 4개 NAND Channel 전체를 공유한다. Port와 Channel의 고정 1:1 연결은 없으며, 읽기 주소를 매핑한 결과로 Channel과 Plane을 선택한다. AXI ID도 Port별로 구분하고, 응답은 각 Port 내부에서 수락 순서를 지킨다.
+
+| 처리 구간 | 동작 | 주요 자원과 제약 |
+|---|---|---|
+| Host IF | Port 0~3에서 독립적으로 읽기 요청 | Port당 512bit·1GHz, 64GB/s, 합계 256GB/s |
+| Controller 수락 | QD 확인, 신규 물리 페이지 작업의 공유 버퍼 예약, L2P 조회 | 대표 설정은 공유 8MiB와 QD512/Port |
+| CA 스케줄링 | 이미 발행 가능한 물리 페이지 작업 중 처리 순서 선택 | 연속 물리 주소 우선, 필요 시 오래 기다린 Port 선두 우선 |
+| NAND Read | 선택한 Plane에서 sensing | 4채널 × 16Plane = 64Plane, 물리 페이지 16KiB, Plane당 page buffer 1개 |
+| NAND Data와 ECC | 채널 Data 경로로 16KiB를 출력하고 ECC 수행 | 준비된 데이터는 공유 Controller buffer에서 Host 반환을 기다림 |
+| Host 반환 | 각 Port의 FIFO 선두만 반환 | 연결된 마지막 응답이 끝나면 해당 Controller buffer 공간 해제 |
+
+NAND page buffer는 Plane별 자원이고, Controller buffer는 여러 Port가 공유하는 임시 보관 공간이다. 소비 후에도 계속 보관하는 demand cache나 LRU 정책은 적용하지 않았다. 위 구조는 현재 시뮬레이션 모델의 처리 흐름이며 UCIe의 모든 프로토콜 계층을 상세 구현한 회로도를 뜻하지 않는다. [구현과 적용 위치](12_controller_scheduling_ko.md).
 
 ## 1. 연속 물리 주소를 우선하는 컨트롤러 스케줄링
 
@@ -113,6 +130,39 @@ Port와 Channel을 고정 연결한 구조는 아니다. 어느 Channel과 Plane
 현재 B1/B2의 64B 부분 읽기는 같은 8MiB·QD512에서 약 4GB/s다. 물리 16KiB마다 각 4KiB 논리 페이지의 64B만 읽어 유효 256B를 사용하며, NAND는 전체 16KiB를 전송하기 때문이다. A의 255GB/s를 모든 작은 읽기에 적용하지 않는다. [B 패턴 결과](../results/znand/partial_saturation/RESULTS_KO.md).
 
 앞으로 검증할 항목은 Port별 수락의 공정성, 주소 편향과 동적 L2P, 실제 GC와 Die/LUN 공유 자원이다. 기존 maintenance OFF 실험은 낙폭 원인을 확인한 대조군이며 기준 설정으로 채택하지 않았다.
+
+## A·B 워크로드 정의
+
+아래 `P1`, `P2`는 **4KiB 논리 페이지**다. NAND의 **16KiB 물리 페이지**와 구분한다. 페이지 번호는 설명을 위해 1부터 표시했으며, 실제 물리 위치는 L2P 배치로 결정한다.
+
+| 패턴 | 요청당 Host 반환량 | 논리 페이지 순서 | 읽는 위치와 의미 |
+|---|---:|---|---|
+| A1 | 4KiB | P1, P2, P3, P4, … | 각 논리 페이지 전체를 순서대로 읽음 |
+| A2 | 4KiB | P1, P3, P2, P4, P6, P5, … | 3개 묶음마다 순서를 바꿔 페이지 전체를 읽음 |
+| B1 | 64B | P1, P2, P3, P4, … | 각 논리 페이지의 시작 64B만 읽음 |
+| B2 | 64B | P1, P3, P2, P4, P6, P5, … | B1과 반환 크기는 같고 페이지 순서만 바꿈 |
+| B3 | 64B | P1, P3, P1(재방문), P2, … | 첫 P1은 offset 0, 재방문은 offset +64B의 다른 데이터 |
+
+A2/B2는 3개 단위의 국소 순열이며 전체 주소 공간의 균등 난수 패턴은 아니다. B1/B2는 한 페이지 안의 모든 64B를 이어서 읽는 부하가 아니다. B3 재방문은 같은 논리 페이지의 다른 데이터를 읽으며, 반드시 다른 NAND 물리 페이지를 뜻하지 않는다. Page buffer 또는 Controller buffer에서 재사용할 수 있는지는 당시 상태에 따른다.
+
+최근 64 Plane의 고정 2ms 지속 부하 평가는 A1/A2와 B1/B2를 대상으로 했다. B3는 기존 유한 요청열 모델에 구현된 패턴 정의를 설명하며, 과거 32 Plane의 성능을 최신 지속 부하 결과에 혼합하지 않는다.
+
+근거: [유한 요청열 정의](../znand/model.py), [A 지속 부하 생성기](../znand/saturation.py), [B 지속 부하 생성기](../znand/partial_saturation.py).
+
+## A·B의 유효 데이터량과 현재 처리량
+
+| 비교 항목 | A1 / A2 | B1 / B2 |
+|---|---|---|
+| Host 요청당 반환량 | 4KiB | 64B |
+| 물리 16KiB당 유효 데이터 | 4개 요청 × 4KiB = 16KiB | 4개 요청 × 64B = 256B |
+| 명목 유효 데이터 비율 | 100% | 1/64 = 1.5625% |
+| 8MiB·QD512/Port 고정 2ms Host 평균 | A1 255.366 / A2 255.058GB/s | B1 3.995 / B2 4.001GB/s |
+
+현재 모델은 64B만 요청해도 NAND에서 물리 페이지 전체 16KiB를 출력한다. B1/B2의 내부 NAND 전송은 각각 256.778/256.991GB/s이지만, Host가 실제로 사용하는 데이터는 일부다. 따라서 Host 유효 처리량은 약 4GB/s가 된다. 시간 구간의 경계와 버퍼 체류 때문에 측정한 Host/NAND 비율은 명목 1/64와 조금 다를 수 있다.
+
+A1/B1은 동일한 4KiB stripe, `head_locality` 장치 설정과 매핑을 사용한다. A2는 16KiB stripe와 `locality`, B2는 4KiB stripe와 `head_locality`이므로 A2/B2 차이를 읽기 크기만의 효과로 단정하지 않는다.
+
+필요 없는 데이터를 더 반환하는 것만으로 유효 성능이 늘지는 않는다. 같은 물리 페이지에서 실제로 사용하는 데이터량과 재사용률이 중요하다. [B 측정 원자료](../results/znand/partial_saturation/sweep.csv), [B 결과와 설정 대조](../results/znand/partial_saturation/RESULTS_KO.md).
 
 ## 자료 재생성
 

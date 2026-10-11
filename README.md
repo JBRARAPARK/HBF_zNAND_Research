@@ -39,6 +39,8 @@ bash scripts/macos.sh diagnostics
 
 ## 먼저 읽을 내용
 
+성능 개선 흐름을 한 번에 보려면 [핵심 개선 3가지 설명 자료](docs/14_performance_key_items_ko.md)를 참고합니다. 컨트롤러 스케줄링, Plane 확장과 데이터 배치, 버퍼·QD 공동 조정의 동작과 실험 전후 수치를 PPTX와 PDF로 정리했습니다.
+
 1. [영문 질문 원문](docs/01_questions_en.md): 중복 제거한 1~4번. 이미지에서 잘린 마지막 문장을 표시했습니다.
 2. [질문별 의도](docs/02_question_intent_ko.md): 질문의 본질과 답변에 필요한 조건.
 3. [HBF 조사 결과](docs/03_hbf_findings_ko.md): 사양에 확인된 항목과 미확정 항목, 원문 절·페이지.

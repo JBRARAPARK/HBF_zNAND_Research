@@ -4,6 +4,8 @@
 
 첨부 이미지의 영문 질의 1~4번, 질문별 의도, HBF 공개 사양 조사, `NAND_Prefetch_Model`과의 비교를 정리한 연구 기록입니다.
 
+**Google 질문에 대한 현재 답변은 [최신 실험 기준 한영 답변](docs/17_google_answers_current_ko_en.md)에 정리했습니다.** 64Plane 지속 부하와 새 B 결과를 반영하고, 처리량·tR와 아직 확정할 수 없는 UCIe end-to-end 지연·제품 지원 사양을 구분합니다. 고객 원문의 B-1/B-2/B-3 명칭으로 질문별 답변과 영문 초안을 제공합니다.
+
 - 최종 반영일: **2026-10-11, Asia/Seoul**
 - 공개 사양 조사 기준: **OCP HBF Base Die Specification v0.7.0, 2026-08-03**
 - 모델 검토 기준: [`NAND_Prefetch_Model` / `6456496`](https://github.com/JBRARAPARK/NAND_Prefetch_Model/tree/645649621a94c96de5a4d614267ab80387f06c0c)

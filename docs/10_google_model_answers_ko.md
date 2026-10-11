@@ -1,5 +1,7 @@
 # Google 문의 답변용 모델 자료
 
+**최신 답변:** 이 문서는 2026-10-09의 32Plane 실험 기록입니다. 64Plane 지속 부하 및 페이지 내부 64B 연속 읽기를 반영한 현재 고객 답변은 [최신 실험 기준 한영 답변](17_google_answers_current_ko_en.md)을 사용하세요.
+
 **명칭 안내:** 이 문서의 기존 B1/B2/B3(또는 B-1/B-2/B-3)는 현재 C1/C2/C3에 해당합니다. 새 B는 페이지 내부 64B 연속 읽기입니다. [현재 정의](15_workload_naming_ko.md)를 참고하세요. 원문 질의·과거 재현 명령은 당시 표기를 유지합니다.
 
 2026-10-09 작성한 Word 보고서의 본문이다. 기준 소스는 `2b1a831882dbf23855508c3f5478aadc973d8a23`이며 기존 1,488개 실험을 다룬다. 이후 추가한 6개 진단과 64Plane 결과는 [Host IF 원인 분석](08_host_if_bottleneck_ko.md)과 [Plane 확장·NAND 배치](09_plane_expansion_layout_ko.md)를 함께 읽는다.

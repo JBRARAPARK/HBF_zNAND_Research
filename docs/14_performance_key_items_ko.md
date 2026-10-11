@@ -7,7 +7,7 @@
 - [수치 원자료와 출처 해시](performance_key_items/evidence.json)
 - [슬라이드 생성 소스](performance_key_items/build.mjs)
 
-자료는 **11장**이다. 첫 페이지는 요청·데이터 경로와 주요 가변 요소를 함께 표시한 블록 다이어그램이고, 2페이지는 구조별 상세 동작과 자원 제약이다. 3~9페이지는 핵심 개선과 비교 조건, 마지막 10~11페이지는 A·B 워크로드 정의와 유효 데이터량의 차이를 설명한다.
+자료는 **12장**이다. 첫 페이지는 요청·데이터 경로와 주요 가변 요소를 함께 표시한 블록 다이어그램, 2페이지는 zNAND의 tR 종류·선택 조건·주소 전환 예시, 3페이지는 구조별 상세 동작과 자원 제약이다. 4~10페이지는 핵심 개선과 비교 조건, 마지막 11~12페이지는 A·B 워크로드 정의와 유효 데이터량의 차이를 설명한다.
 
 **세 항목의 수치는 서로 다른 실험에 속한다. 각 실험 안의 전후 비교는 유효하지만, 증가율을 합산하거나 하나의 누적 개선 과정처럼 연결하지 않는다.** 1번은 PF ON의 32 Plane 유한 요청열, 2번은 PF OFF의 32/64 Plane 유한 요청열, 3번은 PF OFF의 64 Plane 지속 부하다.
 
@@ -31,6 +31,50 @@
 | Host 반환 | 각 Port의 FIFO 선두만 반환 | 연결된 마지막 응답이 끝나면 해당 Controller buffer 공간 해제 |
 
 NAND page buffer는 Plane별 자원이고, Controller buffer는 여러 Port가 공유하는 임시 보관 공간이다. 소비 후에도 계속 보관하는 demand cache나 LRU 정책은 적용하지 않았다. 위 구조는 현재 시뮬레이션 모델의 처리 흐름이며 UCIe의 모든 프로토콜 계층을 상세 구현한 회로도를 뜻하지 않는다. [구현과 적용 위치](12_controller_scheduling_ko.md).
+
+## zNAND의 tR 특성: 두 번째 슬라이드
+
+![zNAND의 tR 특성과 선택 조건](performance_key_items/tr_characteristics_ko.png)
+
+**tR은 NAND sensing 구간의 시간이다.** 아래 값과 규칙은 현재 모델에 적용한 입력·가정이며, 제품 보증치를 의미하지 않는다. `q`는 각 `(Channel, Plane)` 내부의 물리 페이지 순번이다. 고객 A/B 패턴의 4KiB 논리 Page 번호와 구분한다. 다른 Plane을 읽어도 해당 Plane의 직전 sensing 주소 이력은 바뀌지 않는다.
+
+| 종류 | tR | 현재 모델의 적용 조건 | 예시 |
+|---|---:|---|---|
+| First | 20.69µs | 해당 Plane의 이전 sensing 이력이 없음 | 해당 Plane의 최초 sensing |
+| Short | 2.00µs | 같은 Group에서 직전 `q`의 다음 페이지, 목적지 `q`가 홀수 | `0→1`: 같은 SSL의 E/O `0→1` |
+| Mid | 2.08µs | 같은 Group에서 직전 `q`의 다음 페이지, 목적지 `q`가 짝수 | `1→2`: 다음 SSL, `11→12`: 다음 Block, `23→24`: 다음 WL |
+| Long | 12.16µs | 같은 Group에서 바로 다음 페이지가 아닌 곳으로 이동 | `0→2` 또는 `3→1` |
+| Group | 20.69µs | 직전 sensing과 다른 Group으로 이동 | `10103→10104`: Group `0→1` |
+
+First와 Group은 **1st Long 17.52µs + tRRC 3.17µs = 20.69µs**로 설정했다. 실제 코드는 합산한 `first_us`와 `group_us`를 사용한다. Group 변경은 Short/Mid보다 먼저 검사하므로, `10103→10104`처럼 순번이 정확히 1 증가해도 Group 지연을 적용한다. 반대로 `0→2`는 목적지가 짝수여도 바로 다음 페이지가 아니므로 Mid가 아니라 Long이다.
+
+Plane 내부 물리 주소는 **E/O `0→1` → SSL `0→5` → Block `0→1` → WL `420→0` → 다음 Group** 순으로 생성한다. 한 Group은 `421 × 2 × 6 × 2 = 10,104`개의 16KiB 물리 페이지를 포함한다. 같은 Group에서 순서대로 읽으면 다음과 같다.
+
+```text
+q0                 q1                 q2                 q3
+First 20.69µs  →    Short 2.00µs  →    Mid 2.08µs    →    Short 2.00µs → …
+```
+
+Short와 Mid가 같은 횟수로 섞인 연속 구간의 평균은 2.04µs다. 다만 초기 First, Group 전환, Long이 포함되면 실제 평균은 각 종류의 sensing 횟수로 가중해야 한다.
+
+```text
+평균 tR = [20.69 × (N_First + N_Group)
+           + 2.00 × N_Short + 2.08 × N_Mid + 12.16 × N_Long] / N_sensing
+```
+
+### 버퍼 재사용과 tR 생략
+
+Controller buffer에 같은 물리 페이지 작업이 남아 있으면 기존 작업에 요청을 연결한다. 새 NAND 작업이 필요해도 해당 Plane의 page buffer에 같은 물리 페이지가 남아 있으면 sensing을 생략한다. 이때 출력 CA, NAND Data 전송, ECC와 Host 반환은 여전히 필요하다. Page buffer hit는 새로운 sensing을 수행하지 않으므로 위 평균의 `N_sensing`에 포함하지 않는다.
+
+Plane당 page buffer는 하나다. 같은 Plane에서 다른 페이지를 sensing하면 이전 페이지가 교체된다. 이후 이전 페이지에 재방문하면 직전 sensing 주소와의 관계로 다시 분류한다. 예를 들어 같은 Group에서 `q1→q3→q1`을 읽고 이전 Controller buffer 작업도 해제되었다면, 두 전환 모두 Long이다. 다른 Plane의 Read만으로 이 Plane의 page buffer가 교체되지는 않는다.
+
+### Host 읽기 지연과의 관계
+
+Host 읽기에는 수락·버퍼 대기, lookup, CA, sensing, Data 경로 대기와 전송, ECC, Port 내부 in-order 대기, Host 반환 시간이 반영된다. 현재 설정은 lookup 0.5µs, CA 0.1µs, ECC 0.2µs다. 16KiB NAND Data 경로 점유는 `16KiB / 80.1125GB/s + turnaround 0.05µs ≈ 0.254512µs`이고 자원 대기는 별도다. 따라서 tR 2µs가 곧 Host 응답 2µs를 뜻하지 않는다.
+
+64B Host 요청이라고 tR이 4KiB 요청의 1/64로 줄어들지는 않는다. 같은 물리 페이지의 데이터라면 버퍼 상태에 따라 sensing을 공유할 수 있다. 성능 개선에서 조정한 것은 **물리 배치와 CA 발행 순서를 통해 Long 발생 빈도를 줄이는 것**이며, 위 tR 상수는 유지했다.
+
+근거: [모델의 Config·address·tr_kind와 버퍼 상태 전이](../znand/model.py), [주소 순회 규칙과 지연 입력](07_prefetch_tuning_ko.md), [기존 실험의 tR 유지 확인](../results/znand/host_ceiling/timing_validation.json).
 
 ## 1. 연속 물리 주소를 우선하는 컨트롤러 스케줄링
 

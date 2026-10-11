@@ -2,12 +2,14 @@
 
 2026-10-11까지의 실험에서 효과를 확인한 항목은 **컨트롤러 스케줄링**, **Plane 확장과 데이터 배치**, **버퍼와 Port별 Outstanding의 공동 조정**이다. 이 문서는 저장된 결과를 정리하며, 새 성능 실험이나 모델 변경은 포함하지 않는다.
 
-- [발표 자료 PPTX](performance_key_items/performance_key_items_with_diagram_ko.pptx)
-- [공유용 PDF](performance_key_items/performance_key_items_with_diagram_ko.pdf)
+- [발표 자료 PPTX](performance_key_items/performance_key_items_with_graph_ko.pptx)
+- [공유용 PDF](performance_key_items/performance_key_items_with_graph_ko.pdf)
 - [수치 원자료와 출처 해시](performance_key_items/evidence.json)
-- [슬라이드 생성 소스](performance_key_items/build.mjs)
+- [1~13페이지 생성 소스](performance_key_items/build.mjs)
+- [14페이지 그래프 추가 소스](performance_key_items/append_graph.mjs)
+- [시간별 그래프 수치와 출처 해시](performance_key_items/graph_evidence.json)
 
-자료는 **13장**이다. 첫 페이지는 요청·데이터 경로와 주요 가변 요소의 블록 다이어그램, 2페이지는 zNAND의 tR 특성, 3페이지는 Layout과 Data Placement의 블록 다이어그램, 4페이지는 구조별 상세 동작과 자원 제약이다. 5~11페이지는 핵심 개선과 비교 조건, 마지막 12~13페이지는 A·B 워크로드 정의와 유효 데이터량의 차이를 설명한다.
+자료는 **14장**이다. 첫 페이지는 요청·데이터 경로와 주요 가변 요소의 블록 다이어그램, 2페이지는 zNAND의 tR 특성, 3페이지는 Layout과 Data Placement의 블록 다이어그램, 4페이지는 구조별 상세 동작과 자원 제약이다. 5~11페이지는 핵심 개선과 비교 조건, 12~13페이지는 A·B 워크로드 정의와 유효 데이터량의 차이를 설명한다. 마지막 14페이지는 A1/A2와 B1/B2의 시간별 성능, 실제 outstanding 및 완료 요청 수를 비교한다.
 
 **세 항목의 수치는 서로 다른 실험에 속한다. 각 실험 안의 전후 비교는 유효하지만, 증가율을 합산하거나 하나의 누적 개선 과정처럼 연결하지 않는다.** 1번은 PF ON의 32 Plane 유한 요청열, 2번은 PF OFF의 32/64 Plane 유한 요청열, 3번은 PF OFF의 64 Plane 지속 부하다.
 
@@ -242,3 +244,25 @@ A1/B1은 동일한 4KiB stripe, `head_locality` 장치 설정과 매핑을 사�
 슬라이드의 표와 그래프는 편집 가능한 native 객체다. 생성기는 `@oai/artifact-tool`을 제공하는 Codex bundled runtime을 사용한다. 임시 빌드 폴더에 `build.mjs`를 복사하고 해당 runtime의 `node_modules`를 연결한 뒤, 저장소 절대 경로와 새 출력 폴더를 인수로 실행한다. 생성 소스 상단의 skill/runtime 경로는 실행 환경에 맞게 지정한다.
 
 수치 출처는 `22d9b33f085991f33d5273fdd9ce5688fb429fa4` 기준 파일을 `evidence.json`에 보존했다. 각 파일의 SHA-256과 실제 전체 커밋은 해당 JSON을 기준으로 한다. 모델 원본과 성능 결과 파일은 변경하지 않았다.
+
+
+## 시간별 성능과 인사이트: 마지막 슬라이드
+
+![시간별 성능과 A·B의 병목](performance_key_items/performance_time_insights_ko.png)
+
+4 Port, 총 64 Plane, 8MiB, QD512/Port, PF OFF, 가용률 85%와 기존 tR을 유지한 지속 부하 결과다. 초기 200µs를 제외한 200~2,200µs의 고정 2ms를 25µs 구간으로 표시했다. 최고 구간만 선택하지 않았으며 관측 종료 후 drain을 포함하지 않는다. 좌우 그래프의 Y축 범위는 다르다.
+
+| 패턴 | 고정 2ms Host GB/s | 완료 요청 수 | 실제 outstanding 평균 합계 |
+|---|---:|---:|---:|
+| A1 | 255.366 | 124,692 | 2,006.7 |
+| A2 | 255.058 | 124,541 | 2,035.9 |
+| B1 | 3.995 | 124,832 | 2,030.7 |
+| B2 | 4.001 | 125,023 | 2,029.3 |
+
+A1/A2는 합계 Host IF 256GB/s의 약 99.6~99.8%를 사용한다. 이 조건에서 추가 병렬성만으로 얻을 수 있는 평균 처리량 증가는 작으며, 남은 응답 대기 구간을 줄이는 관점이 유효하다.
+
+B1/B2는 완료 요청 수와 outstanding이 A와 비슷해도 요청당 반환량이 64B다. 한 16KiB 물리 페이지에서 4개 영역의 64B씩, 총256B만 사용하므로 명목 유효 비율이 1/64다. 현재 전체 페이지 출력 모델에서 약4GB/s인 이유이며, 모든64B workload에 적용되는 일반 상한은 아니다. A1/B1은 같은 매핑과 장치 설정이고 A2/B2는 stripe와 CA정책이 다르므로, 후자는 요청 크기만 바꾼 비교로 해석하지 않는다.
+
+B의 주기적 낙폭은 별도 대조실험에서 확인한 Plane maintenance와 Port 내부 in-order 선두 대기의 결합이다. 그래프는 모델의 주기적 off 설정에 따른 파형이며 실제 GC의 고유 주기를 뜻하지 않는다. 낙폭 직후 약4GB/s보다 높은 순간 구간은 이미 준비된 버퍼 데이터의 집중 반환으로 설명된다.
+
+출처: [A 시간별 측정](../results/znand/saturation/RESULTS_KO.md), [B 시간별 측정](../results/znand/partial_saturation/RESULTS_KO.md), [B 낙폭 원인 대조실험](../results/znand/partial_dips/RESULTS_KO.md). 원시 CSV의 320개 구간을 기존 sweep 요약의 평균·완료 요청 수와 대조했다.

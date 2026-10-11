@@ -7,7 +7,7 @@
 - [수치 원자료와 출처 해시](performance_key_items/evidence.json)
 - [슬라이드 생성 소스](performance_key_items/build.mjs)
 
-자료는 **12장**이다. 첫 페이지는 요청·데이터 경로와 주요 가변 요소를 함께 표시한 블록 다이어그램, 2페이지는 zNAND의 tR 종류·선택 조건·주소 전환 예시, 3페이지는 구조별 상세 동작과 자원 제약이다. 4~10페이지는 핵심 개선과 비교 조건, 마지막 11~12페이지는 A·B 워크로드 정의와 유효 데이터량의 차이를 설명한다.
+자료는 **13장**이다. 첫 페이지는 요청·데이터 경로와 주요 가변 요소의 블록 다이어그램, 2페이지는 zNAND의 tR 특성, 3페이지는 Layout과 Data Placement의 블록 다이어그램, 4페이지는 구조별 상세 동작과 자원 제약이다. 5~11페이지는 핵심 개선과 비교 조건, 마지막 12~13페이지는 A·B 워크로드 정의와 유효 데이터량의 차이를 설명한다.
 
 **세 항목의 수치는 서로 다른 실험에 속한다. 각 실험 안의 전후 비교는 유효하지만, 증가율을 합산하거나 하나의 누적 개선 과정처럼 연결하지 않는다.** 1번은 PF ON의 32 Plane 유한 요청열, 2번은 PF OFF의 32/64 Plane 유한 요청열, 3번은 PF OFF의 64 Plane 지속 부하다.
 
@@ -75,6 +75,29 @@ Host 읽기에는 수락·버퍼 대기, lookup, CA, sensing, Data 경로 대기
 64B Host 요청이라고 tR이 4KiB 요청의 1/64로 줄어들지는 않는다. 같은 물리 페이지의 데이터라면 버퍼 상태에 따라 sensing을 공유할 수 있다. 성능 개선에서 조정한 것은 **물리 배치와 CA 발행 순서를 통해 Long 발생 빈도를 줄이는 것**이며, 위 tR 상수는 유지했다.
 
 근거: [모델의 Config·address·tr_kind와 버퍼 상태 전이](../znand/model.py), [주소 순회 규칙과 지연 입력](07_prefetch_tuning_ko.md), [기존 실험의 tR 유지 확인](../results/znand/host_ceiling/timing_validation.json).
+
+## zNAND Layout과 Data Placement: 세 번째 슬라이드
+
+![zNAND Layout과 Data Placement](performance_key_items/layout_placement_ko.png)
+
+위쪽은 **논리 영역 → 정적 L2P → 4개 Channel의 Plane 묶음**으로 이어지는 매핑 관계다. 같은 색은 같은 논리 영역을 뜻한다. 각 Channel 안에서 영역 0은 PL0–3, 영역 1은 PL4–7, 영역 2는 PL8–11, 영역 3은 PL12–15에 배치한다. 영역마다 네 Channel을 모두 사용하므로 Channel 병렬성을 유지하고, 한 Plane에 서로 먼 영역의 요청이 섞이는 일을 줄인다. 색은 Port ID가 아니며, 어느 Port에서 같은 주소를 읽어도 같은 물리 위치를 선택한다.
+
+L2P snapshot은 기존 Channel·16KiB 패킹·페이지 내부 offset을 보존하고, 물리 페이지의 Plane과 Plane 내부 순번 `q`를 다시 배정한다. 그림의 화살표는 주소의 매핑 관계를 나타낸다. 실제 CA/Data 배선 개수나 Die/LUN 구성은 이 도식으로 정의하지 않는다.
+
+아래쪽 왼편은 두 stripe 방식의 **16KiB 물리 페이지 내부 데이터 구성**이다. `L0`, `L1` 등은 해당 논리 영역의 시작을 0으로 놓은 4KiB 조각이며, 영역 시작이 64KiB 배치 주기에 정렬되어 CH0부터 시작하는 예시다.
+
+| Stripe와 현재 사용 패턴 | CH0의 첫 물리 Page | CH1의 첫 물리 Page | CH2의 첫 물리 Page | CH3의 첫 물리 Page |
+|---|---|---|---|---|
+| 4KiB: A1/B1/B2 | L0, L4, L8, L12 | L1, L5, L9, L13 | L2, L6, L10, L14 | L3, L7, L11, L15 |
+| 16KiB: A2 | L0, L1, L2, L3 | L4, L5, L6, L7 | L8, L9, L10, L11 | L12, L13, L14, L15 |
+
+4KiB stripe는 4KiB마다 Channel을 순환시킨 뒤 같은 Channel의 조각 네 개로 물리 페이지를 채운다. 16KiB stripe는 연속된 4KiB 네 개를 한 물리 페이지로 묶고 16KiB마다 Channel을 순환시킨다. 이는 저장 배치 단위다. B1/B2가 각 논리 조각에서 요청하는 양은 64B이고, 현재 NAND 출력량은 16KiB 전체 페이지다.
+
+아래쪽 오른편은 **하나의 Plane 안의 주소 계층**이다. 현재 모델은 Group마다 Block 2개, Block마다 WL 421개, WL마다 SSL 6개, SSL마다 E/O 2개의 16KiB Page를 둔다. Group당 `2 × 421 × 6 × 2 = 10,104`페이지다. Group 총개수나 전체 NAND 용량을 이 그림에서 고정하지는 않는다. 선택한 페이지를 sensing하면 그 Plane의 page buffer 한 개에 준비한다.
+
+계층 구조와 페이지를 순회하는 순서는 구분한다. 실제 `q`는 **E/O → SSL → Block → WL → Group** 순으로 변하며, WL은 420에서 0으로 내려간다. 배치와 CA 스케줄링이 각 Plane에서 `q+1` 접근을 이어가도록 하면 앞 페이지에서 설명한 Short/Mid를 더 많이 활용할 수 있다.
+
+근거: [주소 패킹과 물리 순번 해석](../znand/model.py), [영역별 L2P 생성](../znand/host_ceiling.py), [배치 검증](../results/znand/host_ceiling/snapshot_validation.json), [주소 구조와 튜닝 기준](07_prefetch_tuning_ko.md). 유한 A2 요청열의 경계 공유 페이지 예외는 배치 검증에 기록되어 있다.
 
 ## 1. 연속 물리 주소를 우선하는 컨트롤러 스케줄링
 

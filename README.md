@@ -39,7 +39,7 @@ bash scripts/macos.sh diagnostics
 
 ## 먼저 읽을 내용
 
-성능 개선 흐름을 한 번에 보려면 [핵심 개선 3가지 설명 자료](docs/14_performance_key_items_ko.md)를 참고합니다. 12장 PPTX와 PDF의 첫 페이지에 전체 구조와 가변 요소의 블록 다이어그램, 2페이지에 zNAND tR의 종류·선택 조건·주소 전환 예시, 3페이지에 상세 처리 흐름을 담았습니다. 본문에는 스케줄링·Plane과 배치·버퍼와 QD의 개선 수치, 마지막에는 A1/A2와 B1/B2/B3의 패턴 정의 및 유효 데이터량 차이를 정리했습니다.
+성능 개선 흐름을 한 번에 보려면 [핵심 개선 3가지 설명 자료](docs/14_performance_key_items_ko.md)를 참고합니다. 13장 PPTX와 PDF의 첫 페이지에 전체 구조와 가변 요소, 2페이지에 zNAND tR 특성, 3페이지에 Layout·Data Placement 블록 다이어그램, 4페이지에 상세 처리 흐름을 담았습니다. 본문에는 스케줄링·Plane과 배치·버퍼와 QD의 개선 수치, 마지막에는 A1/A2와 B1/B2/B3의 패턴 정의 및 유효 데이터량 차이를 정리했습니다.
 
 1. [영문 질문 원문](docs/01_questions_en.md): 중복 제거한 1~4번. 이미지에서 잘린 마지막 문장을 표시했습니다.
 2. [질문별 의도](docs/02_question_intent_ko.md): 질문의 본질과 답변에 필요한 조건.

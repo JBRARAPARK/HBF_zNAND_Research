@@ -184,8 +184,98 @@ Long: 같은 Group에서 직전 q의 바로 다음 페이지가 아닌 곳으로
 Host 읽기에는 버퍼 수락 대기, lookup 0.5µs, CA 0.1µs, tR, 채널 Data 대기/전송, ECC 0.2µs, Port 내부 in-order 대기와 Host 반환 시간이 더해진다. NAND Data는16KiB/80.1125GB/s + turnaround0.05µs ≈0.254512µs이며, 자원 대기는 별도다. 64B와4KiB Host 요청 크기 자체로 tR을1/64로 줄이지 않는다. 물리 페이지가 같으면 sensing을 공유할 수 있는지는 버퍼와 진행 중 작업의 상태가 결정한다.`,['znand/model.py','docs/07_prefetch_tuning_ko.md','docs/12_controller_scheduling_ko.md','results/znand/host_ceiling/timing_validation.json']);
 }
 
+// 3. Editable placement figure: logical regions, physical layout and page packing.
+{
+ const s=base('zNAND Layout과 Data Placement','4채널 병렬성은 유지하고, 논리 영역마다 각 채널의 Plane 묶음을 분리합니다.','현재 모델의 64 Plane 영역 배치    L은 영역 내 4KiB 논리 조각    PL 번호는 각 Channel 내부 번호');
+ const regions=[
+  {ink:C.blue,fill:'#EAF2FD',range:'0–3'},
+  {ink:C.teal,fill:'#E9F5F2',range:'4–7'},
+  {ink:'#A96715',fill:'#FCF3E3',range:'8–11'},
+  {ink:'#7553A2',fill:'#F0EBF7',range:'12–15'}
+ ];
+ function box(name,x,y,w,h,fill=C.bg,line=C.gray) {
+   return s.shapes.add({geometry:'rect',name,position:{left:x,top:y,width:w,height:h},fill,line:{fill:line,width:1.5,style:'solid'}});
+ }
+ function wire(name,x1,y1,x2,y2,color=C.blue,arrow=false,width=2) {
+   const backwards=x2<x1 || y2<y1;
+   return s.shapes.add({geometry:'connector',name,kind:'straight',
+     position:{left:Math.min(x1,x2),top:Math.min(y1,y2),width:Math.abs(x2-x1),height:Math.abs(y2-y1)},
+     line:{fill:color,width,style:'solid'},
+     ...(arrow?backwards?{head:{type:'triangle',width:'med',length:'med'}}:{tail:{type:'triangle',width:'med',length:'med'}}:{})
+   });
+ }
+ text(s,'logical-regions-heading','논리 주소 영역',56,191,180,35,26,C.ink,true);
+ text(s,'logical-region-ownership','Port와 독립된 주소 구간',56,239,208,30,20,C.muted);
+ text(s,'nand-layout-heading','4 Channel × 16 Plane = 총 64 Plane',472,191,752,36,27,C.ink,true);
+ for(let r=0;r<4;r++) {
+   const y=282+r*42;
+   box('logical-region-'+r,56,y,158,34,regions[r].fill,regions[r].ink);
+   text(s,'logical-region-label-'+r,`영역 ${r} (R${r})`,71,y+5,140,29,22,regions[r].ink,true);
+   wire('region-to-map-'+r,214,y+17,239,y+17,C.gray);
+ }
+ wire('logical-region-bus',239,299,239,425,C.gray);
+ wire('logical-to-l2p',239,358,264,358,C.blue,true);
+ box('static-l2p',264,306,152,105,C.pale,C.blue);
+ text(s,'static-l2p-heading','정적 L2P',282,318,129,36,26,C.blue,true);
+ text(s,'physical-address-fields','CH · PL · q\n+ page offset',280,358,132,52,20,C.ink);
+ wire('mapped-address-out',416,358,441,358);
+ wire('mapping-up-to-channels',441,232,441,358);
+ wire('mapping-channel-fanout',441,232,1139,232);
+ for(let ch=0;ch<4;ch++) {
+   const x=472+194*ch;
+   box('placement-channel-'+ch,x,252,170,200,C.bg,C.grid);
+   text(s,'placement-channel-label-'+ch,`CH${ch} · 16 Plane`,x+13,261,154,30,23,C.ink,true);
+   wire('mapping-to-channel-'+ch,x+85,232,x+85,252,C.blue,true);
+   for(let r=0;r<4;r++) {
+     const y=295+r*37;
+     box(`region-${r}-channel-${ch}`,x+10,y,150,31,regions[r].fill,regions[r].ink);
+     text(s,`planes-${r}-channel-${ch}`,`R${r} · PL${regions[r].range}`,x+20,y+4,135,27,21,regions[r].ink,true);
+   }
+ }
+ text(s,'placement-color-key','같은 색 = 같은 논리 영역. 각 영역은 4채널 전체를 쓰고, 채널 안의 Plane 묶음을 분리합니다.',58,466,1165,32,23,C.muted);
+
+ text(s,'packing-heading','CH0의 첫 16KiB Page · 각 L = 4KiB',56,511,608,34,24,C.ink,true);
+ for(const [i,labels] of [[0,['L0','L4','L8','L12']],[1,['L0','L1','L2','L3']]]) {
+   const y=548+i*62;
+   text(s,'stripe-label-'+i,i===0?'4KiB stripe':'16KiB stripe',56,y-4,157,28,22,C.blue,true);
+   text(s,'stripe-workload-'+i,i===0?'A1 / B1 / B2':'A2',56,y+22,157,26,20,C.muted);
+   labels.forEach((label,j)=>{
+     box(`packed-page-${i}-${j}`,218+j*98,y,98,39,regions[0].fill,C.blue);
+     text(s,`packed-page-label-${i}-${j}`,label,245+j*98,y+7,70,29,23,C.blue,true);
+   });
+ }
+ text(s,'plane-address-heading','Plane 내부의 주소 계층',690,511,529,34,24,C.ink,true);
+ const levels=[
+  {name:'Group',x:690,w:84},
+  {name:'Block\n2개',x:791,w:86},
+  {name:'WL\n421개',x:894,w:86},
+  {name:'SSL\n6개',x:997,w:84},
+  {name:'Page\nE/O 2개',x:1098,w:114}
+ ];
+ levels.forEach((level,i)=>{
+   box('plane-hierarchy-'+i,level.x,548,level.w,61,C.pale,C.gray);
+   text(s,'plane-hierarchy-label-'+i,level.name,level.x+8,i===0?567:553,level.w-13,54,21,C.ink,true);
+   if(i<levels.length-1)wire('plane-hierarchy-link-'+i,level.x+level.w,579,levels[i+1].x,579,C.gray,true);
+ });
+ text(s,'selected-physical-page','선택된 Page 16KiB',690,627,294,29,23,C.teal);
+ box('one-page-buffer-per-plane',1003,623,209,33,'#E9F5F2',C.teal);
+ text(s,'page-buffer-count','page buffer × 1',1016,627,192,27,22,C.teal,true);
+ wire('page-sensing-to-buffer',1155,609,1155,623,C.teal,true);
+ notes(s,`현재 64 Plane 영역 배치의 구조를 설명한 도식이다. 위쪽은 논리 영역을 정적 L2P snapshot으로 Channel·Plane·Plane 내부 페이지 q에 연결하는 과정이다. 화살표는 주소 매핑 관계이며 실제 전기 배선이나 CA/Data 버스 개수를 뜻하지 않는다.
+
+4개 Channel은 각각 16개의 Plane을 가진다. 영역 0은 모든 Channel의 PL0~3, 영역 1은 PL4~7, 영역 2는 PL8~11, 영역 3은 PL12~15를 사용한다. 색은 논리 영역을 나타내며 Port ID가 아니다. 어느 Port든 같은 주소를 읽으면 같은 물리 위치로 간다. 이 실험에서는 각 Port가 주로 서로 다른 영역을 읽어 네 영역의 부하가 균형을 이루도록 했다. 동일 번호의 Plane도 Channel이 다르면 서로 다른 자원이다.
+
+L2P snapshot은 16KiB 물리 페이지 단위의 1:1 배치다. 기존 Channel과 페이지 내 offset, 16KiB 패킹은 유지하고 Plane과 q를 다시 배정한다. 각 영역·채널의 물리 페이지를 순서대로 네 Plane에 분산한 뒤 각 Plane의 q를 증가시키므로 영역 간 주소 점프를 줄인다. 4KiB 논리 조각 자체를 64B 단위로 재분산하지 않는다. 유한 A2 trace의 영역 경계 공유 페이지는 한 물리 위치를 유지하는 예외가 있으며 그 검증은 snapshot_validation.json에 있다.
+
+왼쪽 아래 L0, L1 등은 각 논리 영역 시작을 0으로 놓은 4KiB 논리 조각이다. 영역 시작이 64KiB 배치 주기에 정렬되고 CH0에서 시작하는 예시다. A1/B1/B2의 4KiB stripe에서는 Channel을 4KiB마다 순환시킨다. 첫 16KiB 물리 페이지는 CH0=[L0,L4,L8,L12], CH1=[L1,L5,L9,L13], CH2=[L2,L6,L10,L14], CH3=[L3,L7,L11,L15]다. A2의 16KiB stripe에서는 먼저 연속 4KiB 조각 4개를 묶고 16KiB마다 Channel을 순환시킨다. CH0=[L0,L1,L2,L3], CH1=[L4,L5,L6,L7], CH2=[L8,L9,L10,L11], CH3=[L12,L13,L14,L15]다. 이는 저장 배치의 단위다. B1/B2는 각 L에서 64B만 요청하지만 NAND 물리 페이지는 16KiB 전체를 출력한다.
+
+오른쪽 아래는 하나의 Plane 내 주소 계층이다. Group 하나에 Block 2개, Block마다 WL 421개, WL마다 SSL 6개, SSL마다 E/O 2개의 16KiB Page를 두는 현재 모델이다. 따라서 Group당 421×2×6×2=10,104페이지다. Group 총개수나 전체 NAND 용량을 이 슬라이드로 고정하지 않는다. 구조 계층과 q의 실제 순회 순서는 구분한다. q는 E/O→SSL→Block→WL→Group 순으로 진행하고 WL은 420에서 0으로 감소한다. 각 Plane의 page buffer는 1개이며 선택한 16KiB 페이지를 sensing한다. Controller buffer는 별도 자원이다.
+
+배치가 좋아지는 이유는 각 영역이 4채널 병렬성을 유지하면서 한 Plane에서 서로 먼 영역의 요청이 섞이는 일을 줄이기 때문이다. CA 스케줄러가 q+1을 선택할 기회가 늘어나 Short/Mid 비율이 높아진다. 실제 동적 L2P 변화나 영역 편향에서 같은 효과를 보장하지 않으며 해당 내용은 튜닝 후보다. 이 모델에는 Die/LUN의 추가 공유 자원을 구체적으로 배정하지 않았다.`,['znand/model.py','znand/host_ceiling.py','docs/07_prefetch_tuning_ko.md','results/znand/host_ceiling/RESULTS_KO.md','results/znand/host_ceiling/snapshot_validation.json','results/znand/partial_saturation/RESULTS_KO.md']);
+}
+
 // The existing ten content slides follow unchanged, apart from page numbers.
-// 3. Overall model structure and resource rules.
+// 4. Overall model structure and resource rules.
 {
  const s=base('전체 구조와 데이터 흐름','4개의 독립 Port가 4채널 전체를 공유하며, 읽기 주소가 Channel과 Plane을 결정합니다.','성능 개선 핵심 3가지    2026-10-11    현재 대표 실행 기준: 총 64 Plane, PF OFF');
  table(s,'model-architecture',[
@@ -200,7 +290,7 @@ Host 읽기에는 버퍼 수락 대기, lookup 0.5µs, CA 0.1µs, tR, 채널 Dat
  notes(s,'이 구조는 현재 시뮬레이터 기준이다. 4개 Port는 독립적인 요청/응답 주체로, 한 Port도 주소에 따라 모든 Channel을 사용할 수 있다. Port와 Channel을 고정 1:1로 연결하지 않는다. Host IF는 Port당 512bit, 1GHz로 64GB/s이며 합계256GB/s다. 요청 수락 시 QD와 버퍼 용량을 확인하고, 신규16KiB 물리 페이지 작업에 대한 공유 버퍼 공간을 예약한다. 동일 물리 페이지 요청은 기존 작업에 연결할 수 있다. Lookup 이후 물리 주소의 연속성과 Port 선두 대기를 고려해 CA를 발행한다. NAND는4채널, 채널당16Plane, Plane당page buffer1개다. NAND출력은16KiB 전체 페이지이며 ECC 후 Controller buffer의 데이터가 반환 가능해진다. Port별 FIFO 선두만 응답하며 연결된 마지막 응답이 끝나면 Controller buffer를 해제한다. 영구cache나LRU 정책은 적용하지 않았다. UCIe의 모든 프로토콜 계층을 상세 구현한 회로도가 아니라 본 평가 모델의 동작 구조다.',['znand/model.py','docs/12_controller_scheduling_ko.md','results/znand/saturation/RESULTS_KO.md']);
 }
 
-// 4. The three items
+// 5. The three items
 {
  const s=base('지금까지 효과를 확인한 3가지','발행 순서, 데이터 위치, 수락 가능한 요청의 분포를 각각 개선했습니다.','근거: locality, host_ceiling, saturation 실험 원자료');
  table(s,'three-items',[
@@ -213,7 +303,7 @@ Host 읽기에는 버퍼 수락 대기, lookup 0.5µs, CA 0.1µs, tR, 채널 Dat
  notes(s,'세 항목 중 1번은 내부 스케줄러 변경, 2번은 물리 자원 확대와 L2P 배치 변경, 3번은 버퍼와 포트별 QD 설정의 조합이다. 3번 비교는 admission 알고리즘을 수정한 결과가 아니다. 1번은 PF ON, 32 Plane, 32MiB, QD2048, 16KiB stripe의 A2 case37. 2번은 PF OFF, 64 Plane, 32MiB, QD2048, A2의 snapshot만 변경한 쌍. 3번은 PF OFF, 64 Plane, 8MiB, 영역 배치 A1의 고정 2ms 평균이다.',['results/znand/locality/matched_comparison.csv','results/znand/host_ceiling/sweep.csv','results/znand/saturation/sweep.csv']);
 }
 
-// 5. Scheduling
+// 6. Scheduling
 {
  const l=e.locality;
  const s=base('1. 연속 물리 주소를 우선하는 스케줄링','tR 상수는 그대로 두고, Long tR이 발생하는 접근의 비율을 낮췄습니다.','조건: A2, 32 Plane, 32MiB, QD 2,048/Port, PF ON, 8,192요청/Port의 전체 평균');
@@ -227,7 +317,7 @@ Host 읽기에는 버퍼 수락 대기, lookup 0.5µs, CA 0.1µs, tR, 채널 Dat
  notes(s,`동일 조건의 CA 선택 정책만 비교한 case37. FIFO ${l.fifo_gbps} GB/s, locality ${l.locality_gbps} GB/s, 증가율 ${l.gain_pct}%. Long 비율 ${l.fifo_long_pct}%에서 ${l.locality_long_pct}%. locality에서는 같은 Group의 q+1만 연속 후보로 취급한다. 이미 busy인 Plane은 선점하지 않는다. 이 초기 비교의 bypass 한도는 8이다. 후속 실험은 32로 확대했다. A1에서 bypass32 locality 129.174 GB/s와 head_locality 134.339 GB/s를 비교한 추가 이득은 4.00%였으며, 그 전체 증가를 선두 우선 효과로 해석하지 않는다. A2는 선두 우선의 추가 효과가 작아서 locality를 유지했다. 과거 B 패턴에 선두 우선을 무조건 확대하면 성능이 떨어진 사례도 있다. 현재 B 지속 부하 실험은 A1과 조건을 맞춰 head_locality를 사용한다.`,['docs/12_controller_scheduling_ko.md','results/znand/locality/matched_comparison.csv','results/znand/head_locality/RESULTS_KO.md']);
 }
 
-// 6. Physical resources and measured placement benefit
+// 7. Physical resources and measured placement benefit
 {
  const b32=geom('A2_32Plane_baseline'),r32=geom('A2_32Plane_region_layout'),b64=geom('A2_64Plane_baseline'),r64=geom('A2_64Plane_region_layout');
  const s=base('2. 64 Plane과 영역별 데이터 배치','Plane 확장으로 공급 여력을 확보하고, 배치 개선으로 그 여력을 활용했습니다.','조건: A2, 4 Port, 32MiB, QD 2,048/Port, PF OFF, 8,192요청/Port의 전체 평균');
@@ -241,7 +331,7 @@ Host 읽기에는 버퍼 수락 대기, lookup 0.5µs, CA 0.1µs, tR, 채널 Dat
  notes(s,'32 Plane의 최단 주기 상한은 CA 0.1µs + Short tR 2µs + NAND Data/turnaround 0.254512µs로 계산한 낙관적 상한이다. 가용률 100%로 놓아도 약222.674GB/s이며 현재85%를 고려한 Short/Mid 교대 공급량은 약186.111GB/s다. 이 가용률을 실험 결과에서 다시 감산하면 안 된다. 32에서64 Plane으로 바꾸는 비교는 geometry 변경을 포함한다. 같은 geometry의 기존 배치와 영역 배치 쌍은 전체 config 중 snapshot만 다르다. 64 Plane A2 Long비율은1142/8196=13.93%에서3/8196=0.0366%이며 finite run 초기first sensing을 포함한다. 평균tR만 낮아졌으며 tR 상수는 바꾸지 않았다.',['results/znand/host_ceiling/sweep.csv','results/znand/host_ceiling/RESULTS_KO.md','results/znand/host_ceiling/timing_validation.json']);
 }
 
-// 7. Explicit mapping explanation, native table
+// 8. Explicit mapping explanation, native table
 {
  const s=base('2. 데이터 배치가 Long tR를 줄이는 원리','각 논리 영역은 4채널을 모두 쓰되, 채널 안에서 서로 다른 Plane 묶음을 사용합니다.','근거: host_ceiling의 영역별 L2P snapshot. 총 64 Plane 구성의 설명용 배치 표');
  table(s,'region-mapping',[
@@ -256,7 +346,7 @@ Host 읽기에는 버퍼 수락 대기, lookup 0.5µs, CA 0.1µs, tR, 채널 Dat
  notes(s,'표의 Plane 번호는 각 채널 내부 번호다. 동일하게 표시된 Plane 0은 채널별로 서로 다른 물리 자원이다. 영역 0은 채널당 Plane 0~3 등 4개 Plane을 사용하며, 4채널을 모두 활용한다. 비중첩 논리 영역을 각 Port가 읽는 합성 요청열에 맞춘 정적 L2P snapshot이다. 같은 물리 페이지의 offset 및 Channel 배치를 보존하고 Plane을 재배치한다. 64B 단위의 물리 분산이나 64B 단위 매핑을 추가하지 않았다. 동적 L2P와 편향 workload는 후속 검증이 필요하다.',['results/znand/host_ceiling/RESULTS_KO.md','results/znand/host_ceiling/snapshots/A2_64Plane.json']);
 }
 
-// 8. Buffer and QD
+// 9. Buffer and QD
 {
  const qds=[128,256,512,1024,2048];
  const s=base('3. 버퍼와 Port별 Outstanding의 공동 조정','8MiB에서는 QD 512/Port가 4개 Port의 동시 진행을 유지했습니다.','조건: 64 Plane, 영역 배치, PF OFF. 초기 200µs 제외 후 200–2,200µs 고정 평균');
@@ -270,7 +360,7 @@ Host 읽기에는 버퍼 수락 대기, lookup 0.5µs, CA 0.1µs, tR, 채널 Dat
  notes(s,'현재 admission은 Port 0, 1, 2, 3 순서이고, 요청 수락 시 공유 controller buffer를 예약한다. 버퍼와 Port별 QD 제한을 조합해 기존 admission의 편중을 줄인 결과다. 공정 중재 알고리즘을 구현한 결과는 아니다. 표는 설정 상한과 실제 평균 outstanding을 구분한다. A1 8MiB QD2048은 총 2029.55개, QD512는 총 2006.69개로 총합이 비슷해도 Port 분포가 다르다. A1 고정 평균은 68.857856에서 255.365922GB/s, A2는 71.888925에서 255.058330GB/s다. Actual outstanding은 수락된 AR에서 마지막 응답 완료 수를 뺀 값이며, Host 대기 요청은 포함하지 않는다. A1은 head_locality와 4KiB stripe, A2는 locality와 16KiB stripe를 사용한다.',['results/znand/saturation/sweep.csv','results/znand/saturation/RESULTS_KO.md']);
 }
 
-// 9. Current practical baseline
+// 10. Current practical baseline
 {
  const s=base('현재 확인된 실행 기준','8MiB와 QD 512/Port의 조합으로 A1/A2가 Host IF 256GB/s에 근접했습니다.','관측 범위: seed 7, 지속 부하 2.2ms. 아래 처리량은 초기 200µs를 제외한 고정 2ms 평균');
  table(s,'buffer-choices',[
@@ -286,7 +376,7 @@ Host 읽기에는 버퍼 수락 대기, lookup 0.5µs, CA 0.1µs, tR, 채널 Dat
  notes(s,'이 표는 버퍼별 QD를 함께 선택한 결과다. 4MiB는 측정 조합 중 A1/A2가 모두 200GB/s를 넘긴 최소 용량이며, 모든 슬롯 수와 QD를 전수 탐색한 절대 하한은 아니다. 8MiB와 16MiB의 QD512 쌍은 같은 QD에서 버퍼를 비교할 수 있다. A1은 255.365922/255.371651, A2는 255.058330/255.211219GB/s다. 최고 500µs 값과 고정 2ms 값을 혼용하지 않는다. PF OFF이므로 Host 요청만으로 이 수치를 관측했다. Controller buffer는 16KiB 작업 단위로 예약하며 마지막 연결 응답 후 해제하는 임시 버퍼다. 지속적인 demand cache나 LRU를 새로 도입한 결과가 아니다. B1/B2는 연속된 64B 모두를 읽는 패턴이 아니고, 각 4KiB 논리 페이지의 64B만 읽는다. 16KiB 물리 페이지당 4개 64B, 즉 256B를 사용하므로 명목 효율은 1/64이다. 모델 내 NAND 부분 전송은 없다.',['results/znand/saturation/sweep.csv','results/znand/saturation/RESULTS_KO.md','results/znand/partial_saturation/RESULTS_KO.md']);
 }
 
-// 10. Measurement and bounds, traceable sources in notes
+// 11. Measurement and bounds, traceable sources in notes
 {
  const s=base('비교 조건과 적용 범위','각 실험 안의 전후 비교로 효과를 판단하고, 서로 다른 실험의 증가율은 합산하지 않습니다.','원자료 기준 커밋: '+e.source_commit.slice(0,7)+'    상세 경로와 설명은 슬라이드 노트 및 동봉 문서 참조');
  table(s,'comparison-contract',[
@@ -301,7 +391,7 @@ Host 읽기에는 버퍼 수락 대기, lookup 0.5µs, CA 0.1µs, tR, 채널 Dat
  notes(s,'증거 목록과 원문은 아래 고정 커밋 URL로 제공한다. 본 자료는 제품 실측 성능이나 HBF 사양의 공식 보장이 아니다. 모델은 4개의 독립 Port가 4채널 전체를 공유하며, Plane당 page buffer 1개와 물리 16KiB page를 사용한다. 가용률 85%는 100µs 주기의 명목 15µs Plane 휴지 구간으로 모델링했다. 실제 GC 쓰기/erase trace를 실행한 것은 아니다. 이전 maintenance OFF 실험은 B 패턴 낙폭 원인 확인을 위한 대조군이며, 성능 개선 기준으로 채택하지 않았다. Controller cache 및 64B 물리 분산도 채택하지 않았다. 후속 후보는 Port별 수락의 공정성, 주소 편향 및 동적 매핑에서의 재현성 검증이다. 이번 정리는 기존 결과만 사용했으며 성능 엔진이나 입력 tR을 수정하지 않았다.',['results/znand/locality/matched_comparison.csv','results/znand/host_ceiling/sweep.csv','results/znand/host_ceiling/timing_validation.json','results/znand/saturation/sweep.csv','results/znand/saturation/RESULTS_KO.md','results/znand/partial_dips/RESULTS_KO.md','docs/07_prefetch_tuning_ko.md']);
 }
 
-// 11. Logical workload definitions.
+// 12. Logical workload definitions.
 {
  const s=base('A·B 워크로드의 요청 크기와 접근 순서','아래 P1, P2는 각각 4KiB 논리 페이지입니다. NAND의 16KiB 물리 페이지와 구분합니다.','근거: model.py의 workload(), A/B 지속 부하 생성기. A2/B2는 3개 단위의 국소 순열');
  table(s,'workload-patterns',[
@@ -316,7 +406,7 @@ Host 읽기에는 버퍼 수락 대기, lookup 0.5µs, CA 0.1µs, tR, 채널 Dat
  notes(s,'A1은 요청마다 다음 4KiB 논리 페이지를 읽고, A2는 3개 묶음의 0,2,1 순열을 반복한다. 예시의 페이지 번호는 1부터 표시했다. A2/B2는 전체 주소 영역의 균등 난수 접근이 아니다. B1/B2는 각 페이지의 offset 0에서 64B만 반환한다. B3는 3개 논리 페이지 묶음에서 0,2,0,1 순서로 읽고 세 번째 요청에만 offset 64를 적용한다. 그러므로 P1의 첫 64B와 재방문의 두 번째 64B는 다른 데이터지만 동일 논리 페이지에 속하며, 동일 물리 페이지로 매핑될 수 있다. NAND page buffer 또는 Controller buffer에서 재사용할 수 있는지는 그 시점의 상태에 따른다. 항상 hit이나 항상 새 tR을 가정하지 않는다. B3는 기존 유한 요청열 모델에 구현되어 있으나 최근 64 Plane의 2ms 지속 부하 비교에는 포함하지 않았다.',['znand/model.py','znand/saturation.py','znand/partial_saturation.py']);
 }
 
-// 12. Useful bytes and measured A/B performance.
+// 13. Useful bytes and measured A/B performance.
 {
  const b1=e.partial_saturation.B1_b8_q512,b2=e.partial_saturation.B2_b8_q512;
  const s=base('A·B의 유효 데이터량과 처리량','현재 모델은 64B 요청에도 NAND에서 물리 페이지 전체 16KiB를 출력합니다.','조건: 64 Plane, 영역 배치, 8MiB, QD512/Port, PF OFF. 200–2,200µs 고정 평균');
@@ -339,6 +429,7 @@ for(let i=0;i<p.slides.items.length;i++) {
 }
 await fs.copyFile(path.join(build,'previews','slide-01.png'),path.join(out,'architecture_parameters_ko.png'));
 await fs.copyFile(path.join(build,'previews','slide-02.png'),path.join(out,'tr_characteristics_ko.png'));
+await fs.copyFile(path.join(build,'previews','slide-03.png'),path.join(out,'layout_placement_ko.png'));
 const candidate=path.join(build,'candidate.pptx');
 await (await PresentationFile.exportPptx(p)).save(candidate);
 const finalPath=path.join(out,'performance_key_items_with_diagram_ko.pptx');
@@ -346,9 +437,9 @@ const result=await finalizePresentation({
   workspaceDir:repo,candidatePath:candidate,finalPath,pythonExecutable:python,
   integrityValidatorPath:path.join(skill,'container_tools/inspect_presentation_package_integrity.py'),
   layoutValidatorPath:path.join(skill,'container_tools/inspect_presentation_layout_geometry.py'),
-  explicitTotalSlideCount:12,
-  layoutArgs:['--expected-slide-size-emu','12192000,6858000','--validate-bullet-geometry','--validate-heading-fit',...[2,3,4,5,7,8,9,10,11,12].flatMap(n=>['--require-native-table-slide',String(n)])],
-  requiredNativeTableOwnerSlides:[2,3,4,5,7,8,9,10,11,12],requiredNativeChartOwnerSlides:[5,6,8],
+  explicitTotalSlideCount:13,
+  layoutArgs:['--expected-slide-size-emu','12192000,6858000','--validate-bullet-geometry','--validate-heading-fit',...[2,4,5,6,8,9,10,11,12,13].flatMap(n=>['--require-native-table-slide',String(n)])],
+  requiredNativeTableOwnerSlides:[2,4,5,6,8,9,10,11,12,13],requiredNativeChartOwnerSlides:[6,7,9],
   materializeLiteralChartWorkbooks:true,
   fontPolicy:{basis:'design',families:[F],scriptFonts:{ea:F}},
   verifyArtifactToolImport:true,receiptPath:path.join(build,path.basename(out)+'.validation.json')

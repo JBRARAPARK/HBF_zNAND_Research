@@ -16,10 +16,10 @@ usage() {
     cat <<'EOF'
 Usage: bash scripts/macos.sh COMMAND [OPTIONS]
   setup [--plots]   Create .venv using Python 3.10+; optionally install matplotlib
-  check            Run the 63 model tests
+  check            Run all model tests
   smoke            Run tests plus two explicit-spawn 32/64-plane checks
   diagnostics      Reproduce the six A2 diagnostic cases (accepts CLI options)
-  replay [PATTERN] Replay a saved best config; default A2, 8192 requests/port
+  replay [PATTERN] Replay saved A1/A2/C1/C2/C3 config; default A2, 8192 requests/port
   report           Regenerate plots and Markdown from the saved evaluation CSVs
   sweep            Run the base/sensitivity sweep, including the saved MQSim layout
   extended         Run upper-QD comparisons (accepts --workers and --per-port)
@@ -116,12 +116,12 @@ case "$znand_action" in
     check)
         [[ $# -eq 0 ]] || fail 'check takes no options.'
         require_python
-        "$znand_python" -m unittest test_znand test_znand_expansion test_znand_locality test_znand_head test_znand_scheduling -q
+        "$znand_python" -m unittest discover -q
         ;;
     smoke)
         [[ $# -eq 0 ]] || fail 'smoke takes no options.'
         require_python
-        "$znand_python" -m unittest test_znand test_znand_expansion test_znand_locality test_znand_head test_znand_scheduling -q
+        "$znand_python" -m unittest discover -q
         new_output
         "$znand_python" -m znand.portability --out "$znand_out"
         ;;
@@ -133,11 +133,16 @@ case "$znand_action" in
         ;;
     replay)
         require_python
-        [[ $# -le 1 ]] || fail 'replay accepts one pattern: A1, A2, B1, B2 or B3.'
+        [[ $# -le 1 ]] || fail 'replay accepts one saved pattern: A1, A2, C1, C2 or C3.'
         znand_pattern="${1:-A2}"
-        case "$znand_pattern" in A1|A2|B1|B2|B3) ;; *) fail "Unknown pattern: $znand_pattern" ;; esac
+        case "$znand_pattern" in
+            A1|A2|B1|B2|B3) znand_profile="$znand_pattern" ;;
+            C1|C2|C3) znand_profile="B${znand_pattern#C}" ;;
+            B) fail 'New B has no saved best profile yet. Use znand.stream64; see docs/15_workload_naming_ko.md.' ;;
+            *) fail "Unknown pattern: $znand_pattern" ;;
+        esac
         new_output
-        "$znand_python" -m znand.run --config "$znand_root/znand/observed_best/$znand_pattern.json" --pattern "$znand_pattern" --per-port 8192 --out "$znand_out"
+        "$znand_python" -m znand.run --config "$znand_root/znand/observed_best/$znand_profile.json" --pattern "$znand_pattern" --per-port 8192 --out "$znand_out"
         ;;
     report)
         [[ $# -eq 0 ]] || fail 'report takes no options.'

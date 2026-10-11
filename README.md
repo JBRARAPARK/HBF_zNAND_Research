@@ -1,5 +1,7 @@
 # HBF 기준 zNAND 질의 분석과 Prefetch 모델 검토
 
+**현재 워크로드 명칭:** A1/A2는4KiB 전체 읽기, **B는 페이지 내부64B 연속 읽기(신규)**, C1/C2/C3는 기존 B1/B2/B3다. [정의·실행·이전 결과 대응표](docs/15_workload_naming_ko.md)를 기준으로 읽는다. 과거 raw 파일과 재현용 모듈은 당시 B 이름을 보존하며, 아래 기존 약4GB/s 결과는 C1/C2다.
+
 첨부 이미지의 영문 질의 1~4번, 질문별 의도, HBF 공개 사양 조사, `NAND_Prefetch_Model`과의 비교를 정리한 연구 기록입니다.
 
 - 최종 반영일: **2026-10-11, Asia/Seoul**
@@ -11,11 +13,11 @@
 
 **현재 처리량 판단은 지속 부하의 실제 Device outstanding과 시간별 평균을 기준으로 한다.** [지속 부하 측정과 시간 그래프](results/znand/saturation/RESULTS_KO.md)는 총 명령 완료를 기다리지 않고 2.2ms에서 관측을 끝낸다. 초기 200µs 제외 후 고정 2ms 평균과 최고 연속 500µs 평균, Port별 실제 outstanding, 25µs별 수락·완료 수를 함께 제공한다. 42개 조합에서 **8MiB·QD512/Port**의 A1/A2 고정 평균은 **255.366/255.058GB/s**다. **4MiB·QD256/Port**도 **234.484/239.904GB/s**였다. 기존 유한 요청열의 전체 완료 평균과 구분한다.
 
-**B1/B2의 64B 부분 읽기도 같은 지속 부하 기준으로 측정했다.** [30개 조건과 시간 그래프](results/znand/partial_saturation/RESULTS_KO.md)에서 **8MiB·QD512/port**의 B1/B2 고정 평균은 **3.995/4.001GB/s**, 최고 500µs 평균은 **4.014/4.031GB/s**다. 내부 NAND는 약 257GB/s를 전송하지만, 현재 모델은 물리 16KiB마다 Host 유효 256B를 사용해 약 1/64만 유효 데이터가 된다. Long tR 비율은 해당 고정 구간에서 둘 다 0%다. 64B 물리 분산이나 부분 NAND 출력은 추가하지 않았다.
+**C1/C2의 64B 부분 읽기도 같은 지속 부하 기준으로 측정했다.** [30개 조건과 시간 그래프](results/znand/partial_saturation/RESULTS_KO.md)에서 **8MiB·QD512/port**의 C1/C2 고정 평균은 **3.995/4.001GB/s**, 최고 500µs 평균은 **4.014/4.031GB/s**다. 내부 NAND는 약 257GB/s를 전송하지만, 현재 모델은 물리 16KiB마다 Host 유효 256B를 사용해 약 1/64만 유효 데이터가 된다. Long tR 비율은 해당 고정 구간에서 둘 다 0%다. 64B 물리 분산이나 부분 NAND 출력은 추가하지 않았다.
 
-B 그래프의 주기적 하락은 [maintenance·in-order 원인 대조](results/znand/partial_dips/RESULTS_KO.md)에서 확인했다. 100µs마다 Plane을 명목 15µs 쉬게 하는 85% 가용률 모델이 선두 요청을 지연시켜, 뒤의 ready 응답도 기다리게 한다. 유지보수 OFF 대조에서 큰 낙폭이 거의 사라졌으며 기준 85%·기존 tR·in-order는 보존했다.
+C 그래프의 주기적 하락은 [maintenance·in-order 원인 대조](results/znand/partial_dips/RESULTS_KO.md)에서 확인했다. 100µs마다 Plane을 명목 15µs 쉬게 하는 85% 가용률 모델이 선두 요청을 지연시켜, 뒤의 ready 응답도 기다리게 한다. 유지보수 OFF 대조에서 큰 낙폭이 거의 사라졌으며 기준 85%·기존 tR·in-order는 보존했다.
 
-[A 워크로드 확대 그래프](results/znand/ab_dips/RESULTS_KO.md)에서도 100µs 간격의 작은 하락을 확인했다. 8MiB·QD512/port의 25µs 구간 최저값은 A1/A2 **248.907/249.135GB/s**다. 기존 세로축에서는 작게 보이며, 4KiB 반환이 진행되는 동안 뒤쪽 데이터 준비가 이어지는 효과를 A1/B1 동일 설정 쌍으로 설명한다.
+[A 워크로드 확대 그래프](results/znand/ab_dips/RESULTS_KO.md)에서도 100µs 간격의 작은 하락을 확인했다. 8MiB·QD512/port의 25µs 구간 최저값은 A1/A2 **248.907/249.135GB/s**다. 기존 세로축에서는 작게 보이며, 4KiB 반환이 진행되는 동안 뒤쪽 데이터 준비가 이어지는 효과를 A1/C1 동일 설정 쌍으로 설명한다.
 
 Host IF 목표는 geometry별로 구분한다. **32Plane은 현재 모델의 신규 데이터 공급량으로 256GB/s 달성이 불가능하고, 64Plane은 배치 변경으로 근접할 여지가 있다.** [물리 상한과 12개 비교 결과](results/znand/host_ceiling/RESULTS_KO.md)에 계산·실행 근거를 정리했다.
 
@@ -39,7 +41,7 @@ bash scripts/macos.sh diagnostics
 
 ## 먼저 읽을 내용
 
-성능 개선 흐름을 한 번에 보려면 [핵심 개선 3가지 설명 자료](docs/14_performance_key_items_ko.md)를 참고합니다. 14장 PPTX와 PDF의 첫 페이지에 전체 구조와 가변 요소, 2페이지에 zNAND tR 특성, 3페이지에 Layout·Data Placement 블록 다이어그램, 4페이지에 상세 처리 흐름을 담았습니다. 본문에는 스케줄링·Plane과 배치·버퍼와 QD의 개선 수치, 후반에는 A1/A2와 B1/B2/B3의 패턴 정의 및 유효 데이터량 차이를 정리하고, 마지막 14페이지에는 A1/A2·B1/B2의 시간별 성능 그래프와 인사이트를 담았습니다.
+성능 개선 흐름을 한 번에 보려면 [핵심 개선 3가지 설명 자료](docs/14_performance_key_items_ko.md)를 참고합니다. 14장 PPTX와 PDF의 첫 페이지에 전체 구조와 가변 요소, 2페이지에 zNAND tR 특성, 3페이지에 Layout·Data Placement 블록 다이어그램, 4페이지에 상세 처리 흐름을 담았습니다. 본문에는 스케줄링·Plane과 배치·버퍼와 QD의 개선 수치, 후반에는 A1/A2, 신규 B, C1/C2/C3의 패턴 정의 및 유효 데이터량 차이를 정리하고, 마지막 14페이지에는 A1/A2·C1/C2의 시간별 성능 그래프와 인사이트를 담았습니다.
 
 1. [영문 질문 원문](docs/01_questions_en.md): 중복 제거한 1~4번. 이미지에서 잘린 마지막 문장을 표시했습니다.
 2. [질문별 의도](docs/02_question_intent_ko.md): 질문의 본질과 답변에 필요한 조건.
@@ -65,7 +67,7 @@ bash scripts/macos.sh diagnostics
 | 3. Interleaving / mapping | 어떤 주소들이 내부 자원을 병렬로 사용하는지 | Port·주소·channel·die·bank 연결 |
 | 4. Host responsibilities | 주소와 NAND 관리를 누가 수행하는지 | 주소 공개 시점, 변환, prefetch 발행 위치 |
 
-신규 `znand/` 모델은 A-1~B-3의 부분 읽기·재방문, 논리/물리 주소 배치, Plane별 page buffer, port 내부 in-order를 반영합니다. 기존 공급 모델에 대한 검토 문서는 당시 기준을 보존하며, 신규 구현과 결과는 아래 실행 안내를 따릅니다.
+신규 `znand/` 모델은 A1/A2, 신규 B, C1/C2/C3의 전체·부분 읽기·재방문, 논리/물리 주소 배치, Plane별 page buffer, port 내부 in-order를 반영합니다. 기존 공급 모델에 대한 검토 문서는 당시 기준을 보존하며, 신규 구현과 결과는 아래 실행 안내를 따릅니다.
 
 ## 확정된 사용자 설계 조건: 4개 독립 port
 
@@ -109,7 +111,7 @@ bash scripts/macos.sh diagnostics
 | 2026-10-10 | 64Plane controller buffer 16MiB 신규 8개 조건과 32MiB 대조군 비교. 개선 배치 네 쌍의 실행 지표는 동일, 기존 배치의 긴 A1/A2는 −36.87/−40.12% |
 | 2026-10-10 | 개선 배치의 200GB/s 버퍼 경계 측정: 1~32MiB의 13개 용량 × A1/A2 × 두 길이, 신규 44개·대조군 8개. 공통 최소 측정 용량 7.75MiB, 8MiB에서 217.521~236.348GB/s. Port 수락·진행 불균형과 후속 튜닝 기록 |
 | 2026-10-10 | 측정 기준을 지속 부하·실제 outstanding·시간별 평균으로 변경. 42개 신규 조합, 25µs 시간 데이터, 초기 200µs 제외 고정 2ms 및 최고 500µs 평균. 8MiB·QD512에서 약 255GB/s, 큰 QD의 Port 편중 관측. 원본 NAND 모델 유지 및 신규 검증 5개 통과 |
-| 2026-10-11 | B1/B2 64B 지속 부하 신규 30개 조건. 실제 QD·시간별 요청 수·NAND 내부 전송량 동시 계측, 8MiB·QD512에서 약 4GB/s 유효 처리량 및 64배 내부 데이터량 확인. 이전 A 결과 보존, 전체 테스트 71개 통과 |
+| 2026-10-11 | C1/C2 64B 지속 부하 신규 30개 조건. 실제 QD·시간별 요청 수·NAND 내부 전송량 동시 계측, 8MiB·QD512에서 약 4GB/s 유효 처리량 및 64배 내부 데이터량 확인. 이전 A 결과 보존, 전체 테스트 71개 통과 |
 
 ## 실행 가능한 모델과 결과
 
@@ -132,11 +134,11 @@ bash scripts/macos.sh diagnostics
 ```sh
 python3 -m unittest test_znand test_znand_expansion -q
 python3 -m znand.validate_results
-python3 -m znand.run --config znand/observed_best/B3.json --pattern B3 --per-port 8192 --out results/znand/replay_B3
+python3 -m znand.run --config znand/observed_best/B3.json --pattern C3 --per-port 8192 --out results/znand/replay_B3
 python3 -m znand.diagnostics
 ```
 
-긴 trace의 80개 비교 그룹 모두 QD4,096→8,192 처리량 변화가 3% 미만이었습니다. 이는 해당 부하·버퍼·모델 조건의 포화 확인이며 실제 제품의 전역 최대 성능을 보장하지 않습니다. B2는 4KiB 분산, B3는 16KiB 분산이 유리한 조건이 관측되어 배치를 workload별로 비교해야 합니다.
+긴 trace의 80개 비교 그룹 모두 QD4,096→8,192 처리량 변화가 3% 미만이었습니다. 이는 해당 부하·버퍼·모델 조건의 포화 확인이며 실제 제품의 전역 최대 성능을 보장하지 않습니다. C2는 4KiB 분산, C3는 16KiB 분산이 유리한 조건이 관측되어 배치를 workload별로 비교해야 합니다.
 
 추가 진단의 같은 A2 조건에서는 32Plane·8MiB가 72.265081GB/s, 64Plane·8MiB가 87.965665GB/s였습니다. 버퍼만 32MiB로 늘리면 32Plane에서 Long sensing이 증가해 37.116439GB/s로 낮아졌습니다. Word 보고서는 추가 진단 전의 1,488개 결과를 기준으로 작성한 자료이며, 최신 병목과 Plane 확장 결과는 문서 08·09와 별도 진단 폴더에 보관합니다.
 
@@ -144,7 +146,7 @@ python3 -m znand.diagnostics
 
 ## FIFO 기준 Controller buffer 확대 평가
 
-4port·32Plane에서 공유 buffer 8/16/24/32MiB, Outstanding 2,048/4,096/8,192를 비교했다. 기존 8MiB 60개와 신규 180개, 총 240개 조건이다. A1/A2는 16MiB에서 비교 범위 내 최고 처리량을 보였고, B1/B2/B3는 8MiB가 유리했다. [비교 보고서](results/znand/buffer_expansion/RESULTS_KO.md), [원본 CSV](results/znand/buffer_expansion/sweep.csv), [후속 튜닝](docs/07_prefetch_tuning_ko.md)을 참조한다.
+4port·32Plane에서 공유 buffer 8/16/24/32MiB, Outstanding 2,048/4,096/8,192를 비교했다. 기존 8MiB 60개와 신규 180개, 총 240개 조건이다. A1/A2는 16MiB에서 비교 범위 내 최고 처리량을 보였고, C1/C2/C3는 8MiB가 유리했다. [비교 보고서](results/znand/buffer_expansion/RESULTS_KO.md), [원본 CSV](results/znand/buffer_expansion/sweep.csv), [후속 튜닝](docs/07_prefetch_tuning_ko.md)을 참조한다.
 
 ## 연속 물리 주소 우선 정책
 
@@ -158,9 +160,9 @@ python3 -m znand.run --config znand/locality_A2_32MiB.json --pattern A2 --per-po
 
 ## Locality 적용 후 32~64MiB 확대 결과
 
-공유 버퍼를 8MiB 간격으로 32/40/48/56/64MiB까지 비교했다. 4port·32Plane·PF ON·port당 8,192개 요청을 유지하고, A1/A2는 QD2,048/4,096/8,192, B1/B2/B3는 QD8,192를 평가했다. 신규 39개와 동일 조건 재사용 6개, 총 45개 조건을 검증했다.
+공유 버퍼를 8MiB 간격으로 32/40/48/56/64MiB까지 비교했다. 4port·32Plane·PF ON·port당 8,192개 요청을 유지하고, A1/A2는 QD2,048/4,096/8,192, C1/C2/C3는 QD8,192를 평가했다. 신규 39개와 동일 조건 재사용 6개, 총 45개 조건을 검증했다.
 
-이번 범위에서는 32MiB·QD2,048/port가 A1/A2 모두 최고였다(118.780/118.257GB/s). 같은 QD에서 40~64MiB는 110.653/111.147GB/s로 같았다. 예약 peak가 약 34MiB이고 buffer 수락 실패가 0회이므로, 이 조건에서 40MiB 초과 공간은 성능에 기여하지 않았다. 높은 QD에서는 버퍼 부족 횟수가 감소했지만 기존 최고 처리량을 넘지 못했다. B계열도 고정 QD 비교에서 32MiB가 유리했다.
+이번 범위에서는 32MiB·QD2,048/port가 A1/A2 모두 최고였다(118.780/118.257GB/s). 같은 QD에서 40~64MiB는 110.653/111.147GB/s로 같았다. 예약 peak가 약 34MiB이고 buffer 수락 실패가 0회이므로, 이 조건에서 40MiB 초과 공간은 성능에 기여하지 않았다. 높은 QD에서는 버퍼 부족 횟수가 감소했지만 기존 최고 처리량을 넘지 못했다. C계열도 고정 QD 비교에서 32MiB가 유리했다.
 
 [비교 보고서와 그래프](results/znand/buffer_growth/RESULTS_KO.md), [45개 원본 결과](results/znand/buffer_growth/sweep.csv), [용량별 요약](results/znand/buffer_growth/summary.csv), [버퍼 제한 확인](results/znand/buffer_growth/capacity_check.json), [후속 튜닝](docs/07_prefetch_tuning_ko.md)을 참조한다. 물리 buffer 용량과 admission 예약 한도는 결합되어 있으며, 64Plane이나 장시간 정상 상태의 최적 용량을 확정한 결과는 아니다.
 
@@ -170,11 +172,11 @@ python3 -m znand.run --config znand/locality_A2_32MiB.json --pattern A2 --per-po
 
 `ca_policy=head_locality`를 추가하고, 공유 32MiB·QD2,048/port에서 우회 4/8/16/32회와 선두 대기 0/12.16/48.64μs를 비교했다. 총 47개 조건을 실행·검증했고 51개 모델 테스트가 통과했다. Port 내부 in-order는 유지한다. [결과 보고서](results/znand/head_locality/RESULTS_KO.md)와 [원본 CSV](results/znand/head_locality/sweep.csv)에 우회 한도 조정 효과와 선두 우선 기능 자체의 효과를 분리했다.
 
-실행용 프로파일은 A1에 선두 우선 ON·대기 48.64μs·우회 32회, A2/B1/B2/B3에 기존 locality·우회 32회를 적용한다. Port당 8,192개 요청에서 이전 locality·우회 8회 대비 A1은 118.780→134.339GB/s(+13.10%), A2는 118.257→135.035GB/s(+14.19%)다. B1/B2/B3도 같은 QD2,048 비교에서 각각 +17.91/+17.71/+18.08%다.
+실행용 프로파일은 A1에 선두 우선 ON·대기 48.64μs·우회 32회, A2/C1/C2/C3에 기존 locality·우회 32회를 적용한다. Port당 8,192개 요청에서 이전 locality·우회 8회 대비 A1은 118.780→134.339GB/s(+13.10%), A2는 118.257→135.035GB/s(+14.19%)다. C1/C2/C3도 같은 QD2,048 비교에서 각각 +17.91/+17.71/+18.08%다.
 
-선두 우선 기능만의 추가 효과는 A1에서 +4.00%, port당 16,384개 확인에서 +2.09%였다. A2의 추가 효과는 +0.31/−0.01%로 작았고 B계열에서는 성능이 크게 낮아져 선두 우선을 끈 프로파일을 제공한다. 긴 요청열에서 권장 A1/A2 프로파일은 각각 143.352/143.164GB/s다. 서로 다른 길이의 수치를 같은 조건의 개선률로 섞지 않는다.
+선두 우선 기능만의 추가 효과는 A1에서 +4.00%, port당 16,384개 확인에서 +2.09%였다. A2의 추가 효과는 +0.31/−0.01%로 작았고 C계열에서는 성능이 크게 낮아져 선두 우선을 끈 프로파일을 제공한다. 긴 요청열에서 권장 A1/A2 프로파일은 각각 143.352/143.164GB/s다. 서로 다른 길이의 수치를 같은 조건의 개선률로 섞지 않는다.
 
-[A1 설정](results/znand/head_locality/profiles/A1.json), [A2 설정](results/znand/head_locality/profiles/A2.json), [B1](results/znand/head_locality/profiles/B1.json), [B2](results/znand/head_locality/profiles/B2.json), [B3](results/znand/head_locality/profiles/B3.json)를 해당 패턴과 함께 지정한다. 이는 개별 workload의 오프라인 설정이며 혼합 부하에 대한 자동 정책 전환은 아니다.
+[A1 설정](results/znand/head_locality/profiles/A1.json), [A2 설정](results/znand/head_locality/profiles/A2.json), [C1](results/znand/head_locality/profiles/B1.json), [C2](results/znand/head_locality/profiles/B2.json), [C3](results/znand/head_locality/profiles/B3.json)를 해당 패턴과 함께 지정한다. 이는 개별 workload의 오프라인 설정이며 혼합 부하에 대한 자동 정책 전환은 아니다.
 
 ```sh
 python3 -m znand.run --config results/znand/head_locality/profiles/A1.json --pattern A1 --per-port 8192 --out results/local/head_A1

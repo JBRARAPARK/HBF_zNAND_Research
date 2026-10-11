@@ -1,0 +1,14 @@
+{
+  "schema": 2,
+  "renamed": {
+    "B1": "C1",
+    "B2": "C2",
+    "B3": "C3"
+  },
+  "new_B": "64B sequential requests covering each 4KiB logical page; formal performance sweep not yet run",
+  "legacy_source": "results/znand/partial_saturation/sweep.csv",
+  "legacy_sha256": "cf98b320ff9c7e67f782cea10ae25a3a2d707d76953e0a0abccc2d9ca523ff89",
+  "current_view": "partial_saturation.csv",
+  "rows": 30,
+  "numeric_results_unchanged": true
+}

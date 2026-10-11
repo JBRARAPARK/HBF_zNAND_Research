@@ -1,7 +1,7 @@
-"""Append one authored slide and its dependencies, preserving saved source parts.
+"""Append or replace authored slides and their dependencies, preserving other source parts.
 
 This is package assembly only. The editable chart/text is authored with artifact-tool.
-Usage: python append_slide_package.py source.pptx one_slide.pptx output.pptx
+Usage: python append_slide_package.py source.pptx authored.pptx output.pptx [12,13]
 """
 import copy
 import posixpath as pp
@@ -13,7 +13,8 @@ from openpyxl.utils.cell import range_boundaries, get_column_letter
 from zipfile import ZipFile, ZIP_DEFLATED
 from lxml import etree as ET
 
-src, donor, out = sys.argv[1:]
+src, donor, out = sys.argv[1:4]
+replace_numbers = [int(n) for n in sys.argv[4].split(',')] if len(sys.argv) > 4 else []
 P = 'http://schemas.openxmlformats.org/presentationml/2006/main'
 R = 'http://schemas.openxmlformats.org/officeDocument/2006/relationships'
 PKG = 'http://schemas.openxmlformats.org/package/2006/relationships'
@@ -32,9 +33,13 @@ pres = xml(data['ppt/presentation.xml'])
 rels = xml(data['ppt/_rels/presentation.xml.rels'])
 donor_pres = xml(other['ppt/presentation.xml'])
 donor_rels = xml(other['ppt/_rels/presentation.xml.rels'])
-assert len(donor_pres.find(f'{{{P}}}sldIdLst')) == 1
-first_id = donor_pres.find(f'{{{P}}}sldIdLst')[0].get(f'{{{R}}}id')
-slide_part = target('ppt/presentation.xml',next(r.get('Target') for r in donor_rels if r.get('Id') == first_id))
+donor_ids = [e.get(f'{{{R}}}id') for e in donor_pres.find(f'{{{P}}}sldIdLst')]
+assert len(donor_ids) == (len(replace_numbers) if replace_numbers else 1)
+donor_parts = [target('ppt/presentation.xml',next(r.get('Target') for r in donor_rels if r.get('Id') == rid)) for rid in donor_ids]
+replaced_parts = []
+for number in replace_numbers:
+ rid=pres.find(f'{{{P}}}sldIdLst')[number-1].get(f'{{{R}}}id')
+ replaced_parts.append(target('ppt/presentation.xml',next(r.get('Target') for r in rels if r.get('Id') == rid)))
 mapping = {}
 for n in other:
  if re.fullmatch(r'ppt/notesMasters/notesMaster\d+\.xml', n):
@@ -59,10 +64,10 @@ def allocate(n):
 
 layout_ids=[int(e.get('id')) for k,v in original.items() if re.fullmatch(r'ppt/slideMasters/slideMaster\d+\.xml',k) for e in xml(v).findall(f'.//{{{P}}}sldLayoutId')]
 next_layout_id=max(layout_ids,default=2147483648)+1
-def clone(n):
+def clone(n, forced=None):
  global next_layout_id
  if n in mapping:return mapping[n]
- dest=allocate(n);mapping[n]=dest
+ dest=forced or allocate(n);mapping[n]=dest
  payload=other[n]
  if re.fullmatch(r'ppt/slideMasters/slideMaster\d+\.xml',n):
   master=xml(payload)
@@ -80,7 +85,7 @@ def clone(n):
   data[relpart(dest)]=serialized(rr)
  return dest
 
-appended=clone(slide_part)
+new_slides=[clone(n,replaced_parts[i] if replace_numbers else None) for i,n in enumerate(donor_parts)]
 # State straight interpolation explicitly for consumers that smooth scatter lines
 # when the optional smooth element is absent. Preserve all measured points.
 chart_ns='http://schemas.openxmlformats.org/drawingml/2006/chart'
@@ -100,7 +105,9 @@ def new_rel(typ,part):
  ET.SubElement(rels,f'{{{PKG}}}Relationship',Id=rid,Type=R+'/'+typ,Target=pp.relpath(part,'ppt'))
  return rid
 slides=pres.find(f'{{{P}}}sldIdLst')
-ET.SubElement(slides,f'{{{P}}}sldId',id=str(max(int(e.get('id')) for e in slides)+1),attrib={f'{{{R}}}id':new_rel('slide',appended)})
+if not replace_numbers:
+ for appended in new_slides:
+  ET.SubElement(slides,f'{{{P}}}sldId',id=str(max(int(e.get('id')) for e in slides)+1),attrib={f'{{{R}}}id':new_rel('slide',appended)})
 masters=pres.find(f'{{{P}}}sldMasterIdLst')
 for master in newmasters:
  ET.SubElement(masters,f'{{{P}}}sldMasterId',id=str(max(int(e.get('id')) for e in masters)+1),attrib={f'{{{R}}}id':new_rel('slideMaster',master)})
@@ -129,12 +136,14 @@ if 'docProps/app.xml' in data:
    if e.find(f'{{{VT}}}lpstr') is not None and e.find(f'{{{VT}}}lpstr').text=='Slide Titles':
     hp[i+1][0].text=str(len(slides))
  titles=app.find(f'{{{AP}}}TitlesOfParts/{{{VT}}}vector')
- if titles is not None:
+ if titles is not None and not replace_numbers:
   ET.SubElement(titles,f'{{{VT}}}lpstr').text='시간별 성능과 A·B의 병목'
   titles.set('size',str(len(titles)))
  data['docProps/app.xml']=serialized(app)
 
 allowed={'ppt/presentation.xml','ppt/_rels/presentation.xml.rels','[Content_Types].xml','docProps/app.xml'}
+allowed.update(replaced_parts)
+allowed.update(relpart(n) for n in replaced_parts)
 assert all(data[k]==v for k,v in original.items() if k not in allowed)
 
 # PowerPoint serializes double-valued chart caches with extra binary-float digits.
@@ -173,4 +182,4 @@ for part in original:
 print(f'Normalized {len(repairs)} equivalent numeric cache strings; source workbook data unchanged')
 with ZipFile(out,'w',ZIP_DEFLATED) as z:
  for n,b in data.items():z.writestr(n,b)
-print(f'Appended {appended}; {len(slides)} slides; original slide/layout/workbook parts preserved, equivalent numeric caches refreshed')
+print(f'Assembled {new_slides}; {len(slides)} slides; untargeted slide/layout/workbook parts preserved, equivalent numeric caches refreshed')

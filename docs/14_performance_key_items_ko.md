@@ -1,15 +1,18 @@
 # 성능 개선 핵심 3가지
 
+**현재 이름:** 페이지 내부64B 연속 읽기를 B로 신설하고, 기존 B1/B2/B3는 C1/C2/C3로 변경했다. 과거 원시 결과의 파일명은 보존한다. 새 B는 정식 성능 측정 전이다. [정의와 실행 방법](15_workload_naming_ko.md).
+
 2026-10-11까지의 실험에서 효과를 확인한 항목은 **컨트롤러 스케줄링**, **Plane 확장과 데이터 배치**, **버퍼와 Port별 Outstanding의 공동 조정**이다. 이 문서는 저장된 결과를 정리하며, 새 성능 실험이나 모델 변경은 포함하지 않는다.
 
-- [발표 자료 PPTX](performance_key_items/performance_key_items_with_graph_ko.pptx)
-- [공유용 PDF](performance_key_items/performance_key_items_with_graph_ko.pdf)
+- [발표 자료 PPTX](performance_key_items/performance_key_items_abc_ko.pptx)
+- [공유용 PDF](performance_key_items/performance_key_items_abc_ko.pdf)
 - [수치 원자료와 출처 해시](performance_key_items/evidence.json)
 - [1~13페이지 생성 소스](performance_key_items/build.mjs)
-- [14페이지 그래프 추가 소스](performance_key_items/append_graph.mjs)
+- [14페이지 원본 그래프 추가 소스(당시 B 표기)](performance_key_items/append_graph.mjs)
+- [현재 A/B/C 발표 자료 생성 소스](performance_key_items/rename_workloads.mjs)
 - [시간별 그래프 수치와 출처 해시](performance_key_items/graph_evidence.json)
 
-자료는 **14장**이다. 첫 페이지는 요청·데이터 경로와 주요 가변 요소의 블록 다이어그램, 2페이지는 zNAND의 tR 특성, 3페이지는 Layout과 Data Placement의 블록 다이어그램, 4페이지는 구조별 상세 동작과 자원 제약이다. 5~11페이지는 핵심 개선과 비교 조건, 12~13페이지는 A·B 워크로드 정의와 유효 데이터량의 차이를 설명한다. 마지막 14페이지는 A1/A2와 B1/B2의 시간별 성능, 실제 outstanding 및 완료 요청 수를 비교한다.
+자료는 **14장**이다. 첫 페이지는 요청·데이터 경로와 주요 가변 요소의 블록 다이어그램, 2페이지는 zNAND의 tR 특성, 3페이지는 Layout과 Data Placement의 블록 다이어그램, 4페이지는 구조별 상세 동작과 자원 제약이다. 5~11페이지는 핵심 개선과 비교 조건, 12~13페이지는 A·B·C 워크로드 정의와 유효 데이터량의 차이를 설명한다. 마지막 14페이지는 A1/A2와 C1/C2의 시간별 성능, 실제 outstanding 및 완료 요청 수를 비교한다.
 
 **세 항목의 수치는 서로 다른 실험에 속한다. 각 실험 안의 전후 비교는 유효하지만, 증가율을 합산하거나 하나의 누적 개선 과정처럼 연결하지 않는다.** 1번은 PF ON의 32 Plane 유한 요청열, 2번은 PF OFF의 32/64 Plane 유한 요청열, 3번은 PF OFF의 64 Plane 지속 부하다.
 
@@ -19,7 +22,7 @@
 
 구조도에서 파란 화살표는 읽기 요청과 CA 발행 경로, 초록 화살표는 NAND 출력·ECC·공유 버퍼·Host 반환 경로다. 주황색은 Port 수, QD, 버퍼 용량, L2P/stripe, 스케줄링, PF, Plane 수 등 주요 가변 항목이다. 도식의 공통선은 자원의 공유 관계를 나타내며 물리 배선의 폭이나 개수를 정의하지 않는다.
 
-현재 대표 조합은 **4 Port, 4채널 × 16 Plane, 공유 8MiB, QD512/Port, PF OFF**다. A1은 4KiB stripe와 `head_locality`, A2는 16KiB stripe와 `locality`이며 영역별 L2P 배치를 사용한다. 우회 한도는 32회이고, 선두대기 48.64µs는 `head_locality`에 적용한다. 최근 B1/B2의 지속 부하는 A1 프로파일을 사용한다. tR, 가용률, Host IF도 모델 입력이지만 이번 개선 비교에서는 고정했으므로 그림 하단에 분리해 표시했다. 전체 파라미터와 후속 후보는 [튜닝 문서](07_prefetch_tuning_ko.md)를 참고한다.
+현재 대표 조합은 **4 Port, 4채널 × 16 Plane, 공유 8MiB, QD512/Port, PF OFF**다. A1은 4KiB stripe와 `head_locality`, A2는 16KiB stripe와 `locality`이며 영역별 L2P 배치를 사용한다. 우회 한도는 32회이고, 선두대기 48.64µs는 `head_locality`에 적용한다. 최근 C1/C2의 지속 부하는 A1 프로파일을 사용한다. tR, 가용률, Host IF도 모델 입력이지만 이번 개선 비교에서는 고정했으므로 그림 하단에 분리해 표시했다. 전체 파라미터와 후속 후보는 [튜닝 문서](07_prefetch_tuning_ko.md)를 참고한다.
 
 4개의 독립 Port가 4개 NAND Channel 전체를 공유한다. Port와 Channel의 고정 1:1 연결은 없으며, 읽기 주소를 매핑한 결과로 Channel과 Plane을 선택한다. AXI ID도 Port별로 구분하고, 응답은 각 Port 내부에서 수락 순서를 지킨다.
 
@@ -38,7 +41,7 @@ NAND page buffer는 Plane별 자원이고, Controller buffer는 여러 Port가 �
 
 ![zNAND의 tR 특성과 선택 조건](performance_key_items/tr_characteristics_ko.png)
 
-**tR은 NAND sensing 구간의 시간이다.** 아래 값과 규칙은 현재 모델에 적용한 입력·가정이며, 제품 보증치를 의미하지 않는다. `q`는 각 `(Channel, Plane)` 내부의 물리 페이지 순번이다. 고객 A/B 패턴의 4KiB 논리 Page 번호와 구분한다. 다른 Plane을 읽어도 해당 Plane의 직전 sensing 주소 이력은 바뀌지 않는다.
+**tR은 NAND sensing 구간의 시간이다.** 아래 값과 규칙은 현재 모델에 적용한 입력·가정이며, 제품 보증치를 의미하지 않는다. `q`는 각 `(Channel, Plane)` 내부의 물리 페이지 순번이다. 고객 A/C 패턴의 4KiB 논리 Page 번호와 구분한다. 다른 Plane을 읽어도 해당 Plane의 직전 sensing 주소 이력은 바뀌지 않는다.
 
 | 종류 | tR | 현재 모델의 적용 조건 | 예시 |
 |---|---:|---|---|
@@ -90,10 +93,10 @@ L2P snapshot은 기존 Channel·16KiB 패킹·페이지 내부 offset을 보존�
 
 | Stripe와 현재 사용 패턴 | CH0의 첫 물리 Page | CH1의 첫 물리 Page | CH2의 첫 물리 Page | CH3의 첫 물리 Page |
 |---|---|---|---|---|
-| 4KiB: A1/B1/B2 | L0, L4, L8, L12 | L1, L5, L9, L13 | L2, L6, L10, L14 | L3, L7, L11, L15 |
+| 4KiB: A1/C1/C2 | L0, L4, L8, L12 | L1, L5, L9, L13 | L2, L6, L10, L14 | L3, L7, L11, L15 |
 | 16KiB: A2 | L0, L1, L2, L3 | L4, L5, L6, L7 | L8, L9, L10, L11 | L12, L13, L14, L15 |
 
-4KiB stripe는 4KiB마다 Channel을 순환시킨 뒤 같은 Channel의 조각 네 개로 물리 페이지를 채운다. 16KiB stripe는 연속된 4KiB 네 개를 한 물리 페이지로 묶고 16KiB마다 Channel을 순환시킨다. 이는 저장 배치 단위다. B1/B2가 각 논리 조각에서 요청하는 양은 64B이고, 현재 NAND 출력량은 16KiB 전체 페이지다.
+4KiB stripe는 4KiB마다 Channel을 순환시킨 뒤 같은 Channel의 조각 네 개로 물리 페이지를 채운다. 16KiB stripe는 연속된 4KiB 네 개를 한 물리 페이지로 묶고 16KiB마다 Channel을 순환시킨다. 이는 저장 배치 단위다. C1/C2가 각 논리 조각에서 요청하는 양은 64B이고, 현재 NAND 출력량은 16KiB 전체 페이지다.
 
 아래쪽 오른편은 **하나의 Plane 안의 주소 계층**이다. 현재 모델은 Group마다 Block 2개, Block마다 WL 421개, WL마다 SSL 6개, SSL마다 E/O 2개의 16KiB Page를 둔다. Group당 `2 × 421 × 6 × 2 = 10,104`페이지다. Group 총개수나 전체 NAND 용량을 이 그림에서 고정하지는 않는다. 선택한 페이지를 sensing하면 그 Plane의 page buffer 한 개에 준비한다.
 
@@ -202,11 +205,11 @@ Port와 Channel을 고정 연결한 구조는 아니다. 어느 Channel과 Plane
 
 유지한 tR 입력값은 **Short 2.00µs, Mid 2.08µs, Long 12.16µs, First/Group 20.69µs**다. 가용률 85%도 유지했다. 가용률은 주기적 Plane 휴지 구간으로 모델링하며 실제 GC 쓰기·erase 요청열을 실행한 것은 아니다.
 
-현재 B1/B2의 64B 부분 읽기는 같은 8MiB·QD512에서 약 4GB/s다. 물리 16KiB마다 각 4KiB 논리 페이지의 64B만 읽어 유효 256B를 사용하며, NAND는 전체 16KiB를 전송하기 때문이다. A의 255GB/s를 모든 작은 읽기에 적용하지 않는다. [B 패턴 결과](../results/znand/partial_saturation/RESULTS_KO.md).
+현재 C1/C2의 64B 부분 읽기는 같은 8MiB·QD512에서 약 4GB/s다. 물리 16KiB마다 각 4KiB 논리 페이지의 64B만 읽어 유효 256B를 사용하며, NAND는 전체 16KiB를 전송하기 때문이다. A의 255GB/s를 모든 작은 읽기에 적용하지 않는다. [C 패턴의 이전 B 표기 결과](../results/znand/partial_saturation/RESULTS_KO.md).
 
 앞으로 검증할 항목은 Port별 수락의 공정성, 주소 편향과 동적 L2P, 실제 GC와 Die/LUN 공유 자원이다. 기존 maintenance OFF 실험은 낙폭 원인을 확인한 대조군이며 기준 설정으로 채택하지 않았다.
 
-## A·B 워크로드 정의
+## A·B·C 워크로드 정의
 
 아래 `P1`, `P2`는 **4KiB 논리 페이지**다. NAND의 **16KiB 물리 페이지**와 구분한다. 페이지 번호는 설명을 위해 1부터 표시했으며, 실제 물리 위치는 L2P 배치로 결정한다.
 
@@ -214,41 +217,45 @@ Port와 Channel을 고정 연결한 구조는 아니다. 어느 Channel과 Plane
 |---|---:|---|---|
 | A1 | 4KiB | P1, P2, P3, P4, … | 각 논리 페이지 전체를 순서대로 읽음 |
 | A2 | 4KiB | P1, P3, P2, P4, P6, P5, … | 3개 묶음마다 순서를 바꿔 페이지 전체를 읽음 |
-| B1 | 64B | P1, P2, P3, P4, … | 각 논리 페이지의 시작 64B만 읽음 |
-| B2 | 64B | P1, P3, P2, P4, P6, P5, … | B1과 반환 크기는 같고 페이지 순서만 바꿈 |
-| B3 | 64B | P1, P3, P1(재방문), P2, … | 첫 P1은 offset 0, 재방문은 offset +64B의 다른 데이터 |
+| **B** | **64B** | **P1 offset 0, 64, …, 4032 후 P2** | **논리 페이지 전체를64B 요청64개로 소비** |
+| C1 | 64B | P1, P2, P3, P4, … | 각 논리 페이지의 시작 64B만 읽음 |
+| C2 | 64B | P1, P3, P2, P4, P6, P5, … | C1과 반환 크기는 같고 페이지 순서만 바꿈 |
+| C3 | 64B | P1, P3, P1(재방문), P2, … | 첫 P1은 offset 0, 재방문은 offset +64B의 다른 데이터 |
 
-A2/B2는 3개 단위의 국소 순열이며 전체 주소 공간의 균등 난수 패턴은 아니다. B1/B2는 한 페이지 안의 모든 64B를 이어서 읽는 부하가 아니다. B3 재방문은 같은 논리 페이지의 다른 데이터를 읽으며, 반드시 다른 NAND 물리 페이지를 뜻하지 않는다. Page buffer 또는 Controller buffer에서 재사용할 수 있는지는 당시 상태에 따른다.
+A2/C2는 3개 단위의 국소 순열이며 전체 주소 공간의 균등 난수 패턴은 아니다. C1/C2는 한 페이지 안의 모든 64B를 이어서 읽는 부하가 아니다. C3 재방문은 같은 논리 페이지의 다른 데이터를 읽으며, 반드시 다른 NAND 물리 페이지를 뜻하지 않는다. Page buffer 또는 Controller buffer에서 재사용할 수 있는지는 당시 상태에 따른다.
 
-최근 64 Plane의 고정 2ms 지속 부하 평가는 A1/A2와 B1/B2를 대상으로 했다. B3는 기존 유한 요청열 모델에 구현된 패턴 정의를 설명하며, 과거 32 Plane의 성능을 최신 지속 부하 결과에 혼합하지 않는다.
+최근 64 Plane의 고정 2ms 지속 부하 평가는 A1/A2와 C1/C2를 대상으로 했다. C3는 기존 유한 요청열 모델에 구현된 패턴 정의를 설명하며, 과거 32 Plane의 성능을 최신 지속 부하 결과에 혼합하지 않는다.
 
-근거: [유한 요청열 정의](../znand/model.py), [A 지속 부하 생성기](../znand/saturation.py), [B 지속 부하 생성기](../znand/partial_saturation.py).
+근거: [현재 A/B/C 요청열 정의](../znand/workloads.py), [기존 유한 요청열 정의](../znand/model.py), [A 지속 부하 생성기](../znand/saturation.py), [C의 이전 B 명칭 지속 부하 생성기](../znand/partial_saturation.py).
 
-## A·B의 유효 데이터량과 현재 처리량
+## A·B·C의 유효 데이터량과 현재 처리량
 
-| 비교 항목 | A1 / A2 | B1 / B2 |
-|---|---|---|
-| Host 요청당 반환량 | 4KiB | 64B |
-| 물리 16KiB당 유효 데이터 | 4개 요청 × 4KiB = 16KiB | 4개 요청 × 64B = 256B |
-| 명목 유효 데이터 비율 | 100% | 1/64 = 1.5625% |
-| 8MiB·QD512/Port 고정 2ms Host 평균 | A1 255.366 / A2 255.058GB/s | B1 3.995 / B2 4.001GB/s |
+새 B는 물리16KiB의 데이터를 최종적으로 전부 소비하는 패턴이다. 정식 성능은 아직 측정하지 않았고 아래 수치는 기존 A/C 실험이다. 버퍼 재사용·재출력 여부는 기존 모델 상태에 따른다.
 
-현재 모델은 64B만 요청해도 NAND에서 물리 페이지 전체 16KiB를 출력한다. B1/B2의 내부 NAND 전송은 각각 256.778/256.991GB/s이지만, Host가 실제로 사용하는 데이터는 일부다. 따라서 Host 유효 처리량은 약 4GB/s가 된다. 시간 구간의 경계와 버퍼 체류 때문에 측정한 Host/NAND 비율은 명목 1/64와 조금 다를 수 있다.
+| 비교 항목 | A1 / A2 | B (신규) | C1 / C2 |
+|---|---|---|---|
+| Host 요청당 반환량 | 4KiB | 64B | 64B |
+| 논리 4KiB당 요청 수 | 1개 | 64개 | 1개 |
+| 물리 16KiB당 유효 데이터 | 16KiB | 16KiB | 256B |
+| 명목 유효 데이터 비율 | 100% | 100% | 1/64 = 1.5625% |
+| 8MiB·QD512/Port 고정 2ms Host 평균 | A1 255.366 / A2 255.058GB/s | 정식 측정 전 | C1 3.995 / C2 4.001GB/s |
 
-A1/B1은 동일한 4KiB stripe, `head_locality` 장치 설정과 매핑을 사용한다. A2는 16KiB stripe와 `locality`, B2는 4KiB stripe와 `head_locality`이므로 A2/B2 차이를 읽기 크기만의 효과로 단정하지 않는다.
+현재 모델은 64B만 요청해도 NAND에서 물리 페이지 전체 16KiB를 출력한다. C1/C2의 내부 NAND 전송은 각각 256.778/256.991GB/s이지만, Host가 실제로 사용하는 데이터는 일부다. 따라서 Host 유효 처리량은 약 4GB/s가 된다. 시간 구간의 경계와 버퍼 체류 때문에 측정한 Host/NAND 비율은 명목 1/64와 조금 다를 수 있다.
 
-필요 없는 데이터를 더 반환하는 것만으로 유효 성능이 늘지는 않는다. 같은 물리 페이지에서 실제로 사용하는 데이터량과 재사용률이 중요하다. [B 측정 원자료](../results/znand/partial_saturation/sweep.csv), [B 결과와 설정 대조](../results/znand/partial_saturation/RESULTS_KO.md).
+A1/C1은 동일한 4KiB stripe, `head_locality` 장치 설정과 매핑을 사용한다. A2는 16KiB stripe와 `locality`, C2는 4KiB stripe와 `head_locality`이므로 A2/C2 차이를 읽기 크기만의 효과로 단정하지 않는다.
+
+필요 없는 데이터를 더 반환하는 것만으로 유효 성능이 늘지는 않는다. 같은 물리 페이지에서 실제로 사용하는 데이터량과 재사용률이 중요하다. [C의 이전 B 표기 측정 원자료](../results/znand/partial_saturation/sweep.csv), [C 결과와 설정 대조(이전 B 표기)](../results/znand/partial_saturation/RESULTS_KO.md).
 
 ## 자료 재생성
 
-슬라이드의 표와 그래프는 편집 가능한 native 객체다. 생성기는 `@oai/artifact-tool`을 제공하는 Codex bundled runtime을 사용한다. 임시 빌드 폴더에 `build.mjs`를 복사하고 해당 runtime의 `node_modules`를 연결한 뒤, 저장소 절대 경로와 새 출력 폴더를 인수로 실행한다. 생성 소스 상단의 skill/runtime 경로는 실행 환경에 맞게 지정한다.
+슬라이드의 표와 그래프는 편집 가능한 native 객체다. 생성기는 `@oai/artifact-tool`을 제공하는 Codex bundled runtime을 사용한다. 현재 14페이지 자료는 임시 빌드 폴더에 `rename_workloads.mjs`를 복사하고 해당 runtime의 `node_modules`를 연결한 뒤, 저장소 절대 경로와 새 출력 폴더를 인수로 실행한다. 기존 `performance_key_items_with_graph_ko.pptx`를 입력으로 삼아 원본 페이지의 명칭을 바꾸고 12~13페이지를 갱신한다. `build.mjs`와 `append_graph.mjs`는 당시 B 명칭의 원본을 재현하는 생성기다.
 
 수치 출처는 `22d9b33f085991f33d5273fdd9ce5688fb429fa4` 기준 파일을 `evidence.json`에 보존했다. 각 파일의 SHA-256과 실제 전체 커밋은 해당 JSON을 기준으로 한다. 모델 원본과 성능 결과 파일은 변경하지 않았다.
 
 
 ## 시간별 성능과 인사이트: 마지막 슬라이드
 
-![시간별 성능과 A·B의 병목](performance_key_items/performance_time_insights_ko.png)
+![시간별 성능과 A·C의 병목](performance_key_items/performance_time_insights_abc_ko.png)
 
 4 Port, 총 64 Plane, 8MiB, QD512/Port, PF OFF, 가용률 85%와 기존 tR을 유지한 지속 부하 결과다. 초기 200µs를 제외한 200~2,200µs의 고정 2ms를 25µs 구간으로 표시했다. 최고 구간만 선택하지 않았으며 관측 종료 후 drain을 포함하지 않는다. 좌우 그래프의 Y축 범위는 다르다.
 
@@ -256,13 +263,13 @@ A1/B1은 동일한 4KiB stripe, `head_locality` 장치 설정과 매핑을 사�
 |---|---:|---:|---:|
 | A1 | 255.366 | 124,692 | 2,006.7 |
 | A2 | 255.058 | 124,541 | 2,035.9 |
-| B1 | 3.995 | 124,832 | 2,030.7 |
-| B2 | 4.001 | 125,023 | 2,029.3 |
+| C1 | 3.995 | 124,832 | 2,030.7 |
+| C2 | 4.001 | 125,023 | 2,029.3 |
 
 A1/A2는 합계 Host IF 256GB/s의 약 99.6~99.8%를 사용한다. 이 조건에서 추가 병렬성만으로 얻을 수 있는 평균 처리량 증가는 작으며, 남은 응답 대기 구간을 줄이는 관점이 유효하다.
 
-B1/B2는 완료 요청 수와 outstanding이 A와 비슷해도 요청당 반환량이 64B다. 한 16KiB 물리 페이지에서 4개 영역의 64B씩, 총256B만 사용하므로 명목 유효 비율이 1/64다. 현재 전체 페이지 출력 모델에서 약4GB/s인 이유이며, 모든64B workload에 적용되는 일반 상한은 아니다. A1/B1은 같은 매핑과 장치 설정이고 A2/B2는 stripe와 CA정책이 다르므로, 후자는 요청 크기만 바꾼 비교로 해석하지 않는다.
+C1/C2는 완료 요청 수와 outstanding이 A와 비슷해도 요청당 반환량이 64B다. 한 16KiB 물리 페이지에서 4개 영역의 64B씩, 총256B만 사용하므로 명목 유효 비율이 1/64다. 현재 전체 페이지 출력 모델에서 약4GB/s인 이유이며, 모든64B workload에 적용되는 일반 상한은 아니다. A1/C1은 같은 매핑과 장치 설정이고 A2/C2는 stripe와 CA정책이 다르므로, 후자는 요청 크기만 바꾼 비교로 해석하지 않는다.
 
-B의 주기적 낙폭은 별도 대조실험에서 확인한 Plane maintenance와 Port 내부 in-order 선두 대기의 결합이다. 그래프는 모델의 주기적 off 설정에 따른 파형이며 실제 GC의 고유 주기를 뜻하지 않는다. 낙폭 직후 약4GB/s보다 높은 순간 구간은 이미 준비된 버퍼 데이터의 집중 반환으로 설명된다.
+C의 주기적 낙폭은 별도 대조실험에서 확인한 Plane maintenance와 Port 내부 in-order 선두 대기의 결합이다. 그래프는 모델의 주기적 off 설정에 따른 파형이며 실제 GC의 고유 주기를 뜻하지 않는다. 낙폭 직후 약4GB/s보다 높은 순간 구간은 이미 준비된 버퍼 데이터의 집중 반환으로 설명된다.
 
-출처: [A 시간별 측정](../results/znand/saturation/RESULTS_KO.md), [B 시간별 측정](../results/znand/partial_saturation/RESULTS_KO.md), [B 낙폭 원인 대조실험](../results/znand/partial_dips/RESULTS_KO.md). 원시 CSV의 320개 구간을 기존 sweep 요약의 평균·완료 요청 수와 대조했다.
+출처: [A 시간별 측정](../results/znand/saturation/RESULTS_KO.md), [C 시간별 측정(이전 B 표기)](../results/znand/partial_saturation/RESULTS_KO.md), [C 낙폭 원인 대조실험(이전 B 표기)](../results/znand/partial_dips/RESULTS_KO.md). 원시 CSV의 320개 구간을 기존 sweep 요약의 평균·완료 요청 수와 대조했다.

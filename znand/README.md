@@ -1,5 +1,7 @@
 # 주소 기반 zNAND Read와 Prefetch 실험
 
+**현재 이름(schema 2):** 새 B는 각4KiB 페이지 전체를64B씩 읽는다. 기존 B1/B2/B3는 C1/C2/C3다. [현재 진입점과 실행 방법](../docs/15_workload_naming_ko.md)을 따른다. 아래 과거 sweep·파일명·재현용 내부 API는 기존 식별자를 보존한다.
+
 기존 `axi_burst_sim.py`, `multiport_sim.py`, `deep_prefetch_sim.py`는 그대로 보존하고, 합의한 주소 배치와 부분 Read·재방문·page buffer를 표현하는 이벤트 모델을 추가했다. 시간 단위는 μs, 대역폭은 decimal GB/s, 저장 단위는 KiB/MiB다. 제품 RTL 또는 실제 NAND 사양의 검증을 대체하지 않는다.
 
 현재 CA 정책의 적용 위치·선택 순서·우회 계수·패턴별 실행 설정은 [컨트롤러 스케줄링 적용점](../docs/12_controller_scheduling_ko.md)을 따른다. 아래 구현 기준 표의 `fifo`·8MiB 등 기본값과 평가 프로파일을 구분한다.
@@ -24,7 +26,7 @@ Mac에서는 저장소 루트에서 `bash scripts/macos.sh setup`, `bash scripts
 
 ```sh
 python3 -m unittest test_znand test_znand_expansion -q
-python3 -m znand.run --config znand/baseline.json --pattern B3 --per-port 2048 --out results/znand/single --trace
+python3 -m znand.run --config znand/baseline.json --pattern C3 --per-port 2048 --out results/znand/single --trace
 python3 -m znand.sweep --workers 4 --snapshot znand/mqsim/snapshot.json
 python3 -m znand.report
 ```
@@ -59,7 +61,7 @@ python3 -m znand.report
 1. **Die/LUN:** 기본 실행에서는 32개, 확장에서는 64개 Plane을 독립 array 자원으로 모델링한다. Die 전원·명령 수·multi-plane 동기 제약은 없다. MQSim 입력 geometry는 추출 목적이며 그 Die 제약을 본 모델에 가져오지 않는다.
 2. **내부 작업:** 주기 점유가 기존 Read와 겹치면 해당 Read의 NAND 전송까지 완료한 후 내부 점유를 시작한다. 점유 동안 NAND page buffer 접근은 불가하지만 내용은 유지한다. CA/Data를 별도로 소비하는 GC 복사나 L2P 갱신은 포함하지 않는다. 실제 점유 비율을 결과에 기록한다.
 3. **출력 비용:** Page buffer 재출력은 CA 100ns + 16KiB 전송 + turnaround + ECC다. 신규 Read의 별도 출력 CA는 Read CA에 흡수한 추상화다.
-4. **Trace:** A2/B2는 1→3→2의 지역 순열, B3는 1→3→1의 다음 64B→2로 읽고 다음 세 페이지 묶음으로 이동한다. 최초 offset은 0, B3 재방문은 64다. 무한 반복으로 작은 작업 영역만 적중시키지 않는다.
+4. **Trace:** A2/C2는 1→3→2의 지역 순열, C3는 1→3→1의 다음 64B→2로 읽고 다음 세 페이지 묶음으로 이동한다. 최초 offset은 0, C3 재방문은 64다. 무한 반복으로 작은 작업 영역만 적중시키지 않는다.
 5. **Prefetch:** 각 물리 페이지의 첫 요청 제시 시각보다 lead만큼 먼저 후보 생성. 정확도 1/.75/.5/.25, lead 1/5/10/25μs, 기본 미사용 예산 128개. 잘못 예측한 주소는 다른 Group의 실제 물리 주소로 구성한다. 정답 여부로 즉시 폐기하지 않는다. 같은 채널·Plane에서 오예측이 발생하는 보수적 경쟁 조건이다.
 6. **부하:** 기본은 port당 요청량 고정이며 총 요청량 고정 실험을 추가했다. 요청은 반환 경로의 명목 속도로 제시되고, Outstanding·AR·버퍼 제한에 의해 수락이 지연될 수 있다. Offered와 accepted 시간을 모두 남긴다.
 7. **Cold 상태:** 각 실행은 빈 controller buffer와 초기 NAND 이력으로 시작한다. Prefetch ON은 첫 요청 이전에 데이터를 준비할 수 있다. Host 측정 구간과 사전 NAND 작업을 포함한 구간의 처리량을 함께 출력한다.
@@ -114,7 +116,7 @@ sh znand/mqsim/reproduce.sh /tmp/mqsim-znand-reproduction
 `observed_best/A1.json`부터 `B3.json`까지는 긴 trace의 4port 비교에서 관측한 최고 처리량 설정이다. 해당 유한 workload에서 고른 설정이며 다른 workload의 최적값을 보장하지 않는다.
 
 ```sh
-python3 -m znand.run --config znand/observed_best/B3.json --pattern B3 --per-port 8192 --out results/znand/replay_B3
+python3 -m znand.run --config znand/observed_best/B3.json --pattern C3 --per-port 8192 --out results/znand/replay_B3
 ```
 
 기존 실험은 기본·민감도 1,248개와 상위 Outstanding 240개, 총 1,488개다. 압축 배포본은 압축을 푼 루트에서 실행한다. 기존 모델 테스트 28개에 확장 테스트 7개를 추가했으며 `python3 -m unittest test_znand test_znand_expansion -q`로 35개를 실행한다. 84개 통과 기록은 기존 저장소 테스트를 포함한 결과다. 그림을 다시 생성하려면 matplotlib이 설치된 Python으로 `python3 -m znand.report`를 실행한다.
@@ -153,7 +155,7 @@ python3 -m znand.buffer_growth --workers 8
 python3 -m znand.buffer_growth_report
 ```
 
-4port·32Plane·PF ON·port당 8,192개 요청을 유지하고 공유 버퍼를 32/40/48/56/64MiB로 바꾼다. A1(4KiB stripe)과 A2(16KiB stripe)는 QD2,048/4,096/8,192를 각각 비교한다. B1/B2(4KiB stripe), B3(16KiB stripe)는 QD8,192를 고정한다. 총 45개 조건이며 동일 모델·설정의 기존 32MiB 결과 6개를 재사용한다.
+4port·32Plane·PF ON·port당 8,192개 요청을 유지하고 공유 버퍼를 32/40/48/56/64MiB로 바꾼다. A1(4KiB stripe)과 A2(16KiB stripe)는 QD2,048/4,096/8,192를 각각 비교한다. C1/C2(4KiB stripe), C3(16KiB stripe)는 QD8,192를 고정한다. 총 45개 조건이며 동일 모델·설정의 기존 32MiB 결과 6개를 재사용한다.
 
 결과는 `results/znand/buffer_growth/`에 저장한다. 중단 후 재실행은 모델 해시와 저장된 조건을 검증하고 남은 조건만 실행한다. 여러 프로세스에서 이 실행기를 동시에 실행하지 않는다. 물리 용량과 reservation 한도는 여전히 결합된 모델이다. 처리량뿐 아니라 실제 예약 peak, 수락 실패 횟수, Long sensing 비율도 [결과 보고서](../results/znand/buffer_growth/RESULTS_KO.md)에서 확인한다.
 
@@ -173,6 +175,6 @@ python3 -m znand.head_sweep --workers 8
 python3 -m znand.head_report
 ```
 
-A1/A2·32MiB·QD2,048/port에서 우회 4/8/16/32회 각각에 대해 기존 정책과 선두 대기 0/12.16/48.64μs를 비교한다. A1/A2 처리량 비율의 기하평균으로 선두 우선 후보 하나를 고정한 뒤, B1/B2/B3와 더 긴 A1/A2 요청열에서 확인한다. 처리량 선택이 p99 개선을 보장하지 않으므로 둘 다 보고한다. 중간 결과가 있으면 모델·실행기 해시와 저장 조건을 검증하고 이어서 실행한다. [결과 보고서](../results/znand/head_locality/RESULTS_KO.md)에 기존 우회 8회 대비와 같은 우회 한도 대비를 따로 기록한다.
+A1/A2·32MiB·QD2,048/port에서 우회 4/8/16/32회 각각에 대해 기존 정책과 선두 대기 0/12.16/48.64μs를 비교한다. A1/A2 처리량 비율의 기하평균으로 선두 우선 후보 하나를 고정한 뒤, C1/C2/C3와 더 긴 A1/A2 요청열에서 확인한다. 처리량 선택이 p99 개선을 보장하지 않으므로 둘 다 보고한다. 중간 결과가 있으면 모델·실행기 해시와 저장 조건을 검증하고 이어서 실행한다. [결과 보고서](../results/znand/head_locality/RESULTS_KO.md)에 기존 우회 8회 대비와 같은 우회 한도 대비를 따로 기록한다.
 
-47개 비교 후 [실행용 프로파일](../results/znand/head_locality/profiles/)을 저장했다. A1은 `head_locality`·우회32·대기48.64μs, A2/B1/B2/B3는 `locality`·우회32다. A2는 긴 요청열에서 선두 우선의 추가 효과가 없었고 B계열은 선두 우선으로 성능이 낮아졌다. 패턴별 설정을 명시하며 모델이 workload를 자동 분류하지 않는다. `znand.run`의 요청별 CSV에는 실제 선두가 된 시각 `head_since`도 기록한다.
+47개 비교 후 [실행용 프로파일](../results/znand/head_locality/profiles/)을 저장했다. A1은 `head_locality`·우회32·대기48.64μs, A2/C1/C2/C3는 `locality`·우회32다. A2는 긴 요청열에서 선두 우선의 추가 효과가 없었고 C계열은 선두 우선으로 성능이 낮아졌다. 패턴별 설정을 명시하며 모델이 workload를 자동 분류하지 않는다. `znand.run`의 요청별 CSV에는 실제 선두가 된 시각 `head_since`도 기록한다.

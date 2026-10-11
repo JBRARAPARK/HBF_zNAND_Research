@@ -1,5 +1,7 @@
 # Prefetch 모델과의 비교
 
+**명칭 안내:** 이 문서의 기존 B1/B2/B3(또는 B-1/B-2/B-3)는 현재 C1/C2/C3에 해당합니다. 새 B는 페이지 내부 64B 연속 읽기입니다. [현재 정의](15_workload_naming_ko.md)를 참고하세요. 원문 질의·과거 재현 명령은 당시 표기를 유지합니다.
+
 검토 대상은 [NAND_Prefetch_Model](https://github.com/JBRARAPARK/NAND_Prefetch_Model/tree/645649621a94c96de5a4d614267ab80387f06c0c)의 코드와 기존 결과입니다. 이 문서 작성 중 모델 변경이나 신규 시뮬레이션은 수행하지 않았습니다.
 
 ## 1. 현재 구현의 중심

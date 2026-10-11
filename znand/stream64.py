@@ -3,16 +3,20 @@ import argparse
 import csv
 import hashlib
 import json
+import sys
 from dataclasses import asdict
 from pathlib import Path
 
 from .model import Config
-from .partial_saturation import time_series, summarize_partial
+from .partial_saturation import summarize_partial
+from .read64_observation import time_series, NoPrefetchCapacitySimulator
 from .workloads import ContinuousRead64Simulator, SCHEMA_VERSION
 
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--progress-us', type=float, default=0., help='Report simulated progress to stderr; no device events added')
+    parser.add_argument('--fast-pf-off', '--fast-no-pf-admission', dest='fast_no_pf_admission', action='store_true', help='Equivalent PF-OFF execution with redundant CPU scans removed')
     parser.add_argument('--pattern', choices=('B', 'C1', 'C2', 'C3'), default='B')
     parser.add_argument('--config', required=True, type=Path)
     parser.add_argument('--out', required=True, type=Path)
@@ -38,9 +42,23 @@ def main():
         span = snapshot.get('logical_region_span_bytes', span)
     if args.out.exists() and any(args.out.iterdir()):
         parser.error('Choose a new output directory to preserve previous measurements')
-    sim = ContinuousRead64Simulator(cfg, args.pattern, span, args.duration_us).run_for_duration()
+    simulator = NoPrefetchCapacitySimulator if args.fast_no_pf_admission else ContinuousRead64Simulator
+    sim = simulator(cfg, args.pattern, span, args.duration_us)
+    if args.progress_us > 0:
+        next_progress=sim.start_us+args.progress_us
+        original_pump=sim.pump
+        def progress_pump():
+            nonlocal next_progress
+            if sim.now >= next_progress:
+                print(f"Simulated {sim.now-sim.start_us:.1f}/{args.duration_us:g} us; completed {sim.finished:,} requests",file=sys.stderr,flush=True)
+                next_progress=sim.now+args.progress_us
+            return original_pump()
+        sim.pump=progress_pump
+    sim.run_for_duration()
     rows = time_series(sim, args.bin_us)
     result = dict(workload_schema=SCHEMA_VERSION, pattern=args.pattern,
+                  observation_version=2, fast_no_pf_admission=args.fast_no_pf_admission,
+                  execution_engine="pf_off_equivalent" if args.fast_no_pf_admission else "reference",
                   config=asdict(cfg), logical_region_span_bytes=span,
                   duration_us=args.duration_us, warmup_us=args.warmup_us, bin_us=args.bin_us,
                   windows=summarize_partial(rows, args.warmup_us, args.peak_us),

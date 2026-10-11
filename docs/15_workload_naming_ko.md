@@ -45,7 +45,7 @@ python3 -m znand.stream64 --pattern C1 \
   --out results/local/C1_b8_q512
 ```
 
-지속 부하 CLI는 현재4 Port 기준으로 200µs 초기 구간 제외·고정2ms·최고 연속500µs를 측정한다. 주소 영역 크기는 snapshot의 기존 영역 크기를 우선 사용하며 도메인 끝에서 wrap하지 않는다. 결과에는 실제 outstanding·완료 요청 수·NAND 전송량·tR 종류별 횟수를 기록한다. B의 정식 성능 sweep은 아직 실행하지 않았으며, 기존 약4GB/s를 B의 성능으로 재사용하지 않는다.
+지속 부하 CLI는 현재4 Port 기준으로 200µs 초기 구간 제외·고정2ms·최고 연속500µs를 측정한다. 주소 영역 크기는 snapshot의 기존 영역 크기를 우선 사용하며 도메인 끝에서 wrap하지 않는다. 결과에는 실제 outstanding·완료 요청 수·NAND 전송량·tR 종류별 횟수를 기록한다. B의 정식 QD별 성능 측정은 [새 B 성능 보고서](16_b_sequential_performance_ko.md)에 정리했다. 기존 약4GB/s는 C1/C2 결과이며 B의 성능으로 재사용하지 않는다.
 
 ## 이전 자료와 결과의 읽는 법
 

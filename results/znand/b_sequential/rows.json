@@ -1,0 +1,224 @@
+[
+  {
+    "name": "B_b8_q128",
+    "buffer_mib": 8.0,
+    "qd_per_port": 128,
+    "fixed_gbps": 10.485759999980816,
+    "peak_500us_gbps": 10.878975999742746,
+    "peak_start_us": 250.0,
+    "peak_end_us": 750.0,
+    "completed_requests": 327680,
+    "actual_outstanding": 512.0,
+    "per_port_outstanding": [
+      128.0,
+      128.0,
+      128.0,
+      128.0
+    ],
+    "per_port_gbps": [
+      2.6644479999938775,
+      2.57433599999384,
+      2.5948159999974303,
+      2.652159999995667
+    ],
+    "buffer_mean_mib": 0.1275199999999954,
+    "buffer_peak_mib": 0.15625,
+    "nand_gbps": 41.94304,
+    "host_payload_pct": 25.0,
+    "read_amplification": 4.0,
+    "long_tr_pct": 0.0,
+    "tr_counts": {
+      "first": 7,
+      "short": 645,
+      "mid": 627,
+      "long": 0,
+      "group": 0
+    },
+    "second_vs_first_pct": 4.32347491141627e-09
+  },
+  {
+    "name": "B_b8_q512",
+    "buffer_mib": 8.0,
+    "qd_per_port": 512,
+    "fixed_gbps": 31.457279999935054,
+    "peak_500us_gbps": 31.477247999845975,
+    "peak_start_us": 1550.0,
+    "peak_end_us": 2050.0,
+    "completed_requests": 983040,
+    "actual_outstanding": 2048.0,
+    "per_port_outstanding": [
+      512.0,
+      512.0,
+      512.0,
+      512.0
+    ],
+    "per_port_gbps": [
+      7.864319999985921,
+      5.242879999989643,
+      10.485759999980496,
+      7.864319999978993
+    ],
+    "buffer_mean_mib": 0.25956999999998026,
+    "buffer_peak_mib": 0.34375,
+    "nand_gbps": 31.457279999999997,
+    "host_payload_pct": 100.0,
+    "read_amplification": 1.0,
+    "long_tr_pct": 0.0,
+    "tr_counts": {
+      "first": 0,
+      "short": 1920,
+      "mid": 1920,
+      "long": 0,
+      "group": 0
+    },
+    "second_vs_first_pct": 4.210054527220564e-09
+  },
+  {
+    "name": "B_b8_q2048",
+    "buffer_mib": 8.0,
+    "qd_per_port": 2048,
+    "fixed_gbps": 69.46815999985452,
+    "peak_500us_gbps": 69.71987358726533,
+    "peak_start_us": 1550.0,
+    "peak_end_us": 2050.0,
+    "completed_requests": 2170880,
+    "actual_outstanding": 8192.0,
+    "per_port_outstanding": [
+      2048.0,
+      2048.0,
+      2048.0,
+      2048.0
+    ],
+    "per_port_gbps": [
+      18.35007999995388,
+      15.728639999967982,
+      17.039359999967466,
+      18.350079999965196
+    ],
+    "buffer_mean_mib": 0.6254541292187986,
+    "buffer_peak_mib": 0.75,
+    "nand_gbps": 69.46816,
+    "host_payload_pct": 100.0,
+    "read_amplification": 1.0,
+    "long_tr_pct": 0.0,
+    "tr_counts": {
+      "first": 0,
+      "short": 4240,
+      "mid": 4240,
+      "long": 0,
+      "group": 0
+    },
+    "second_vs_first_pct": 4.194578018257289e-09
+  },
+  {
+    "name": "B_b8_q8192",
+    "buffer_mib": 8.0,
+    "qd_per_port": 8192,
+    "fixed_gbps": 154.6795160301164,
+    "peak_500us_gbps": 154.72769888051013,
+    "peak_start_us": 1525.0,
+    "peak_end_us": 2025.0,
+    "completed_requests": 4833735,
+    "actual_outstanding": 32768.0,
+    "per_port_outstanding": [
+      8192.0,
+      8192.0,
+      8192.0,
+      8192.0
+    ],
+    "per_port_gbps": [
+      39.32877963350837,
+      36.70015999987937,
+      39.32897639683178,
+      39.32159999989689
+    ],
+    "buffer_mean_mib": 2.1614606031967063,
+    "buffer_peak_mib": 2.25,
+    "nand_gbps": 154.67315200000002,
+    "host_payload_pct": 100.00411706874635,
+    "read_amplification": 0.9999588310074922,
+    "long_tr_pct": 0.0,
+    "tr_counts": {
+      "first": 0,
+      "short": 9440,
+      "mid": 9440,
+      "long": 0,
+      "group": 0
+    },
+    "second_vs_first_pct": -0.01881911483153642
+  },
+  {
+    "name": "B_b8_q16384",
+    "buffer_mib": 8.0,
+    "qd_per_port": 16384,
+    "fixed_gbps": 241.61138259243333,
+    "peak_500us_gbps": 242.31874222312993,
+    "peak_start_us": 800.0,
+    "peak_end_us": 1300.0,
+    "completed_requests": 7550354,
+    "actual_outstanding": 65536.0,
+    "per_port_outstanding": [
+      16384.0,
+      16384.0,
+      16384.0,
+      16384.0
+    ],
+    "per_port_gbps": [
+      60.30753862365522,
+      60.294498381430216,
+      60.56746632025291,
+      60.441879267095004
+    ],
+    "buffer_mean_mib": 4.19669624872963,
+    "buffer_peak_mib": 4.25,
+    "nand_gbps": 241.639424,
+    "host_payload_pct": 99.9883727582466,
+    "read_amplification": 1.0001162859383812,
+    "long_tr_pct": 0.0,
+    "tr_counts": {
+      "first": 0,
+      "short": 14746,
+      "mid": 14748,
+      "long": 0,
+      "group": 0
+    },
+    "second_vs_first_pct": -0.13895127067475865
+  },
+  {
+    "name": "B_b8_q32768",
+    "buffer_mib": 8.0,
+    "qd_per_port": 32768,
+    "fixed_gbps": 255.33549768363812,
+    "peak_500us_gbps": 255.6630980405883,
+    "peak_start_us": 200.0,
+    "peak_end_us": 700.0,
+    "completed_requests": 7979235,
+    "actual_outstanding": 127441.17213891471,
+    "per_port_outstanding": [
+      32703.51450546117,
+      32643.687246594865,
+      32213.166410590056,
+      29880.80397626862
+    ],
+    "per_port_gbps": [
+      64.00000000003551,
+      63.71416650268722,
+      63.62394522486547,
+      63.997385956049925
+    ],
+    "buffer_mean_mib": 7.980914460468595,
+    "buffer_peak_mib": 8.0,
+    "nand_gbps": 256.008192,
+    "host_payload_pct": 99.73724590813094,
+    "read_amplification": 1.0026344630782273,
+    "long_tr_pct": 0.0,
+    "tr_counts": {
+      "first": 0,
+      "short": 15624,
+      "mid": 15622,
+      "long": 0,
+      "group": 0
+    },
+    "second_vs_first_pct": -0.1593975880691323
+  }
+]

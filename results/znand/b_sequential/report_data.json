@@ -1,0 +1,152 @@
+{
+  "best": {
+    "name": "B_b8_q32768",
+    "buffer_mib": 8.0,
+    "qd_per_port": 32768,
+    "fixed_gbps": 255.33549768363812,
+    "peak_500us_gbps": 255.6630980405883,
+    "peak_start_us": 200.0,
+    "peak_end_us": 700.0,
+    "completed_requests": 7979235,
+    "actual_outstanding": 127441.17213891471,
+    "per_port_outstanding": [
+      32703.51450546117,
+      32643.687246594865,
+      32213.166410590056,
+      29880.80397626862
+    ],
+    "per_port_gbps": [
+      64.00000000003551,
+      63.71416650268722,
+      63.62394522486547,
+      63.997385956049925
+    ],
+    "buffer_mean_mib": 7.980914460468595,
+    "buffer_peak_mib": 8.0,
+    "nand_gbps": 256.008192,
+    "host_payload_pct": 99.73724590813094,
+    "read_amplification": 1.0026344630782273,
+    "long_tr_pct": 0.0,
+    "tr_counts": {
+      "first": 0,
+      "short": 15624,
+      "mid": 15622,
+      "long": 0,
+      "group": 0
+    },
+    "second_vs_first_pct": -0.1593975880691323
+  },
+  "baseline": {
+    "name": "B_b8_q512",
+    "buffer_mib": 8.0,
+    "qd_per_port": 512,
+    "fixed_gbps": 31.457279999935054,
+    "peak_500us_gbps": 31.477247999845975,
+    "peak_start_us": 1550.0,
+    "peak_end_us": 2050.0,
+    "completed_requests": 983040,
+    "actual_outstanding": 2048.0,
+    "per_port_outstanding": [
+      512.0,
+      512.0,
+      512.0,
+      512.0
+    ],
+    "per_port_gbps": [
+      7.864319999985921,
+      5.242879999989643,
+      10.485759999980496,
+      7.864319999978993
+    ],
+    "buffer_mean_mib": 0.25956999999998026,
+    "buffer_peak_mib": 0.34375,
+    "nand_gbps": 31.457279999999997,
+    "host_payload_pct": 100.0,
+    "read_amplification": 1.0,
+    "long_tr_pct": 0.0,
+    "tr_counts": {
+      "first": 0,
+      "short": 1920,
+      "mid": 1920,
+      "long": 0,
+      "group": 0
+    },
+    "second_vs_first_pct": 4.210054527220564e-09
+  },
+  "a1": {
+    "start_us": 200.0,
+    "end_us": 2200.0,
+    "duration_us": 2000.0,
+    "bandwidth_gbps": 255.3659216227934,
+    "completed_bandwidth_gbps": 255.369216,
+    "accepted_requests": 124690,
+    "completed_requests": 124692,
+    "outstanding_mean": 2006.6894181993769,
+    "buffer_mean_mib": 7.999988599008138,
+    "outstanding_start": 2010,
+    "outstanding_end": 2008,
+    "p_outstanding_mean": [
+      511.3722476745772,
+      510.5591839580133,
+      510.27411854333707,
+      474.48386802344936
+    ],
+    "p_bandwidth_gbps": [
+      63.952295604326316,
+      63.75884308693963,
+      63.654782931527244,
+      64.0000000000002
+    ],
+    "p_completed_requests": [
+      31227,
+      31133,
+      31082,
+      31250
+    ]
+  },
+  "c1": {
+    "start_us": 200.0,
+    "end_us": 2200.0,
+    "duration_us": 2000.0,
+    "bandwidth_gbps": 3.994623999993548,
+    "completed_bandwidth_gbps": 3.994624,
+    "accepted_requests": 124832,
+    "completed_requests": 124832,
+    "outstanding_mean": 2030.7330302551911,
+    "buffer_mean_mib": 7.999808495286162,
+    "outstanding_start": 2032,
+    "outstanding_end": 2032,
+    "p_outstanding_mean": [
+      511.6257025198966,
+      511.3421558936662,
+      511.00597010851993,
+      496.7592017331083
+    ],
+    "p_bandwidth_gbps": [
+      1.0030079999984292,
+      0.9937919999986616,
+      0.9902079999987327,
+      1.0076159999977243
+    ],
+    "p_completed_requests": [
+      31344,
+      31056,
+      30944,
+      31488
+    ],
+    "nand_completed_pages": 31345,
+    "nand_completed_gbps": 256.77824,
+    "host_miops": 62.416,
+    "host_to_nand_payload_pct": 1.5556707608869038,
+    "nand_read_amplification": 64.2809536016406,
+    "tr_counts": {
+      "first": 0,
+      "short": 15672,
+      "mid": 15675,
+      "long": 0,
+      "group": 0
+    },
+    "long_tr_pct": 0.0
+  },
+  "table": "| \ubc84\ud37c MiB | QD/Port | 2ms \ud3c9\uade0 GB/s | \ucd5c\uace0 500\u00b5s GB/s | \uc2e4\uc81c outstanding \ud569\uacc4 | \ubc84\ud37c \ud3c9\uade0 MiB | \uc644\ub8cc \uc694\uccad \uc218 | Long tR |\n|---:|---:|---:|---:|---:|---:|---:|---:|\n| 8 | 128 | 10.486 | 10.879 | 512.0 | 0.128 | 327,680 | 0.000% |\n| 8 | 512 | 31.457 | 31.477 | 2,048.0 | 0.260 | 983,040 | 0.000% |\n| 8 | 2,048 | 69.468 | 69.720 | 8,192.0 | 0.625 | 2,170,880 | 0.000% |\n| 8 | 8,192 | 154.680 | 154.728 | 32,768.0 | 2.161 | 4,833,735 | 0.000% |\n| 8 | 16,384 | 241.611 | 242.319 | 65,536.0 | 4.197 | 7,550,354 | 0.000% |\n| 8 | 32,768 | 255.335 | 255.663 | 127,441.2 | 7.981 | 7,979,235 | 0.000% |"
+}

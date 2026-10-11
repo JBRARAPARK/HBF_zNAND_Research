@@ -1,0 +1,14 @@
+{
+  "A1": {
+    "path": "results/znand/saturation/runs/A1_b8_q512.json",
+    "sha256": "ba073b929ff8c2fd23d299c6fa10993c7817b5c21ddccade460ef59928b4c8d4",
+    "identical_device_config": true,
+    "identical_mapping": true
+  },
+  "C1": {
+    "path": "results/znand/partial_saturation/runs/B1_b8_q512.json",
+    "sha256": "ed84e9cf63ef3b6bd8d8fe1092573fd5ea67fe5f754efd79ee77bd733c8894b9",
+    "identical_device_config": true,
+    "identical_mapping": true
+  }
+}

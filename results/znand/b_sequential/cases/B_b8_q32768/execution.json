@@ -1,0 +1,16 @@
+{
+  "runtime_seconds": 139.04288187500788,
+  "python": "3.14.7",
+  "command": [
+    "/opt/homebrew/opt/python@3.14/bin/python3.14",
+    "-m",
+    "znand.stream64",
+    "--pattern",
+    "B",
+    "--config",
+    "results/znand/b_sequential/profiles/B_b8_q32768.json",
+    "--out",
+    "results/znand/b_sequential/cases/B_b8_q32768",
+    "--fast-no-pf-admission"
+  ]
+}

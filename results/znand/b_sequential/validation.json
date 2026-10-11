@@ -1,0 +1,15 @@
+{
+  "status": "passed",
+  "cases": 6,
+  "fixed_window_us": [
+    200,
+    2200
+  ],
+  "sustained_supply": true,
+  "source_hashes_verified": true,
+  "timeline_accounting_verified": true,
+  "fixed_device_config_except_qd_and_buffer": true,
+  "unchanged_core_model": true,
+  "core_sha256": "755f822a6b7c1f44f65117b4892078419a766d4963ad4d49931e8aa1db679baf",
+  "observation_revisions_verified": true
+}

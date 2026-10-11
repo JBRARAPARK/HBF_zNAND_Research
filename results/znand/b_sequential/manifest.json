@@ -1,0 +1,37 @@
+{
+  "workload_schema": 2,
+  "pattern": "B",
+  "source_commit": "8e7d341cb2190002b3b64d1a6bf2a7e88797cc28",
+  "hashes": {
+    "znand/model.py": "755f822a6b7c1f44f65117b4892078419a766d4963ad4d49931e8aa1db679baf",
+    "znand/workloads.py": "39826372cf877972878bb63897628a510747e31c283bfb7570dddbada3b6a583",
+    "znand/saturation.py": "1787ccf9aec0db13e8af0b15eacf824992647fca76d8bd2b90d4c864f3ee59dc",
+    "znand/partial_saturation.py": "b0cee8bc1577adb2387a9e176155ea03e0e4647ac1d9bfca3dd8be49aec0382e",
+    "znand/stream64.py": "6af44876eff24b4229a74bb2b2c0b6ce306f9add03ddc7e5e11cbdc9772514e4",
+    "znand/read64_observation.py": "e9ab54285ce1d74a3472e5a1422b60cf010c3baf9723f4d74dd700afc62d87fc",
+    "results/znand/saturation/profiles/A1_b8_q512.json": "8fab39fb6e49cbc83342a25602addb949fbb7d6fc224334af189ece8bede7380",
+    "results/znand/saturation/snapshots/A1.json": "b8ae4937445a99c8e90f50a4138be9eaa0da00c2ff229578892101d7217d1161"
+  },
+  "host_request_bytes": 64,
+  "logical_page_bytes": 4096,
+  "nand_page_bytes": 16384,
+  "definition": "64 consecutive 64B requests per logical page, then the next page; no address wrap",
+  "fixed_window_us": [
+    200,
+    2200
+  ],
+  "peak_window_us": 500,
+  "bin_us": 25,
+  "observation_revision": 2,
+  "legacy_observer_manifest": "observer_v1_manifest.json",
+  "legacy_observer_cases": [
+    "B_b8_q16384",
+    "B_b8_q8192",
+    "B_b8_q128",
+    "B_b8_q2048",
+    "B_b8_q512"
+  ],
+  "initial_q32768_run": "Device simulation completed; legacy observer rejected bin-boundary accounting; no measurement from that attempt was saved.",
+  "source_commit_at_measurement_start": "8e7d341cb2190002b3b64d1a6bf2a7e88797cc28",
+  "current_observer_provenance": "Observer v2 and equivalent PF-OFF execution were added in the working tree during this measurement. Exact current files are identified by hashes; NAND/controller model.py is unchanged."
+}

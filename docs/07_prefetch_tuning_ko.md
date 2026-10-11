@@ -699,4 +699,14 @@ A의 4KiB 반환은 요청당 64ns, C의 64B 반환은 1ns다. A는 앞선 ready
 
 B는 각4KiB 논리 페이지에64개 요청을 발행한 뒤 다음 페이지로 이동한다. 요청수 상한을 같은 QD로 고정하면 A보다 대기 데이터량과 동시 물리 페이지 수가 작아진다. 먼저 A1과 같은4KiB stripe·영역 배치·64Plane·8MiB·QD512·PF OFF로 비교한 뒤 QD를 확대하며 실제 active page/Plane, lookup 병렬성, 버퍼 재사용·재출력량을 함께 본다. 같은 데이터 범위 비교에서는 B 요청 수를 A1의64배로 맞춘다.
 
-Controller buffer를 영구 cache로 바꾸거나 항상hit으로 가정하지 않는다. 기존 tR과 in-order를 유지한다. 정식 B sweep은 아직 실행하지 않았다. 기존 약4GB/s 결과는 이름을 C1/C2로 옮긴 희소64B 패턴의 결과다.
+Controller buffer를 영구 cache로 바꾸거나 항상hit으로 가정하지 않는다. 기존 tR과 in-order를 유지한다. B의 정식 QD별 측정은 [새 B 성능 보고서](16_b_sequential_performance_ko.md)를 참고한다. 기존 약4GB/s 결과는 이름을 C1/C2로 옮긴 희소64B 패턴의 결과다.
+
+
+### 새 B 측정 이후 튜닝 포인트
+
+새 B의 QD별 실측은 [문서 16](16_b_sequential_performance_ko.md)에 정리한다. QD는 64B 요청 개수이므로 A1과 동일한 outstanding 데이터량을 맞추려면 64배가 필요하다. 요청 슬롯·lookup 자원과 payload 버퍼 용량을 구분해 비교한다.
+
+- QD128/Port·4KiB stripe에서는 임시 버퍼 해제 뒤 같은 물리 페이지를 다시 출력해 NAND read amplification이 4배다. Plane page-buffer hit로 sensing이 생략되어도 NAND 출력 전송량은 줄지 않을 수 있다.
+- QD512 이상에서 재사용은 크게 개선되지만 NAND 병렬성을 확보하려면 더 큰 QD가 필요하다. 버퍼를 먼저 늘릴지 판단할 때는 실제 예약량과 admission stall을 함께 본다.
+- 후속 배치 비교는 B의 동일 QD·동일 버퍼에서 4KiB/16KiB stripe를 비교한다. 한 물리 페이지를 빨리 소비하는 이점과 채널에 빨리 분산하는 이점을 분리해서 확인한다.
+- 큰 QD의 요청 descriptor·AXI ID·lookup 메타데이터 비용은 현재 payload 버퍼 용량에 포함되지 않는다. 구현 가능성 검토 시 별도로 산정한다.

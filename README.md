@@ -213,3 +213,7 @@ python3 -m znand.run --config results/znand/pf_qd/profiles/A1_host_only.json --p
 이번 요청 길이에서는 최초 데이터 준비 21.7445μs를 포함해도 전체 평균의 Host 경로 상한이 약 245.805GB/s다. Cold 전체 평균과 장시간 지속 256GB/s를 구분한다. NAND Data 경로 상한도 turnaround 포함 257.496GB/s여서 지속 256에는 약 99.42% 활용이 필요하다.
 
 [상한 계산과 결과 보고서](results/znand/host_ceiling/RESULTS_KO.md), [12개 CSV](results/znand/host_ceiling/sweep.csv), [검증](results/znand/host_ceiling/validation.json), [진단용 배치와 프로파일](results/znand/host_ceiling/profiles/)을 제공한다. 기존 실행용 설정은 유지하며 장시간·다른 seed·주소 편향·실제 L2P 상태 검증 전에는 이 배치를 범용 설정으로 채택하지 않는다.
+
+## 새 B: 페이지 내부 64B 연속 읽기 성능
+
+64Plane·4Port·8MiB·PF OFF에서 새 B의 QD별 지속 성능을 측정했습니다. 초기 200µs를 제외한 고정 2ms 평균, 실제 outstanding, 완료 요청 수, NAND 데이터 활용률을 [새 B 성능 보고서](docs/16_b_sequential_performance_ko.md)에 정리했습니다. A1/C1과 동일한 장치 설정을 기준으로 QD를 변경하며, tR과 컨트롤러 스케줄링은 유지합니다.

@@ -41,3 +41,5 @@ results/znand/scheduling_next/report_generation.log
 !results/znand/pf_qd/*.png
 
 !results/znand/host_ceiling/*.png
+
+!results/znand/b_sequential/*.png

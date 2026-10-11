@@ -1,0 +1,38 @@
+[
+  {
+    "pattern": "A1",
+    "qd_per_port": 512,
+    "baseline_gbps": 255.3659216227934,
+    "fifo_gbps": 255.3659216227934,
+    "change_pct": 0.0,
+    "fifo_host_cap_pct": 99.75231313390367,
+    "baseline_bypasses": 0,
+    "fifo_bypasses": 0,
+    "baseline_completed_p99_us": 34.080182243519175,
+    "fifo_completed_p99_us": 34.080182243519175
+  },
+  {
+    "pattern": "A2",
+    "qd_per_port": 512,
+    "baseline_gbps": 255.05833049279303,
+    "fifo_gbps": 255.05833049279303,
+    "change_pct": 0.0,
+    "fifo_host_cap_pct": 99.63216034874728,
+    "baseline_bypasses": 0,
+    "fifo_bypasses": 0,
+    "baseline_completed_p99_us": 34.4319285379716,
+    "fifo_completed_p99_us": 34.4319285379716
+  },
+  {
+    "pattern": "B",
+    "qd_per_port": 32768,
+    "baseline_gbps": 255.33549768363812,
+    "fifo_gbps": 255.33549768363812,
+    "change_pct": 0.0,
+    "fifo_host_cap_pct": 99.74042878267115,
+    "baseline_bypasses": 0,
+    "fifo_bypasses": 0,
+    "baseline_completed_p99_us": 34.10882914809099,
+    "fifo_completed_p99_us": 34.10882914809099
+  }
+]

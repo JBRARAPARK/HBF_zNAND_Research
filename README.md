@@ -43,7 +43,7 @@ bash scripts/macos.sh diagnostics
 
 ## 먼저 읽을 내용
 
-성능 개선 흐름을 한 번에 보려면 [핵심 개선 3가지 설명 자료](docs/14_performance_key_items_ko.md)를 참고합니다. 14장 PPTX와 PDF의 첫 페이지에 전체 구조와 가변 요소, 2페이지에 zNAND tR 특성, 3페이지에 Layout·Data Placement 블록 다이어그램, 4페이지에 상세 처리 흐름을 담았습니다. 본문에는 스케줄링·Plane과 배치·버퍼와 QD의 개선 수치, 후반에는 A1/A2, 신규 B, C1/C2/C3의 패턴 정의 및 유효 데이터량 차이를 정리하고, 마지막 14페이지에는 A1/A2·C1/C2의 시간별 성능 그래프와 인사이트를 담았습니다.
+최신 성능 판단은 [Data placement·CA 우회·Port별 QD 교차 검증](docs/17_placement_qd_crosscheck_ko.md)을 참고합니다. 업데이트한17장 PPTX/PDF와 16개 대조 실행 원자료를 제공합니다. 현재 배치에서는 FIFO로 최대 수준의 처리량이 유지되며, Port별 충분한 공급과 공유 버퍼 편중 방지가 중요합니다. 큰 QD 자체나 정확히 같은 요청 수를 보편적 조건으로 보지 않습니다. [기존 개선 이력과 구조 설명](docs/14_performance_key_items_ko.md)은 과거 실험 맥락을 보존합니다.
 
 1. [영문 질문 원문](docs/01_questions_en.md): 중복 제거한 1~4번. 이미지에서 잘린 마지막 문장을 표시했습니다.
 2. [질문별 의도](docs/02_question_intent_ko.md): 질문의 본질과 답변에 필요한 조건.

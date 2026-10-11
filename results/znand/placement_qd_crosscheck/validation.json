@@ -1,0 +1,8 @@
+{
+  "status": "passed",
+  "paired_cases": 3,
+  "unchanged_source_hashes": true,
+  "reproduced_saved_baselines": true,
+  "fifo_actual_bypasses_zero": true,
+  "scope": "Conditional simulation; fixed profiles, no global optimization or hardware validation"
+}

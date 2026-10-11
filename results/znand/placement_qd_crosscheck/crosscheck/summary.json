@@ -1,0 +1,222 @@
+[
+  {
+    "name": "A1_native_layout",
+    "pattern": "A1",
+    "gbps": 71.20184268874178,
+    "qd": 512,
+    "per_port_outstanding": [
+      510.35519001674317,
+      509.65870300934364,
+      509.6754939208068,
+      509.2164187206633
+    ],
+    "per_port_gbps": [
+      17.825792000005244,
+      17.82579200000588,
+      17.825792000006206,
+      17.724466688724444
+    ],
+    "buffer_mean_mib": 8.0,
+    "long_count": 9472,
+    "sensing_count": 9536,
+    "admission": "original fixed 0,1,2,3"
+  },
+  {
+    "name": "A1_qd2048_fixed",
+    "pattern": "A1",
+    "gbps": 68.85785600000169,
+    "qd": 2048,
+    "per_port_outstanding": [
+      2026.5485133807158,
+      1.0,
+      1.0,
+      1.0
+    ],
+    "per_port_gbps": [
+      64.0000000000002,
+      1.5646720000004144,
+      1.5728640000004834,
+      1.720320000000581
+    ],
+    "buffer_mean_mib": 8.0,
+    "long_count": 0,
+    "sensing_count": 9973,
+    "admission": "original fixed 0,1,2,3"
+  },
+  {
+    "name": "A1_qd2048_rr",
+    "pattern": "A1",
+    "gbps": 255.33969670156466,
+    "qd": 2048,
+    "per_port_outstanding": [
+      440.2349432028706,
+      515.6195199689377,
+      563.9493860379965,
+      485.36018010785216
+    ],
+    "per_port_gbps": [
+      64.0000000000002,
+      63.71982549542255,
+      63.619871206141696,
+      64.0000000000002
+    ],
+    "buffer_mean_mib": 8.0,
+    "long_count": 0,
+    "sensing_count": 34087,
+    "admission": "rotating start after last success"
+  },
+  {
+    "name": "A1_qd512_rr",
+    "pattern": "A1",
+    "gbps": 255.27548055554803,
+    "qd": 512,
+    "per_port_outstanding": [
+      500.4710774578265,
+      501.09029187106216,
+      504.4581822141022,
+      500.82278441824707
+    ],
+    "per_port_gbps": [
+      63.97982354316624,
+      63.738054381052144,
+      63.55760263132945,
+      64.0000000000002
+    ],
+    "buffer_mean_mib": 8.0,
+    "long_count": 0,
+    "sensing_count": 34079,
+    "admission": "rotating start after last success"
+  },
+  {
+    "name": "A2_native_layout",
+    "pattern": "A2",
+    "gbps": 71.35714375661466,
+    "qd": 512,
+    "per_port_outstanding": [
+      511.566624921713,
+      511.189343534929,
+      510.33562583182663,
+      505.5040035539451
+    ],
+    "per_port_gbps": [
+      18.874368000004733,
+      18.391040000006022,
+      17.59857026057626,
+      16.493165496027647
+    ],
+    "buffer_mean_mib": 7.999999892876472,
+    "long_count": 9456,
+    "sensing_count": 9644,
+    "admission": "original fixed 0,1,2,3"
+  },
+  {
+    "name": "A2_qd2048_fixed",
+    "pattern": "A2",
+    "gbps": 71.88892509908196,
+    "qd": 2048,
+    "per_port_outstanding": [
+      2033.8085884289246,
+      2.616312645270835,
+      2.4807856087605784,
+      2.4976623376288036
+    ],
+    "per_port_gbps": [
+      64.0000000000002,
+      2.623488000000768,
+      2.627613099080247,
+      2.637824000000742
+    ],
+    "buffer_mean_mib": 8.0,
+    "long_count": 0,
+    "sensing_count": 10363,
+    "admission": "original fixed 0,1,2,3"
+  },
+  {
+    "name": "A2_qd2048_rr",
+    "pattern": "A2",
+    "gbps": 255.26543499210155,
+    "qd": 2048,
+    "per_port_outstanding": [
+      442.48471675552224,
+      530.553605313249,
+      574.8264932582449,
+      491.39719469395965
+    ],
+    "per_port_gbps": [
+      63.98796106974615,
+      63.61907624405706,
+      63.658397678298144,
+      64.0000000000002
+    ],
+    "buffer_mean_mib": 8.0,
+    "long_count": 0,
+    "sensing_count": 34079,
+    "admission": "rotating start after last success"
+  },
+  {
+    "name": "A2_qd512_rr",
+    "pattern": "A2",
+    "gbps": 255.28140378597678,
+    "qd": 512,
+    "per_port_outstanding": [
+      509.2271966336324,
+      509.9158300274109,
+      510.04828167095496,
+      509.86501484808366
+    ],
+    "per_port_gbps": [
+      64.0000000000002,
+      63.72432082386682,
+      63.557082962109575,
+      64.0000000000002
+    ],
+    "buffer_mean_mib": 8.0,
+    "long_count": 0,
+    "sensing_count": 34088,
+    "admission": "rotating start after last success"
+  },
+  {
+    "name": "B_q65536_fixed",
+    "pattern": "B",
+    "gbps": 255.0425165863408,
+    "qd": 65536,
+    "per_port_outstanding": [
+      34130.64357996247,
+      36161.58854452893,
+      37775.845858045315,
+      19634.225815523845
+    ],
+    "per_port_gbps": [
+      64.00000000003553,
+      63.86497948193057,
+      63.75091591205392,
+      63.42662119232079
+    ],
+    "buffer_mean_mib": 7.996576456280997,
+    "long_count": 0,
+    "sensing_count": 34044,
+    "admission": "original fixed 0,1,2,3"
+  },
+  {
+    "name": "B_q65536_rr",
+    "pattern": "B",
+    "gbps": 255.35045289219525,
+    "qd": 65536,
+    "per_port_outstanding": [
+      27292.440590304752,
+      33056.45199284569,
+      35964.3871514203,
+      31237.928833309197
+    ],
+    "per_port_gbps": [
+      64.00000000003551,
+      63.60654442623032,
+      63.743908465893895,
+      64.00000000003553
+    ],
+    "buffer_mean_mib": 7.987566181361017,
+    "long_count": 0,
+    "sensing_count": 34069,
+    "admission": "rotating start after last success"
+  }
+]

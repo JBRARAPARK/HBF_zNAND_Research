@@ -1,0 +1,84 @@
+{
+  "status": "passed",
+  "core_unchanged": true,
+  "cases": [
+    {
+      "name": "A1_native_layout",
+      "only_config_differences": [
+        "snapshot"
+      ],
+      "round_robin_diagnostic": false,
+      "timeline_mean_recomputed": true
+    },
+    {
+      "name": "A1_qd2048_fixed",
+      "only_config_differences": [
+        "outstanding"
+      ],
+      "round_robin_diagnostic": false,
+      "timeline_mean_recomputed": true
+    },
+    {
+      "name": "A1_qd2048_rr",
+      "only_config_differences": [
+        "outstanding"
+      ],
+      "round_robin_diagnostic": true,
+      "timeline_mean_recomputed": true
+    },
+    {
+      "name": "A1_qd512_rr",
+      "only_config_differences": [],
+      "round_robin_diagnostic": true,
+      "timeline_mean_recomputed": true
+    },
+    {
+      "name": "A2_native_layout",
+      "only_config_differences": [
+        "snapshot"
+      ],
+      "round_robin_diagnostic": false,
+      "timeline_mean_recomputed": true
+    },
+    {
+      "name": "A2_qd2048_fixed",
+      "only_config_differences": [
+        "outstanding"
+      ],
+      "round_robin_diagnostic": false,
+      "timeline_mean_recomputed": true
+    },
+    {
+      "name": "A2_qd2048_rr",
+      "only_config_differences": [
+        "outstanding"
+      ],
+      "round_robin_diagnostic": true,
+      "timeline_mean_recomputed": true
+    },
+    {
+      "name": "A2_qd512_rr",
+      "only_config_differences": [],
+      "round_robin_diagnostic": true,
+      "timeline_mean_recomputed": true
+    },
+    {
+      "name": "B_q65536_fixed",
+      "only_config_differences": [
+        "outstanding"
+      ],
+      "round_robin_diagnostic": false,
+      "timeline_mean_recomputed": true
+    },
+    {
+      "name": "B_q65536_rr",
+      "only_config_differences": [
+        "outstanding"
+      ],
+      "round_robin_diagnostic": true,
+      "timeline_mean_recomputed": true
+    }
+  ],
+  "full_domain_placement_channel_offset_and_injectivity_checked": true,
+  "note": "Round-robin changes admission order in worker memory only. All production files remain unchanged."
+}

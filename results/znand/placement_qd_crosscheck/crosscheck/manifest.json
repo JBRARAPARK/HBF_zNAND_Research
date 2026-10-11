@@ -1,0 +1,62 @@
+{
+  "cases": [
+    {
+      "name": "A1_native_layout",
+      "pattern": "A1",
+      "variant": "native_layout"
+    },
+    {
+      "name": "A1_qd2048_fixed",
+      "pattern": "A1",
+      "variant": "qd2048_fixed"
+    },
+    {
+      "name": "A1_qd2048_rr",
+      "pattern": "A1",
+      "variant": "qd2048_rr"
+    },
+    {
+      "name": "A1_qd512_rr",
+      "pattern": "A1",
+      "variant": "qd512_rr"
+    },
+    {
+      "name": "A2_native_layout",
+      "pattern": "A2",
+      "variant": "native_layout"
+    },
+    {
+      "name": "A2_qd2048_fixed",
+      "pattern": "A2",
+      "variant": "qd2048_fixed"
+    },
+    {
+      "name": "A2_qd2048_rr",
+      "pattern": "A2",
+      "variant": "qd2048_rr"
+    },
+    {
+      "name": "A2_qd512_rr",
+      "pattern": "A2",
+      "variant": "qd512_rr"
+    },
+    {
+      "name": "B_q65536_fixed",
+      "pattern": "B",
+      "variant": "qd65536_fixed"
+    },
+    {
+      "name": "B_q65536_rr",
+      "pattern": "B",
+      "variant": "qd65536_rr"
+    }
+  ],
+  "core_hash": "755f822a6b7c1f44f65117b4892078419a766d4963ad4d49931e8aa1db679baf",
+  "script_hash": "95d528c084ac4f483cf2229fe8dc41cb48d301cc4aaa2037384d08d63ac3f3a1",
+  "common": "4Port,64Plane,8MiB,PF OFF,FIFO CA,unchanged tR,200-2200us fixed average",
+  "hypotheses": [
+    "placement alone changes supply",
+    "fixed admission permits monopolization at high QD",
+    "round-robin can separate fairness from configured QD"
+  ]
+}

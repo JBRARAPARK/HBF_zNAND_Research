@@ -1,0 +1,243 @@
+{
+  "name": "B_q65536_rr",
+  "pattern": "B",
+  "variant": "qd65536_rr",
+  "config": {
+    "ports": 4,
+    "channels": 4,
+    "planes": 16,
+    "stripe": 4096,
+    "outstanding": 65536,
+    "buffer_pages": 512,
+    "ca_us": 0.1,
+    "output_ca_us": 0.1,
+    "io_gbps": 80.1125,
+    "turnaround_us": 0.05,
+    "ecc_us": 0.2,
+    "lookup_us": 0.5,
+    "lookup_clock_mhz": 500.0,
+    "lookup_pipelines": 2,
+    "lookup_slots": 500,
+    "host_bits": 512,
+    "host_mhz": 1000.0,
+    "first_us": 20.69,
+    "short_us": 2.0,
+    "mid_us": 2.08,
+    "long_us": 12.16,
+    "group_us": 20.69,
+    "availability": 0.85,
+    "maintenance_period_us": 100.0,
+    "maintenance_sync": false,
+    "prefetch": false,
+    "accuracy": 1.0,
+    "lead_us": 10.0,
+    "prefetch_limit": 128,
+    "seed": 7,
+    "remap_fraction": 0.0,
+    "snapshot": "results/znand/saturation/snapshots/A1.json",
+    "trace": false,
+    "ca_policy": "fifo",
+    "locality_max_bypass": 32,
+    "locality_age_us": 1000.0,
+    "head_wait_us": 48.64,
+    "pf_ahead_limit": 0,
+    "pf_head_wait_us": 48.64,
+    "data_policy": "ready",
+    "data_head_wait_us": 0.0,
+    "data_age_us": 1000.0
+  },
+  "windows": {
+    "fixed": {
+      "start_us": 200.0,
+      "end_us": 2200.0,
+      "duration_us": 2000.0,
+      "bandwidth_gbps": 255.35045289219525,
+      "completed_bandwidth_gbps": 255.350432,
+      "accepted_requests": 7980503,
+      "completed_requests": 7979701,
+      "outstanding_mean": 127551.20856787993,
+      "buffer_mean_mib": 7.987566181361017,
+      "outstanding_start": 126813,
+      "outstanding_end": 127615,
+      "p_outstanding_mean": [
+        27292.440590304752,
+        33056.45199284569,
+        35964.3871514203,
+        31237.928833309197
+      ],
+      "p_bandwidth_gbps": [
+        64.00000000003551,
+        63.60654442623032,
+        63.743908465893895,
+        64.00000000003553
+      ],
+      "p_completed_requests": [
+        2000000,
+        1987704,
+        1991997,
+        2000000
+      ],
+      "nand_completed_pages": 31248,
+      "nand_completed_gbps": 255.983616,
+      "host_miops": 3989.8505,
+      "host_to_nand_payload_pct": 99.75264666938683,
+      "nand_read_amplification": 1.00247966684466,
+      "tr_counts": {
+        "first": 0,
+        "short": 15621,
+        "mid": 15622,
+        "long": 0,
+        "group": 0
+      },
+      "long_tr_pct": 0.0
+    },
+    "peak": {
+      "start_us": 200.0,
+      "end_us": 700.0,
+      "duration_us": 500.0,
+      "bandwidth_gbps": 255.65145959741375,
+      "completed_bandwidth_gbps": 255.651456,
+      "accepted_requests": 1998212,
+      "completed_requests": 1997277,
+      "outstanding_mean": 127103.38176953961,
+      "buffer_mean_mib": 7.960474585995813,
+      "outstanding_start": 126813,
+      "outstanding_end": 127748,
+      "p_outstanding_mean": [
+        29025.348669540635,
+        30326.139611298335,
+        34556.501146796654,
+        33195.39234190399
+      ],
+      "p_bandwidth_gbps": [
+        64.00000000003739,
+        63.742885880976225,
+        63.90857371636272,
+        64.0000000000374
+      ],
+      "p_completed_requests": [
+        500000,
+        497991,
+        499286,
+        500000
+      ],
+      "nand_completed_pages": 7851,
+      "nand_completed_gbps": 257.261568,
+      "host_miops": 3994.554,
+      "host_to_nand_payload_pct": 99.3741342663355,
+      "nand_read_amplification": 1.0062980748288795,
+      "tr_counts": {
+        "first": 0,
+        "short": 3925,
+        "mid": 3924,
+        "long": 0,
+        "group": 0
+      },
+      "long_tr_pct": 0.0
+    },
+    "first_half": {
+      "start_us": 200.0,
+      "end_us": 1200.0,
+      "duration_us": 1000.0,
+      "bandwidth_gbps": 255.57359830186326,
+      "completed_bandwidth_gbps": 255.573568,
+      "accepted_requests": 3994271,
+      "completed_requests": 3993337,
+      "outstanding_mean": 127428.28240155494,
+      "buffer_mean_mib": 7.980218661270712,
+      "outstanding_start": 126813,
+      "outstanding_end": 127747,
+      "p_outstanding_mean": [
+        28724.696368160978,
+        31212.91878195531,
+        34768.22237417812,
+        32722.444877260532
+      ],
+      "p_bandwidth_gbps": [
+        64.00000000003874,
+        63.73723279510449,
+        63.8363655066813,
+        64.00000000003875
+      ],
+      "p_completed_requests": [
+        1000000,
+        995894,
+        997443,
+        1000000
+      ],
+      "nand_completed_pages": 15669,
+      "nand_completed_gbps": 256.720896,
+      "host_miops": 3993.337,
+      "host_to_nand_payload_pct": 99.55308351681664,
+      "nand_read_amplification": 1.0044892279314268,
+      "tr_counts": {
+        "first": 0,
+        "short": 7833,
+        "mid": 7833,
+        "long": 0,
+        "group": 0
+      },
+      "long_tr_pct": 0.0
+    },
+    "second_half": {
+      "start_us": 1200.0,
+      "end_us": 2200.0,
+      "duration_us": 1000.0,
+      "bandwidth_gbps": 255.12730748252721,
+      "completed_bandwidth_gbps": 255.127296,
+      "accepted_requests": 3986232,
+      "completed_requests": 3986364,
+      "outstanding_mean": 127674.13473420491,
+      "buffer_mean_mib": 7.994913701451322,
+      "outstanding_start": 127747,
+      "outstanding_end": 127615,
+      "p_outstanding_mean": [
+        25860.184812448522,
+        34899.98520373606,
+        37160.55192866248,
+        29753.412789357862
+      ],
+      "p_bandwidth_gbps": [
+        64.00000000003229,
+        63.47585605735616,
+        63.65145142510649,
+        64.00000000003229
+      ],
+      "p_completed_requests": [
+        1000000,
+        991810,
+        994554,
+        1000000
+      ],
+      "nand_completed_pages": 15579,
+      "nand_completed_gbps": 255.246336,
+      "host_miops": 3986.364,
+      "host_to_nand_payload_pct": 99.95336269978817,
+      "nand_read_amplification": 1.0004665906073806,
+      "tr_counts": {
+        "first": 0,
+        "short": 7788,
+        "mid": 7789,
+        "long": 0,
+        "group": 0
+      },
+      "long_tr_pct": 0.0
+    },
+    "second_vs_first_pct": -0.17462320924437336
+  },
+  "counts": {
+    "merged_at_accept": 8713147,
+    "sensing_reads": 34069,
+    "tr_first": 64,
+    "nand_bytes": 557465600,
+    "tr_short": 17017,
+    "tr_mid": 16985,
+    "released_pages": 33664,
+    "buffer_admission_stalls": 441684
+  },
+  "runtime_seconds": 156.5576333749923,
+  "model_sha256": "755f822a6b7c1f44f65117b4892078419a766d4963ad4d49931e8aa1db679baf",
+  "diagnostic_admission": true,
+  "admission": "rotating start after last success",
+  "validation": "in-order and conservation checked by simulator, capacity/QD/throughput checked"
+}

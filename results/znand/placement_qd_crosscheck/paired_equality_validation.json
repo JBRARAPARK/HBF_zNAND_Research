@@ -1,0 +1,29 @@
+{
+  "A1": {
+    "windows_identical": true,
+    "timelines_identical": true,
+    "completed_mean_latency_identical": true,
+    "completed_p99_latency_identical": true,
+    "non_scheduler_counters_identical": true,
+    "baseline_bypasses_zero": true,
+    "fifo_bypasses_zero": true
+  },
+  "A2": {
+    "windows_identical": true,
+    "timelines_identical": true,
+    "completed_mean_latency_identical": true,
+    "completed_p99_latency_identical": true,
+    "non_scheduler_counters_identical": true,
+    "baseline_bypasses_zero": true,
+    "fifo_bypasses_zero": true
+  },
+  "B": {
+    "windows_identical": true,
+    "timelines_identical": true,
+    "completed_mean_latency_identical": true,
+    "completed_p99_latency_identical": true,
+    "non_scheduler_counters_identical": true,
+    "baseline_bypasses_zero": true,
+    "fifo_bypasses_zero": true
+  }
+}

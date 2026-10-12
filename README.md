@@ -1,14 +1,18 @@
 # HBF 기준 zNAND 질의 분석과 Prefetch 모델 검토
 
-## 현재 NAND 구조: 4 DIE × 2 Channel × 4 Plane
+## 현재 성능 평가 기준: 4 Channel × 16 Plane = 64 Plane
 
-2026-10-12부터 신규 실행의 구조 기준은 **DIE 4개, DIE당 Channel 2개, Channel당 Plane 4개 = 총32Plane**입니다. `python3 -m znand.run`을 설정 파일 없이 실행하면 새 구조를 사용합니다. [구조·자원·주소 매핑·실행 방법](docs/18_die_channel_plane_layout_ko.md), [명시적 실행 설정](configs/die4_channel2_plane4.json)을 참고하세요.
+DIE 도입 전의 **4 Channel × 16 Plane = 총64Plane** 구성과 영역별 Data placement로 돌아왔습니다. **수락 정책은 round-robin을 유지**합니다. 4 DIE × 2 Channel × 4 Plane의32Plane 모델은 현재 성능 평가에서 제외하고 비교 이력으로 보관합니다.
 
-**현재 Host 수락 정책은 순환 수락(round-robin)입니다.** 마지막 수락에 성공한 Port 다음부터 확인합니다. [순환 수락 적용 및 동일 조건 재측정](docs/21_die32_round_robin_ko.md)을 현재 기준으로 사용하세요. 아래 고정 수락 측정은 과거 비교 자료입니다.
+[64Plane 복원 및 새 측정 결과](docs/22_restore_64plane_ko.md)를 현재 기준으로 사용하세요. 새2ms 지속 측정에서 **A1 255.275GB/s, A2 255.281GB/s, B 255.360GB/s**를 확인했습니다. 이전에200GB/s 이상 나온 A1/A2/B 설정을 그대로 복원한 [실행 프로파일](configs/performance64/)을 제공합니다. 공유8MiB, PF OFF, CA FIFO, 기존 tR·가용률85%를 사용하고, QD는 A1/A2 512/Port, B 32,768/Port입니다.
 
-새 구조의 [18개 지속 부하 측정](docs/19_die32_performance_ko.md)을 완료했습니다. 8MiB·영역별 배치·FIFO·가용률85%에서 A1/A2/B는 약 **185.82GB/s**이며, A는 QD256/Port, B는 QD16,384/Port부터 포화 수준입니다. C1/C2는 약2.904GB/s입니다. [QD 대폭 확대 측정](docs/20_die32_high_qd_ko.md)에서는 A1/A2를65,536/Port, B를262,144/Port까지 높였습니다. 8MiB·고정 수락 조건에서 실제 수락량 제한과 Port 편중으로 처리량이 낮아져, B는 추가 후반 구간도 측정했습니다.
+```sh
+python3 -B scripts/measure_restored64.py
+```
 
-DIE 내부 두 Channel의 CA·Data 경로도 서로 독립이라는 사용자 확인을 반영했습니다. 총8개의 독립 Channel 경로를 사용합니다. 아래 성능 기록과17장 발표 자료는 과거 평면 구조의 결과이며 새 구조의 최대 성능 측정값이 아닙니다. 과거32/64Plane 형상과 Python `Config()`의 형상 기본값은 유지하고, 새 구조는 `Config.die32()`로 선택합니다. 수락 정책은 모든 신규 실행에 순환 수락을 적용하며, 이전 고정 수락 결과의 재현에는 당시 커밋을 사용합니다.
+위 명령은 초기200µs를 제외한2ms 지속 처리량을 측정합니다. 저장된 결과가 있으면 검증하며, 새로 재측정하려면 `--out results/local/restored64_new`처럼 새 출력 경로를 지정하세요. `python3 -m znand.run`의 무설정 기본 형상도 DIE 없는64Plane으로 복원했습니다. 이 기본 CLI는 유한 요청열·기본 배치의 기능 확인용이며, 위 지속 부하·영역별 배치 측정과 수치를 혼용하지 않습니다.
+
+DIE 구조를 도입할 때는 DIE 표기만 더한 것이 아니라 **64→32Plane, 4→8Channel로 구성도 바뀌었습니다.** 따라서 두 결과의 차이를 DIE 계층 자체의 비용으로 해석하지 않습니다. [32Plane 구조](docs/18_die_channel_plane_layout_ko.md), [초기 측정](docs/19_die32_performance_ko.md), [고QD 고정 수락](docs/20_die32_high_qd_ko.md), [32Plane 순환 수락](docs/21_die32_round_robin_ko.md)은 과거 대조 자료입니다. `Config.die32()`와 관련 파일은 보관·재현용으로만 남깁니다. `Config()`의 과거 기본값도 기존 실험 호환성을 위해 유지하며, 현재 성능 평가는 위64Plane 프로파일을 명시적으로 사용합니다.
 
 **현재 워크로드 명칭:** A1/A2는4KiB 전체 읽기, **B는 페이지 내부64B 연속 읽기(신규)**, C1/C2/C3는 기존 B1/B2/B3다. [정의·실행·이전 결과 대응표](docs/15_workload_naming_ko.md)를 기준으로 읽는다. 과거 raw 파일과 재현용 모듈은 당시 B 이름을 보존하며, 아래 기존 약4GB/s 결과는 C1/C2다.
 

@@ -1,0 +1,13 @@
+{
+  "status": "passed",
+  "cases": 3,
+  "source_config_snapshot_reference_hashes_verified": true,
+  "original_profiles_restored": true,
+  "round_robin_admission": true,
+  "capacity_qd_and_port_accounting_verified": true,
+  "all_above_200": true,
+  "fixed_window_us": [
+    200,
+    2200
+  ]
+}

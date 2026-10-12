@@ -114,7 +114,7 @@ class DieLayoutTests(unittest.TestCase):
                 ends=[req['end'] for req in sim.req if req['port']==port]
                 self.assertEqual(ends,sorted(ends))
 
-    def test_cli_defaults_to_die32_and_explicit_legacy_config_is_preserved(self):
+    def test_cli_defaults_to_flat64_and_explicit_legacy_config_is_preserved(self):
         with tempfile.TemporaryDirectory() as d:
             root=Path(d)
             for legacy in (False,True):
@@ -125,8 +125,11 @@ class DieLayoutTests(unittest.TestCase):
                     cmd+=['--config',str(cfg)]
                 subprocess.run(cmd,check=True,capture_output=True)
                 r=json.loads((out/'result.json').read_text())
-                self.assertEqual(r['config']['channels'],4 if legacy else 8)
-                self.assertEqual('nand_topology' in r,not legacy)
+                self.assertEqual(r['config']['channels'],4)
+                self.assertEqual(r['config']['planes'],8 if legacy else 16)
+                self.assertEqual(r['config']['dies'],0)
+                self.assertEqual(r['admission_policy'],'round_robin')
+                self.assertNotIn('nand_topology',r)
 
 
 if __name__=='__main__':unittest.main()

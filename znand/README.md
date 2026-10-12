@@ -1,5 +1,7 @@
 # 주소 기반 zNAND Read와 Prefetch 실험
 
+현재 성능 평가 기준은 **4 Channel × 16 Plane, DIE 계층 없음, round-robin 수락**입니다. `python3 -B scripts/measure_restored64.py`로 복원된 영역별 배치 프로파일을 측정합니다. [현재 결과와 조건](../docs/22_restore_64plane_ko.md)을 참고하세요.32Plane DIE 프로파일은 보관용입니다.
+
 **현재 이름(schema 2):** 새 B는 각4KiB 페이지 전체를64B씩 읽는다. 기존 B1/B2/B3는 C1/C2/C3다. [현재 진입점과 실행 방법](../docs/15_workload_naming_ko.md)을 따른다. 아래 과거 sweep·파일명·재현용 내부 API는 기존 식별자를 보존한다.
 
 기존 `axi_burst_sim.py`, `multiport_sim.py`, `deep_prefetch_sim.py`는 그대로 보존하고, 합의한 주소 배치와 부분 Read·재방문·page buffer를 표현하는 이벤트 모델을 추가했다. 시간 단위는 μs, 대역폭은 decimal GB/s, 저장 단위는 KiB/MiB다. 제품 RTL 또는 실제 NAND 사양의 검증을 대체하지 않는다.

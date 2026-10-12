@@ -1,0 +1,19 @@
+{
+  "status": "passed",
+  "cases": [
+    {
+      "pattern": "A1",
+      "reference": "results/znand/placement_qd_crosscheck/crosscheck/A1_qd512_rr/result.json",
+      "reference_sha256": "346dd89c046af8a0d47d945a57e4d135340c75ccc2ae4b9b08e85188ee8cd2b5",
+      "same_configuration": true,
+      "all_window_metrics_identical": true
+    },
+    {
+      "pattern": "A2",
+      "reference": "results/znand/placement_qd_crosscheck/crosscheck/A2_qd512_rr/result.json",
+      "reference_sha256": "0bd1ca46e1ae82b102b17cb0daf4a8189d2a2d5b445bc02d4313e2e7843c2bcf",
+      "same_configuration": true,
+      "all_window_metrics_identical": true
+    }
+  ]
+}

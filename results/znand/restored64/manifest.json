@@ -1,0 +1,41 @@
+{
+  "source_commit": "58893fe5e59d2454863172815d2daf1a1b619838",
+  "source_hashes": {
+    "znand/model.py": "52c63efee6a5455ade5d31e8dee36db5d2a73f49c3f5f35d47205fadfbe2f11f",
+    "znand/run.py": "4d6316e66328875f3dc51c1f6a30c12fac17752069a9ba5103515b09f1eab887",
+    "znand/saturation.py": "1787ccf9aec0db13e8af0b15eacf824992647fca76d8bd2b90d4c864f3ee59dc",
+    "znand/partial_saturation.py": "b0cee8bc1577adb2387a9e176155ea03e0e4647ac1d9bfca3dd8be49aec0382e",
+    "znand/read64_observation.py": "e9ab54285ce1d74a3472e5a1422b60cf010c3baf9723f4d74dd700afc62d87fc",
+    "znand/workloads.py": "39826372cf877972878bb63897628a510747e31c283bfb7570dddbada3b6a583",
+    "scripts/measure_restored64.py": "6bd5d385365723f6cd55eee2a0c5bec1c11fc305701d60a2c1680c3e43207188"
+  },
+  "config_hashes": {
+    "configs/performance64/A1.json": "090413000ea9a1b22a07975f6748abd019de4d610fd53fb5e5fa8a70da08521e",
+    "configs/performance64/A2.json": "8d61a03fcff6cdcae572bd35532aad25afa5e82da3d481789b437bfc97a9d984",
+    "configs/performance64/B.json": "c793ec60c6ce355955650c9813770fa60e640172051d3e2d57ff4b13db397f4b"
+  },
+  "reference_hashes": {
+    "results/znand/placement_qd_crosscheck/A1_fifo/result.json": "ce7ec75e90e108c3259c48825410c7fb06e779a313d4ec70e7487e775857949c",
+    "results/znand/placement_qd_crosscheck/A2_fifo/result.json": "bb564b707da05b3d7d288169a2c549358a3df547ff2b395725513c37acade0a3",
+    "results/znand/placement_qd_crosscheck/B_fifo/result.json": "5278303e7ac29a965de252cc09618a603277a3242202a35c7eb9f7ff8eee9199"
+  },
+  "snapshot_hashes": {
+    "results/znand/saturation/snapshots/A1.json": "b8ae4937445a99c8e90f50a4138be9eaa0da00c2ff229578892101d7217d1161",
+    "results/znand/saturation/snapshots/A2.json": "b8ae4937445a99c8e90f50a4138be9eaa0da00c2ff229578892101d7217d1161"
+  },
+  "admission_policy": "round_robin",
+  "geometry": {
+    "channels": 4,
+    "planes_per_channel": 16,
+    "total_planes": 64
+  },
+  "fixed_window_us": [
+    200,
+    2200
+  ],
+  "warmup_us": 200,
+  "duration_us": 2200,
+  "bin_us": 25,
+  "historical_config_identical": true,
+  "note": "Restore pre-DIE performance profiles; preserve production round-robin admission"
+}

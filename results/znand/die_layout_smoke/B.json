@@ -1,0 +1,222 @@
+{
+  "requests": 4096,
+  "host_bytes": 262144,
+  "elapsed_us": 155.35004961772566,
+  "bandwidth_gbps": 1.6874407227101975,
+  "inclusive_prefetch_gbps": 1.6874407227101975,
+  "middle_bandwidth_gbps": 1.884680684992152,
+  "mean_latency_us": 18.951410126384808,
+  "p95_latency_us": 41.534537213294044,
+  "p99_latency_us": 43.969049617725474,
+  "mean_offer_latency_us": 98.30138306033763,
+  "mean_return_wait_us": 1.5272159883732703,
+  "buffer_peak_pages": 9,
+  "peak_outstanding": 128,
+  "leftover_prefetch_pages": 0,
+  "channel_nand_bytes": [
+    131072,
+    131072,
+    131072,
+    131072,
+    131072,
+    131072,
+    131072,
+    131072
+  ],
+  "channel_ca_busy_us": [
+    0.7999999999999999,
+    0.7999999999999999,
+    0.7999999999999999,
+    0.7999999999999999,
+    0.7999999999999999,
+    0.7999999999999999,
+    0.7999999999999999,
+    0.7999999999999999
+  ],
+  "channel_data_busy_us": [
+    2.0360992354501484,
+    2.0360992354501484,
+    2.0360992354501484,
+    2.0360992354501484,
+    2.0360992354501484,
+    2.0360992354501484,
+    2.0360992354501484,
+    2.0360992354501484
+  ],
+  "actual_unavailable_fraction": 0.14094324916975537,
+  "mean_lookup_queue_us": 0.0010739410471804732,
+  "mean_data_wait_us": 16.92212019696435,
+  "mean_admission_wait_us": 79.34997293395281,
+  "max_inflight_host_bytes": 8192,
+  "counts": {
+    "merged_at_accept": 4032,
+    "sensing_reads": 64,
+    "tr_first": 8,
+    "nand_bytes": 1048576,
+    "tr_mid": 32,
+    "released_pages": 64,
+    "tr_short": 16,
+    "tr_long": 8
+  },
+  "config": {
+    "ports": 4,
+    "channels": 8,
+    "planes": 4,
+    "dies": 4,
+    "channels_per_die": 2,
+    "stripe": 4096,
+    "outstanding": 128,
+    "buffer_pages": 512,
+    "ca_us": 0.1,
+    "output_ca_us": 0.1,
+    "io_gbps": 80.1125,
+    "turnaround_us": 0.05,
+    "ecc_us": 0.2,
+    "lookup_us": 0.5,
+    "lookup_clock_mhz": 500.0,
+    "lookup_pipelines": 2,
+    "lookup_slots": 500,
+    "host_bits": 512,
+    "host_mhz": 1000.0,
+    "first_us": 20.69,
+    "short_us": 2.0,
+    "mid_us": 2.08,
+    "long_us": 12.16,
+    "group_us": 20.69,
+    "availability": 0.85,
+    "maintenance_period_us": 100.0,
+    "maintenance_sync": false,
+    "prefetch": false,
+    "accuracy": 1.0,
+    "lead_us": 10.0,
+    "prefetch_limit": 128,
+    "seed": 7,
+    "remap_fraction": 0.0,
+    "snapshot": "",
+    "trace": false,
+    "ca_policy": "fifo",
+    "locality_max_bypass": 8,
+    "locality_age_us": 1000.0,
+    "head_wait_us": 12.16,
+    "pf_ahead_limit": 0,
+    "pf_head_wait_us": 48.64,
+    "data_policy": "ready",
+    "data_head_wait_us": 0.0,
+    "data_age_us": 1000.0
+  },
+  "nand_topology": {
+    "model_geometry": {
+      "channels": 8,
+      "planes_per_channel": 4,
+      "dies": 4,
+      "channels_per_die": 2
+    },
+    "total_planes": 32,
+    "channel_resource_policy": "independent_ca_and_data",
+    "dies": [
+      {
+        "die": 0,
+        "channels": [
+          {
+            "channel": 0,
+            "global_channel": 0,
+            "planes": [
+              0,
+              1,
+              2,
+              3
+            ]
+          },
+          {
+            "channel": 1,
+            "global_channel": 1,
+            "planes": [
+              0,
+              1,
+              2,
+              3
+            ]
+          }
+        ]
+      },
+      {
+        "die": 1,
+        "channels": [
+          {
+            "channel": 0,
+            "global_channel": 2,
+            "planes": [
+              0,
+              1,
+              2,
+              3
+            ]
+          },
+          {
+            "channel": 1,
+            "global_channel": 3,
+            "planes": [
+              0,
+              1,
+              2,
+              3
+            ]
+          }
+        ]
+      },
+      {
+        "die": 2,
+        "channels": [
+          {
+            "channel": 0,
+            "global_channel": 4,
+            "planes": [
+              0,
+              1,
+              2,
+              3
+            ]
+          },
+          {
+            "channel": 1,
+            "global_channel": 5,
+            "planes": [
+              0,
+              1,
+              2,
+              3
+            ]
+          }
+        ]
+      },
+      {
+        "die": 3,
+        "channels": [
+          {
+            "channel": 0,
+            "global_channel": 6,
+            "planes": [
+              0,
+              1,
+              2,
+              3
+            ]
+          },
+          {
+            "channel": 1,
+            "global_channel": 7,
+            "planes": [
+              0,
+              1,
+              2,
+              3
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "pattern": "B",
+  "per_port": 1024,
+  "scope": "Functional finite-trace smoke, includes fill/drain; not a maximum-throughput measurement"
+}

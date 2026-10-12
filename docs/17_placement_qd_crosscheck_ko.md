@@ -1,5 +1,7 @@
 # Data placement·CA 우회·Port별 QD 교차 검증
 
+> 이 보고서는 DIE 계층 변경 전의4×16 구조 결과다. 소스 hash까지 재현하려면 커밋 `d31c0c2`를 사용한다. 2026-10-12의 [새32Plane 구조](18_die_channel_plane_layout_ko.md) 성능과 혼동하지 않는다.
+
 2026-10-11. 현재 모델의 최대 처리량 조건을 분리하기 위해 CA 우회 ON/OFF 6개 실행과 배치·수락 순서·QD 대조 10개 실행을 수행했다. **영역별 Data placement, 각 Port에 충분한 요청 공급, 공유 버퍼의 편중 방지가 핵심이며, 우회32나 Port별 동일 요청 수는 이 조건의 필수가 아니다.**
 
 - [업데이트 PPTX: 17장](performance_key_items/zNAND_Performance_Placement_QD_Update_ko.pptx)

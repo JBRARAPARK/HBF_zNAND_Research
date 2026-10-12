@@ -1,0 +1,169 @@
+{
+  "status": "passed",
+  "cases": [
+    {
+      "pattern": "A1",
+      "completed": 512,
+      "channels_used": 8,
+      "planes": 32,
+      "status": "passed"
+    },
+    {
+      "pattern": "A2",
+      "completed": 512,
+      "channels_used": 8,
+      "planes": 32,
+      "status": "passed"
+    },
+    {
+      "pattern": "B",
+      "completed": 4096,
+      "channels_used": 8,
+      "planes": 32,
+      "status": "passed"
+    },
+    {
+      "pattern": "C1",
+      "completed": 512,
+      "channels_used": 8,
+      "planes": 32,
+      "status": "passed"
+    },
+    {
+      "pattern": "C2",
+      "completed": 512,
+      "channels_used": 8,
+      "planes": 32,
+      "status": "passed"
+    },
+    {
+      "pattern": "C3",
+      "completed": 512,
+      "channels_used": 8,
+      "planes": 32,
+      "status": "passed"
+    }
+  ],
+  "topology": {
+    "model_geometry": {
+      "channels": 8,
+      "planes_per_channel": 4,
+      "dies": 4,
+      "channels_per_die": 2
+    },
+    "total_planes": 32,
+    "channel_resource_policy": "independent_ca_and_data",
+    "dies": [
+      {
+        "die": 0,
+        "channels": [
+          {
+            "channel": 0,
+            "global_channel": 0,
+            "planes": [
+              0,
+              1,
+              2,
+              3
+            ]
+          },
+          {
+            "channel": 1,
+            "global_channel": 1,
+            "planes": [
+              0,
+              1,
+              2,
+              3
+            ]
+          }
+        ]
+      },
+      {
+        "die": 1,
+        "channels": [
+          {
+            "channel": 0,
+            "global_channel": 2,
+            "planes": [
+              0,
+              1,
+              2,
+              3
+            ]
+          },
+          {
+            "channel": 1,
+            "global_channel": 3,
+            "planes": [
+              0,
+              1,
+              2,
+              3
+            ]
+          }
+        ]
+      },
+      {
+        "die": 2,
+        "channels": [
+          {
+            "channel": 0,
+            "global_channel": 4,
+            "planes": [
+              0,
+              1,
+              2,
+              3
+            ]
+          },
+          {
+            "channel": 1,
+            "global_channel": 5,
+            "planes": [
+              0,
+              1,
+              2,
+              3
+            ]
+          }
+        ]
+      },
+      {
+        "die": 3,
+        "channels": [
+          {
+            "channel": 0,
+            "global_channel": 6,
+            "planes": [
+              0,
+              1,
+              2,
+              3
+            ]
+          },
+          {
+            "channel": 1,
+            "global_channel": 7,
+            "planes": [
+              0,
+              1,
+              2,
+              3
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "confirmed": "4 DIE, 2 independent CA/Data channels per DIE, 4 planes per channel",
+  "source_sha256": {
+    "znand/model.py": "1a55cf677808185f62b553167903f27de8db610b90f1828eeb9e3d882730306a",
+    "znand/run.py": "66c8c0197ba3644699091c865ae9d3d407b6181b83b29561c6fd6032be4481e9",
+    "znand/host_ceiling.py": "7f86f6213ad76d304eb89e50c4fca6854f6da56c267edbed2a38e24217bae3ce",
+    "znand/stream64.py": "c3558902c8996fe2dd6d399cd41bb067422e6cb64a65869d3727364d98265f44",
+    "scripts/die_layout_smoke.py": "afa27737e8475070bed98770128139a148c6c574e28f489139d92306b7a30992",
+    "test_znand_die_layout.py": "0e8b074115b55560878a212635963ec51a4e264f450b5ace511dc96007f199fa",
+    "configs/die4_channel2_plane4.json": "d4e62eab25e7b918aa31da277dcb45f89db25795444fc8820a558d269b28ed96"
+  }
+}

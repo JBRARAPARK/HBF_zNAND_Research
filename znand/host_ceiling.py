@@ -39,7 +39,7 @@ def region_snapshot(config,pattern,path):
         # Preserve this shared physical page; assign it once to the next region.
         port=max(owners[packed]);ch=packed%c.channels;rank=ranks[port,ch];ranks[port,ch]+=1
         mapping[str(packed)]=[ch,port*per_region+rank%per_region,rank//per_region]
-    doc=dict(page_bytes=PAGE,model_geometry=dict(channels=c.channels,planes_per_channel=c.planes),
+    doc=dict(page_bytes=PAGE,model_geometry=c.model_geometry,
              mapping=mapping,layout='Static disjoint logical regions use disjoint Plane groups within every channel.',
              provenance='Synthetic layout diagnostic, not MQSim or a dynamic policy. Existing 16KiB packing and offsets retained.')
     if path.exists():assert read(path)==doc

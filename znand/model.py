@@ -18,6 +18,10 @@ class Config:
     ports: int = 4
     channels: int = 4
     planes: int = 8
+    # Zero means the historical flat geometry, with no asserted DIE topology.
+    # channels remains the TOTAL number of independently arbitrated channels.
+    dies: int = 0
+    channels_per_die: int = 0
     stripe: int = 4096
     outstanding: int = 128
     buffer_pages: int = 512
@@ -59,6 +63,51 @@ class Config:
     data_head_wait_us: float = 0.
     data_age_us: float = 1000.
 
+    @classmethod
+    def die32(cls, **options):
+        """Current 4 DIE x 2 local channels x 4 planes/channel configuration."""
+        geometry = dict(dies=4, channels_per_die=2, channels=8, planes=4)
+        if set(options) & set(geometry):
+            raise ValueError('die32 geometry is fixed; change non-geometry options only')
+        return cls(**geometry, **options)
+
+    @property
+    def model_geometry(self):
+        geometry = dict(channels=self.channels, planes_per_channel=self.planes)
+        if self.dies:
+            geometry.update(dies=self.dies, channels_per_die=self.channels_per_die)
+        return geometry
+
+    def channel_index(self, die, channel):
+        """DIE-local channel -> unique scheduler resource index."""
+        if not self.dies:
+            raise ValueError('Legacy flat geometry has no declared DIE hierarchy')
+        if not (isinstance(die, int) and isinstance(channel, int)
+                and 0 <= die < self.dies and 0 <= channel < self.channels_per_die):
+            raise ValueError('DIE or local channel out of range')
+        return die * self.channels_per_die + channel
+
+    def physical_address(self, key):
+        """Internal (global channel, plane[, page]) -> explicit physical fields."""
+        if not self.dies:
+            raise ValueError('Legacy flat geometry has no declared DIE hierarchy')
+        ch, pl = key[:2]
+        if not (0 <= ch < self.channels and 0 <= pl < self.planes):
+            raise ValueError('Channel or plane out of range')
+        die, channel = divmod(ch, self.channels_per_die)
+        result = dict(die=die, channel=channel, plane=pl)
+        if len(key) == 3:
+            result['page'] = key[2]
+        return result
+
+    def topology(self):
+        return dict(model_geometry=self.model_geometry,
+                    total_planes=self.channels*self.planes,
+                    channel_resource_policy='independent_ca_and_data',
+                    dies=[dict(die=d, channels=[dict(channel=ch,
+                        global_channel=self.channel_index(d,ch), planes=list(range(self.planes)))
+                        for ch in range(self.channels_per_die)]) for d in range(self.dies)])
+
     def validate(self):
         assert self.ca_policy in ('fifo', 'locality', 'head_locality')
         assert isinstance(self.locality_max_bypass,int) and self.locality_max_bypass > 0
@@ -69,8 +118,12 @@ class Config:
         assert self.data_policy in ('ready', 'head')
         assert all(math.isfinite(v) and v >= 0 for v in
                    (self.pf_head_wait_us, self.data_head_wait_us, self.data_age_us))
-        assert 1 <= self.ports <= 4 and self.channels == 4
-        assert isinstance(self.planes, int) and self.planes in (8, 16)
+        assert 1 <= self.ports <= 4
+        assert all(type(v) is int for v in (self.dies,self.channels_per_die,self.channels,self.planes))
+        if self.dies or self.channels_per_die:
+            assert (self.dies,self.channels_per_die,self.channels,self.planes) == (4,2,8,4)
+        else:
+            assert self.channels == 4 and self.planes in (8,16)
         assert self.stripe in (4096, 16384)
         assert self.buffer_pages >= self.ports + 1
         assert min(self.outstanding, self.lookup_slots, self.lookup_pipelines) > 0
@@ -101,6 +154,7 @@ def tr_kind(previous, current):
 
 class Mapper:
     def __init__(self, c):
+        c.validate()
         self.c = c
         self.external = None
         if c.snapshot:
@@ -109,13 +163,25 @@ class Mapper:
             # Legacy MQSim snapshots describe the original 4x8 geometry.
             # A 4x16 experiment must explicitly declare its imported layout.
             geometry = doc.get('model_geometry')
-            expected = {'channels': c.channels, 'planes_per_channel': c.planes}
-            if (geometry is not None and geometry != expected) or (c.planes == 16 and geometry != expected):
-                raise ValueError('snapshot model_geometry must match channels and planes_per_channel')
+            expected = c.model_geometry
+            if (geometry is not None and geometry != expected) or ((c.dies or c.planes == 16) and geometry != expected):
+                raise ValueError('snapshot model_geometry must match the full configured topology')
             self.external = {int(k): tuple(v) for k,v in doc['mapping'].items()}
+            fmt = doc.get('address_format','global_channel_plane_page')
+            if fmt == 'die_channel_plane_page':
+                self.external = {k:(c.channel_index(d,ch),pl,q)
+                                 for k,(d,ch,pl,q) in self.external.items()}
+            elif fmt != 'global_channel_plane_page':
+                raise ValueError('Unsupported snapshot address_format')
             assert len(set(self.external.values())) == len(self.external)
             for ch,pl,q in self.external.values():
                 assert 0 <= ch < c.channels and 0 <= pl < c.planes and q >= 0
+
+    def map_hierarchical(self, byte_address):
+        """Return ((die, local channel, plane, page), byte offset)."""
+        key, offset = self.map(byte_address)
+        physical = self.c.physical_address(key)
+        return tuple(physical[k] for k in ('die','channel','plane','page')), offset
 
     @lru_cache(maxsize=262144)
     def map(self, byte_address):
@@ -228,6 +294,8 @@ class Simulator:
         self.serial+=1;heapq.heappush(self.events,(max(t,self.now),self.serial,kind,data))
 
     def trace(self,kind,**kw):
+        if self.c.trace and self.c.dies and 'key' in kw:
+            kw['physical_address'] = self.c.physical_address(kw['key'])
         if self.c.trace:self.log.append(dict(time_us=self.now,event=kind,**kw))
 
     def wake(self,t):
@@ -562,4 +630,5 @@ class Simulator:
                     mean_admission_wait_us=avg([r['accepted']-r['offer'] for r in self.req]),
                     max_inflight_host_bytes=max(self.peak)*self.req[0]['size'],
                     counts=dict(self.count),
-                    config=asdict(self.c))
+                    config=asdict(self.c),
+                    **({'nand_topology':self.c.topology()} if self.c.dies else {}))

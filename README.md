@@ -1,5 +1,11 @@
 # HBF 기준 zNAND 질의 분석과 Prefetch 모델 검토
 
+## 현재 NAND 구조: 4 DIE × 2 Channel × 4 Plane
+
+2026-10-12부터 신규 실행의 구조 기준은 **DIE 4개, DIE당 Channel 2개, Channel당 Plane 4개 = 총32Plane**입니다. `python3 -m znand.run`을 설정 파일 없이 실행하면 새 구조를 사용합니다. [구조·자원·주소 매핑·실행 방법](docs/18_die_channel_plane_layout_ko.md), [명시적 실행 설정](configs/die4_channel2_plane4.json)을 참고하세요.
+
+DIE 내부 두 Channel의 CA·Data 경로도 서로 독립이라는 사용자 확인을 반영했습니다. 총8개의 독립 Channel 경로를 사용합니다. 아래 성능 기록과17장 발표 자료는 과거 평면 구조의 결과이며 새 구조의 최대 성능 측정값이 아닙니다. 과거32/64Plane 프로파일과 Python `Config()` 기본값은 재현성을 위해 유지하고, 새 구조는 `Config.die32()`로 선택합니다.
+
 **현재 워크로드 명칭:** A1/A2는4KiB 전체 읽기, **B는 페이지 내부64B 연속 읽기(신규)**, C1/C2/C3는 기존 B1/B2/B3다. [정의·실행·이전 결과 대응표](docs/15_workload_naming_ko.md)를 기준으로 읽는다. 과거 raw 파일과 재현용 모듈은 당시 B 이름을 보존하며, 아래 기존 약4GB/s 결과는 C1/C2다.
 
 첨부 이미지의 영문 질의 1~4번, 질문별 의도, HBF 공개 사양 조사, `NAND_Prefetch_Model`과의 비교를 정리한 연구 기록입니다.

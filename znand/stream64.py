@@ -65,6 +65,8 @@ def main():
                   per_port_generated=sim.sequence, counts=dict(sim.count),
                   outstanding_at_stop=rows[-1]['outstanding_end'],
                   model_sha256=hashlib.sha256(Path(__file__).with_name('model.py').read_bytes()).hexdigest())
+    if cfg.dies:
+        result['nand_topology'] = cfg.topology()
     args.out.mkdir(parents=True, exist_ok=True)
     (args.out / 'result.json').write_text(json.dumps(result, indent=2) + '\n')
     (args.out / 'timeline.json').write_text(json.dumps(rows, indent=2) + '\n')

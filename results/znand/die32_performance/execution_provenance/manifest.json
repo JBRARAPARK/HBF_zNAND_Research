@@ -1,0 +1,21 @@
+{
+  "source_commit": "5307b7bdf5e58b32f286802b533019379f6996dc",
+  "source_hashes": {
+    "znand/model.py": "1a55cf677808185f62b553167903f27de8db610b90f1828eeb9e3d882730306a",
+    "znand/saturation.py": "1787ccf9aec0db13e8af0b15eacf824992647fca76d8bd2b90d4c864f3ee59dc",
+    "znand/partial_saturation.py": "b0cee8bc1577adb2387a9e176155ea03e0e4647ac1d9bfca3dd8be49aec0382e",
+    "znand/read64_observation.py": "e9ab54285ce1d74a3472e5a1422b60cf010c3baf9723f4d74dd700afc62d87fc",
+    "znand/workloads.py": "39826372cf877972878bb63897628a510747e31c283bfb7570dddbada3b6a583",
+    "scripts/measure_die32.py": "36a7fad9e5c163a04f528dee7bde726cd0b92ff2ac46bdd497a592b8a2a76df5"
+  },
+  "snapshot_hashes": {
+    "results/znand/die32_performance/snapshots/regions_s16384.json": "f30197782898d8a550ffb972daa837f0b61e5f8abec34e962d8cdd37d94c35f7",
+    "results/znand/die32_performance/snapshots/regions_s4096.json": "f30197782898d8a550ffb972daa837f0b61e5f8abec34e962d8cdd37d94c35f7"
+  },
+  "common": "4DIE x 2 independent Channel x 4Plane, 8MiB, FIFO CA, fixed admission, PF OFF, unchanged tR, 85% nominal availability",
+  "fixed_window_us": [
+    200,
+    2200
+  ],
+  "snapshot_validation": "full domain channel/offset preservation, injectivity, disjoint Plane ownership"
+}

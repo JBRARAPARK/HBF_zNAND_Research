@@ -94,3 +94,7 @@ python3 -B scripts/die_layout_smoke.py --out results/local/die-layout-smoke
 ```
 
 기존82개 테스트와 새9개 테스트를 통과했다. 새 테스트는32Plane의 전체 페이지 패킹, DIE 경계 주소, 독립8채널의 동시 CA/Data 진행, 같은 Channel의 직렬화, DIE 간 page buffer 독립성, 부적합 snapshot 거부, 영역별 배치 불변조건, 버퍼 압박에서의 여섯 워크로드 진행·in-order, 신규 CLI 기본값과 과거 config 보존을 확인한다. [기능 실행 결과](../results/znand/die_layout_smoke/)는 짧은 유한 요청열의 smoke이며 성능 상한 측정으로 해석하지 않는다.
+
+## 후속 성능 측정
+
+구조 검증 후 [18개 조건의 지속 처리량 측정](19_die32_performance_ko.md)을 완료했다. 영역별 배치와 적정 QD에서 A1/A2/B는 약185.82GB/s이며, 새 구조의 결과는 기존64Plane 결과와 별도로 보존했다.

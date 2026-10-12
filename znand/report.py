@@ -92,7 +92,7 @@ def main():
             '- 모든 NAND 읽기·page buffer 재출력은 16KiB를 controller로 전송한다. 연결 요청이 모두 반환되면 페이지를 해제한다. Controller 캐시와 LRU는 미도입이다.',
             '- A2/B2는 고객 예시의 1→3→2 반복 순열이며 균등 무작위 주소 trace가 아니다. B3는 1→3→1(+64B)→2 이후 다음 그룹으로 이동한다.',
             '- 통계의 middle_bandwidth_gbps는 중간 50% 완료 구간의 보조 지표이며 정상 상태를 입증하지 않는다. 평균 반환 대기는 앞선 요청 대기와 정상 R 직렬화 시간을 포함한다.',
-            '- 동시 Host 수락 경쟁은 고정 port 순서로 처리한다. 포화 시 공정성과 물리 발행 순서에 영향을 줄 수 있으므로 round-robin admission은 후속 비교 대상이다.',
+            '- Host 수락 경쟁은 round-robin으로 처리한다. 마지막 수락에 성공한 Port의 다음 Port부터 확인하며, 수락 실패만으로 우선순위를 이동하지 않는다.',
             '- 입력 workload는 read-only다. 실행 중 L2P 변화·실제 쓰기/erase 경합·UCIe 프로토콜 상세·전력은 평가 범위 밖이다.','',
             '## 파일과 재실행','',
             '- `sweep.csv`: 전체 실험 결과, 설정값 및 동작 계수.','- `cases.json`: 각 case의 재현 가능한 입력 설정.','- `saturation.csv`: 그룹별 관측 최대와 QD95, 긴 trace 포화 후보.','- `manifest.json`: 실행 환경과 모델 파일 해시.','- 상위 폴더 `tests_final.log`: 기존 및 신규 테스트 결과.','',

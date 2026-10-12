@@ -98,7 +98,7 @@ sh znand/mqsim/reproduce.sh /tmp/mqsim-znand-reproduction
 5. 내부 점유 주기·동시성, 실제 GC 이벤트와 buffer 상태 영향을 확장한다. 85%를 추가 대역폭 감산으로 중복 적용하지 않는다.
 6. L2P 사전 상태를 점유율·주소 편향·seed별로 확장하고, 실제 layout 정책을 보존하는 재배치를 비교한다.
 7. Buffer admission 예약과 실제 L2P 가용 시점을 정교화한다. 작은 버퍼·공유 요청·in-order 조건의 진행성 테스트를 유지한다.
-8. 동시에 발생한 Host 수락 경쟁은 고정 port 순서로 처리한다. 포화 시 port별 지연 편향과 물리 주소 순서에 영향을 줄 수 있으므로 round-robin admission과 비교한다.
+8. Host 수락은 round-robin이다. 마지막 수락에 성공한 Port의 다음 Port부터 다음 호출을 시작한다. 빈 Port·QD 초과·아직 도착하지 않은 요청·버퍼 부족은 건너뛰며, 수락 성공이 없으면 시작 위치를 유지한다. 매 호출에서 Port당 최대 한 요청을 확인하며, 모든 Port의 동시 수락도 허용한다. 수락 기회를 순환하지만 실제 outstanding을 강제로 동일하게 만들지는 않는다.
 9. Controller cache ON/OFF·LRU는 추후 검토한다. 64B channel 분산은 사용자 결정에 따라 계속 제외한다.
 
 ## 결과의 한계

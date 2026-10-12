@@ -1,0 +1,83 @@
+{
+  "status": "passed",
+  "config": {
+    "ports": 4,
+    "channels": 8,
+    "planes": 4,
+    "dies": 4,
+    "channels_per_die": 2,
+    "stripe": 4096,
+    "outstanding": 128,
+    "buffer_pages": 8,
+    "ca_us": 0.1,
+    "output_ca_us": 0.1,
+    "io_gbps": 80.1125,
+    "turnaround_us": 0.05,
+    "ecc_us": 0.2,
+    "lookup_us": 0.5,
+    "lookup_clock_mhz": 500.0,
+    "lookup_pipelines": 2,
+    "lookup_slots": 500,
+    "host_bits": 512,
+    "host_mhz": 1000.0,
+    "first_us": 20.69,
+    "short_us": 2.0,
+    "mid_us": 2.08,
+    "long_us": 12.16,
+    "group_us": 20.69,
+    "availability": 0.85,
+    "maintenance_period_us": 100.0,
+    "maintenance_sync": false,
+    "prefetch": false,
+    "accuracy": 1.0,
+    "lead_us": 10.0,
+    "prefetch_limit": 128,
+    "seed": 7,
+    "remap_fraction": 0.0,
+    "snapshot": "",
+    "trace": false,
+    "ca_policy": "fifo",
+    "locality_max_bypass": 8,
+    "locality_age_us": 1000.0,
+    "head_wait_us": 12.16,
+    "pf_ahead_limit": 0,
+    "pf_head_wait_us": 48.64,
+    "data_policy": "ready",
+    "data_head_wait_us": 0.0,
+    "data_age_us": 1000.0
+  },
+  "cases": [
+    {
+      "pattern": "A1",
+      "status": "passed",
+      "requests": 34,
+      "observation_hooks_preserve_requests_counters_buffer_and_timelines": true
+    },
+    {
+      "pattern": "A2",
+      "status": "passed",
+      "requests": 34,
+      "observation_hooks_preserve_requests_counters_buffer_and_timelines": true
+    },
+    {
+      "pattern": "B",
+      "status": "passed",
+      "requests": 2564,
+      "timestamps_counters_buffer_events_nand_events_and_timelines_identical": true
+    },
+    {
+      "pattern": "C1",
+      "status": "passed",
+      "requests": 34,
+      "timestamps_counters_buffer_events_nand_events_and_timelines_identical": true
+    },
+    {
+      "pattern": "C2",
+      "status": "passed",
+      "requests": 34,
+      "timestamps_counters_buffer_events_nand_events_and_timelines_identical": true
+    }
+  ],
+  "script_sha256": "eb07abf93d4f149bd615f0d5b56547dff8375f2a48b3e96e89ccac261a312952",
+  "note": "Equivalence regression on short buffer-constrained traces; not a hardware validation"
+}

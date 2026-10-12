@@ -247,11 +247,14 @@ def workload(pattern='B3', ports=4, per_port=2048, overlap=0., host_mhz=1000., s
 
 
 class Simulator:
+    admission_policy = 'round_robin'
+
     def __init__(self,c,inputs):
         c.validate(); self.c=c; self.mapper=Mapper(c); self.now=0.; self.serial=0
         self.events=[];self.log=[];self.count=Counter();self.items={};self.used_peak=0
         self.req=[];self.sources=[deque() for _ in range(c.ports)]
         self.fifo=[deque() for _ in range(c.ports)]
+        self.admission_next_port=0
         self.lookupq=[deque() for _ in range(c.ports)]
         self.lookup_active=[0]*c.ports
         self.lanes=[[0.]*c.lookup_pipelines for _ in range(c.ports)]
@@ -323,7 +326,10 @@ class Simulator:
         return x
 
     def admit(self):
-        for p in range(self.c.ports):
+        # Freeze this pass's order; only successful grants advance priority.
+        start_port=self.admission_next_port
+        for offset in range(self.c.ports):
+            p=(start_port+offset)%self.c.ports
             if not self.sources[p] or len(self.fifo[p])>=self.c.outstanding:continue
             idx=self.sources[p][0];r=self.req[idx]
             when=max(r['offer'],self.next_ar[p])
@@ -339,6 +345,7 @@ class Simulator:
             if not self.fifo[p]:r['head_since']=self.now
             self.sources[p].popleft();self.fifo[p].append(idx);self.lookupq[p].append(idx)
             r['accepted']=self.now;r['merged_state']=x['state']
+            self.admission_next_port=(p+1)%self.c.ports
             self.next_ar[p]=self.now+1/self.c.host_mhz
             self.peak[p]=max(self.peak[p],len(self.fifo[p]))
             self.trace('accept',request=idx,port=p,key=r['key'])
@@ -614,7 +621,8 @@ class Simulator:
         steadybytes=sum(r['size'] for r in ordered[a+1:b+1])
         steadytime=ordered[b]['end']-ordered[a]['end'] if b>a else 0
         hol=[max(0,r['r_start']-max(r['ready'],r['lookup_end'])) for r in self.req]
-        return dict(requests=len(self.req),host_bytes=total,elapsed_us=end-start,
+        return dict(admission_policy=self.admission_policy,
+                    requests=len(self.req),host_bytes=total,elapsed_us=end-start,
                     bandwidth_gbps=total/(end-start)/1000,
                     inclusive_prefetch_gbps=total/(end-min(start,self.first_nand if self.first_nand is not None else start))/1000,
                     middle_bandwidth_gbps=steadybytes/steadytime/1000 if steadytime else 0,

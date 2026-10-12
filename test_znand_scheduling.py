@@ -97,6 +97,7 @@ class SchedulingExtensionTests(unittest.TestCase):
                 for cls in (Simulator, SchedulingProbe):
                     sim = cls(Config(**options), inputs)
                     result = sim.run(); result.pop('config')
+                    self.assertEqual(result.pop('admission_policy'), 'round_robin')
                     self.assertEqual(result, prior)
                     if cls is SchedulingProbe:
                         diag = sim.diagnostics()

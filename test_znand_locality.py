@@ -28,6 +28,7 @@ class LocalityTests(unittest.TestCase):
                 kw=dict(prefetch=pf,outstanding=32,buffer_pages=64)
                 a=Simulator(Config(**kw),workload(pattern,per_port=64)).run()
                 b=OldSimulator(OldConfig(**kw),old_workload(pattern,per_port=64)).run()
+                self.assertEqual(a.pop('admission_policy'), 'round_robin')
                 a.pop('config');b.pop('config');self.assertEqual(a,b)
     def test_demand_precedes_prefetch_and_busy_plane_is_skipped(self):
         c=Config(ports=1,stripe=16384,availability=1.,ca_policy='locality')

@@ -77,6 +77,7 @@ class HeadSchedulingTests(unittest.TestCase):
                 prior = PriorSimulator(PriorConfig(**options), inputs).run(); prior.pop('config')
                 for c in (Config(**options), replace(Config(**options), ca_policy='head_locality', head_wait_us=1e8)):
                     actual = Simulator(c, inputs).run(); actual.pop('config')
+                    self.assertEqual(actual.pop('admission_policy'), 'round_robin')
                     self.assertEqual(actual, prior)
 
     def test_progress_order_resources_and_head_timestamps(self):

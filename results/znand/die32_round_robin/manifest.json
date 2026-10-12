@@ -1,0 +1,31 @@
+{
+  "source_commit": "87113d592f52773d9e11c6d7bde755a3ff350138",
+  "source_hashes": {
+    "znand/model.py": "52c63efee6a5455ade5d31e8dee36db5d2a73f49c3f5f35d47205fadfbe2f11f",
+    "znand/saturation.py": "1787ccf9aec0db13e8af0b15eacf824992647fca76d8bd2b90d4c864f3ee59dc",
+    "znand/partial_saturation.py": "b0cee8bc1577adb2387a9e176155ea03e0e4647ac1d9bfca3dd8be49aec0382e",
+    "znand/read64_observation.py": "e9ab54285ce1d74a3472e5a1422b60cf010c3baf9723f4d74dd700afc62d87fc",
+    "znand/workloads.py": "39826372cf877972878bb63897628a510747e31c283bfb7570dddbada3b6a583",
+    "scripts/measure_die32.py": "28c9fd27ea5f239d7b57553856ee048f277769c01aa5af762b66881484958634",
+    "scripts/measure_die32_round_robin.py": "be8d14fe5c9097a7a641f1e0191762d2fdf2f49a5987ac9c8fccde8e7b469205"
+  },
+  "snapshot_hashes": {
+    "results/znand/die32_performance/snapshots/regions_s4096.json": "f30197782898d8a550ffb972daa837f0b61e5f8abec34e962d8cdd37d94c35f7",
+    "results/znand/die32_performance/snapshots/regions_s16384.json": "f30197782898d8a550ffb972daa837f0b61e5f8abec34e962d8cdd37d94c35f7"
+  },
+  "reference_hashes": {
+    "results/znand/die32_performance/cases/A1_region_q256/result.json": "802dad801ebc330211c007f4e52b01b4717c3add3ec4304df31b0633e0616816",
+    "results/znand/die32_high_qd/cases/A1_region_q65536/result.json": "ccc12a27f695617b1223f9e991a1e26f5df0034c6a61bcbf69b772930d3f122f",
+    "results/znand/die32_performance/cases/A2_region_q256/result.json": "a72d8b085387d5e162e9b80071495601f7b81d2eebdf1092719035763f1ffea4",
+    "results/znand/die32_high_qd/cases/A2_region_q65536/result.json": "a243fc60e08bbc9c27e125661dc1974c7ebc9aaa0455dc53ceb5d78d9cb39050",
+    "results/znand/die32_performance/cases/B_region_q16384/result.json": "6d1032a83320e96d97855e6306acada7bbdc466317ecd69d8712a556fc6769a4",
+    "results/znand/die32_high_qd/cases/B_region_q65536/result.json": "d56a1e2667b22399ce410f50866ca799bd4168041d06887fccbc79d5866f49c2",
+    "results/znand/die32_high_qd/cases/B_region_q262144/result.json": "a0f43d2c279ead28b1a9632fbdbaf91d75f277afcbc38540a193556e9e146486"
+  },
+  "fixed_window_us": [
+    200,
+    2200
+  ],
+  "admission_policy": "round_robin",
+  "common": "Only production admission changed; identical configuration, region snapshots and workloads to fixed-admission references"
+}

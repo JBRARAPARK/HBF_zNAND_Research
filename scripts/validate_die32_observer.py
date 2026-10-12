@@ -1,4 +1,5 @@
 """Check optimized PF-OFF 64B observation against the reference on eight channels."""
+import argparse
 from dataclasses import asdict
 import hashlib
 import json
@@ -31,7 +32,9 @@ for pattern in ('B','C1','C2'):
     assert time_series(a,10.)==time_series(b,10.)
     checks.append(dict(pattern=pattern,status='passed',requests=len(a.req),
                        timestamps_counters_buffer_events_nand_events_and_timelines_identical=True))
-out=ROOT/'results/znand/die32_performance/observer_validation.json'
+parser=argparse.ArgumentParser()
+parser.add_argument('--out',type=Path,default=ROOT/'results/znand/die32_performance/observer_validation.json')
+out=parser.parse_args().out
 out.parent.mkdir(parents=True,exist_ok=True)
 out.write_text(json.dumps(dict(status='passed',config=asdict(c),cases=checks,
     script_sha256=hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),

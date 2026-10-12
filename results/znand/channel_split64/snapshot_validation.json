@@ -1,0 +1,26 @@
+{
+  "4096": {
+    "path": "results/znand/channel_split64/snapshots/s4096.json",
+    "sha256": "432f04ffb32a0ab5485966486a35eb0dc636a5526293756416508db72a694019",
+    "mapped_pages": 65536,
+    "same_region_rule": true,
+    "injective": true,
+    "each_region_uses_all_eight_channels": true,
+    "planes_per_region": 16,
+    "planes_per_region_per_channel": 2,
+    "full_page_offsets_verified": true,
+    "note": "Packing follows eight channels; physical page grouping need not equal the old four-channel snapshot"
+  },
+  "16384": {
+    "path": "results/znand/channel_split64/snapshots/s16384.json",
+    "sha256": "432f04ffb32a0ab5485966486a35eb0dc636a5526293756416508db72a694019",
+    "mapped_pages": 65536,
+    "same_region_rule": true,
+    "injective": true,
+    "each_region_uses_all_eight_channels": true,
+    "planes_per_region": 16,
+    "planes_per_region_per_channel": 2,
+    "full_page_offsets_verified": true,
+    "note": "Packing follows eight channels; physical page grouping need not equal the old four-channel snapshot"
+  }
+}

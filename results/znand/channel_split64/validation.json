@@ -1,0 +1,11 @@
+{
+  "status": "passed",
+  "cases": 6,
+  "source_profiles_snapshots_references_verified": true,
+  "total_planes": 64,
+  "capacity_qd_accounting_and_domain_verified": true,
+  "fixed_window_us": [
+    200,
+    2200
+  ]
+}

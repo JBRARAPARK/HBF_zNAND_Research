@@ -1,6 +1,6 @@
 # 채널당 8Plane에서 16Plane으로 확장
 
-> 2026-10-12 구조 변경: 새 기준은 [4 DIE × 2 Channel × 4 Plane](18_die_channel_plane_layout_ko.md)입니다. 아래4×8/4×16 구조와 측정은 기존 모델의 이력입니다.
+> 현재는 [DIE 없는64Plane 기준으로 복원](22_restore_64plane_ko.md)했습니다. 총64Plane을 유지한 [4Channel×16Plane ↔ 8Channel×8Plane 및 BW 절반 비교](23_channel_split64_ko.md)도 제공합니다.32Plane DIE 실험은 보관 자료입니다.
 
 2026-10-09. 소프트웨어 모델에서는 4channel × 8Plane = 32Plane을 4channel × 16Plane = 64Plane으로 확장할 수 있다. 실제 NAND die를 구성하는 Plane 수나 TSV 연결 가능성을 제품 자료 없이 확정하지 않는다.
 

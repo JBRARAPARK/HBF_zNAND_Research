@@ -123,7 +123,7 @@ class Config:
         if self.dies or self.channels_per_die:
             assert (self.dies,self.channels_per_die,self.channels,self.planes) == (4,2,8,4)
         else:
-            assert self.channels == 4 and self.planes in (8,16)
+            assert (self.channels,self.planes) in ((4,8),(4,16),(8,8))
         assert self.stripe in (4096, 16384)
         assert self.buffer_pages >= self.ports + 1
         assert min(self.outstanding, self.lookup_slots, self.lookup_pipelines) > 0
@@ -161,10 +161,10 @@ class Mapper:
             doc = json.loads(Path(c.snapshot).read_text())
             assert doc['page_bytes'] == PAGE
             # Legacy MQSim snapshots describe the original 4x8 geometry.
-            # A 4x16 experiment must explicitly declare its imported layout.
+            # Other geometries must explicitly declare their imported layout.
             geometry = doc.get('model_geometry')
             expected = c.model_geometry
-            if (geometry is not None and geometry != expected) or ((c.dies or c.planes == 16) and geometry != expected):
+            if (geometry is not None and geometry != expected) or ((c.dies or (c.channels,c.planes) != (4,8)) and geometry != expected):
                 raise ValueError('snapshot model_geometry must match the full configured topology')
             self.external = {int(k): tuple(v) for k,v in doc['mapping'].items()}
             fmt = doc.get('address_format','global_channel_plane_page')

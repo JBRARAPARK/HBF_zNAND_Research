@@ -1,0 +1,38 @@
+{
+  "source_commit": "45e9d72a39ef075d27ae9822e9876d13de797be0",
+  "source_hashes": {
+    "znand/model.py": "7b738d9df7ee20dadc62e2178118ee5bcdbcd2bf84b69b528cbc86069281f7bc",
+    "znand/run.py": "4d6316e66328875f3dc51c1f6a30c12fac17752069a9ba5103515b09f1eab887",
+    "znand/saturation.py": "1787ccf9aec0db13e8af0b15eacf824992647fca76d8bd2b90d4c864f3ee59dc",
+    "znand/partial_saturation.py": "b0cee8bc1577adb2387a9e176155ea03e0e4647ac1d9bfca3dd8be49aec0382e",
+    "znand/read64_observation.py": "e9ab54285ce1d74a3472e5a1422b60cf010c3baf9723f4d74dd700afc62d87fc",
+    "znand/workloads.py": "39826372cf877972878bb63897628a510747e31c283bfb7570dddbada3b6a583",
+    "scripts/measure_restored64.py": "6bd5d385365723f6cd55eee2a0c5bec1c11fc305701d60a2c1680c3e43207188",
+    "scripts/measure_channel_split64.py": "747d1c99c198f425d615219877309f72b953cdb35cd81fea59b6acac748ff57a"
+  },
+  "profile_hashes": {
+    "configs/channel_split64/full_bw/A1.json": "ca3264d82d7389a10a7b5ca431ee8d0c62aa612bf411cb214aaa27349a1ec3c9",
+    "configs/channel_split64/full_bw/A2.json": "1c518f5a680ba7a46300089bf12de083133688241c8a69daf9a3a4b2428990e2",
+    "configs/channel_split64/full_bw/B.json": "4904bbe29fa6a64dfa0df75ac97be19b9fa4481f1fe0561e4138493d3842d302",
+    "configs/channel_split64/half_bw/A1.json": "c044e8d67ddcd62beda532cc0f1038f6b7944454e052dcc990593e9452d2537b",
+    "configs/channel_split64/half_bw/A2.json": "19e13ad049e7e58db688d07aadd98d6b39ef6400fd9697087727b2cbb3b625fd",
+    "configs/channel_split64/half_bw/B.json": "870550321879da03858b6c676dc86fda2e79c9fe384d68123380745d5a397a3f"
+  },
+  "snapshot_hashes": {
+    "results/znand/channel_split64/snapshots/s16384.json": "432f04ffb32a0ab5485966486a35eb0dc636a5526293756416508db72a694019",
+    "results/znand/channel_split64/snapshots/s4096.json": "432f04ffb32a0ab5485966486a35eb0dc636a5526293756416508db72a694019"
+  },
+  "reference_hashes": {
+    "results/znand/restored64/A1/result.json": "e0184f0caf2630cde199e4201f254fd8f84baf7b1d249e50629640fe843b65ce",
+    "results/znand/restored64/A2/result.json": "7d243bea700ed75fd7df2d07c8be225ae95f7c8372a6a97979c1f0ac3e99f6b2",
+    "results/znand/restored64/B/result.json": "a90d09f010028b2056535f641e4db816ff3ef0e5dbcb9c2734401707422c10a9"
+  },
+  "fixed_window_us": [
+    200,
+    2200
+  ],
+  "admission_policy": "round_robin",
+  "controls": "64 total Planes, 8MiB, original QD/tR/availability/seed/host, region placement rule, RR, FIFO CA, PF OFF",
+  "changes": "4x16 to 8x8; native packing and maintenance phases follow new physical indices; full or half per-channel io_gbps",
+  "equivalence_note": "Report measured differences, not bit-identical traces or universal equivalence"
+}

@@ -1,6 +1,8 @@
 # 주소 기반 zNAND Read와 Prefetch 실험
 
-현재 성능 평가 기준은 **4 Channel × 16 Plane, DIE 계층 없음, round-robin 수락**입니다. `python3 -B scripts/measure_restored64.py`로 복원된 영역별 배치 프로파일을 측정합니다. [현재 결과와 조건](../docs/22_restore_64plane_ko.md)을 참고하세요.32Plane DIE 프로파일은 보관용입니다.
+총64Plane을 유지한 **8Channel×8Plane**도 지원합니다. [최신 채널 분할·BW 절반 비교](../docs/23_channel_split64_ko.md)와 [40.05625GB/s/Channel 설정](../configs/channel_split64/half_bw/)을 참고하세요.
+
+현재 성능 평가 기준은 **4 Channel × 16 Plane, DIE 계층 없음, round-robin 수락**입니다. `python3 -B scripts/measure_restored64.py --out results/local/restored64_current`로 복원된 영역별 배치 프로파일을 측정합니다. [현재 결과와 조건](../docs/22_restore_64plane_ko.md)을 참고하세요.32Plane DIE 프로파일은 보관용입니다.
 
 **현재 이름(schema 2):** 새 B는 각4KiB 페이지 전체를64B씩 읽는다. 기존 B1/B2/B3는 C1/C2/C3다. [현재 진입점과 실행 방법](../docs/15_workload_naming_ko.md)을 따른다. 아래 과거 sweep·파일명·재현용 내부 API는 기존 식별자를 보존한다.
 
@@ -42,7 +44,7 @@ python3 -m znand.report
 | Host | 활성 1~4port, 각각 512bit·1GHz, port 내부 strict in-order |
 | 요청 | 64B 또는 4KiB, 요청당 lookup 1회·Outstanding 1개, 마지막 반환 시 해제 |
 | Lookup | Port별 500ns, 500MHz·2파이프라인, 동시 slot 500개 |
-| NAND | 기본 4channel × 8plane; 실험 확장 4channel × 16plane. Plane별 page buffer 1개 |
+| NAND | 기본 4channel × 8plane; 실험 확장 4channel × 16plane 또는 8channel × 8plane. Plane별 page buffer 1개 |
 | 주소 | 4KiB 논리 영역, 16KiB 물리 페이지; 4KiB/16KiB channel 분산; Plane 순환 |
 | Plane 내부 | E/O→SSL→Block→WL(420→0)→Group |
 | tR | 최초·Group 20.69μs, Short 2μs, Mid 2.08μs, Long 12.16μs. Plane별 이력 |
@@ -136,7 +138,7 @@ python3 -m znand.diagnostics --cases 64plane_8MiB 64plane_32MiB --out results/zn
 
 기본 진단 조건은 A2, 4port, 16KiB stripe, port당 4,096개 4KiB 요청, QD 2,048, Prefetch ON, port 간 주소 중첩 0%다. 결과 폴더의 `cases.json`은 전체 입력, `results.json`은 상세 계측, `sweep.csv`는 독립 검증용 행, `summary.csv`는 비교표, `manifest.json`은 모델 해시와 검증 기록이다. 실행 시간은 환경에 따라 달라진다.
 
-16Plane/channel에서 외부 snapshot을 사용하려면 `model_geometry: {"channels": 4, "planes_per_channel": 16}` metadata가 일치해야 한다. 기존 32Plane MQSim snapshot에 metadata만 붙여 64Plane 배치로 간주하지 않는다. 기존 8Plane/channel의 metadata 없는 snapshot은 계속 지원한다.
+16Plane/channel에서 외부 snapshot을 사용하려면 `model_geometry: {"channels": 4, "planes_per_channel": 16}` metadata가 일치해야 한다. 기존 32Plane MQSim snapshot에 metadata만 붙여 64Plane 배치로 간주하지 않는다. 기존4channel × 8Plane의 metadata 없는 snapshot만 계속 지원한다.8channel × 8Plane에서는 `model_geometry: {"channels": 8, "planes_per_channel": 8}`이 반드시 일치해야 한다. [8채널 분할·BW 절반 비교](../docs/23_channel_split64_ko.md)를 참고한다.
 
 - [Host IF 병목 원인과 6개 진단 해석](../docs/08_host_if_bottleneck_ko.md)
 - [NAND 주소 비트와 물리 Die 구성 예](../docs/09_plane_expansion_layout_ko.md)

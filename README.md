@@ -1,16 +1,26 @@
 # HBF 기준 zNAND 질의 분석과 Prefetch 모델 검토
 
-## 현재 성능 평가 기준: 4 Channel × 16 Plane = 64 Plane
+## 최신 비교: 8 Channel × 8 Plane, 총64Plane 유지
+
+[채널2배·채널당 Plane 절반 및 BW 절반 비교](docs/23_channel_split64_ko.md)를 추가했습니다. 기존4×16과 새8×8 모두 총64Plane입니다. 채널당 Data BW를80.1125GB/s로 유지한 프로파일과 **40.05625GB/s로 절반 조정한 프로파일**을 제공합니다. 절반 조건의 전체 raw BW는8×40.05625 = **320.45GB/s**로 기존4×80.1125와 같습니다. 순환 수락,8MiB, 기존 QD·tR·가용률과 영역별 배치 규칙을 유지합니다. **BW 유지·절반 조건 모두 A1/A2/B 256.00GB/s**를 새2ms 측정에서 확인했습니다.
+
+```sh
+python3 -B scripts/measure_channel_split64.py
+```
+
+[8×8·BW 절반 설정](configs/channel_split64/half_bw/)과 [BW 유지 대조 설정](configs/channel_split64/full_bw/)을 사용하세요. 아래4×16 복원 결과는 비교 기준으로 보존합니다. 기본 유한 요청열 CLI의 무설정4×16 설정과 위8×8 실험 프로파일은 구분합니다.
+
+## 비교 기준: 4 Channel × 16 Plane = 64 Plane
 
 DIE 도입 전의 **4 Channel × 16 Plane = 총64Plane** 구성과 영역별 Data placement로 돌아왔습니다. **수락 정책은 round-robin을 유지**합니다. 4 DIE × 2 Channel × 4 Plane의32Plane 모델은 현재 성능 평가에서 제외하고 비교 이력으로 보관합니다.
 
 [64Plane 복원 및 새 측정 결과](docs/22_restore_64plane_ko.md)를 현재 기준으로 사용하세요. 새2ms 지속 측정에서 **A1 255.275GB/s, A2 255.281GB/s, B 255.360GB/s**를 확인했습니다. 이전에200GB/s 이상 나온 A1/A2/B 설정을 그대로 복원한 [실행 프로파일](configs/performance64/)을 제공합니다. 공유8MiB, PF OFF, CA FIFO, 기존 tR·가용률85%를 사용하고, QD는 A1/A2 512/Port, B 32,768/Port입니다.
 
 ```sh
-python3 -B scripts/measure_restored64.py
+python3 -B scripts/measure_restored64.py --out results/local/restored64_current
 ```
 
-위 명령은 초기200µs를 제외한2ms 지속 처리량을 측정합니다. 저장된 결과가 있으면 검증하며, 새로 재측정하려면 `--out results/local/restored64_new`처럼 새 출력 경로를 지정하세요. `python3 -m znand.run`의 무설정 기본 형상도 DIE 없는64Plane으로 복원했습니다. 이 기본 CLI는 유한 요청열·기본 배치의 기능 확인용이며, 위 지속 부하·영역별 배치 측정과 수치를 혼용하지 않습니다.
+위 명령은 초기200µs를 제외한2ms 지속 처리량을 새 경로에 측정합니다. 모델 소스가 바뀐 이후의 재측정에는 항상 새 출력 경로를 사용하여 과거 결과를 보존하세요. `python3 -m znand.run`의 무설정 기본 형상도 DIE 없는64Plane으로 복원했습니다. 이 기본 CLI는 유한 요청열·기본 배치의 기능 확인용이며, 위 지속 부하·영역별 배치 측정과 수치를 혼용하지 않습니다.
 
 DIE 구조를 도입할 때는 DIE 표기만 더한 것이 아니라 **64→32Plane, 4→8Channel로 구성도 바뀌었습니다.** 따라서 두 결과의 차이를 DIE 계층 자체의 비용으로 해석하지 않습니다. [32Plane 구조](docs/18_die_channel_plane_layout_ko.md), [초기 측정](docs/19_die32_performance_ko.md), [고QD 고정 수락](docs/20_die32_high_qd_ko.md), [32Plane 순환 수락](docs/21_die32_round_robin_ko.md)은 과거 대조 자료입니다. `Config.die32()`와 관련 파일은 보관·재현용으로만 남깁니다. `Config()`의 과거 기본값도 기존 실험 호환성을 위해 유지하며, 현재 성능 평가는 위64Plane 프로파일을 명시적으로 사용합니다.
 

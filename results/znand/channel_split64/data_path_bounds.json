@@ -1,0 +1,30 @@
+{
+  "formula": "channels * 16384 / (16384 / (io_gbps * 1000) + 0.05) / 1000",
+  "scope": "Data paths continuously supplied; excludes sensing, maintenance, CA contention, ECC and Host limits",
+  "cases": [
+    {
+      "channels": 4,
+      "io_gbps": 80.1125,
+      "turnaround_us": 0.05,
+      "data_duration_us": 0.25451240443126855,
+      "aggregate_raw_gbps": 320.45,
+      "ideal_data_path_payload_gbps": 257.4962903927855
+    },
+    {
+      "channels": 8,
+      "io_gbps": 80.1125,
+      "turnaround_us": 0.05,
+      "data_duration_us": 0.25451240443126855,
+      "aggregate_raw_gbps": 640.9,
+      "ideal_data_path_payload_gbps": 514.992580785571
+    },
+    {
+      "channels": 8,
+      "io_gbps": 40.05625,
+      "turnaround_us": 0.05,
+      "data_duration_us": 0.45902480886253705,
+      "aggregate_raw_gbps": 320.45,
+      "ideal_data_path_payload_gbps": 285.544479229339
+    }
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "status": "passed",
+  "reference_commit": "45e9d72a39ef075d27ae9822e9876d13de797be0",
+  "reference_model_sha256": "52c63efee6a5455ade5d31e8dee36db5d2a73f49c3f5f35d47205fadfbe2f11f",
+  "current_model_sha256": "7b738d9df7ee20dadc62e2178118ee5bcdbcd2bf84b69b528cbc86069281f7bc",
+  "cases": [
+    {
+      "pattern": "A1",
+      "all_result_metrics_and_request_timestamps_identical": true
+    },
+    {
+      "pattern": "A2",
+      "all_result_metrics_and_request_timestamps_identical": true
+    },
+    {
+      "pattern": "B",
+      "all_result_metrics_and_request_timestamps_identical": true
+    },
+    {
+      "pattern": "C1",
+      "all_result_metrics_and_request_timestamps_identical": true
+    },
+    {
+      "pattern": "C2",
+      "all_result_metrics_and_request_timestamps_identical": true
+    },
+    {
+      "pattern": "C3",
+      "all_result_metrics_and_request_timestamps_identical": true
+    }
+  ],
+  "scope": "Short constrained 4x16 regression against pre-extension source; sustained controls reuse prior verified results"
+}

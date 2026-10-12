@@ -1,0 +1,33 @@
+{
+  "status": "passed",
+  "qd_only_new_cases": 9,
+  "extended_runs": 2,
+  "original_and_extended_windows_recomputed": true,
+  "extended_source_hashes_verified": true,
+  "payload_capacity_bound_checked_on_mean_and_bin_end": true,
+  "identical_timelines": {
+    "A1": {
+      "qds": [
+        4096,
+        16384,
+        65536
+      ],
+      "full_timelines_identical": true
+    },
+    "A2": {
+      "qds": [
+        4096,
+        16384,
+        65536
+      ],
+      "full_timelines_identical": true
+    },
+    "B": {
+      "qds": [
+        131072,
+        262144
+      ],
+      "full_timelines_identical": true
+    }
+  }
+}

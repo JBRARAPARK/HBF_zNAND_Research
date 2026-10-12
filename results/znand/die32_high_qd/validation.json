@@ -1,0 +1,13 @@
+{
+  "status": "passed",
+  "completed_cases": 9,
+  "expected_cases": 9,
+  "source_and_snapshot_hashes_verified": true,
+  "fixed_window_us": [
+    200,
+    2200
+  ],
+  "timeline_and_port_accounting_verified": true,
+  "capacity_and_qd_verified": true,
+  "scope": "Measured configurations; not a global maximum or hardware result"
+}

@@ -1,0 +1,86 @@
+[
+  {
+    "name": "half_bw_all8_A1",
+    "variant": "half_bw",
+    "layout": "all8",
+    "pattern": "A1"
+  },
+  {
+    "name": "half_bw_all8_A2",
+    "variant": "half_bw",
+    "layout": "all8",
+    "pattern": "A2"
+  },
+  {
+    "name": "half_bw_one_pc_A1",
+    "variant": "half_bw",
+    "layout": "one_pc",
+    "pattern": "A1"
+  },
+  {
+    "name": "half_bw_one_pc_A2",
+    "variant": "half_bw",
+    "layout": "one_pc",
+    "pattern": "A2"
+  },
+  {
+    "name": "half_bw_same_die2_A1",
+    "variant": "half_bw",
+    "layout": "same_die2",
+    "pattern": "A1"
+  },
+  {
+    "name": "half_bw_same_die2_A2",
+    "variant": "half_bw",
+    "layout": "same_die2",
+    "pattern": "A2"
+  },
+  {
+    "name": "half_bw_split_die2_A1",
+    "variant": "half_bw",
+    "layout": "split_die2",
+    "pattern": "A1"
+  },
+  {
+    "name": "half_bw_split_die2_A2",
+    "variant": "half_bw",
+    "layout": "split_die2",
+    "pattern": "A2"
+  },
+  {
+    "name": "half_bw_one_pc_per_die4_A1",
+    "variant": "half_bw",
+    "layout": "one_pc_per_die4",
+    "pattern": "A1"
+  },
+  {
+    "name": "half_bw_one_pc_per_die4_A2",
+    "variant": "half_bw",
+    "layout": "one_pc_per_die4",
+    "pattern": "A2"
+  },
+  {
+    "name": "full_bw_all8_A1",
+    "variant": "full_bw",
+    "layout": "all8",
+    "pattern": "A1"
+  },
+  {
+    "name": "full_bw_all8_A2",
+    "variant": "full_bw",
+    "layout": "all8",
+    "pattern": "A2"
+  },
+  {
+    "name": "half_bw_all8_B",
+    "variant": "half_bw",
+    "layout": "all8",
+    "pattern": "B"
+  },
+  {
+    "name": "full_bw_all8_B",
+    "variant": "full_bw",
+    "layout": "all8",
+    "pattern": "B"
+  }
+]

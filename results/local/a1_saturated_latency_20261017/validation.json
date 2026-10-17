@@ -1,0 +1,10 @@
+{
+  "status": "passed",
+  "cases": 2,
+  "request_csv_statistics_recomputed": true,
+  "acceptance_cohort_uncensored": true,
+  "postroll_load_continues": true,
+  "prior_throughput_timeline_identical": true,
+  "source_input_hashes_verified": true,
+  "latency_decomposition_checked": true
+}

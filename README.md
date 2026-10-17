@@ -1,5 +1,15 @@
 # HBF 기준 zNAND 질의 분석과 Prefetch 모델 검토
 
+## A1 최대 지속 부하의 평균·tail latency
+
+사용자 확인 구조인 **4 DIE × 2 Pseudo Channel × 8 Plane = 총64Plane**에서 A1을 지속 공급해 **256GB/s**를 확인했습니다. 채널당40.05625GB/s·QD512/Port·공유8MiB 기준, 초기200µs를 제외한2ms 수락 cohort의 평균은 **31.281µs**, p99는 **32.681µs**, p99.9와 최대는 **32.744µs**입니다. 초기200µs 요청의 최대는69.773µs로 별도 구분합니다.
+
+[지연 정의·Port별 결과·재현 방법](docs/25_a1_saturated_latency_ko.md)과 [요청별 원자료·검증](results/local/a1_saturated_latency_20261017/)을 제공합니다. 구간 이후에도 최대 부하를300µs 유지해 늦게 완료된 요청까지 포함했습니다. 두 Pseudo Channel의 **CA·Data가 각각 독립**이라는 조건은2026-10-17 사용자가 확인했습니다.
+
+## 추가 실험: 4 DIE × 2 Pseudo Channel × 8 Plane
+
+사용자 확인 구조를 명시한 총64Plane 실험은 [Die·Pseudo Channel 배치 비교](docs/24_die64_pseudo_channel_ko.md)를 참고합니다. 두 Pseudo Channel의 CA·Data 독립 조건을 유지하며, Die 공통 제한은 추가하지 않았습니다. 아래 flat8×8과4×16 결과는 비교 이력으로 보존합니다.
+
 ## 최신 비교: 8 Channel × 8 Plane, 총64Plane 유지
 
 [채널2배·채널당 Plane 절반 및 BW 절반 비교](docs/23_channel_split64_ko.md)를 추가했습니다. 기존4×16과 새8×8 모두 총64Plane입니다. 채널당 Data BW를80.1125GB/s로 유지한 프로파일과 **40.05625GB/s로 절반 조정한 프로파일**을 제공합니다. 절반 조건의 전체 raw BW는8×40.05625 = **320.45GB/s**로 기존4×80.1125와 같습니다. 순환 수락,8MiB, 기존 QD·tR·가용률과 영역별 배치 규칙을 유지합니다. **BW 유지·절반 조건 모두 A1/A2/B 256.00GB/s**를 새2ms 측정에서 확인했습니다.

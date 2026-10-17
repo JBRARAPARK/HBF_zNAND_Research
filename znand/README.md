@@ -1,5 +1,9 @@
 # 주소 기반 zNAND Read와 Prefetch 실험
 
+A1의 최대 지속 부하 평균·tail latency는 [측정 정의와 결과](../docs/25_a1_saturated_latency_ko.md)를 참고하세요. 실행: `python3 -B scripts/measure_a1_saturated_latency.py --out results/local/a1_latency_new`.
+
+`Config.die64()`는 **4 DIE × 2 Pseudo Channel/DIE × 8 Plane/Pseudo Channel**을 명시합니다. [새 실험과 실행 방법](../docs/24_die64_pseudo_channel_ko.md)을 참고하세요. CA·Data는 Pseudo Channel별로 독립이며 Die 공통 제약은 추가하지 않습니다. 일반 CLI 무설정 값과 과거 프로파일은 유지합니다.
+
 총64Plane을 유지한 **8Channel×8Plane**도 지원합니다. [최신 채널 분할·BW 절반 비교](../docs/23_channel_split64_ko.md)와 [40.05625GB/s/Channel 설정](../configs/channel_split64/half_bw/)을 참고하세요.
 
 현재 성능 평가 기준은 **4 Channel × 16 Plane, DIE 계층 없음, round-robin 수락**입니다. `python3 -B scripts/measure_restored64.py --out results/local/restored64_current`로 복원된 영역별 배치 프로파일을 측정합니다. [현재 결과와 조건](../docs/22_restore_64plane_ko.md)을 참고하세요.32Plane DIE 프로파일은 보관용입니다.

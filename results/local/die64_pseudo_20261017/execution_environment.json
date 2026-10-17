@@ -1,0 +1,20 @@
+{
+  "date": "2026-10-17",
+  "python": "3.14.7 (main, Aug  5 2026, 10:29:49) [Clang 21.0.0 (clang-2100.3.34.2)]",
+  "platform": "macOS-27.0.1-arm64-arm-64bit-Mach-O",
+  "unit_test_command": "python3 -B -m unittest discover -p 'test_znand*.py' -q",
+  "unit_tests": 105,
+  "unit_test_status": "passed",
+  "unit_test_wall_seconds": 4.396,
+  "experiment_validation": {
+    "status": "passed",
+    "cases": 14,
+    "all_six_flat_references_identical": true,
+    "hashes_accounting_qd_capacity_verified": true,
+    "inactive_pcs_have_zero_transfers": true,
+    "fixed_window_us": [
+      200,
+      2200
+    ]
+  }
+}

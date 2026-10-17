@@ -5,7 +5,11 @@ __pycache__/
 .env
 .env.*
 .venv*/
-results/local/
+# Preserve the original paths of the published, hash-verified experiments.
+# Other local runs remain ignored.
+results/local/*
+!results/local/die64_pseudo_20261017/
+!results/local/a1_saturated_latency_20261017/
 work/
 scratch/
 *.pdf

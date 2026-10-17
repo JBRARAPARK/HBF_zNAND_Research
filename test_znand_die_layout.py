@@ -18,7 +18,7 @@ class DieLayoutTests(unittest.TestCase):
         self.assertEqual((c.dies,c.channels_per_die,c.channels,c.planes),(4,2,8,4))
         self.assertEqual(c.topology()['total_planes'],32)
         self.assertEqual({c.channel_index(d,ch) for d in range(4) for ch in range(2)},set(range(8)))
-        for changes in ({'channels':4},{'dies':2},{'planes':8},{'channels_per_die':0}):
+        for changes in ({'channels':4},{'dies':2},{'planes':16},{'channels_per_die':0}):
             with self.assertRaises(AssertionError):replace(c,**changes).validate()
         with self.assertRaises(ValueError):c.channel_index(0,2)
         with self.assertRaises(ValueError):c.channel_index(4,0)

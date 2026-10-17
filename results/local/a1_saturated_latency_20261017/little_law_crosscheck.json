@@ -1,0 +1,14 @@
+[
+  {
+    "variant": "half_bw",
+    "cohort_mean_us": 31.28108079572158,
+    "little_law_time_window_us": 31.280979613065114,
+    "difference_us": 0.00010118265646497093
+  },
+  {
+    "variant": "full_bw",
+    "cohort_mean_us": 31.101988259924283,
+    "little_law_time_window_us": 31.102080952314633,
+    "difference_us": -9.269239034992438e-05
+  }
+]

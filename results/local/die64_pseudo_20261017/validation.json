@@ -1,0 +1,11 @@
+{
+  "status": "passed",
+  "cases": 14,
+  "all_six_flat_references_identical": true,
+  "hashes_accounting_qd_capacity_verified": true,
+  "inactive_pcs_have_zero_transfers": true,
+  "fixed_window_us": [
+    200,
+    2200
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "source_hashes": {
+    "znand/model.py": "e7d5f6dccd198c982d13a59dc7cf81e509af22700bf6aec2fbaa51a169843011",
+    "znand/saturation.py": "1787ccf9aec0db13e8af0b15eacf824992647fca76d8bd2b90d4c864f3ee59dc",
+    "znand/latency.py": "bb1256773bcd778ca8634ccc4598b0ded4fa34493783a44a433d9785eda91ad2",
+    "scripts/measure_a1_saturated_latency.py": "192de5c46e4c8140f8d7f829078c5023d1c1632031747755d0a92c3be67f6265"
+  },
+  "input_hashes": {
+    "results/local/die64_pseudo_20261017/profiles/half_bw_all8_A1.json": "9f351643b6008697635ef3247ab8083bbb449f64aca8b4d81950e30c5e867a3d",
+    "results/local/die64_pseudo_20261017/profiles/full_bw_all8_A1.json": "01252cd3ae29c9816fc5a4a0d9400a3520e2dca4553406fd4ab97a7a0c0338e0",
+    "results/local/die64_pseudo_20261017/snapshots/all8_s4096.json": "69c8dda2d3f4b1161b4eee8ff1182f7bbe4e59b5dd966163ed1900d692d66e4a",
+    "results/local/die64_pseudo_20261017/half_bw_all8_A1/timeline.json": "b0992b48881211b356e0249d77642118c60613141d5ac1ff156cdab9f967e9c1",
+    "results/local/die64_pseudo_20261017/full_bw_all8_A1/timeline.json": "77850d93f7a87c5579d9077991e10c101db091994f7b70f9da2e6ea234fde80e"
+  },
+  "accepted_window_relative_us": [
+    200,
+    2200
+  ],
+  "postroll_us": 300,
+  "quantile_method": "nearest_rank",
+  "definition": "Device accepted AR to final Host response completion; no unloaded drain",
+  "assumption": "Independent CA/Data per pseudo channel; no DIE shared constraint"
+}

@@ -65,10 +65,22 @@ class Config:
 
     @classmethod
     def die32(cls, **options):
-        """Current 4 DIE x 2 local channels x 4 planes/channel configuration."""
+        """Archived 4 DIE x 2 local channels x 4 planes/channel configuration."""
         geometry = dict(dies=4, channels_per_die=2, channels=8, planes=4)
         if set(options) & set(geometry):
             raise ValueError('die32 geometry is fixed; change non-geometry options only')
+        return cls(**geometry, **options)
+
+    @classmethod
+    def die64(cls, **options):
+        """4 DIE x 2 independent pseudo channels x 8 planes/pseudo channel.
+
+        The DIE hierarchy identifies resources; it adds no shared DIE timing
+        or power constraint. CA and Data remain independent per pseudo channel.
+        """
+        geometry = dict(dies=4, channels_per_die=2, channels=8, planes=8)
+        if set(options) & set(geometry):
+            raise ValueError('die64 geometry is fixed; change non-geometry options only')
         return cls(**geometry, **options)
 
     @property
@@ -121,7 +133,7 @@ class Config:
         assert 1 <= self.ports <= 4
         assert all(type(v) is int for v in (self.dies,self.channels_per_die,self.channels,self.planes))
         if self.dies or self.channels_per_die:
-            assert (self.dies,self.channels_per_die,self.channels,self.planes) == (4,2,8,4)
+            assert (self.dies,self.channels_per_die,self.channels,self.planes) in ((4,2,8,4),(4,2,8,8))
         else:
             assert (self.channels,self.planes) in ((4,8),(4,16),(8,8))
         assert self.stripe in (4096, 16384)
